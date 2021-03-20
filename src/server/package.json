@@ -1,0 +1,28 @@
+{
+    "name": "server",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "lint": "eslint src/** --ext .js",
+        "serve:development": "nodemon --experimental-specifier-resolution=node -r dotenv/config src/main.js dotenv_config_path=.env.development"
+    },
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "express": "^4.17.1",
+        "pg": "^8.5.1",
+        "pg-hstore": "^2.3.3",
+        "sequelize": "^6.5.1"
+    },
+    "devDependencies": {
+        "dotenv": "^8.2.0",
+        "eslint": "^7.22.0",
+        "eslint-config-standard": "^16.0.2",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-promise": "^4.3.1",
+        "nodemon": "^2.0.7",
+        "sequelize-cli": "^6.2.0"
+    }
+}
