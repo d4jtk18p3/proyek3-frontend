@@ -5,7 +5,7 @@
       color="primary"
       dark
     >
-      <div class="d-flex align-center">
+      <div class="d-flex align-center ">
         <v-img
           alt="Vuetify Logo"
           class="shrink mr-2"
@@ -44,17 +44,26 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import HelloWorld from "./views/pages/home/HelloWorld"
 
 export default {
-  name: 'App',
-
+  name: "App",
+  props: {
+    propsExample: {
+      type: String,
+      required: true,
+      validator: (value) => {
+        return value.toString() !== `Dani`
+      }
+    }
+  },
   components: {
     HelloWorld
   },
+  data () {
+    return {
 
-  data: () => ({
-    //
-  })
+    }
+  }
 }
 </script>

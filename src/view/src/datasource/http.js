@@ -1,8 +1,11 @@
-import axios from 'axios'
+import axios from "axios"
+
+const NETWORK_TIMEOUT = 10000
 
 const instance = axios.create({
   baseURL: process.env.VUE_APP_SERVER_BASE_URL,
-  withCredentials: true
+  withCredentials: true,
+  timeout: NETWORK_TIMEOUT
 })
 
 export default instance
