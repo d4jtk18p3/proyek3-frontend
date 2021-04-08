@@ -1,33 +1,31 @@
 const CURRENT_THEME_KEY = "CURRENT_THEME_KEY_STORAGE"
 
 const Light = {
-    primary : "#E52B38",
-    primaryVariant : "#ef4a52",
-    surface : "#FFFFFF",
+    colorPrimary : "#272343",
+    colorPrimaryVariant : "#272343",
+    colorSecondary : "#59DCDC",
+    colorSecondaryVariant : "#E3F6F5",
+    colorOnPrimary : "#FFFFF",
+    colorOnSecondary : "#272343",
     background : "#FFFFFF",
-    backgroundVariant : "#FFFFFF",
-    error : "#d32031",
-    onPrimary : "#FFFFFF",
-    onBackground : "#000000",
-    onSurface : "#000000",
-    onError : "#FFFFFF",
-    onBackgroundVariant : "#000000",
-    toggleColor : "#FFFFFF"
+    surface : "#FFFFFF",
+    onBackground : "#272343",
+    onSurface : "#272343",
+    onError : "#FF5252"
 }
 
 const Dark = {
-    primary : "#E52B38",
-    primaryVariant : "#ef4a52",
-    surface : "#212226",
-    background : "#212226",
-    error : "#d32031",
-    onPrimary : "#FFFFFF",
+    colorPrimary : "#272343",
+    colorPrimaryVariant : "#272343",
+    colorSecondary : "#59DCDC",
+    colorSecondaryVariant : "#E3F6F5",
+    colorOnPrimary : "#FFFFFF",
+    colorOnSecondary : "#272343",
+    background : "#181A1D",
+    surface : "#262626",
     onBackground : "#FFFFFF",
-    onSurface : "#FFFFFF",
-    onError : "#FFFFFF",
-    backgroundVariant : "#3C3D40",
-    onBackgroundVariant : "#FFFFFF",
-    toggleColor : "#525357"
+    onSurface : "#FFFFF",
+    onError : "#FF5252"
 }
 
 const ThemeModule = {
@@ -55,14 +53,7 @@ const ThemeModule = {
         }
     },
     actions : {
-        toogleDark({commit , state}, username){
-            const isNewThemeDark = !state.isDark;
-            localStorage.setItem(CURRENT_THEME_KEY + username, JSON.stringify(isNewThemeDark))
-            commit('SET_IS_DARK' , isNewThemeDark);
-        },
-        sychronizeCurrentTheme({commit}, username){
-            commit('SET_IS_DARK' , JSON.parse(localStorage.getItem(CURRENT_THEME_KEY + username)) || false)
-        }
+        
     }
 
 }
