@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <SideBar/>
+    <NavBar/>
     <v-main>
       <HelloWorld/>
     </v-main>
@@ -10,6 +11,7 @@
 <script>
 import HelloWorld from "./views/pages/home/HelloWorld"
 import SideBar from "./views/component/UI/SideBar"
+import NavBar from "./views/component/UI/NavBar"
 
 export default {
   name: "App",
@@ -24,7 +26,8 @@ export default {
   },
   components: {
     HelloWorld,
-    SideBar
+    SideBar,
+    NavBar
   },
   data () {
     return {
