@@ -1,37 +1,83 @@
 <template>
   <v-app>
-    <SideBar/>
-    <NavBar/>
+    <side-bar/>
     <v-main>
-      <HelloWorld/>
+      <v-container>
+        <div v-if="isLoading">Loading ...</div>
+        <v-row v-else>
+          <div>{{divText}}</div>
+          <v-btn @click="login">{{buttonText}}</v-btn>
+        </v-row>
+      </v-container>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from "./views/pages/home/HelloWorld"
-import SideBar from "./views/component/UI/SideBar"
-import NavBar from "./views/component/UI/NavBar"
-
+import * as Keycloak from "keycloak-js"
+import SideBar from "@/views/component/ui/SideBar"
+const initOptions = {
+  url: "http://127.0.0.1:8080/auth", realm: "vue-test", clientId: "vue-app", onLoad: "check-sso"
+}
 export default {
   name: "App",
-  props: {
-    propsExample: {
-      type: String,
-      required: true,
-      validator: (value) => {
-        return value.toString() !== `Dani`
-      }
-    }
-  },
   components: {
-    HelloWorld,
-    SideBar,
-    NavBar
+    SideBar
+  },
+  created () {
+    if (!this.$keycloak) {
+      this.initKeycloak()
+    }
   },
   data () {
     return {
-
+      isAuthenticated: "",
+      isLoading: false
+    }
+  },
+  computed: {
+    buttonText () {
+      if (this.isAuthenticated) {
+        return "logout"
+      }
+      return "login"
+    },
+    divText () {
+      if (this.isAuthenticated) {
+        return "anda sudah masuk dan terautentikasi dengan token " + this.$keycloak.token
+      }
+      return "anda belum login , aya coba login"
+    }
+  },
+  methods: {
+    async login () {
+      this.isLoading = true
+      if (this.isAuthenticated) {
+        await this.$keycloak.logout()
+      } else {
+        const loginResult = await this.$keycloak.login()
+        console.log(loginResult)
+      }
+      this.isAuthenticated = this.$keycloak.authenticated
+      this.isLoading = false
+    },
+    async initKeycloak () {
+      const keycloak = Keycloak(initOptions)
+      this.isLoading = true
+      try {
+        await keycloak.init({ onLoad: initOptions.onLoad })
+      } catch (e) {
+        console.error(e)
+      }
+      this.isAuthenticated = keycloak.authenticated
+      this.$keycloak = keycloak
+      console.log(this.$keycloak)
+      this.isLoading = false
+    }
+  },
+  watch: {
+    $keycloak: (value) => {
+      console.log(value)
     }
   }
 }
