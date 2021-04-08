@@ -18,6 +18,7 @@
       id="scrolling-techniques-7"
       class="overflow-y-auto"
       max-height="600"
+      style="background:red;"
     >
       <v-container style="height: 1500px;">
       </v-container>

@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <side-bar/>
+    <nav-bar/>
     <v-main>
       <v-container>
         <div v-if="isLoading">Loading ...</div>
@@ -16,13 +17,15 @@
 <script>
 import * as Keycloak from "keycloak-js"
 import SideBar from "@/views/component/ui/SideBar"
+import NavBar from "@/views/component/ui/NavBar"
 const initOptions = {
   url: "http://127.0.0.1:8080/auth", realm: "vue-test", clientId: "vue-app", onLoad: "check-sso"
 }
 export default {
   name: "App",
   components: {
-    SideBar
+    SideBar,
+    NavBar
   },
   created () {
     if (!this.$keycloak) {
