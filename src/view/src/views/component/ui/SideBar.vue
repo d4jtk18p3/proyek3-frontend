@@ -36,16 +36,24 @@
 </style>
 <script>
 export default {
+  props: {
+    items: {
+      type: Array,
+      required: false,
+      default: () => {
+        return [
+          { text: "[Menu 1]", icon: "mdi-file-document-outline", to: "/menu1route" },
+          { text: "[Menu 2]", icon: "mdi-bookmark-multiple-outline", to: "/menu2route" },
+          { text: "[Menu 3]", icon: "mdi-school-outline", to: "/menu3route" },
+          { text: "[Menu 4]", icon: "mdi-email-outline", to: "/menu4route" },
+          { text: "[Menu 5]", icon: "mdi-account-box-outline", to: "/menu5route" },
+          { text: "[Menu 6]", icon: "mdi-white-balance-incandescent", to: "/menu6route" }
+        ]
+      }
+    }
+  },
   data: () => ({
-    selectedItem: 1,
-    items: [
-      { text: "[Menu 1]", icon: "mdi-file-document-outline" },
-      { text: "[Menu 2]", icon: "mdi-bookmark-multiple-outline" },
-      { text: "[Menu 3]", icon: "mdi-school-outline" },
-      { text: "[Menu 4]", icon: "mdi-email-outline" },
-      { text: "[Menu 5]", icon: "mdi-account-box-outline" },
-      { text: "[Menu 6]", icon: "mdi-white-balance-incandescent" }
-    ]
+    selectedItem: 1
   })
 }
 </script>
