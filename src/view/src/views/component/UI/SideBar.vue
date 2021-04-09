@@ -1,11 +1,12 @@
 <template>
   <div>
     <v-navigation-drawer expand-on-hover clipped app permanent id="sidebar">
-      <v-list dark>
+      <v-list>
         <v-list-item
           v-for="(item, i) in items"
           :key="i"
           link
+          dark
         >
           <v-list-item-icon>
             <v-icon v-text="item.icon"></v-icon>
@@ -29,6 +30,7 @@
 }
 .v-list-item{
   margin-bottom: 10px;
+  color: #4E4B63;
 }
 .v-list-item:hover{
   background-color: #4E4B63;
