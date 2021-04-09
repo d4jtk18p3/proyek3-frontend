@@ -1,68 +1,86 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center ">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
+    <side-bar/>
+    <nav-bar/>
     <v-main>
-      <HelloWorld/>
+      <v-container>
+        <div v-if="isLoading">Loading ...</div>
+        <v-row v-else>
+          <div>{{divText}}</div>
+          <v-btn @click="login">{{buttonText}}</v-btn>
+        </v-row>
+      </v-container>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from "./views/pages/home/HelloWorld"
-
+import * as Keycloak from "keycloak-js"
+import SideBar from "@/views/component/ui/SideBar"
+import NavBar from "@/views/component/ui/NavBar"
+const initOptions = {
+  url: "http://127.0.0.1:8080/auth", realm: "vue-test", clientId: "vue-app", onLoad: "check-sso"
+}
 export default {
   name: "App",
-  props: {
-    propsExample: {
-      type: String,
-      required: true,
-      validator: (value) => {
-        return value.toString() !== `Dani`
-      }
-    }
-  },
   components: {
-    HelloWorld
+    SideBar,
+    NavBar
+  },
+  created () {
+    if (!this.$keycloak) {
+      this.initKeycloak()
+    }
   },
   data () {
     return {
-
+      isAuthenticated: "",
+      isLoading: false
+    }
+  },
+  computed: {
+    buttonText () {
+      if (this.isAuthenticated) {
+        return "logout"
+      }
+      return "login"
+    },
+    divText () {
+      if (this.isAuthenticated) {
+        return "anda sudah masuk dan terautentikasi dengan token " + this.$keycloak.token
+      }
+      return "anda belum login , aya coba login"
+    }
+  },
+  methods: {
+    async login () {
+      this.isLoading = true
+      if (this.isAuthenticated) {
+        await this.$keycloak.logout()
+      } else {
+        const loginResult = await this.$keycloak.login()
+        console.log(loginResult)
+      }
+      this.isAuthenticated = this.$keycloak.authenticated
+      this.isLoading = false
+    },
+    async initKeycloak () {
+      const keycloak = Keycloak(initOptions)
+      this.isLoading = true
+      try {
+        await keycloak.init({ onLoad: initOptions.onLoad })
+      } catch (e) {
+        console.error(e)
+      }
+      this.isAuthenticated = keycloak.authenticated
+      this.$keycloak = keycloak
+      console.log(this.$keycloak)
+      this.isLoading = false
+    }
+  },
+  watch: {
+    $keycloak: (value) => {
+      console.log(value)
     }
   }
 }
