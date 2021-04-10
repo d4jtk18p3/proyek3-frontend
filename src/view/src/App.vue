@@ -1,13 +1,13 @@
 <template>
-  <v-app>
-    <side-bar/>
-    <nav-bar/>
+  <v-app :style="{ background: currentTheme.background }">
+    <side-bar />
+    <nav-bar />
     <v-main>
       <v-container>
         <div v-if="isLoading">Loading ...</div>
         <v-row v-else>
-          <div>{{divText}}</div>
-          <v-btn @click="login">{{buttonText}}</v-btn>
+          <div>{{ divText }}</div>
+          <v-btn @click="login">{{ buttonText }}</v-btn>
         </v-row>
       </v-container>
     </v-main>
@@ -18,8 +18,12 @@
 import * as Keycloak from "keycloak-js"
 import SideBar from "@/views/component/ui/SideBar"
 import NavBar from "@/views/component/ui/NavBar"
+import { mapGetters } from "vuex"
 const initOptions = {
-  url: "http://127.0.0.1:8080/auth", realm: "vue-test", clientId: "vue-app", onLoad: "check-sso"
+  url: "http://127.0.0.1:8080/auth",
+  realm: "vue-test",
+  clientId: "vue-app",
+  onLoad: "check-sso"
 }
 export default {
   name: "App",
@@ -47,10 +51,16 @@ export default {
     },
     divText () {
       if (this.isAuthenticated) {
-        return "anda sudah masuk dan terautentikasi dengan token " + this.$keycloak.token
+        return (
+          "anda sudah masuk dan terautentikasi dengan token " +
+          this.$keycloak.token
+        )
       }
       return "anda belum login , aya coba login"
-    }
+    },
+    ...mapGetters({
+      currentTheme: "theme/getCurrentColor"
+    })
   },
   methods: {
     async login () {
