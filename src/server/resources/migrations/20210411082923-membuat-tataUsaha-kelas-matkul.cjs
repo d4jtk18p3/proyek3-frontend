@@ -44,13 +44,13 @@ module.exports = {
     });
     await queryInterface.createTable('Kelas', {
       id_kelas:{
-        type: Sequelize.DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
       },
       kode_kelas: {
-        type: Sequelize.DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false
       }
     })
