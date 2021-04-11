@@ -5,34 +5,34 @@ const Mahasiswa = sequelize.define("mahasiswa", {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
-        primaryKey: true,
+        primaryKey: true
     },
     NIM: {
         type: Sequelize.STRING,
         allowNull: false,
-        primaryKey: true,
+        primaryKey: true
     },
     nama_mahasiswa: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING
     },
     angaktan: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
     },
     tingkat: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
     },
     email: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING
     },
     nomor_hp: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING
     },
     url_foto: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING
     },
     status: {
-        type: Sequelize.STRING,
-    },
+        type: Sequelize.STRING
+    }
 });
 
 module.export = Mahasiswa;

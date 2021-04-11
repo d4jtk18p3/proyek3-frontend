@@ -4,14 +4,14 @@ const Dosen = sequelize.define("dosen", {
     NIP: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        primaryKey: true,
+        primaryKey: true
     },
     nama_dosen: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING
     },
     jabatan: {
-        type: Sequelize.STRING,
-    },
+        type: Sequelize.STRING
+    }
 });
 
 module.export = Dosen;
