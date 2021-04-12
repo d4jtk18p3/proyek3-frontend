@@ -1,22 +1,49 @@
-# Proyek 3: Proyek Pengembangan Aplikasi Enterprise
+# view
 
 ## Daftar Isi
 
-- [Struktur Proyek](#Struktur-Proyek)
-- [Berkontribusi](#Berkontribusi)
+- [Prasyarat](#prasyarat)
+- [Pengembangan](#pengembangan)
+  - [Menggunakan Node.js versi terbaru](#menggunakan-nodejs-versi-terbaru)
+    - [Windows](#windows)
+    - [Linux](#linux)
+  - [Instal dependencies](#instal-dependencies)
+  - [Menjalankan view dalam mode development](#menjalankan-view-dalam-development-mode)
 
-## Struktur Proyek
+## Prasyarat
 
+1. Instal [nvm](https://github.com/nvm-sh/nvm/blob/master/README.md) atau [nvm-windows](https://github.com/coreybutler/nvm-windows/releases) (untuk windows).
+
+## Pengembangan
+
+### Menggunakan Node.js versi terbaru
+
+[Node.js](https://nodejs.org/) dengan versi `15.x.x` dibutuhkan untuk menjalankan [view](#view). Untuk menginstal versi yang dibutuhkan gunakan Node Version Manager (NVM).
+
+###### Windows
+
+``` cmd
+$ nvm use 15.12.0
 ```
-proyek-3
-│ README.md
-└───src (berisi directory sub-project)
-│   │ server (root directory aplikasi backend)
-│   │ view (root directory aplikasi frontend)
+
+###### Linux
+
+``` sh
+$ nvm use
 ```
 
-## Berkontribusi
+### Instal dependencies
 
-Untuk berkontribusi, buat branch baru dengan format nama `task/judul-tugas-di-trello`. Setiap commit yang dilakukan harus berformat `[judul-sub-project] Judul commit`. Setelah task selesai, buat pull request ke branch `main`.
+Proyek ini memiliki ketergantungan terhadap library dari pihak ketiga. Untuk menginstal semua library yang dibutuhkan jalankan perintah berikut:
 
-Sebagai contoh, untuk task dengan judul `Buat endpoint single sign-on`, task dikerjakan dalam branch `task/buat-endpoint-single-sign-on`. Untuk setiap commit commit, gunakan tag `[server]` seperti `[server] Menambah fungsionalitas single sign-on`.
+``` sh
+$ npm install
+```
+
+### Menjalankan view dalam development mode
+
+Untuk menjalankan [view](#view) dalam development mode, jalankan perintah berikut:
+
+``` sh
+$ npm run serve:development
+```
