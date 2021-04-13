@@ -16,10 +16,17 @@
 
 <script>
 import * as Keycloak from "keycloak-js"
-import SideBar from "@/views/component/ui/SideBar"
-import NavBar from "@/views/component/ui/NavBar"
+import SideBar from "@/views/component/UI/SideBar"
+import NavBar from "@/views/component/UI/NavBar"
+
+/*
+  Token Access interval adalah 5 jam maka
+  dilakukan perhitungan sebagai berikut :
+  1000 (1 seconds) * 60 (1 minute) & 60 (1 hour) * 5
+ */
+const TOKEN_ACCESS_INTERVAL = (1000 * 60 * 60 * 5) - (1000 * 6)
 const initOptions = {
-  url: "http://127.0.0.1:8080/auth", realm: "vue-test", clientId: "vue-app", onLoad: "check-sso"
+  url: "https://keycloak.ca9db134.nip.io/auth", realm: "Polban-Realm", clientId: "template", onLoad: "check-sso"
 }
 export default {
   name: "App",
@@ -67,11 +74,19 @@ export default {
     async initKeycloak () {
       const keycloak = Keycloak(initOptions)
       this.isLoading = true
+      console.log("Starting")
       try {
         await keycloak.init({ onLoad: initOptions.onLoad })
       } catch (e) {
-        console.error(e)
+        console.log(e)
       }
+      setInterval(() => {
+        keycloak.updateToken(70)
+          .then()
+          .catch((error) => {
+            console.log(error)
+          })
+      }, TOKEN_ACCESS_INTERVAL)
       this.isAuthenticated = keycloak.authenticated
       this.$keycloak = keycloak
       console.log(this.$keycloak)
