@@ -1,31 +1,21 @@
 <template>
-<v-card class="overflow-hidden">
     <v-app-bar
-      absolute
+      app
       color="white"
-      scroll-target="#scrolling-techniques-7"
       clipped-left
+      fixed
     >
-      <v-img :src="require('../../../assets/polban.png')" contain height="40" />
-      <v-btn icon>
-        <v-container link>
-        <v-icon color="purple">mdi-account-circle-outline</v-icon>
+      <v-img :src="require('../../../assets/polban.png')" contain height="40" absolute class="ml-4"/>
+      <v-btn :elevation="0" width="10" class="white" absolute right>
+        <v-container>
+        <v-icon color="white" style="background: purple; background-size: 50%; border-radius: 100%;">mdi-account-circle</v-icon>
         <v-icon color="purple">mdi-menu-down</v-icon>
         </v-container>
       </v-btn>
     </v-app-bar>
-    <v-sheet
-      id="scrolling-techniques-7"
-      class="overflow-y-auto"
-      max-height="600"
-      style="background:red;"
-    >
-      <v-container style="height: 1500px;">
-      </v-container>
-    </v-sheet>
-  </v-card>
 </template>
-
+<style>
+</style>
 <script>
 export default {
   name: "NavBar",
