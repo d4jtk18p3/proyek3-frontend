@@ -1,14 +1,10 @@
 <template>
-  <v-app>
+  <v-app :style="{background : currentTheme.background}">
     <side-bar/>
     <nav-bar/>
     <v-main>
       <v-container>
-        <div v-if="isLoading">Loading ...</div>
-        <v-row v-else>
-          <div>{{divText}}</div>
-          <v-btn @click="login">{{buttonText}}</v-btn>
-        </v-row>
+        <AbsensiDosenMain/>
       </v-container>
     </v-main>
   </v-app>
@@ -18,6 +14,8 @@
 import * as Keycloak from "keycloak-js"
 import SideBar from "@/views/component/UI/SideBar"
 import NavBar from "@/views/component/UI/NavBar"
+import { mapGetters } from "vuex"
+import AbsensiDosenMain from "@/views/pages/absensi/dosen/AbsensiDosenMain"
 
 /*
   Token Access interval adalah 5 jam maka
@@ -31,6 +29,7 @@ const initOptions = {
 export default {
   name: "App",
   components: {
+    AbsensiDosenMain,
     SideBar,
     NavBar
   },
@@ -46,6 +45,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      currentTheme: "theme/getCurrentColor"
+    }),
     buttonText () {
       if (this.isAuthenticated) {
         return "logout"
