@@ -1,4 +1,4 @@
-const CURRENT_THEME_KEY = "CURRENT_THEME_KEY_STORAGE"
+// const CURRENT_THEME_KEY = "CURRENT_THEME_KEY_STORAGE"
 
 const Light = {
     colorPrimary : "#272343",
@@ -53,7 +53,7 @@ const ThemeModule = {
         }
     },
     actions : {
-        
+
     }
 
 }
