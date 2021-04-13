@@ -15,7 +15,6 @@
 </template>
 
 <script>
-
 import * as Keycloak from "keycloak-js"
 import SideBar from "@/views/component/UI/SideBar"
 import NavBar from "@/views/component/UI/NavBar"
@@ -78,7 +77,6 @@ export default {
       console.log("Starting")
       try {
         await keycloak.init({ onLoad: initOptions.onLoad })
-        console.log("beres")
       } catch (e) {
         console.log(e)
       }
