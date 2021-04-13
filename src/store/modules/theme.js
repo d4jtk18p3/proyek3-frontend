@@ -24,15 +24,15 @@ const Dark = {
   background: "#181A1D",
   surface: "#262626",
   onBackground: "#FFFFFF",
-  onSurface: "#FFFFF",
+  onSurface: "#FFFFFF",
   onError: "#FF5252"
 }
 
 const ThemeModule = {
   namespaced: true,
   state: () => ({
-    currentColor: Light,
-    isDark: false
+    currentColor: Dark,
+    isDark: true
   }),
   mutations: {
     SET_IS_DARK (state, isDark) {
