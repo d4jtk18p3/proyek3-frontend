@@ -1,23 +1,21 @@
 <template>
-  <div>
-    <v-navigation-drawer expand-on-hover clipped app permanent id="sidebar">
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          link
-          dark
-        >
-          <v-list-item-icon>
-            <v-icon v-text="item.icon"></v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.text"></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-  </div>
+  <v-navigation-drawer v-if="!$vuetify.breakpoint.mobile" expand-on-hover clipped app permanent id="sidebar">
+    <v-list>
+      <v-list-item
+        v-for="(item, i) in items"
+        :key="i"
+        link
+        dark
+      >
+        <v-list-item-icon>
+          <v-icon v-text="item.icon"></v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title v-text="item.text"></v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
+  </v-navigation-drawer>
 </template>
 <style>
 #last-item {
@@ -37,6 +35,7 @@
 }
 </style>
 <script>
+import { mapGetters } from "vuex"
 export default {
   props: {
     items: {
@@ -56,6 +55,11 @@ export default {
   },
   data: () => ({
     selectedItem: 1
-  })
+  }),
+  computed: {
+    ...mapGetters({
+      currentTheme: "theme/getCurrentColor"
+    })
+  }
 }
 </script>
