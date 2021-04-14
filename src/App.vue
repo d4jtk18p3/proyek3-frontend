@@ -1,9 +1,9 @@
 <template>
   <v-app :style="{background : currentTheme.background}">
-    <side-bar/>
+    <side-bar v-if="!isMobile"/>
     <nav-bar/>
     <v-main>
-      <v-container>
+      <v-container :class="isMobile? 'pa-4' : 'pa-12'">
         <NilaiMahasiswaMain/>
       </v-container>
     </v-main>
@@ -59,6 +59,9 @@ export default {
         return "anda sudah masuk dan terautentikasi dengan token " + this.$keycloak.token
       }
       return "anda belum login , aya coba login"
+    },
+    isMobile () {
+      return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
   },
   methods: {

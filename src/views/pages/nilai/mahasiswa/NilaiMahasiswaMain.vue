@@ -6,18 +6,21 @@
     <v-col cols="12">
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
     </v-col>
-    <v-col cols="4" class="mt-5">
-      <NameCard nama="Rayhan Azka A" jurusan="D4 - Teknik Informatika" nim="181524016"/>
+    <v-col :cols="isMobile? '12' : '4'" class="mt-5">
+      <NameCard nama="Rayhan Azka A" jurusan="D4 - Teknik Informatika" nim="181524016" :text-class="isMobile? 'text-center' : 'text-start'"/>
     </v-col>
-    <v-col cols="3" class="mt-5">
-      <i-p-card ip="4.0"/>
+    <v-col :cols="isMobile? '12' : '3'"  :class="isMobile ? 'mt-0' : 'mt-5'">
+      <i-p-k-card ip="4.0"/>
     </v-col>
-    <v-col cols="5"></v-col>
-    <v-col cols="5" class="mt-5">
-      <i-p-graph  :ip-list="[3.2, 2.0, 2.95, 0.51, 2.52, 3.5, 1.0]"/>
+    <v-col cols="5" v-if="!isMobile"></v-col>
+    <v-col>
+      <GraphSection/>
     </v-col>
-    <v-col cols="5" class="mt-5">
-      <i-p-graph/>
+    <v-col cols="12" class="mt-12">
+      <div :style="{background: 'gray', width: '100%', height: '1px'}"></div>
+    </v-col>
+    <v-col cols="12">
+      <detail-nilai-section/>
     </v-col>
   </v-row>
 </template>
@@ -26,13 +29,15 @@
 import Breadcumbs from "@/views/component/UI/Breadcumbs"
 import { mapGetters } from "vuex"
 import NameCard from "@/views/component/nilai/NameCard"
-import IPCard from "@/views/component/nilai/IPCard"
-import IPGraph from "@/views/component/nilai/IPGraph"
+import IPKCard from "@/views/component/nilai/IPKCard"
+import DetailNilaiSection from "@/views/pages/nilai/mahasiswa/DetailNilaiSection"
+import GraphSection from "@/views/pages/nilai/mahasiswa/GraphSection"
 export default {
   name: "NilaiMahasiswaMain",
   components: {
-    IPGraph,
-    IPCard,
+    GraphSection,
+    DetailNilaiSection,
+    IPKCard,
     NameCard,
     Breadcumbs
   },

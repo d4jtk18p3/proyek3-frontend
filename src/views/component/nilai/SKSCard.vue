@@ -2,17 +2,17 @@
   <v-card
     class="rounded-lg"
   >
-    <v-row class="pa-4 ma-0" :style="{background : currentTheme.colorSecondary}">
+    <v-row class="pa-4 ma-0" :style="{background : currentTheme.colorSecondaryVariant}">
       <v-col cols="12" align-self="center" class="pa-0 ma-0">
         <div
           class="text-subtitle-1 text-center text-uppercase font-weight-bold"
           :class="isMobile? 'text-subtitle-2' : 'text-subtitle-1' "
           :style="{color : currentTheme.colorPrimary}"
-        >IP Semester</div>
+        >Jumlah SKS</div>
       </v-col>
     </v-row>
     <div class="pa-3" :style="{background : currentTheme.surface}">
-      <div :style="{color : currentTheme.onSurface}" class="text-center text-h4">{{ipSemester}}</div>
+      <div :style="{color : currentTheme.onSurface}" class="text-center text-h4">{{sksSemester}}</div>
     </div>
   </v-card>
 </template>
@@ -21,12 +21,12 @@
 import { mapGetters } from "vuex"
 
 export default {
-  name: "IPCard",
+  name: "SKSCard",
   props: {
-    ipSemester: {
+    sksSemester: {
       type: String,
       required: false,
-      default: "4.0"
+      default: "23"
     }
   },
   computed: {

@@ -4,13 +4,16 @@
     class="pa-3"
   >
     <div
-      class="text-start text-h6 font-weight-bold"
+      class="text-h6 font-weight-bold"
+      :class="textClass"
     >{{nama}}</div>
     <div
-      class="text-start text-subtitle-2 mt-2 font-weight-regular"
+      class="text-subtitle-2 mt-2 font-weight-regular"
+      :class="textClass"
     >{{jurusan}}</div>
     <div
-      class="text-start text-subtitle-2 mt-2 font-weight-regular"
+      class="text-subtitle-2 mt-2 font-weight-regular"
+      :class="textClass"
     >{{nim}}</div>
   </v-card>
 </template>
@@ -35,6 +38,11 @@ export default {
       type: String,
       required: false,
       default: "1815240000"
+    },
+    textClass: {
+      type: String,
+      required: false,
+      default: "text-start"
     }
   },
   computed: {
