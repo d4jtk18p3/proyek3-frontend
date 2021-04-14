@@ -22,7 +22,7 @@ import { mapGetters } from "vuex"
 export default {
   name: "NilaiRataRataCard",
   props: {
-    ipList: {
+    nilaiList: {
       type: Array,
       required: false,
       default: () => {
@@ -38,7 +38,7 @@ export default {
       return {
         series: [{
           name: "Nilai",
-          data: this.ipList
+          data: this.nilaiList
         }],
         chartOptions: {
           colors: [this.currentTheme.colorSecondary, "#FB8C00", "#4CAF50", this.currentTheme.colorSecondaryVariant, "#2196F3"],
