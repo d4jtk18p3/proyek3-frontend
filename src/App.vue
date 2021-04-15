@@ -3,19 +3,20 @@
     <side-bar v-if="!isMobile"/>
     <nav-bar/>
     <v-main>
-      <v-container :class="isMobile? 'pa-4' : 'pa-12'">
-        <NilaiMahasiswaMain/>
+      <v-container :class="isMobile? 'pa-5' : 'pa-12'">
+       <ProfillingMain/>
       </v-container>
     </v-main>
   </v-app>
 </template>
 
 <script>
+
 import * as Keycloak from "keycloak-js"
 import SideBar from "@/views/component/UI/SideBar"
 import NavBar from "@/views/component/UI/NavBar"
 import { mapGetters } from "vuex"
-import NilaiMahasiswaMain from "@/views/pages/nilai/mahasiswa/NilaiMahasiswaMain"
+import ProfillingMain from "@/views/pages/profilling/ProfillingMain"
 
 /*
   Token Access interval adalah 5 jam maka
@@ -29,7 +30,7 @@ const initOptions = {
 export default {
   name: "App",
   components: {
-    NilaiMahasiswaMain,
+    ProfillingMain,
     SideBar,
     NavBar
   },
