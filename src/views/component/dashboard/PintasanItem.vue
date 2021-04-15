@@ -1,6 +1,7 @@
 <template>
   <v-card
-    class="rounded-card"
+    class="rounded-card rounded-lg"
+    elevation="10"
   >
     <v-row class="pa-4 ma-0" :style="{background : currentTheme.colorSecondary}">
       <v-col align-self="center" class="pa-0 ma-0"
@@ -29,7 +30,7 @@
     </v-row>
     <div class="pa-4" :style="{background : currentTheme.surface}" v-if="!isMobile">
       <v-row>
-        <v-col offset="10">
+        <v-col offset="9">
           <v-avatar color="#C4C4C4">
             <span class="white--text headline font-weight-bold">{{kodeDosen}}</span>
           </v-avatar>
