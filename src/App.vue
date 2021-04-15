@@ -4,7 +4,7 @@
     <nav-bar/>
     <v-main>
       <v-container :class="isMobile? 'pa-5' : 'pa-12'">
-       <ProfillingMain/>
+       <ProfileMahasiswa/>
       </v-container>
     </v-main>
   </v-app>
@@ -16,7 +16,7 @@ import * as Keycloak from "keycloak-js"
 import SideBar from "@/views/component/UI/SideBar"
 import NavBar from "@/views/component/UI/NavBar"
 import { mapGetters } from "vuex"
-import ProfillingMain from "@/views/pages/profilling/ProfillingMain"
+import ProfileMahasiswa from "@/views/pages/profile/ProfileMahasiswa"
 
 /*
   Token Access interval adalah 5 jam maka
@@ -30,7 +30,7 @@ const initOptions = {
 export default {
   name: "App",
   components: {
-    ProfillingMain,
+    ProfileMahasiswa,
     SideBar,
     NavBar
   },
