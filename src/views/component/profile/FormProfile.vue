@@ -72,6 +72,8 @@
             v-model="select"
             :items="items"
             solo
+            :dark="isDark"
+            :color="currentTheme.colorSecondary"
           ></v-combobox>
         </v-col>
       </v-row>
