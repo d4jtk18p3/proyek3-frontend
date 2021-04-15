@@ -2,7 +2,7 @@
   <div>
     <v-app-bar
       app
-      :style="{background : white}"
+      :style="{background : currentTheme}"
       clipped-left
       fixed
       max-height="75"
@@ -22,7 +22,7 @@
         dense
         @click:append="notification_click"
       ></v-text-field>
-      <v-btn class="ml-2" icon>
+      <v-btn class="ml-2" icon @click="notification_click()">
         <v-badge
           :content="usernotif"
           :value="usernotif"
@@ -35,18 +35,18 @@
       <v-btn depressed :style="{background : currentTheme}" right class="ml-1" height="50px">
         <div :style="{background: currentTheme.colorPrimary, 'border-radius': '100%', padding: '2px'}">
           <v-avatar size="27">
-          <img
-            src="https://cdn.vuetifyjs.com/images/john.jpg"
-          >
-        </v-avatar>
+            <img
+              :src=user.image
+            >
+          </v-avatar>
         </div>
-        <v-toolbar-title class="mx-4 d-inline-block text-truncate" style="max-width: 150px;">{{ user }}</v-toolbar-title>
+        <v-toolbar-title class="mx-4 d-inline-block text-truncate" style="max-width: 150px;">{{ user.nama }}</v-toolbar-title>
         <v-icon :style="{color: currentTheme.colorPrimary}">mdi-menu-down</v-icon>
       </v-btn>
     </v-app-bar>
     <v-app-bar
       app
-      :style="{background : white}"
+      :style="{background : currentTheme}"
       fixed
       v-else
       dense
@@ -56,7 +56,7 @@
     <v-img :src="require('../../../assets/polban.png')" max-width="30" contain class="mr-2"/>
     <v-toolbar-title style="font-size: 14px">Politeknik Negeri Bandung</v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn icon>
+    <v-btn icon @click="notification_click()">
       <v-badge
         :content="usernotif"
         :value="usernotif"
@@ -70,34 +70,77 @@
     <v-navigation-drawer
       v-model="drawer"
       absolute
-      temporary
+      width="100%"
+      style="margin-top: 48px"
+      v-if="$vuetify.breakpoint.mobile"
     >
-      <v-list
-        nav
-        dense
-      >
-        <v-list-item-group
-          v-model="group"
-          active-class="deep-purple--text text--accent-4"
-        >
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item>
+          <v-text-field
+            hide-details
+            label="Cari disini"
+            append-icon="mdi-magnify"
+            class="mx-5 mt-5"
+            single-line
+            outlined
+            dense
+            @click:append="search()"
+          ></v-text-field>
+          <v-list
+          >
+            <v-list-item class="profile mx-3" two-line>
+              <v-list-item-avatar  @click="profil_click()">
+                <v-avatar>
+                  <img
+                    :src=user.image
+                  >
+                </v-avatar>
+              </v-list-item-avatar>
 
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-account</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Account</v-list-item-title>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
+              <v-list-item-content @click="profil_click()">
+                <v-list-item-title>{{ user.nama }}</v-list-item-title>
+                <v-list-item-subtitle>{{ user.nim }}</v-list-item-subtitle>
+              </v-list-item-content>
+
+              <v-list-item-content dense class="pl-3">
+                <v-switch
+                  v-model="darkmode"
+                  :label="`Dark mode`"
+                ></v-switch>
+              </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item class="mx-3 profile font-weight-bold">
+              <v-list-item-title>Beranda</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item class="mx-3 profile font-weight-bold">
+              <v-list-item-title>Absensi</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item class="mx-3 profile font-weight-bold">
+              <v-list-item-title>Profil</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item class="mx-3 profile font-weight-bold">
+              <v-list-item-title>Nilai</v-list-item-title>
+            </v-list-item>
+
+            <v-divider></v-divider>
+
+            <v-list-item class="profile d-flex justify-center mt-2">
+              <v-btn height="30px" class="error">Keluar</v-btn>
+            </v-list-item>
+          </v-list>
     </v-navigation-drawer>
   </div>
 </template>
+<style scoped>
+  .profile:hover {
+    background: none;
+  }
+  .profile:active {
+    background: none;
+  }
+</style>
 <script>
 import { mapGetters } from "vuex"
 export default {
@@ -106,10 +149,15 @@ export default {
   },
   data () {
     return {
-      user: "Kokoro Yuuki",
+      user: {
+        nama: "Kokoro Yuuki",
+        nim: "1815240005",
+        image: "https://media.discordapp.net/attachments/767745029166202935/819180197961793536/d59480-51-254735-3.png"
+      },
       usernotif: 2,
       drawer: false,
-      group: null
+      group: null,
+      darkmode: false
     }
   },
   computed: {
@@ -119,6 +167,13 @@ export default {
   },
   methods: {
     notification_click () {
+      console.log("Notif clicked")
+    },
+    profil_click () {
+      console.log("Profil clicked")
+    },
+    search () {
+      console.log("Search clicked")
     }
   }
 }
