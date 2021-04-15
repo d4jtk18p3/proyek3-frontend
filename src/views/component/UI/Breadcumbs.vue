@@ -10,10 +10,12 @@
       <v-breadcrumbs-item
         :disabled="item.disabled"
       >
-        <div
+        <v-btn
+          text
+          small
           class="font-weight-bold"
           :style="item.disabled ? breadcrumbItemDisableStyle : breadcrumbItemEnableStyle"
-        >{{item.text}}</div>
+        >{{item.text}}</v-btn>
       </v-breadcrumbs-item>
     </template>
   </v-breadcrumbs>

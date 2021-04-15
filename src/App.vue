@@ -1,21 +1,22 @@
 <template>
   <v-app :style="{background : currentTheme.background}">
-    <side-bar/>
+    <side-bar v-if="!isMobile"/>
     <nav-bar/>
     <v-main>
-      <v-container>
-        <AbsensiDosenMain/>
+      <v-container :class="isMobile? 'pa-5' : 'pa-12'">
+       <ProfillingMain/>
       </v-container>
     </v-main>
   </v-app>
 </template>
 
 <script>
+
 import * as Keycloak from "keycloak-js"
 import SideBar from "@/views/component/UI/SideBar"
 import NavBar from "@/views/component/UI/NavBar"
 import { mapGetters } from "vuex"
-import AbsensiDosenMain from "@/views/pages/absensi/dosen/AbsensiDosenMain"
+import ProfillingMain from "@/views/pages/profilling/ProfillingMain"
 
 /*
   Token Access interval adalah 5 jam maka
@@ -29,7 +30,7 @@ const initOptions = {
 export default {
   name: "App",
   components: {
-    AbsensiDosenMain,
+    ProfillingMain,
     SideBar,
     NavBar
   },
@@ -59,6 +60,9 @@ export default {
         return "anda sudah masuk dan terautentikasi dengan token " + this.$keycloak.token
       }
       return "anda belum login , aya coba login"
+    },
+    isMobile () {
+      return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
   },
   methods: {
