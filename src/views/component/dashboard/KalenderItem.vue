@@ -8,7 +8,19 @@
       :event-color="date => date[9] % 2 ? 'red' : 'yellow'"
       :events="functionEvents"
       class="red--text"
+      v-if="isDark"
       dark
+    ></v-date-picker>
+    <v-date-picker
+      v-model="picker"
+      color="#272343"
+      :header-color="currentTheme.colorPrimary"
+      locale="id-ID"
+      :event-color="date => date[9] % 2 ? 'red' : 'yellow'"
+      :events="functionEvents"
+      class="red--text"
+      v-if="!isDark"
+      Light
     ></v-date-picker>
   </v-row>
 </template>
