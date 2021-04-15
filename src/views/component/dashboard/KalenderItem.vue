@@ -7,7 +7,7 @@
       locale="id-ID"
       :event-color="date => date[9] % 2 ? 'red' : 'yellow'"
       :events="functionEvents"
-      class="red--text"
+      class="rounded-lg"
       v-if="isDark"
       dark
     ></v-date-picker>
@@ -18,7 +18,7 @@
       locale="id-ID"
       :event-color="date => date[9] % 2 ? 'red' : 'yellow'"
       :events="functionEvents"
-      class="red--text"
+      class="rounded-lg"
       v-if="!isDark"
       Light
     ></v-date-picker>

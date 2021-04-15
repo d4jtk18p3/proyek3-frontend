@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="rounded-card"
+    class="rounded-card rounded-lg"
     elevation="10"
   >
     <v-row class="pa-4 ma-0" :style="{background: isDark ? currentTheme.colorSecondaryVariant: currentTheme.colorPrimary}">
