@@ -2,7 +2,6 @@
   <div>
     <v-app-bar
       app
-      :style="{background : currentTheme}"
       clipped-left
       fixed
       max-height="75"
@@ -142,7 +141,7 @@
   }
 </style>
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters, mapActions } from "vuex"
 export default {
   name: "NavBar",
   components: {
@@ -162,7 +161,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentTheme: "theme/getCurrentColor"
+      currentTheme: "theme/getCurrentColor",
+      isDark: "theme/getIsDark"
     })
   },
   methods: {
@@ -174,6 +174,15 @@ export default {
     },
     search () {
       console.log("Search clicked")
+    },
+    ...mapActions({
+      toogleTheme: "theme/toogleDark"
+    })
+  },
+  watch: {
+    darkmode (value) {
+      if (value === this.isDark) return
+      this.toogleTheme("doni")
     }
   }
 }

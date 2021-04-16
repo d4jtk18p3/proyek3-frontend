@@ -1,7 +1,7 @@
 <template>
   <div>
-    <GraphDekstop v-if="!isMobile" :nilai-list="nilaiList" , :ip-list="ipList"/>
-    <GraphMobile v-else :nilai-list="nilaiList" , :ip-list="ipList"/>
+    <GraphDekstop v-if="!isMobile" :nilai-list="nilaiList"  :ip-list="ipList"/>
+    <GraphMobile v-else :nilai-list="nilaiList"  :ip-list="ipList"/>
   </div>
 </template>
 

@@ -1,10 +1,10 @@
 <template>
   <v-app :style="{background : currentTheme.background}">
-    <side-bar v-if="!isMobile"/>
+    <side-bar v-if="!isMobile" :items="sideBarItems"/>
     <nav-bar/>
     <v-main>
       <v-container :class="isMobile? 'pa-5' : 'pa-12'">
-       <ProfileMahasiswa/>
+        <router-view/>
       </v-container>
     </v-main>
   </v-app>
@@ -15,8 +15,7 @@
 import * as Keycloak from "keycloak-js"
 import SideBar from "@/views/component/UI/SideBar"
 import NavBar from "@/views/component/UI/NavBar"
-import { mapGetters } from "vuex"
-import ProfileMahasiswa from "@/views/pages/profile/ProfileMahasiswa"
+import { mapGetters, mapActions } from "vuex"
 
 /*
   Token Access interval adalah 5 jam maka
@@ -25,16 +24,16 @@ import ProfileMahasiswa from "@/views/pages/profile/ProfileMahasiswa"
  */
 const TOKEN_ACCESS_INTERVAL = (1000 * 60 * 60 * 5) - (1000 * 6)
 const initOptions = {
-  url: "https://keycloak.ca9db134.nip.io/auth", realm: "Polban-Realm", clientId: "template", onLoad: "check-sso"
+  url: "https://keycloak.ca9db134.nip.io/auth", realm: "Polban-Realm", clientId: "template", onLoad: "login-required"
 }
 export default {
   name: "App",
   components: {
-    ProfileMahasiswa,
     SideBar,
     NavBar
   },
   created () {
+    this.sychronize("dani")
     if (!this.$keycloak) {
       this.initKeycloak()
     }
@@ -42,19 +41,21 @@ export default {
   data () {
     return {
       isAuthenticated: "",
-      isLoading: false
+      isLoading: false,
+      sideBarItems: [
+        { text: "Dashboard", icon: "mdi-school-outline", to: "/" },
+        { text: "Profile Mahasiswa", icon: "mdi-account-outline", to: "/mahasiswa/profile" },
+        { text: "Profilling Mahasiswa", icon: "mdi-file-document-outline", to: "/mahasiswa/profilling" },
+        { text: "Nilai Mahasiswa", icon: "mdi-bookmark-multiple-outline", to: "/mahasiswa/nilai" },
+        { text: "Absensi Mahasiswa", icon: "mdi-email-outline", to: "/mahasiswa/absensi" },
+        { text: "Absensi Dosen", icon: "mdi-school-outline", to: "/dosen/absensi" }
+      ]
     }
   },
   computed: {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
     }),
-    buttonText () {
-      if (this.isAuthenticated) {
-        return "logout"
-      }
-      return "login"
-    },
     divText () {
       if (this.isAuthenticated) {
         return "anda sudah masuk dan terautentikasi dengan token " + this.$keycloak.token
@@ -66,6 +67,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      sychronize: "theme/sychronizeCurrentTheme"
+    }),
     async login () {
       this.isLoading = true
       if (this.isAuthenticated) {
@@ -78,6 +82,7 @@ export default {
       this.isLoading = false
     },
     async initKeycloak () {
+      console.log("Start initialize keyclocak")
       const keycloak = Keycloak(initOptions)
       this.isLoading = true
       console.log("Starting")
@@ -93,6 +98,7 @@ export default {
             console.log(error)
           })
       }, TOKEN_ACCESS_INTERVAL)
+      console.log("keycloak udah")
       this.isAuthenticated = keycloak.authenticated
       this.$keycloak = keycloak
       console.log(this.$keycloak)

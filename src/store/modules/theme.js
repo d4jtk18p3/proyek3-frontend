@@ -1,4 +1,4 @@
-// const CURRENT_THEME_KEY = "CURRENT_THEME_KEY_STORAGE"
+const CURRENT_THEME_KEY = "CURRENT_THEME_KEY_STORAGE"
 
 const Light = {
   colorPrimary: "#272343",
@@ -53,7 +53,14 @@ const ThemeModule = {
     }
   },
   actions: {
-
+    toogleDark ({ commit, state }, username) {
+      const isNewThemeDark = !state.isDark
+      localStorage.setItem(CURRENT_THEME_KEY + username, JSON.stringify(isNewThemeDark))
+      commit("SET_IS_DARK", isNewThemeDark)
+    },
+    sychronizeCurrentTheme ({ commit }, username) {
+      commit("SET_IS_DARK", JSON.parse(localStorage.getItem(CURRENT_THEME_KEY + username)) || false)
+    }
   }
 
 }

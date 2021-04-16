@@ -14,7 +14,10 @@ import NilaiRataRataCard from "@/views/component/nilai/NilaiRataRataCard"
 import IPGraph from "@/views/component/nilai/IPGraph"
 export default {
   name: "GraphDekstop",
-  components: { IPGraph, NilaiRataRataCard },
+  components: {
+    IPGraph,
+    NilaiRataRataCard
+  },
   props: {
     ipList: {
       type: Array,

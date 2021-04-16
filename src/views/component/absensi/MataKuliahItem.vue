@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="rounded-card"
+    class="rounded-xl"
   >
     <v-row class="pa-4 ma-0" :style="{background : currentTheme.colorSecondary}">
       <v-col cols="12" align-self="center" class="pa-0 ma-0">
@@ -28,6 +28,7 @@
             text
             class="text-caption  text-capitalize font-weight-medium"
             :style="{color : currentTheme.onSurface}"
+            to="/dosen/absensi-mahasiswa"
           >{{kelas}}</v-btn>
         </v-col>
       </v-row>
@@ -75,7 +76,4 @@ export default {
 </script>
 
 <style scoped>
-.rounded-card{
-  border-radius:1000px;
-}
 </style>
