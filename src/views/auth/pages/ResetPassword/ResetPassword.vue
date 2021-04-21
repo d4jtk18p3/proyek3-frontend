@@ -1,11 +1,15 @@
 <template>
   <div>
-    <router-view/>
+    Reset Password
   </div>
 </template>
 
 <script>
 export default {
-  name: "App"
+  name: "ResetPassword"
 }
 </script>
+
+<style scoped>
+
+</style>
