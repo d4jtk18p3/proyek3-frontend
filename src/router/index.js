@@ -55,12 +55,7 @@ const routes = [
       {
         path: "/admin",
         name: "AddNewUser",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/AddNewUser/AddNewsUserMain")
-      },
-      {
-        path: "/admin/add-user",
-        name: "AddNewUserTwo",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/AddNewUser/AddNewsUserMain")
+        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewsUserMain")
       }
     ]
   },
@@ -69,9 +64,14 @@ const routes = [
     component: () => import("../views/auth/AuthMain"),
     children: [
       {
+        path: "/auth/forget-password",
+        name: "ForgetPassword",
+        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/forgetPassword/ForgetPassword")
+      },
+      {
         path: "/auth/reset-password",
         name: "ResetPassword",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/ResetPassword/ResetPassword")
+        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/resetPassword/ResetPassword")
       }
     ]
   }
