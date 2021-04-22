@@ -3,7 +3,7 @@
     <side-bar v-if="!isMobile"/>
     <nav-bar/>
     <v-main>
-      <v-container :class="isMobile? 'pa-5' : 'pa-12'">
+      <v-container fluid :class="isMobile? 'pa-5' : 'pa-12'">
         <router-view/>
       </v-container>
     </v-main>
