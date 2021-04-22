@@ -1,5 +1,5 @@
 <template>
-  <v-app :style="{background : currentTheme.colorPrimary}" >
+  <v-app :style="{background : 'white'}" >
     <v-main>
       <v-container :class="isMobile? 'pa-5' : 'pa-12'" class="fill-height">
         <router-view/>

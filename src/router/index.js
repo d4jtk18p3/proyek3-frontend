@@ -56,6 +56,11 @@ const routes = [
         path: "/admin",
         name: "AddNewUser",
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewsUserMain")
+      },
+      {
+        path: "/admin/add-user-csv",
+        name: "AddNewUserByCSV",
+        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUserByCSV/AddNewUserByCSV")
       }
     ]
   },
