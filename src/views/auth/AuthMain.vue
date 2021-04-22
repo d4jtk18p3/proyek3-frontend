@@ -10,9 +10,9 @@
 
 <script>
 import { mapGetters } from "vuex"
-
 export default {
   name: "AuthMain",
+  components: { SideBar, NavBar },
   computed: {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
