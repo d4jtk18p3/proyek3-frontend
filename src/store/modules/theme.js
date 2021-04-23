@@ -11,7 +11,8 @@ const Light = {
   surface: "#FFFFFF",
   onBackground: "#272343",
   onSurface: "#272343",
-  onError: "#FF5252"
+  onError: "#FF5252",
+  avatarBackground: "#272343"
 }
 
 const Dark = {
@@ -25,7 +26,8 @@ const Dark = {
   surface: "#262626",
   onBackground: "#FFFFFF",
   onSurface: "#FFFFFF",
-  onError: "#FF5252"
+  onError: "#FF5252",
+  avatarBackground: "#59DCDC"
 }
 
 const ThemeModule = {
