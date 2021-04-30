@@ -23,7 +23,7 @@
                     dense
                     filled
                     v-model="newPassword"
-                    :rules="[rules.emptyPassword, rules.minimumPassword]"
+                    :rules="[rules.emptyPassword, rules.minimumPassword, rules.isContainMixCase, rules.isContainNumberAndLetter, rules.isContainSpecialCharacter]"
                     :append-icon="
                           isNewPasswordShown ? 'mdi-eye' : 'mdi-eye-off'
                         "
@@ -102,9 +102,15 @@ export default {
       rules: {
         emptyPassword: (value) => !!value || "Password tidak boleh kosong",
         minimumPassword: (value) =>
-          value.length > 3 || "Password minimal 3 karakter ",
+          value.length > 8 || "Password minimal 8 karakter ",
         confirmPassword: (value) =>
-          value === this.newPassword || "Password tidak sama"
+          value === this.newPassword || "Password tidak sama",
+        isContainMixCase: (value) =>
+          (value.match(new RegExp("[A-Z]")) !== null && value.match(new RegExp("[a-z]")) !== null) || "Password harus merupakan kombinasi huruf besar dan huruf kecil",
+        isContainNumberAndLetter: (value) =>
+          (((value.match(new RegExp("[0-9]")) !== null))) || "Password harus memiliki setidaknya satu angka",
+        isContainSpecialCharacter: (value) =>
+          ((value.match(new RegExp("[!@#$%^&*]"))) !== null) || "Password harus memiliki setidaknya satu karakter special: !@#$%^&*"
       },
       newPassword: "",
       confirmNewPassword: "",

@@ -24,7 +24,7 @@ import { mapGetters, mapActions } from "vuex"
  */
 const TOKEN_ACCESS_INTERVAL = (1000 * 60 * 60 * 5) - (1000 * 6)
 const initOptions = {
-  url: "http://127.0.0.1:8080/auth", realm: "vue-test", clientId: "lala", onLoad: "login-required"
+  url: "https://keycloak.ca9db134.nip.io/auth", realm: "polban-realm", clientId: "template", onLoad: "login-required"
 }
 export default {
   name: "TemplateMain",
