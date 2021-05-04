@@ -77,6 +77,10 @@ const routes = [
         path: "/auth/reset-password",
         name: "ResetPassword",
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/resetPassword/ResetPassword")
+      },
+      {
+        path: "/auth/masuk",
+        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/masuk/Masuk")
       }
     ]
   }
