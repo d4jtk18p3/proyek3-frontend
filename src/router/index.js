@@ -79,6 +79,17 @@ const routes = [
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/resetPassword/ResetPassword")
       }
     ]
+  },
+  {
+    path: "/component-template",
+    component: () => import("../views/componentTemplate/ComponentTemplateMain"),
+    children: [
+      {
+        path: "/component-template/dashboard",
+        name: "DashboardEx",
+        component: () => import(/* webpackChunkName: "dashboard" */"../views/template/pages/dashboard/DashboardMain")
+      }
+    ]
   }
 ]
 

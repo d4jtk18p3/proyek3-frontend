@@ -1,20 +1,68 @@
 <template>
   <v-navigation-drawer v-if="!$vuetify.breakpoint.mobile" expand-on-hover clipped app permanent id="sidebar">
     <v-list>
-      <v-list-item
+      <div
         v-for="(item, i) in items"
         :key="i"
-        link
-        dark
-        :to="item.to"
       >
-        <v-list-item-icon>
-          <v-icon v-text="item.icon"></v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title v-text="item.text"></v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+        <v-list-item
+          v-if="!item.subLinks"
+          :key="i"
+          link
+          :to="item.to"
+          dark
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title v-text="item.text"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-group
+          v-else
+          :key="item.text"
+          link
+          dark
+        >
+          <template v-slot:activator>
+            <v-list-item
+              :key="i"
+              dark
+              color="primary"
+              class="pa-0"
+            >
+              <v-list-item-icon>
+                <v-icon>{{ item.icon }}</v-icon>
+              </v-list-item-icon>
+
+              <v-list-item-content>
+                <v-list-item-title v-text="item.text"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+
+          <template v-slot:appendIcon>
+            <v-icon dark>$expand</v-icon>
+          </template>
+
+          <v-list-item
+            v-for="sublink in item.subLinks"
+            :to="sublink.to"
+            :key="sublink.text"
+            dark
+            class="pl-12"
+          >
+            <v-list-item-content>
+              <v-list-item-title v-text="sublink.text" />
+            </v-list-item-content>
+          </v-list-item>
+
+        </v-list-group>
+
+      </div>
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -38,18 +86,37 @@
 <script>
 import { mapGetters } from "vuex"
 export default {
+  name: "sideBar",
   props: {
     items: {
       type: Array,
       required: false,
       default: () => {
         return [
-          { text: "[Menu 1]", icon: "mdi-file-document-outline", to: "/menu1route" },
-          { text: "[Menu 2]", icon: "mdi-bookmark-multiple-outline", to: "/menu2route" },
-          { text: "[Menu 3]", icon: "mdi-school-outline", to: "/menu3route" },
-          { text: "[Menu 4]", icon: "mdi-email-outline", to: "/menu4route" },
-          { text: "[Menu 5]", icon: "mdi-account-box-outline", to: "/menu5route" },
-          { text: "[Menu 6]", icon: "mdi-white-balance-incandescent", to: "/menu6route" }
+          {
+            to: "/dashboard",
+            icon: "mdi-view-dashboard",
+            text: "Dashboard"
+          },
+          {
+            icon: "mdi-tennis",
+            text: "Players",
+            subLinks: [
+              {
+                text: "Players list",
+                to: "/players"
+              },
+              {
+                text: "Import WTA Players",
+                to: "/players/import"
+              }
+            ]
+          },
+          {
+            to: "/tournaments",
+            icon: "mdi-trophy",
+            text: "Tournaments"
+          }
         ]
       }
     }
