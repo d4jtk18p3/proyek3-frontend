@@ -56,12 +56,12 @@ const routes = [
         path: "/admin",
         name: "AddNewUser",
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewsUserMain")
+      },
+      {
+        path: "/admin/add-user/form",
+        name: "AddNewUserByForm",
+        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewUserByForm")
       }
-      // {
-      //   path: "/admin/add-user/form",
-      //   name: "AddNewUserByForm",
-      //   component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/AddNewUser/AddNewUserByForm")
-      // }
     ]
   },
   {
