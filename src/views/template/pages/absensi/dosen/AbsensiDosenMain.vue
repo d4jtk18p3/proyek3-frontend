@@ -32,7 +32,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import Breadcumbs from "@/views/shared/ui/Breadcumbs"
+import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import AbsensiDosenMataKuliahItem from "@/views/template/pages/absensi/dosen/AbsensiDosenMataKuliah"
 import KelasItem from "@/views/template/component/absensi/KelasItem"
 

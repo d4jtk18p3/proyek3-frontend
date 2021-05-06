@@ -67,7 +67,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex"
-import Breadcumbs from "@/views/shared/ui/Breadcumbs"
+import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import tabelAbsensiDosenView from "@/views/template/component/absensi/TabelAbsensiDosenView"
 
 export default {
