@@ -47,7 +47,10 @@
             <v-col :cols="isMobile ? '1' : '4'"></v-col>
           </v-row>
         </v-col>
-        <v-col cols="12" class="mt-5">
+        <v-col cols="12" class="mt-3 py-0">
+          <div class="text-center">Silakan pilih tanggal kegiatan...</div>
+        </v-col>
+        <v-col cols="12" class="mt-1">
           <DatePickerItem/>
         </v-col>
 
@@ -61,7 +64,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import Breadcumbs from "@/views/shared/ui/Breadcumbs"
+import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import DatePickerItem from "@/views/logbook/component/mahasiswa/DatePickerItem"
 import FormTambahLogbookItem from "@/views/logbook/component/mahasiswa/FormTambahLogbookItem"
 
