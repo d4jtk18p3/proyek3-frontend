@@ -16,7 +16,8 @@
     "vue-apexcharts": "^1.6.1",
     "vue-router": "~3.5.1",
     "vuetify": "~2.4.7",
-    "vuex": "~3.6.2"
+    "vuex": "~3.6.2",
+    "xlsx": "^0.16.9"
   },
   "devDependencies": {
     "@vue/cli": "~4.5.12",
