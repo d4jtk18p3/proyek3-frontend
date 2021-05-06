@@ -13,8 +13,8 @@
 <script>
 
 import * as Keycloak from "keycloak-js"
-import SideBar from "@/views/shared/ui/SideBar"
-import NavBar from "@/views/shared/ui/NavBar"
+import SideBar from "@/views/shared/navigation/SideBar"
+import NavBar from "@/views/shared/navigation/NavBar"
 import { mapGetters, mapActions } from "vuex"
 
 /*
