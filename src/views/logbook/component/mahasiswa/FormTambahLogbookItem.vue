@@ -9,6 +9,8 @@
                 class="mt-3 mb-0"
                 :dark="isDark"
                 @input="checkProgress"
+                placeholder="Silakan isi dengan kegiatan yang anda lakukan..."
+                :rules="[rules.kegiatan]"
             ></v-textarea>
         </v-col>
       </v-row>
@@ -21,6 +23,8 @@
                 class="mt-3 mb-0"
                 :dark="isDark"
                 @input="checkProgress"
+                placeholder="Silakan isi dengan hasil dari kegiatan yang anda lakukan..."
+                :rules="[rules.hasil]"
             ></v-textarea>
         </v-col>
       </v-row>
@@ -33,6 +37,8 @@
                 class="mt-3 mb-0"
                 :dark="isDark"
                 @input="checkProgress"
+                placeholder="Silakan isi dengan kesan dari kegiatan yang anda lakukan..."
+                :rules="[rules.kesan]"
             ></v-textarea>
         </v-col>
       </v-row>
@@ -49,6 +55,7 @@
             color="#59DCDC"
             class="white--text mt-5"
             elevation="5"
+            :disabled="this.progress!=100"
           >
             Selesai
           </v-btn>
@@ -65,7 +72,12 @@ export default {
       kegiatan: "",
       hasil: "",
       kesan: "",
-      progress: 0
+      progress: 0,
+      rules: {
+        kegiatan: value => !!value || "Field kegiatan harus diisi.",
+        hasil: value => !!value || "Field hasil harus diisi.",
+        kesan: value => !!value || "Field kesan harus diisi."
+      }
     }
   },
   computed: {
@@ -76,9 +88,6 @@ export default {
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
-  },
-  mounted () {
-    this.checkProgress()
   },
   methods: {
     checkProgress () {
