@@ -41,19 +41,6 @@
       <v-col :cols="isMobile ? '7' : '2'" class="py-0">
         <div class="text-start">: {{identitas.matakuliah}}</div>
       </v-col>
-      <v-col :cols="isMobile ? '1' : '3'"></v-col>
-      <v-col :cols="isMobile ? '8' : '3'" class="py-0">
-      </v-col>
-      <v-col :cols="isMobile ? '3' : '1'" class="py-0 px-0">
-          <v-btn
-            color="#59DCDC"
-            class="white--text"
-            elevation="5"
-            to="/logbook/addlogbook"
-          >
-            Tambah
-          </v-btn>
-      </v-col>
     </v-row>
     <v-col cols="12" class="mt-2">
       <TabelItem/>
@@ -63,7 +50,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import Breadcumbs from "@/views/shared/ui/Breadcumbs"
+import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import TabelItem from "@/views/logbook/component/mahasiswa/TabelItem"
 
 export default {
