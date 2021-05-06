@@ -52,11 +52,11 @@ const routes = [
     path: "/admin",
     component: () => import("../views/admin/AdminMain"),
     children: [
-      {
-        path: "/admin",
-        name: "AddNewUser",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewsUserMain")
-      }
+      // {
+      //   path: "/admin",
+      //   name: "AddNewUser",
+      //   component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewsUserMain")
+      // }
       // {
       //   path: "/admin/add-user/form",
       //   name: "AddNewUserByForm",
@@ -72,11 +72,30 @@ const routes = [
         path: "/auth/forget-password",
         name: "ForgetPassword",
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/forgetPassword/ForgetPassword")
+      }
+      // {
+      //   path: "/auth/reset-password",
+      //   name: "ResetPassword",
+      //   component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/resetPassword/ResetPassword")
+      // }
+    ]
+  },
+  {
+    path: "/logbook",
+    component: () => import("../views/logbook/LogbookMain"),
+    children: [
+      {
+        path: "/logbook/mylogbook",
+        name: "MyLogbook",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "logbooksaya" */"../views/logbook/pages/mahasiswa/LogbookSaya")
       },
       {
-        path: "/auth/reset-password",
-        name: "ResetPassword",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/resetPassword/ResetPassword")
+        path: "/logbook/addlogbook",
+        name: "AddLogbook",
+        component: () => import(/* webpackChunkName: "tambahlogbook" */"../views/logbook/pages/mahasiswa/TambahLogbook")
       }
     ]
   }
