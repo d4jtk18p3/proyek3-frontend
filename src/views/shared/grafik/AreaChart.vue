@@ -5,10 +5,13 @@
   >
     <v-row>
       <v-col cols="12">
-        <div class="text-h6 font-weight-bold ml-3" :style="{color: currentTheme.onSurface}">Graf IP</div>
+        <div class="d-flex">
+          <div class="text-h6 font-weight-bold ml-3 flex-grow-0" :style="{color: currentTheme.onSurface}">{{ this.chartTitle }}</div>
+          <div class="flex-grow-1 d-flex justify-end align-center"><slot  name="top-right"></slot></div>
+        </div>
       </v-col>
       <v-col cols="12">
-        <apexchart type="area" height="300" width="100%"  :options="data.chartOptions" :series="data.series"/>
+        <apexchart type="area" :height="this.height" :width="this.width"  :options="data.chartOptions" :series="data.series"/>
       </v-col>
     </v-row>
 
@@ -20,13 +23,40 @@
 import { mapGetters } from "vuex"
 
 export default {
-  name: "IPGraph",
+  name: "AreaChart",
   props: {
-    ipList: {
-      type: Array,
-      required: false,
+    valueList: {
+      type: Array
+    },
+    xAxisValue: {
+      type: Array
+    },
+    height: {
+      type: Number
+    },
+    width: {
+      type: Number
+    },
+    minimumValue: {
+      type: Number
+    },
+    maximumValue: {
+      type: Number
+    },
+    chartTitle: {
+      type: String
+    },
+    detailName: {
+      type: String,
+      default: ""
+    },
+    bottomTitle: {
+      type: Object,
       default: () => {
-        return [3.2, 2.0, 2.95, 0.51, 2.52, 3.5, 4.0]
+        return {
+          text: "",
+          textSize: "15px"
+        }
       }
     }
   },
@@ -37,13 +67,12 @@ export default {
     data () {
       return {
         series: [{
-          name: "IP",
-          data: this.ipList
+          name: this.detailName,
+          data: this.valueList
         }],
         chartOptions: {
           chart: {
-            height: 300,
-            type: "line",
+            type: "area",
             background: this.currentTheme.surface
           },
           dataLabels: {
@@ -58,8 +87,8 @@ export default {
                 colors: this.currentTheme.onSurface
               }
             },
-            min: 0,
-            max: 4
+            min: this.minimumValue,
+            max: this.maximumValue
           },
           xaxis: {
             type: "category",
@@ -70,13 +99,13 @@ export default {
               }
             },
             title: {
-              text: "Semester",
+              text: this.bottomTitle.text,
               style: {
                 color: this.currentTheme.onSurface,
-                fontSize: "15px"
+                fontSize: this.bottomTitle.textSize
               }
             },
-            categories: ["1", "2", "3", "4", "5", "7", "8"]
+            categories: this.xAxisValue
           }
         }
       }

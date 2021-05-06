@@ -32,7 +32,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import Breadcumbs from "@/views/shared/ui/Breadcumbs"
+import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import ProfilePicture from "@/views/template/component/profile/ProfilePicture"
 import FormProfile from "@/views/template/component/profile/FormProfile"
 
