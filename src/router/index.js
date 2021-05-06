@@ -85,9 +85,44 @@ const routes = [
     component: () => import("../views/componentTemplate/ComponentTemplateMain"),
     children: [
       {
-        path: "/component-template/dashboard",
-        name: "DashboardEx",
-        component: () => import(/* webpackChunkName: "dashboard" */"../views/template/pages/dashboard/DashboardMain")
+        path: "/component-template/button",
+        name: "ButtonTemplate",
+        component: () => import(/* webpackChunkName: "btn-template" */ "../views/componentTemplate/pages/ButtonTemplate")
+      },
+      {
+        path: "/component-template/alert",
+        name: "AlertTemplate",
+        component: () => import(/* webpackChunkName: "alert-template" */ "../views/componentTemplate/pages/AlertTemplate")
+      },
+      {
+        path: "/component-template/textfield",
+        name: "TextfieldTemplate",
+        component: () => import(/* webpackChunkName: "textfield-template" */ "../views/componentTemplate/pages/TextFieldTemplate")
+      },
+      {
+        path: "/component-template/combobox",
+        name: "ComboBoxTemplate",
+        component: () => import(/* webpackChunkName: "combobox-template" */ "../views/componentTemplate/pages/ComboBoxTemplate")
+      },
+      {
+        path: "/component-template/textarea",
+        name: "TextAreaTemplate",
+        component: () => import(/* webpackChunkName: "textare-template" */ "../views/componentTemplate/pages/TextAreaTemplate")
+      },
+      {
+        path: "/component-template/grafik",
+        name: "GrafikTemplate",
+        component: () => import(/* webpackChunkName: "textare-template" */ "../views/componentTemplate/pages/GrafikTemplate")
+      },
+      {
+        path: "/component-template/typography",
+        name: "TypographyTemplate",
+        component: () => import(/* webpackChunkName: "textare-template" */ "../views/componentTemplate/pages/TypographyTemplate")
+      },
+      {
+        path: "/component-template/calendar",
+        name: "Calendar",
+        component: () => import(/* webpackChunkName: "textare-template" */ "../views/componentTemplate/pages/CalendarTemplate")
       }
     ]
   }

@@ -1,10 +1,10 @@
 <template>
   <v-app :style="{background : currentTheme.background}">
-    <SideBar v-if="!isMobile"/>
+    <SideBar v-if="!isMobile" :items="sidebarItems"/>
     <nav-bar/>
     <v-main>
       <v-container :class="isMobile? 'pa-5' : 'pa-12'">
-        <TextFieldTemplate/>
+        <router-view/>
       </v-container>
     </v-main>
   </v-app>
@@ -13,10 +13,9 @@
 <script>
 
 import * as Keycloak from "keycloak-js"
-import NavBar from "@/views/shared/ui/NavBar"
+import NavBar from "@/views/shared/navigation/NavBar"
 import { mapGetters, mapActions } from "vuex"
-import SideBar from "@/views/shared/ui/SideBar"
-import TextFieldTemplate from "@/views/componentTemplate/pages/TextFieldTemplate"
+import SideBar from "@/views/shared/navigation/SideBar"
 
 /*
   Token Access interval adalah 5 jam maka
@@ -30,7 +29,6 @@ const initOptions = {
 export default {
   name: "TemplateMain",
   components: {
-    TextFieldTemplate,
     SideBar,
     NavBar
   },
@@ -43,7 +41,61 @@ export default {
   data () {
     return {
       isAuthenticated: "",
-      isLoading: false
+      isLoading: false,
+      sidebarItems: [
+        {
+          text: "Theme"
+        },
+        {
+          to: "/",
+          icon: "mdi-opacity",
+          text: "Colors"
+        },
+        {
+          to: "/component-template/Typography",
+          icon: "mdi-pencil",
+          text: "Typography"
+        },
+        {
+          text: "Components"
+        },
+        {
+          icon: "mdi-tennis",
+          text: "Base",
+          subLinks: [
+            {
+              text: "Alert",
+              to: "/component-template/alert"
+            },
+            {
+              text: "Calendar",
+              to: "/component-template/calendar"
+            },
+            {
+              text: "ComboBox",
+              to: "/component-template/combobox"
+            },
+            {
+              text: "TextArea",
+              to: "/component-template/textarea"
+            },
+            {
+              text: "TextField",
+              to: "/component-template/textfield"
+            }
+          ]
+        },
+        {
+          icon: "mdi-dns",
+          text: "Button",
+          to: "/component-template/button"
+        },
+        {
+          icon: "mdi-trending-down",
+          text: "Graphics",
+          to: "/component-template/grafik"
+        }
+      ]
     }
   },
   computed: {

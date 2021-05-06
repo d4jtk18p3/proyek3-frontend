@@ -2,78 +2,60 @@
   <v-card
     :style="{background: currentTheme.surface }"
   >
-    <v-row
-      class="pa-5"
+    <v-form
+      ref="form" @submit.prevent=""
     >
-      <v-col  cols="12" class="text-h6" :style="{color: currentTheme.onSurface }">
-        TextField List
-      </v-col>
-      <v-col cols="12" class="text-subtitle-2 font-weight-light" align-self="center" :style="{color: currentTheme.onSurface }">
-        Outlined
-      </v-col>
-      <v-col cols="6" xs="6" sm="4" md="4" lg="4" xl="4">
-        <v-text-field dense outlined label="Normal">
-        </v-text-field>
-      </v-col>
-      <v-col cols="6" xs="6" sm="4" md="4" lg="4" xl="4" offset="2">
-        <v-text-field dense outlined label="Clearable" clearable v-model="outlinedClearable">
-        </v-text-field>
-      </v-col>
-      <v-col cols="12" class="text-subtitle-2 font-weight-light" align-self="center" :style="{color: currentTheme.onSurface }">
-        Info Alert
-      </v-col>
-      <v-col cols="6" xs="6" sm="3" md="3" lg="3" xl="3">
-        <v-alert type="info" dense text outlined>
-          Info
-        </v-alert>
-      </v-col>
-      <v-col cols="6" xs="6" sm="3" md="3" lg="3" xl="3">
-        <v-alert type="info" dense>
-          Info
-        </v-alert>
-      </v-col>
-      <v-col cols="6" xs="6" sm="3" md="3" lg="3" xl="3">
-        <v-alert type="info" text dense>
-          Info
-        </v-alert>
-      </v-col>
-      <v-col cols="12" class="text-subtitle-2 font-weight-light" align-self="center" :style="{color: currentTheme.onSurface }">
-        Warning Alert
-      </v-col>
-      <v-col cols="6" xs="6" sm="3" md="3" lg="3" xl="3">
-        <v-alert type="warning" dense text outlined icon="mdi-alert">
-          Warning
-        </v-alert>
-      </v-col>
-      <v-col cols="6" xs="6" sm="3" md="3" lg="3" xl="3">
-        <v-alert type="warning" dense icon="mdi-alert">
-          Warning
-        </v-alert>
-      </v-col>
-      <v-col cols="6" xs="6" sm="3" md="3" lg="3" xl="3">
-        <v-alert type="warning" text dense icon="mdi-alert">
-          Warning
-        </v-alert>
-      </v-col>
-      <v-col cols="12" class="text-subtitle-2 font-weight-light" align-self="center" :style="{color: currentTheme.onSurface }">
-        Error Alert
-      </v-col>
-      <v-col cols="6" xs="6" sm="3" md="3" lg="3" xl="3">
-        <v-alert type="error" dense text outlined >
-          Error
-        </v-alert>
-      </v-col>
-      <v-col cols="6" xs="6" sm="3" md="3" lg="3" xl="3">
-        <v-alert type="error" dense >
-          Error
-        </v-alert>
-      </v-col>
-      <v-col cols="6" xs="6" sm="3" md="3" lg="3" xl="3">
-        <v-alert type="error" text dense>
-          Error
-        </v-alert>
-      </v-col>
-    </v-row>
+      <v-row
+        class="pa-5"
+      >
+        <v-col  cols="6" class="text-h6" :style="{color: currentTheme.onSurface }">
+          TextField List
+        </v-col>
+        <v-col cols="6">
+          <div class="d-flex align-content-center justify-end">
+            <v-btn :color="isDark?'#9C2C2C' : '#FF5252'" style="color:white;" small v-if="!isError" @click="toogleError">
+              Aktifkan Error
+            </v-btn>
+            <v-btn :color="isDark?'#9C2C2C' : '#FF5252'" small outlined v-else @click="toogleError">
+              Matikan Error
+            </v-btn>
+          </div>
+        </v-col>
+        <v-col cols="12" class="text-subtitle-2 font-weight-bold" align-self="center" :style="{color: currentTheme.onSurface }" >
+          Outlined
+        </v-col>
+        <v-col cols="12" xs="6" sm="4" md="4" lg="4" xl="4">
+          <v-text-field dense outlined label="Normal" :dark="isDark" :color="currentTheme.colorSecondary" :rules="[rules.ruleOne]">
+          </v-text-field>
+        </v-col>
+        <v-col cols="12" xs="6" sm="4" md="4" lg="4" xl="4" offset-lg="2" offset-md="2" offset-sm="2">
+          <v-text-field dense outlined label="Clearable" clearable v-model="outlinedClearable" :dark="isDark" :color="currentTheme.colorSecondary" :rules="[rules.ruleOne]">
+          </v-text-field>
+        </v-col>
+        <v-col cols="12" class="text-subtitle-2 font-weight-bold mt-5" align-self="center" :style="{color: currentTheme.onSurface }">
+          Regular
+        </v-col>
+        <v-col cols="12" xs="6" sm="4" md="4" lg="4" xl="4">
+          <v-text-field dense label="Normal" :dark="isDark" :color="currentTheme.colorSecondary" :rules="[rules.ruleOne]">
+          </v-text-field>
+        </v-col>
+        <v-col cols="12" xs="6" sm="4" md="4" lg="4" xl="4"  offset-lg="2" offset-md="2" offset-sm="2">
+          <v-text-field dense label="Clearable" clearable v-model="regularClearable" :dark="isDark" :color="currentTheme.colorSecondary" :rules="[rules.ruleOne]">
+          </v-text-field>
+        </v-col>
+        <v-col cols="12" class="text-subtitle-2 font-weight-bold mt-5" align-self="center" :style="{color: currentTheme.onSurface }" :rules="[rules.ruleOne]">
+          Filled
+        </v-col>
+        <v-col cols="12" xs="6" sm="4" md="4" lg="4" xl="4">
+          <v-text-field dense label="Normal" :dark="isDark" :color="currentTheme.colorSecondary" filled :rules="[rules.ruleOne]">
+          </v-text-field>
+        </v-col>
+        <v-col cols="12" xs="6" sm="4" md="4" lg="4" xl="4" offset-lg="2" offset-md="2" offset-sm="2" >
+          <v-text-field dense label="Clearable" clearable v-model="filledClearable" :dark="isDark" :color="currentTheme.colorSecondary" filled :rules="[rules.ruleOne]">
+          </v-text-field>
+        </v-col>
+      </v-row>
+    </v-form>
   </v-card>
 </template>
 
@@ -93,7 +75,19 @@ export default {
   },
   data () {
     return {
-      outlinedClearable: "Hi!"
+      outlinedClearable: "Hi outlined!",
+      regularClearable: "Hi Regular!",
+      filledClearable: "Hi filled!",
+      isError: false,
+      rules: {
+        ruleOne: (_) => this.isError || "Error Pada Isian Texfield"
+      }
+    }
+  },
+  methods: {
+    toogleError () {
+      this.$refs.form.validate()
+      this.isError = !this.isError
     }
   }
 }
