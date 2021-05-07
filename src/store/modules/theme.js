@@ -31,7 +31,7 @@ const Dark = {
 const ThemeModule = {
   namespaced: true,
   state: () => ({
-    currentColor: Dark,
+    currentColor: Light,
     isDark: true
   }),
   mutations: {
