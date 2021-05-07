@@ -5,6 +5,27 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: "/mhs",
+    component: () => import("../views/monitoring/monitoringmain"),
+    children: [
+      {
+        path: "/mhs/dashboard",
+        name: "Dashboard",
+        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/dashboard/Dashboard")
+      },
+      {
+        path: "/mhs/monitoring",
+        name: "MonitoringMenu",
+        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/Monitoring")
+      },
+      {
+        path: "/mhs/monitoring/namaMatkul/namaTugas",
+        name: "Monitoring",
+        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/MonitoringTugas")
+      }
+    ]
+  },
+  {
     path: "/template",
     component: () => import("../views/template/TemplateMain"),
     children: [
@@ -49,22 +70,6 @@ const routes = [
     ]
   },
   {
-    path: "/admin",
-    component: () => import("../views/admin/AdminMain"),
-    children: [
-      {
-        path: "/admin",
-        name: "AddNewUser",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewsUserMain")
-      }
-      // {
-      //   path: "/admin/add-user/form",
-      //   name: "AddNewUserByForm",
-      //   component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/AddNewUser/AddNewUserByForm")
-      // }
-    ]
-  },
-  {
     path: "/auth",
     component: () => import("../views/auth/AuthMain"),
     children: [
@@ -72,11 +77,6 @@ const routes = [
         path: "/auth/forget-password",
         name: "ForgetPassword",
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/forgetPassword/ForgetPassword")
-      },
-      {
-        path: "/auth/reset-password",
-        name: "ResetPassword",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/resetPassword/ResetPassword")
       }
     ]
   }
