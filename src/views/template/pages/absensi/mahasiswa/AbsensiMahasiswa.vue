@@ -49,7 +49,8 @@
       <v-col cols="4">
         <v-btn
           class="ml-5"
-          color="#FB8C00">
+          color="#FB8C00"
+          @click="dialog = true">
           + AJUKAN IZIN PERKULIAHAN
         </v-btn>
       </v-col>
@@ -68,12 +69,14 @@ import LogAktivitas from "@/views/template/component/absensi/LogAktivitas"
 import SakitIzinAlfaItem from "@/views/template/component/absensi/SakitIzinAlfaItem"
 import PersentaseKehadiran from "@/views/template/component/absensi/PersentaseKehadiran"
 import TotalJamSP from "@/views/template/component/absensi/TotalJamSP"
+import Uploadbukti from "@/views/template/component/absensi/UploadBuktiMhs"
 
 export default {
   name: "AbsensiMahasiswa",
-  components: { Breadcumbs, AbsenCard, LogAktivitas, SakitIzinAlfaItem, PersentaseKehadiran, TotalJamSP },
+  components: { Uploadbukti, Breadcumbs, AbsenCard, LogAktivitas, SakitIzinAlfaItem, PersentaseKehadiran, TotalJamSP },
   data () {
     return {
+      dialog: false,
       breadcrumbItems: [
         {
           text: "Dashboard",
