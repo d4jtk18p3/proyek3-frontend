@@ -63,7 +63,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewUserByForm")
       },
       {
-        path: "/admin/add-user/csv",
+        path: "/admin/add-user/excel",
         name: "AddNewUserByExcel",
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewUserByExcel")
       }
