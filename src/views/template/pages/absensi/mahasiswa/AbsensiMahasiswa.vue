@@ -47,12 +47,9 @@
         ></v-divider>
       </v-col>
       <v-col cols="4">
-        <v-btn
-          class="ml-5"
-          color="#FB8C00"
-          @click="dialog = true">
-          + AJUKAN IZIN PERKULIAHAN
-        </v-btn>
+      <v-flex>
+        <Uploadbukti/>
+        </v-flex>
       </v-col>
     </v-row>
     <v-row>
@@ -76,7 +73,6 @@ export default {
   components: { Uploadbukti, Breadcumbs, AbsenCard, LogAktivitas, SakitIzinAlfaItem, PersentaseKehadiran, TotalJamSP },
   data () {
     return {
-      dialog: false,
       breadcrumbItems: [
         {
           text: "Dashboard",
