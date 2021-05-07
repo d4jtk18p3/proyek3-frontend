@@ -49,14 +49,35 @@ const routes = [
     ]
   },
   {
+    path: "/monitoring",
+    component: () => import("../views/monitoring/MonitoringMain"),
+    children: [
+      // {
+      //   path: "/monitoring/dashboard-tugas",
+      //   name: "Dashboard",
+      //   component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/dashboard/DashboardMain")
+      // },
+      {
+        path: "/monitoring/dosen/monitoring-tugas",
+        name: "MonitoringDosenMain",
+        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenMain")
+      },
+      {
+        path: "/monitoring/dosen/monitoring-tugas/daftar-tugas",
+        name: "MonitoringDosenDaftarTugas",
+        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenDaftarTugas")
+      }
+    ]
+  },
+  {
     path: "/admin",
     component: () => import("../views/admin/AdminMain"),
     children: [
-      {
-        path: "/admin",
-        name: "AddNewUser",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewsUserMain")
-      }
+      // {
+      //   path: "/admin",
+      //   name: "AddNewUser",
+      //   component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewsUserMain")
+      // }
       // {
       //   path: "/admin/add-user/form",
       //   name: "AddNewUserByForm",
@@ -72,12 +93,12 @@ const routes = [
         path: "/auth/forget-password",
         name: "ForgetPassword",
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/forgetPassword/ForgetPassword")
-      },
-      {
-        path: "/auth/reset-password",
-        name: "ResetPassword",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/resetPassword/ResetPassword")
       }
+      // {
+      //   path: "/auth/reset-password",
+      //   name: "ResetPassword",
+      //   component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/resetPassword/ResetPassword")
+      // }
     ]
   },
   {
