@@ -6,7 +6,7 @@
     <div
       class="text-center text-h6"
       :style="{color: currentTheme.onSurface}"
-    >3A - D4 Teknik Informatika</div>
+    >{{ kelas }}</div>
   </v-card>
 </template>
 
@@ -15,6 +15,7 @@ import { mapGetters } from "vuex"
 
 export default {
   name: "KelasItem",
+  props: ["kelas"],
   computed: {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
