@@ -82,7 +82,7 @@ export default {
         {
           text: "Logbook Saya",
           disabled: true,
-          href: "/logbook"
+          href: ""
         }
       ]
     }

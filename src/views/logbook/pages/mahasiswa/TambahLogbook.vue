@@ -97,7 +97,7 @@ export default {
         {
           text: "Tambah Logbook",
           disabled: true,
-          href: "/addlogbook"
+          href: ""
         }
       ]
     }
