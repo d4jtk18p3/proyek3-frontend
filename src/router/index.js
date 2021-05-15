@@ -66,6 +66,11 @@ const routes = [
         path: "/monitoring/dosen/monitoring-tugas/daftar-tugas",
         name: "MonitoringDosenDaftarTugas",
         component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenDaftarTugas")
+      },
+      {
+        path: "/monitoring/dosen/monitoring-tugas/matkul",
+        name: "MonitoringDosenDaftarTugas",
+        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenMatkul")
       }
     ]
   },
