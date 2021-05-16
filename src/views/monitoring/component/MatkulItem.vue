@@ -2,7 +2,7 @@
   <v-card
     link
     class="rounded-card mr-3 mb-3"
-    min-width="300"
+    to="/monitoring/dosen/monitoring-tugas/daftar-tugas"
   >
     <v-row class="pa-4 ma-0" :style="{background : currentTheme.colorSecondary}">
       <v-col cols="12" align-self="center" class="pa-0 ma-0">

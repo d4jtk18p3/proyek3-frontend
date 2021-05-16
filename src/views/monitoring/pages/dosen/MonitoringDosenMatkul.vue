@@ -16,15 +16,15 @@
         </v-card>
     </v-col>
     <v-divider v-if="!isMobile" vertical class="mx-5"></v-divider>
-    <v-col sm="8">
-    <p
-    class="text-left font-weight-bold text-h5"
-    :style="{color: currentTheme.onBackground}"
-    >Mata Kuliah</p>
-    <v-row>
+    <v-col :cols="isMobile? 12 : 8">
+      <p
+      class="text-left font-weight-bold text-h5"
+      :style="{color: currentTheme.onBackground}"
+      >Mata Kuliah</p>
+      <v-row>
         <v-col
           no-gutters v-for="item in listMatkul" :key="item.Matkul"
-          sm="6"
+          :cols="isMobile? 12 : 6"
         >
           <MatkulItem :mataKuliah="item.Matkul"/>
         </v-col>

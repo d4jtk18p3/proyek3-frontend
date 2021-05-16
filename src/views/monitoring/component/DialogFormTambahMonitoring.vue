@@ -30,51 +30,55 @@
           <p class="text-h6 font-weight-bold">Subtugas</p>
         </v-col>
       </v-row>
-      <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
-        <v-col cols="12">
-          <p class="text-h7 font-weight-bold">Subtugas 1</p>
-        </v-col>
-      </v-row>
-      <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
-        <v-col cols="12">
-          <v-text-field
-            v-model="namaSubtugas"
-            label="Nama Subtugas"
-            outlined
-            clearable
-            :color="currentTheme.colorSecondary"
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
-        <v-col cols="12">
-          <v-text-field
-            v-model="tenggat"
-            label="Tenggat"
-            outlined
-            clearable
-            :color="currentTheme.colorSecondary"
-          >
-          </v-text-field>
-          <!-- <v-date-picker v-model="date" mode="dateTime" is24hr>
-            <template v-slot="{ inputValue, inputEvents }">
-              <input
-                class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
-                :value="inputValue"
-                v-on="inputEvents"
-              />
-            </template>
-          </v-date-picker> -->
-        </v-col>
-      </v-row>
+
+      <div v-for="(sub, i) in subtugas" :key="i">
+        <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
+          <v-col cols="12">
+            <p class="text-h7 font-weight-bold">Subtugas {{i+1}}</p>
+          </v-col>
+        </v-row>
+        <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
+          <v-col cols="12">
+            <v-text-field
+              v-model="sub.value1"
+              :label="sub.label1"
+              outlined
+              clearable
+              :color="currentTheme.colorSecondary"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
+          <v-col cols="12">
+            <v-text-field
+              v-model="sub.value2"
+              :label="sub.label2"
+              outlined
+              clearable
+              :color="currentTheme.colorSecondary"
+            >
+            </v-text-field>
+            <!-- <v-date-picker v-model="date" mode="dateTime" is24hr>
+              <template v-slot="{ inputValue, inputEvents }">
+                <input
+                  class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                  :value="inputValue"
+                  v-on="inputEvents"
+                />
+              </template>
+            </v-date-picker> -->
+          </v-col>
+        </v-row>
+      </div>
       <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
         <v-col cols="12" align="right">
           <v-btn
           outlined
           :color="currentTheme.colorSecondary"
-        >
-          Tambah
-        </v-btn>
+          @click="add"
+          >
+            Tambah
+          </v-btn>
         </v-col>
       </v-row>
 
@@ -103,6 +107,7 @@
           <v-btn
           outlined
           :color="currentTheme.colorOnSecondary"
+          @click="closeDialog()"
         >
           Batal
         </v-btn>
@@ -127,6 +132,7 @@ export default {
   props: ["visible"],
   data () {
     return {
+      subtugas: [],
       date: new Date(),
       select: ["Status", "Skala Pemahaman"],
       items: [
@@ -158,7 +164,17 @@ export default {
     }
   },
   methods: {
-
+    add () {
+      this.subtugas.push({
+        label1: "Nama Subtugas",
+        value1: "",
+        label2: "Tenggat",
+        value2: ""
+      })
+    },
+    closeDialog () {
+      this.$emit("close")
+    }
   }
 }
 </script>
