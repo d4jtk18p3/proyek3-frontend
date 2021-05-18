@@ -3,43 +3,37 @@
       <v-row class="mt-0 mb-0">
         <v-col cols="12">
             Kegiatan
-            <v-textarea
-                v-model="kegiatan"
-                outlined
-                class="mt-3 mb-0"
-                :dark="isDark"
-                @input="checkProgress"
-                placeholder="Silakan isi dengan kegiatan yang anda lakukan..."
-                :rules="[rules.kegiatan]"
-            ></v-textarea>
+            <vue-editor
+              v-model="kegiatan"
+              class="mt-3 mb-0 elevation-2"
+              @input="checkProgress"
+              placeholder="Silakan isi dengan kegiatan yang anda lakukan..."
+              :rules="[rules.kegiatan]"
+              ></vue-editor>
         </v-col>
       </v-row>
       <v-row class="mt-0 mb-0">
         <v-col cols="12">
             Hasil
-            <v-textarea
+            <vue-editor
                 v-model="hasil"
-                outlined
-                class="mt-3 mb-0"
-                :dark="isDark"
+                class="mt-3 mb-0 elevation-2"
                 @input="checkProgress"
                 placeholder="Silakan isi dengan hasil dari kegiatan yang anda lakukan..."
                 :rules="[rules.hasil]"
-            ></v-textarea>
+            ></vue-editor>
         </v-col>
       </v-row>
       <v-row class="mt-0 mb-0">
         <v-col cols="12">
             Kesan
-            <v-textarea
+            <vue-editor
                 v-model="kesan"
-                outlined
-                class="mt-3 mb-0"
-                :dark="isDark"
+                class="mt-3 mb-0 elevation-2"
                 @input="checkProgress"
                 placeholder="Silakan isi dengan kesan dari kegiatan yang anda lakukan..."
                 :rules="[rules.kesan]"
-            ></v-textarea>
+            ></vue-editor>
         </v-col>
       </v-row>
       <v-row class="mt-0 mb-0" justify="center">
@@ -52,32 +46,157 @@
       </v-row>
       <v-row class="mt-0 mb-0" justify="center">
         <v-btn
-            color="#59DCDC"
-            class="white--text mt-5"
-            elevation="5"
-            :disabled="this.progress!=100"
-          >
-            Selesai
-          </v-btn>
+          color="#59DCDC"
+          class="white--text mt-5"
+          elevation="5"
+          :disabled="this.progress!=100"
+          @click.stop="openConfirmDialog"
+        >
+          Selesai
+        </v-btn>
+        <v-dialog
+          v-model="confirmdialog"
+          width="500"
+          persistent
+        >
+          <v-card
+          :dark="isDark">
+            <v-card-title class="headline font-weight-light">
+              Apakah Anda Sudah Yakin?
+            </v-card-title>
+
+            <v-card-text>
+              pastikan semua isian yang anda isi valid.
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                outlined
+                color="error"
+                @click="closeConfirmDialog"
+              >
+                tidak
+              </v-btn>
+              <v-btn
+                outlined
+                :color="isDark ? currentTheme.onSurface:'#272343'"
+                @click="openDialog"
+              >
+                ya
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
+        <v-dialog
+          v-model="successdialog"
+          width="500"
+          persistent
+        >
+          <v-card
+          :dark="isDark">
+            <v-card-title class="headline font-weight-light"
+            :class="currentTheme.colorPrimary">
+              Logbook Berhasil Ditambahkan
+            </v-card-title>
+
+            <v-card-text>
+              data logbook yang anda isi telah ditambahkan ke dalam sistem, terima kasih dan tetap semangat!
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                outlined
+                :color="isDark ? currentTheme.onSurface:'#272343'"
+                @click="closeSuccessDialog"
+              >
+                ok
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
+        <v-dialog
+          v-model="errordialog"
+          width="500"
+          persistent
+        >
+          <v-card
+          :dark="isDark">
+            <v-card-title class="headline font-weight-light red--text"
+            :class="currentTheme.colorPrimary">
+              Logbook Gagal Ditambahkan
+            </v-card-title>
+
+            <v-card-text>
+              data logbook yang anda isi tidak dapat ditambahkan ke dalam sistem karena terjadi masalah. Silakan periksa kembali bahwa data yang dimasukkan benar
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                outlined
+                :color="isDark ? currentTheme.onSurface:'#272343'"
+                @click="closeErrorDialog"
+              >
+                ok
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-row>
     </v-container>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
+import { VueEditor } from "vue2-editor"
 export default {
   name: "FormTambahLogbookItem",
+  components: { VueEditor },
+  props: {
+    kegiatan: {
+      type: String,
+      required: false,
+      default: () => {
+        return ""
+      }
+    },
+    hasil: {
+      type: String,
+      required: false,
+      default: () => {
+        return ""
+      }
+    },
+    kesan: {
+      type: String,
+      required: false,
+      default: () => {
+        return ""
+      }
+    }
+  },
   data () {
     return {
-      kegiatan: "",
-      hasil: "",
-      kesan: "",
       progress: 0,
       rules: {
         kegiatan: value => !!value || "Field kegiatan harus diisi.",
         hasil: value => !!value || "Field hasil harus diisi.",
         kesan: value => !!value || "Field kesan harus diisi."
-      }
+      },
+      confirmdialog: false,
+      successdialog: false,
+      errordialog: false,
+      post: false
     }
   },
   computed: {
@@ -88,6 +207,9 @@ export default {
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
+  },
+  mounted () {
+    this.checkProgress()
   },
   methods: {
     checkProgress () {
@@ -102,6 +224,33 @@ export default {
       }
       if (this.kegiatan === "" && this.hasil === "" && this.kesan === "") {
         this.progress = 0
+      }
+    },
+    openConfirmDialog () {
+      this.confirmdialog = true
+    },
+    closeConfirmDialog () {
+      this.confirmdialog = false
+    },
+    openSuccessDialog () {
+      this.confirmdialog = false
+      this.successdialog = true
+    },
+    closeSuccessDialog () {
+      this.successdialog = false
+    },
+    openErrorDialog () {
+      this.confirmdialog = false
+      this.errordialog = true
+    },
+    closeErrorDialog () {
+      this.errordialog = false
+    },
+    openDialog () {
+      if (!this.post) {
+        this.openErrorDialog()
+      } else {
+        this.openSuccessDialog()
       }
     }
   }
