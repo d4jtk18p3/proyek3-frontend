@@ -35,33 +35,54 @@
       </template>
 
       <template v-slot:[`item.viewbutton`]="{ item }">
-        <v-btn
-          icon
-          color="#FFFFFF"
-          @click="onViewClick(item.tanggal, item.kegiatan, item.hasil, item.kesan)"
-        >
-          <v-icon>mdi-eye</v-icon>
-        </v-btn>{{item.viewbutton}}
+         <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              icon
+              color="#FFFFFF"
+              @click="onViewClick(item.tanggal, item.kegiatan, item.hasil, item.kesan)"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>mdi-eye</v-icon>
+            </v-btn>{{item.viewbutton}}
+          </template>
+          <span>Lihat Detail Logbook</span>
+        </v-tooltip>
       </template>
 
       <template v-slot:[`item.editbutton`]="{ item }">
-        <v-btn
-          icon
-          color="#FFFFFF"
-          @click="onEditClick(item.tanggal, item.kegiatan, item.hasil, item.kesan)"
-        >
-          <v-icon>mdi-pencil-outline</v-icon>
-        </v-btn>{{item.editbutton}}
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              icon
+              color="#FFFFFF"
+              @click="onEditClick(item.tanggal, item.kegiatan, item.hasil, item.kesan)"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>mdi-pencil-outline</v-icon>
+            </v-btn>{{item.editbutton}}
+          </template>
+          <span>Edit Logbook</span>
+        </v-tooltip>
       </template>
 
       <template v-slot:[`item.deletebutton`]="{ item }">
-        <v-btn
-          icon
-          color="#FFFFFF"
-          @click.stop="openConfirmDialog(item)"
-        >
-          <v-icon>mdi-delete-sweep-outline</v-icon>
-        </v-btn>{{item.deletebutton}}
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              icon
+              color="#FFFFFF"
+              @click.stop="openConfirmDialog(item)"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>mdi-delete-sweep-outline</v-icon>
+            </v-btn>{{item.deletebutton}}
+          </template>
+          <span>Hapus Logbook</span>
+        </v-tooltip>
       </template>
     </v-data-table>
     <v-data-table
@@ -98,33 +119,54 @@
       </template>
 
       <template v-slot:[`item.viewbutton`]="{ item }">
-        <v-btn
-          icon
-          color="#272343"
-          @click="onViewClick(item.tanggal, item.kegiatan, item.hasil, item.kesan)"
-        >
-          <v-icon>mdi-eye</v-icon>
-        </v-btn>{{item.viewbutton}}
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              icon
+              color="#272343"
+              @click="onViewClick(item.tanggal, item.kegiatan, item.hasil, item.kesan)"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>mdi-eye</v-icon>
+            </v-btn>{{item.viewbutton}}
+          </template>
+          <span>Lihat Detail Logbook</span>
+        </v-tooltip>
       </template>
 
       <template v-slot:[`item.editbutton`]="{ item }">
-        <v-btn
-          icon
-          color="#272343"
-          @click="onEditClick(item.tanggal, item.kegiatan, item.hasil, item.kesan)"
-        >
-          <v-icon>mdi-pencil-outline</v-icon>
-        </v-btn>{{item.editbutton}}
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              icon
+              color="#272343"
+              @click="onEditClick(item.tanggal, item.kegiatan, item.hasil, item.kesan)"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>mdi-pencil-outline</v-icon>
+            </v-btn>{{item.editbutton}}
+          </template>
+          <span>Edit Logbook</span>
+        </v-tooltip>
       </template>
 
       <template v-slot:[`item.deletebutton`]="{ item }">
-        <v-btn
-          icon
-          color="#272343"
-          @click.stop="openConfirmDialog(item)"
-        >
-          <v-icon>mdi-delete-sweep-outline</v-icon>
-        </v-btn>{{item.deletebutton}}
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              icon
+              color="#272343"
+              @click.stop="openConfirmDialog(item)"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>mdi-delete-sweep-outline</v-icon>
+            </v-btn>{{item.deletebutton}}
+          </template>
+          <span>Hapus Logbook</span>
+        </v-tooltip>
       </template>
     </v-data-table>
 
