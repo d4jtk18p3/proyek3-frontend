@@ -13,8 +13,24 @@
       <template v-slot:[`item.kegiatan`]="{ item }">
         <div
         class="text-truncate"
-        style="max-width: 50px;">
+        style="max-width: 200px;">
           {{item.kegiatan}}
+        </div>
+      </template>
+
+      <template v-slot:[`item.hasil`]="{ item }">
+        <div
+        class="text-truncate"
+        style="max-width: 200px;">
+          {{item.hasil}}
+        </div>
+      </template>
+
+      <template v-slot:[`item.kesan`]="{ item }">
+        <div
+        class="text-truncate"
+        style="max-width: 200px;">
+          {{item.kesan}}
         </div>
       </template>
 
@@ -22,6 +38,7 @@
         <v-btn
           icon
           color="#FFFFFF"
+          @click="onViewClick(item.tanggal, item.kegiatan, item.hasil, item.kesan)"
         >
           <v-icon>mdi-eye</v-icon>
         </v-btn>{{item.viewbutton}}
@@ -31,6 +48,7 @@
         <v-btn
           icon
           color="#FFFFFF"
+          @click="onEditClick(item.tanggal, item.kegiatan, item.hasil, item.kesan)"
         >
           <v-icon>mdi-pencil-outline</v-icon>
         </v-btn>{{item.editbutton}}
@@ -40,6 +58,7 @@
         <v-btn
           icon
           color="#FFFFFF"
+          @click.stop="openConfirmDialog(item)"
         >
           <v-icon>mdi-delete-sweep-outline</v-icon>
         </v-btn>{{item.deletebutton}}
