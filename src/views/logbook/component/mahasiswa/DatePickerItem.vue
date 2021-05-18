@@ -10,6 +10,8 @@
       class="rounded-lg elevation-5"
       v-if="isDark"
       dark
+      :allowed-dates="disableFutureDates"
+      :readonly="viewOnly"
     ></v-date-picker>
     <v-date-picker
       v-model="picker"
@@ -21,6 +23,8 @@
       class="rounded-lg elevation-5"
       v-if="!isDark"
       Light
+      :allowed-dates="disableFutureDates"
+      :readonly="viewOnly"
     ></v-date-picker>
   </v-row>
 </template>
@@ -29,9 +33,20 @@
 import { mapGetters } from "vuex"
 export default {
   name: "DatePickerItem",
-  data () {
-    return {
-      picker: new Date().toISOString().substr(0, 10)
+  props: {
+    picker: {
+      type: Date,
+      required: false,
+      default: () => {
+        return new Date().toISOString().substr(0, 10)
+      }
+    },
+    viewOnly: {
+      type: Boolean,
+      required: false,
+      default: () => {
+        return false
+      }
     }
   },
   methods: {
@@ -40,6 +55,9 @@ export default {
       if ([12, 17, 28].includes(parseInt(day, 10))) return true
       if ([1, 19, 22].includes(parseInt(day, 10))) return ["red", "#00f"]
       return false
+    },
+    disableFutureDates (val) {
+      return val <= new Date().toISOString().substr(0, 10)
     }
   },
   computed: {
