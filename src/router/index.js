@@ -96,6 +96,18 @@ const routes = [
         path: "/logbook/addlogbook",
         name: "AddLogbook",
         component: () => import(/* webpackChunkName: "tambahlogbook" */"../views/logbook/pages/mahasiswa/TambahLogbook")
+      },
+      {
+        path: "/logbook/editlogbook/:logbookdate",
+        name: "EditLogbook",
+        component: () => import(/* webpackChunkName: "ubahlogbook" */"../views/logbook/pages/mahasiswa/EditLogbook"),
+        props: true
+      },
+      {
+        path: "/logbook/viewlogbook/:logbookdate",
+        name: "ViewLogbook",
+        component: () => import(/* webpackChunkName: "lihatlogbook" */"../views/logbook/pages/mahasiswa/LihatLogbook"),
+        props: true
       }
     ]
   },
