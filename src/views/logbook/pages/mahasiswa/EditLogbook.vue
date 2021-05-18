@@ -1,7 +1,7 @@
 <template>
   <v-row :style="{color: currentTheme.onBackground}">
     <v-col cols="12">
-      <p class="text-h4 font-weight-bold">Edit Logbook Mahasiswa</p>
+      <p class="text-h4 font-weight-bold">Ubah Logbook Saya</p>
     </v-col>
     <v-col cols="12">
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
@@ -132,7 +132,7 @@ export default {
           href: "/logbook/mylogbook"
         },
         {
-          text: "Edit Logbook",
+          text: "Ubah Logbook Saya",
           disabled: true,
           href: ""
         }

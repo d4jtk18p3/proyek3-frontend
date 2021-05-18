@@ -64,7 +64,7 @@
               <v-icon>mdi-pencil-outline</v-icon>
             </v-btn>{{item.editbutton}}
           </template>
-          <span>Edit Logbook</span>
+          <span>Ubah Logbook</span>
         </v-tooltip>
       </template>
 
@@ -148,7 +148,7 @@
               <v-icon>mdi-pencil-outline</v-icon>
             </v-btn>{{item.editbutton}}
           </template>
-          <span>Edit Logbook</span>
+          <span>Ubah Logbook</span>
         </v-tooltip>
       </template>
 
