@@ -133,6 +133,11 @@ export default {
           text: "Lihat Detail Logbook Saya",
           disabled: true,
           href: ""
+        },
+        {
+          text: this.logbookdate,
+          disabled: true,
+          href: ""
         }
       ]
     }

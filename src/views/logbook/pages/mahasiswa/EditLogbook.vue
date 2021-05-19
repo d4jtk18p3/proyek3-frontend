@@ -135,6 +135,11 @@ export default {
           text: "Ubah Logbook Saya",
           disabled: true,
           href: ""
+        },
+        {
+          text: this.logbookdate,
+          disabled: true,
+          href: ""
         }
       ]
     }
