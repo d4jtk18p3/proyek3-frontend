@@ -52,11 +52,11 @@ const routes = [
     path: "/admin",
     component: () => import("../views/admin/AdminMain"),
     children: [
-      {
-        path: "/admin",
-        name: "AddNewUser",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewsUserMain")
-      }
+      // {
+      //   path: "/admin",
+      //   name: "AddNewUser",
+      //   component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewsUserMain")
+      // }
       // {
       //   path: "/admin/add-user/form",
       //   name: "AddNewUserByForm",
@@ -72,11 +72,47 @@ const routes = [
         path: "/auth/forget-password",
         name: "ForgetPassword",
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/forgetPassword/ForgetPassword")
+      }
+      // {
+      //   path: "/auth/reset-password",
+      //   name: "ResetPassword",
+      //   component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/resetPassword/ResetPassword")
+      // }
+    ]
+  },
+  {
+    path: "/logbook",
+    component: () => import("../views/logbook/LogbookMain"),
+    children: [
+      {
+        path: "/logbook/dashboard",
+        name: "DashboardLogbook",
+        component: () => import(/* webpackChunkName: "dashboardlogbook" */"../views/logbook/pages/dosen/DashboardLogbook"),
+        props: true
       },
       {
-        path: "/auth/reset-password",
-        name: "ResetPassword",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/resetPassword/ResetPassword")
+        path: "/logbook/logbook-mahasiswa",
+        name: "ListMataKuliah",
+        component: () => import(/* webpackChunkName: "listmatakuliah" */"../views/logbook/pages/dosen/ListMataKuliah"),
+        props: true
+      },
+      {
+        path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelas",
+        name: "ListMahasiswa",
+        component: () => import(/* webpackChunkName: "listmahasiswa" */"../views/logbook/pages/dosen/ListMahasiswa"),
+        props: true
+      },
+      {
+        path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelas/:nim",
+        name: "ListLogbook",
+        component: () => import(/* webpackChunkName: "listLogbook" */"../views/logbook/pages/dosen/LogbookMahasiswa"),
+        props: true
+      },
+      {
+        path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelas/:nim/viewlogbook/:logbookdate",
+        name: "ViewLogbook",
+        component: () => import(/* webpackChunkName: "viewlogbook" */"../views/logbook/pages/dosen/ViewDetailLogbookMahasiswa"),
+        props: true
       }
     ]
   },
