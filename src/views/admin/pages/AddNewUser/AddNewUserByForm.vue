@@ -3,7 +3,7 @@
     <v-container>
       <v-row :style="{color: currentTheme.onBackground}">
         <v-col cols="12">
-          <p class="text-h4 font-weight-bold">Pendaftaran Akun Mahasiswa via Formulir</p>
+          <p class="text-h4 font-weight-bold">Pendaftaran Akun Baru via Formulir</p>
         </v-col>
       </v-row>
       <v-row justify="center">

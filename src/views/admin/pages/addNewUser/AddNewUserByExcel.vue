@@ -2,7 +2,7 @@
   <v-container>
     <v-row :style="{color: currentTheme.onBackground}">
       <v-col cols="12">
-        <p class="text-h4 font-weight-bold">Pendaftaran Akun Mahasiswa via Excel</p>
+        <p class="text-h4 font-weight-bold">Pendaftaran Akun Baru via Excel</p>
       </v-col>
     </v-row>
     <v-row>
@@ -13,6 +13,7 @@
           show-size
           accept=".xlsx"
           placeholder="Pilih File"
+          :rules="[rulesFile.onlyXlsx]"
           @change="onAddFile"
           @click:clear="clearItems"
         ></v-file-input>
@@ -39,6 +40,7 @@
           :headers="headers"
           :items="items"
           :loading="isLoading"
+          loading-text=""
           :items-per-page="5"
           class="elevation-1"
           :style="{backgroundColor: currentTheme.onBackground}"
