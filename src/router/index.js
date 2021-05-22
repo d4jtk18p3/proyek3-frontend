@@ -29,7 +29,7 @@ const routes = [
       {
         path: "/template/mahasiswa/absensi",
         name: "AbsensiMahasiswa",
-        component: () => import(/* webpackChunkName: "absensimahasiswa" */ "../views/template/pages/absensi/mahasiswa/AbsensiMahasiswaView")
+        component: () => import(/* webpackChunkName: "absensimahasiswa" */ "../views/template/pages/absensi/mahasiswa/AbsensiMahasiswa")
       },
       {
         path: "/template/mahasiswa/upload",
@@ -78,6 +78,11 @@ const routes = [
         name: "ForgetPassword",
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/forgetPassword/ForgetPassword")
       }
+      // {
+      //   path: "/auth/reset-password",
+      //   name: "ResetPassword",
+      //   component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/resetPassword/ResetPassword")
+      // }
     ]
   },
   {
