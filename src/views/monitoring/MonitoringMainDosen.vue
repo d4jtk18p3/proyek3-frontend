@@ -43,9 +43,8 @@ export default {
       isAuthenticated: "",
       isLoading: false,
       sideBarItems: [
-        { text: "Dashboard", icon: "mdi-school-outline", to: "/mhs/dashboard" },
-        { text: "MonitoringMenu", icon: "mdi-monitor-multiple", to: "/mhs/monitoring" },
-        { text: "Monitoring", icon: "mdi-monitor-multiple", to: "/mhs/monitoring/namaMatkul/namaTugas" }
+        { text: "Dashboard Tugas", icon: "mdi-school-outline", to: "/template/dashboard" },
+        { text: "Monitoring Tugas", icon: "mdi-file-document-outline", to: "/monitoring/dosen/monitoring-tugas" }
       ]
     }
   },
