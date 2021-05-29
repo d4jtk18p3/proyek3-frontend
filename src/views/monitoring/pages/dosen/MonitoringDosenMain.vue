@@ -1,31 +1,24 @@
 <template>
   <v-row :style="{color: currentTheme.onBackground}">
     <v-col cols="12">
-      <p class="text-h4 font-weight-bold">Absensi Mahasiswa</p>
+      <p class="text-h4 font-weight-bold">Monitoring Tugas</p>
     </v-col>
     <v-col cols="12">
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
     </v-col>
-    <v-col cols="8" class="mt-5" v-if="!isMobile">
+    <v-col cols="12" class="mt-5" v-if="!isMobile">
       <p
         class="text-center font-weight-bold text-h5"
         :style="{color: currentTheme.onBackground}"
       >Mata Kuliah</p>
-      <AbsensiDosenMataKuliahItem/>
-    </v-col>
-    <v-col  :cols="isMobile ? `12` : `3` " :offset="isMobile ? `0` : `1`" class="mt-5">
-      <p
-        class="text-center font-weight-bold text-h5"
-        :style="{color: currentTheme.onBackground}"
-      >Kelas</p>
-      <KelasItem/>
+      <MonitoringDosenMataKuliahItem/>
     </v-col>
     <v-col cols="12" class="mt-5" v-if="isMobile">
       <p
         class="text-center font-weight-bold text-h5"
         :style="{color: currentTheme.onBackground}"
       >Mata Kuliah</p>
-      <AbsensiDosenMataKuliahItem/>
+      <MonitoringDosenMataKuliahItem/>
     </v-col>
   </v-row>
 </template>
@@ -33,17 +26,16 @@
 <script>
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
-import AbsensiDosenMataKuliahItem from "@/views/template/pages/absensi/dosen/AbsensiDosenMataKuliah"
-import KelasItem from "@/views/template/component/absensi/KelasItem"
+import MonitoringDosenMataKuliahItem from "@/views/monitoring/pages/dosen/MonitoringDosenMataKuliah"
 
 export default {
-  name: "AbsensiDosenMain",
-  components: { KelasItem, AbsensiDosenMataKuliahItem, Breadcumbs },
+  name: "MonitoringDosenMain",
+  components: { MonitoringDosenMataKuliahItem, Breadcumbs },
   data () {
     return {
       breadcrumbItems: [
         {
-          text: "Absensi",
+          text: "Monitoring",
           disabled: false,
           href: ""
         },

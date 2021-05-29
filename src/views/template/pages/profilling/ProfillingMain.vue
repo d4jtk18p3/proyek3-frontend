@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import Breadcumbs from "@/views/shared/ui/Breadcumbs"
+import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import { mapGetters } from "vuex"
 import JumlahSiswaCard from "@/views/template/component/profilling/JumlahSiswaCard"
 import DosenWaliCard from "@/views/template/component/profilling/DosenWaliCard"

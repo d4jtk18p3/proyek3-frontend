@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Breadcumbs from "@/views/shared/ui/Breadcumbs"
+import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import { mapGetters } from "vuex"
 import NameCard from "@/views/template/component/nilai/NameCard"
 import IPKCard from "@/views/template/component/nilai/IPKCard"

@@ -6,7 +6,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: "/mhs",
-    component: () => import("../views/monitoring/monitoringmain"),
+    component: () => import("../views/monitoring/MonitoringMain"),
     children: [
       {
         path: "/mhs/dashboard",
@@ -70,6 +70,48 @@ const routes = [
     ]
   },
   {
+    path: "/monitoring",
+    component: () => import("../views/monitoring/MonitoringMain"),
+    children: [
+      // {
+      //   path: "/monitoring/dashboard-tugas",
+      //   name: "Dashboard",
+      //   component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/dashboard/DashboardMain")
+      // },
+      {
+        path: "/monitoring/dosen/monitoring-tugas",
+        name: "MonitoringDosenMain",
+        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenMain")
+      },
+      {
+        path: "/monitoring/dosen/monitoring-tugas/daftar-tugas",
+        name: "MonitoringDosenDaftarTugas",
+        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenDaftarTugas")
+      },
+      {
+        path: "/monitoring/dosen/monitoring-tugas/matkul",
+        name: "MonitoringDosenDaftarTugas",
+        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenMatkul")
+      }
+    ]
+  },
+  {
+    path: "/admin",
+    component: () => import("../views/admin/AdminMain"),
+    children: [
+      // {
+      //   path: "/admin",
+      //   name: "AddNewUser",
+      //   component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewsUserMain")
+      // }
+      // {
+      //   path: "/admin/add-user/form",
+      //   name: "AddNewUserByForm",
+      //   component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/AddNewUser/AddNewUserByForm")
+      // }
+    ]
+  },
+  {
     path: "/auth",
     component: () => import("../views/auth/AuthMain"),
     children: [
@@ -77,6 +119,57 @@ const routes = [
         path: "/auth/forget-password",
         name: "ForgetPassword",
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/forgetPassword/ForgetPassword")
+      }
+      // {
+      //   path: "/auth/reset-password",
+      //   name: "ResetPassword",
+      //   component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/resetPassword/ResetPassword")
+      // }
+    ]
+  },
+  {
+    path: "/component-template",
+    component: () => import("../views/componentTemplate/ComponentTemplateMain"),
+    children: [
+      {
+        path: "/component-template/button",
+        name: "ButtonTemplate",
+        component: () => import(/* webpackChunkName: "btn-template" */ "../views/componentTemplate/pages/ButtonTemplate")
+      },
+      {
+        path: "/component-template/alert",
+        name: "AlertTemplate",
+        component: () => import(/* webpackChunkName: "alert-template" */ "../views/componentTemplate/pages/AlertTemplate")
+      },
+      {
+        path: "/component-template/textfield",
+        name: "TextfieldTemplate",
+        component: () => import(/* webpackChunkName: "textfield-template" */ "../views/componentTemplate/pages/TextFieldTemplate")
+      },
+      {
+        path: "/component-template/combobox",
+        name: "ComboBoxTemplate",
+        component: () => import(/* webpackChunkName: "combobox-template" */ "../views/componentTemplate/pages/ComboBoxTemplate")
+      },
+      {
+        path: "/component-template/textarea",
+        name: "TextAreaTemplate",
+        component: () => import(/* webpackChunkName: "textare-template" */ "../views/componentTemplate/pages/TextAreaTemplate")
+      },
+      {
+        path: "/component-template/grafik",
+        name: "GrafikTemplate",
+        component: () => import(/* webpackChunkName: "textare-template" */ "../views/componentTemplate/pages/GrafikTemplate")
+      },
+      {
+        path: "/component-template/typography",
+        name: "TypographyTemplate",
+        component: () => import(/* webpackChunkName: "textare-template" */ "../views/componentTemplate/pages/TypographyTemplate")
+      },
+      {
+        path: "/component-template/calendar",
+        name: "Calendar",
+        component: () => import(/* webpackChunkName: "textare-template" */ "../views/componentTemplate/pages/CalendarTemplate")
       }
     ]
   }

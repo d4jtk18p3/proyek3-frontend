@@ -5,10 +5,13 @@
   >
     <v-row>
       <v-col cols="12">
-        <div class="text-h6 font-weight-bold ml-3" :style="{color: currentTheme.onSurface}">Rata-Rata Perolehan Nilai</div>
+        <div class="d-flex">
+          <div class="text-h6 font-weight-bold ml-3 flex-grow-0" :style="{color: currentTheme.onSurface}">{{ this.chartTitle }}</div>
+          <div class="flex-grow-1 d-flex justify-end align-center"><slot  name="top-right"></slot></div>
+        </div>
       </v-col>
       <v-col cols="12">
-        <apexchart type="bar" height="300" width="100%" :options="data.chartOptions" :series="data.series"/>
+        <apexchart type="bar"  :height="height" :width="width"  :options="data.chartOptions" :series="data.series"/>
       </v-col>
     </v-row>
 
@@ -20,13 +23,40 @@
 import { mapGetters } from "vuex"
 
 export default {
-  name: "NilaiRataRataCard",
+  name: "BarChart",
   props: {
-    nilaiList: {
-      type: Array,
-      required: false,
+    valueList: {
+      type: Array
+    },
+    xAxisValue: {
+      type: Array
+    },
+    height: {
+      type: Number
+    },
+    width: {
+      type: Number
+    },
+    minimumValue: {
+      type: Number
+    },
+    maximumValue: {
+      type: Number
+    },
+    chartTitle: {
+      type: String
+    },
+    detailName: {
+      type: String,
+      default: ""
+    },
+    bottomTitle: {
+      type: Object,
       default: () => {
-        return [6, 7, 4, 7, 5]
+        return {
+          text: "",
+          textSize: "15px"
+        }
       }
     }
   },
@@ -37,13 +67,12 @@ export default {
     data () {
       return {
         series: [{
-          name: "Nilai",
-          data: this.nilaiList
+          name: this.detailName,
+          data: this.valueList
         }],
         chartOptions: {
           colors: [this.currentTheme.colorSecondary, "#FB8C00", "#4CAF50", this.currentTheme.colorSecondaryVariant, "#2196F3"],
           chart: {
-            height: 300,
             type: "bar",
             background: this.currentTheme.surface
           },
@@ -54,9 +83,8 @@ export default {
               borderRadius: 10,
               dataLabels: {
                 position: "bottom",
-                maxItems: 100,
                 hideOverflowingLabels: true,
-                orientation: "horizontal"
+                orientation: "Horizontal"
               }
             }
           },
@@ -78,7 +106,9 @@ export default {
               style: {
                 colors: this.currentTheme.onSurface
               }
-            }
+            },
+            min: this.minimumValue,
+            max: this.maximumValue
           },
           xaxis: {
             type: "category",
@@ -95,16 +125,7 @@ export default {
                 colors: this.currentTheme.onSurface
               }
             },
-            categories: ["A-AB", "B-BC", "C-CD", "D-DE", "E"]
-          },
-          title: {
-            text: "Range Nilai",
-            style: {
-              color: this.currentTheme.onSurface,
-              fontSize: "15px"
-            },
-            align: "center",
-            offsetY: 330
+            categories: this.xAxisValue
           },
           fill: {
             opacity: 1
