@@ -37,7 +37,7 @@
                           v-model="url_gambar"
                           ref="file"
                           type="file"
-                          accept=".png"
+                          accept="image/*"
                           :rules="imgRules"
                           @change='addFile()'
                         ></v-file-input>
@@ -125,11 +125,13 @@ export default {
       var data = new FormData()
       if (this.url_gambar) data.append("surat-izin", this.url_gambar)
       data.append("status", "izin")
-      data.append("idStudies", this.idPerkuliahan)
+      for (var i in this.idPerkuliahan) {
+        data.append("idStudies", this.idPerkuliahan[i])
+      }
       console.log(data)
       Keterangan.uploadKeterangan(data)
         .then(response => {
-          console.log(response.data)
+          console.log(response)
         })
         .catch(e => {
           console.log(e)
