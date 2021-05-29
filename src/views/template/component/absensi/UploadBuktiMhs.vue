@@ -34,9 +34,11 @@
                           label="File input"
                           height="20px"
                           prepend-icon="mdi-camera"
-                          v-model="file"
+                          v-model="url_gambar"
                           ref="file"
                           type="file"
+                          accept=".png"
+                          :rules="imgRules"
                           @change='addFile()'
                         ></v-file-input>
                         </div>
@@ -103,7 +105,9 @@ export default {
       },
       jadwalMhs: [],
       idPerkuliahan: [],
-      file: null
+      file: null,
+      url_gambar: null,
+      imgRules: []
     }
   },
   methods: {
@@ -118,12 +122,10 @@ export default {
         })
     },
     uploadKeterangan () {
-      var data = {
-        "surat-izin": this.file,
-        status: "",
-        idStudies: this.idPerkuliahan
-      }
-      alert(data["surat-izin"])
+      var data = new FormData()
+      if (this.url_gambar) data.append("surat-izin", this.url_gambar)
+      data.append("status", "izin")
+      data.append("idStudies", this.idPerkuliahan)
       console.log(data)
       Keterangan.uploadKeterangan(data)
         .then(response => {
@@ -146,8 +148,14 @@ export default {
       console.log(this.idPerkuliahan)
     },
     addFile () {
-      const file = this.$refs.file.files[0]
-      this.file = file
+      // const file = this.$refs.file.files[0]
+      // this.file = file
+      if (this.url_gambar) {
+        this.imgRules = [
+          (v) => v.type === "image/png" || "Gambar harus bertipe *.png"
+        ]
+        // this.urlTemp = URL.createObjectURL(this.url_gambar)
+      }
     }
   },
   beforeMount () {
