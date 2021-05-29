@@ -11,11 +11,18 @@
                     <v-col cols="12">
                       <img width="25px" height="25px" src="../../../../assets/1.png"/>
                       <p>Ajukan Izin untuk mata kuliah</p>
-                      <div class="inside">
-                        <v-checkbox small color="indigo" class="ma-0 pa-0" label="Sistem Terdistribusi (T)"></v-checkbox>
-                        <v-checkbox small color="indigo" class="ma-0 pa-0" label="Sistem Terdistribusi (T)"></v-checkbox>
-                        <v-checkbox small color="indigo" class="ma-0 pa-0" label="Sistem Terdistribusi (T)"></v-checkbox>
-                        <v-checkbox small color="indigo" class="ma-0 pa-0" label="Sistem Terdistribusi (T)"></v-checkbox>
+                      <!--nanti diganti pakai nama matakuliah, terus paramater yang dipassnya id matkul-->
+                      <div
+                        v-for='(jadwal, index) in jadwalMhs'
+                        :key="index"
+                        class="inside"
+                      >
+                        <v-checkbox
+                          small color="indigo"
+                          class="ma-0 pa-0"
+                          :label="`${jadwal.id_perkuliahan}`"
+                          @change='selectedPerkuliahan(jadwal.id_perkuliahan)'
+                        ></v-checkbox>
                       </div>
                     </v-col>
                     <v-col cols="12">
@@ -27,6 +34,12 @@
                           label="File input"
                           height="20px"
                           prepend-icon="mdi-camera"
+                          v-model="url_gambar"
+                          ref="file"
+                          type="file"
+                          accept="image/*"
+                          :rules="imgRules"
+                          @change='addFile()'
                         ></v-file-input>
                         </div>
                     </v-col>
@@ -67,7 +80,7 @@
                         </v-checkbox>
                     </v-col>
                     <div div class="inside">
-                      <v-btn align="center">
+                      <v-btn align="center" @click="uploadKeterangan">
                             Kirim Permohonan
                         </v-btn>
                     </div>
@@ -79,6 +92,8 @@
 </template>
 <script>
 import { mapGetters } from "vuex"
+import JadwalMahasiswa from "../../../../datasource/api/absensi/jadwal"
+import Keterangan from "../../../../datasource/api/absensi/keterangan"
 export default {
   data () {
     return {
@@ -87,8 +102,66 @@ export default {
           currentTheme: "theme/getCurrentColor",
           isDark: "theme/getIsDark"
         })
+      },
+      jadwalMhs: [],
+      idPerkuliahan: [],
+      file: null,
+      url_gambar: null,
+      imgRules: []
+    }
+  },
+  methods: {
+    getJadwalMhs () {
+      JadwalMahasiswa.getJadwalMahasiswa(1, 181524010)
+        .then(response => {
+          this.jadwalMhs = response.result
+          console.log(response.result)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    uploadKeterangan () {
+      var data = new FormData()
+      if (this.url_gambar) data.append("surat-izin", this.url_gambar)
+      data.append("status", "izin")
+      for (var i in this.idPerkuliahan) {
+        data.append("idStudies", this.idPerkuliahan[i])
+      }
+      console.log(data)
+      Keterangan.uploadKeterangan(data)
+        .then(response => {
+          console.log(response)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    // masih pakai id perkuliahan, nanti yang diambil nama matkulnya
+    // getPerkuliahan () {
+    //   const jadwal = this.jadwalMhs
+    //   for (var i in jadwal) {
+    //     this.idPerkuliahan.push(jadwal[i].id_perkuliahan)
+    //   }
+    //   console.log(this.idPerkuliahan)
+    // },
+    selectedPerkuliahan (value) {
+      this.idPerkuliahan.push(value)
+      console.log(this.idPerkuliahan)
+    },
+    addFile () {
+      // const file = this.$refs.file.files[0]
+      // this.file = file
+      if (this.url_gambar) {
+        this.imgRules = [
+          (v) => v.type === "image/png" || "Gambar harus bertipe *.png"
+        ]
+        // this.urlTemp = URL.createObjectURL(this.url_gambar)
       }
     }
+  },
+  beforeMount () {
+    this.getJadwalMhs()
   }
 }
 </script>
@@ -118,6 +191,6 @@ p {
   padding-left : 40px;
 }
 .submit{
-  align : center;
+  text-align : center;
 }
 </style>
