@@ -1,7 +1,7 @@
 <template>
   <v-card height="530" width="350" class="rounded-lg">
-    <p class="text-h2 font-weight-bold mr-10 text-right pt-2">Jum'at</p>
-    <p class="text-h4 font-weight-bold mr-10 text-right">11:11 am</p>
+    <p class="text-h2 font-weight-bold mr-10 text-right pt-2">{{ getDay }}</p>
+    <p class="text-h4 font-weight-bold mr-10 text-right">{{ currentTime }}</p>
     <v-timeline dense>
       <v-timeline-item
       class="pr-2"
@@ -18,7 +18,29 @@
 <script>
 import { mapGetters } from "vuex"
 
+const ONE_HOURS = 1000 * 60 * 60
+
 export default {
+  created () {
+    var current = new Date()
+    this.currentDay = current.getDay()
+    setInterval(() => {
+      current = new Date()
+      this.currentDay = current.getDay()
+    }, ONE_HOURS)
+
+    this.currentTime = current.getHours() + ":" + current.getMinutes()
+    setInterval(() => {
+      current = new Date()
+      this.currentTime = current.getHours() + ":" + current.getMinutes()
+    }, 60000)
+  },
+  data () {
+    return {
+      currentTime: "",
+      currentDay: null
+    }
+  },
   name: "LogAktivitas",
 
   props: {
@@ -74,7 +96,33 @@ export default {
   computed: {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
-    })
+    }),
+    getDay () {
+      switch (this.currentDay) {
+        case 1:
+          var currentDay = "Senin"
+          break
+        case 2:
+          currentDay = "Selasa"
+          break
+        case 3:
+          currentDay = "Rabu"
+          break
+        case 4:
+          currentDay = "Kamis"
+          break
+        case 5:
+          currentDay = "Jumat"
+          break
+        case 6:
+          currentDay = "Sabtu"
+          break
+        case 7:
+          currentDay = "Minggu"
+          break
+      }
+      return currentDay
+    }
   }
 }
 </script>
