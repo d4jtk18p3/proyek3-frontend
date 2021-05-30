@@ -70,7 +70,12 @@ const routes = [
       {
         path: "/admin",
         name: "AddNewUser",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewsUserMain")
+        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/AddNewUser/AddNewsUserMain")
+      },
+      {
+        path: "/admin/list-akun",
+        name: "ListAkun",
+        component: () => import("../views/admin/pages/ListAkun/ListAkun")
       }
       // {
       //   path: "/admin/add-user/form",
@@ -91,7 +96,7 @@ const routes = [
       {
         path: "/auth/reset-password",
         name: "ResetPassword",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/resetPassword/ResetPassword")
+        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/ResetPassword/ResetPassword")
       }
     ]
   },
@@ -138,11 +143,6 @@ const routes = [
         path: "/component-template/calendar",
         name: "Calendar",
         component: () => import(/* webpackChunkName: "textare-template" */ "../views/componentTemplate/pages/CalendarTemplate")
-      },
-      {
-        path: "/component-template/paragraph",
-        name: "Paragraph",
-        component: () => import(/* webpackChunkName: "paragraph-template" */ "../views/componentTemplate/pages/ParapgraphTemplate")
       }
     ]
   }
