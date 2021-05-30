@@ -13,7 +13,7 @@
                       <p class="judul">Ajukan Izin untuk mata kuliah</p>
                       <div
                         class="alert"
-                        v-if="matkulIsNull"
+                        v-if="idPerkuliahan.length === 0"
                       >
                         <p>Mata kuliah wajib diisi</p>
                       </div>
@@ -67,7 +67,8 @@
                     </v-col>
                     <v-col cols="12">
                       <v-checkbox v-model="checkbox"
-                        :rules="[rules.checkbox]"
+                        :rules="[checkboxValue]"
+                        @click="isChecked = !isChecked"
                         label = "Dengan ini saya menyetujui segala kebijakan"
                         >
                         </v-checkbox>
@@ -126,6 +127,7 @@ export default {
       },
       idPerkuliahan: [],
       file: null,
+      isChecked: false,
       matkulIsNull: true,
       isLoading: false,
       isSuccess: false,
@@ -134,8 +136,9 @@ export default {
       imgRules: [],
       rules: {
         password: (value) => !!value || "Password tidak boleh kosong",
-        checkbox: (value) => !!value || "Anda harus menyetujui segala kebijakan",
-        url_gambar: (value) => !!value || "Bukti kehadiran tidak boleh kosong"
+        // checkbox: (value) => !!value || "Anda harus menyetujui segala kebijakan",
+        url_gambar: (value) => !!value || "Bukti kehadiran tidak boleh kosong",
+        isChecked: v => (!!v && v) === false || "Anda harus menyetujui segala kebijakan"
       },
       error: {
         isError: false,
@@ -148,7 +151,7 @@ export default {
       return this.error.message
     },
     isDisable () {
-      return this.matkulIsNull || this.url_gambar == null || this.password.length === 0 || this.checkbox !== true
+      return this.idPerkuliahan.length === 0 || this.url_gambar == null || this.password.length === 0 || this.isChecked !== true
     }
   },
   props: {
@@ -160,6 +163,11 @@ export default {
     }
   },
   methods: {
+    checkboxValue () {
+      if (!this.isChecked) {
+        return "Anda harus menyetujui segala kebijakan"
+      }
+    },
     uploadKeterangan () {
       this.isLoading = true
       this.isSuccess = false
@@ -174,7 +182,7 @@ export default {
       Keterangan.uploadKeterangan(data)
         .then(response => {
           console.log(response)
-          this.error.message = "Upload bukti berhasil"
+          this.error.message = "Upload bukti berhasil ! Data akan segera divalidasi oleh dosen wali"
           this.isLoading = false
           this.isSuccess = true
         })
@@ -194,7 +202,6 @@ export default {
     //   console.log(this.idPerkuliahan)
     // },
     selectedPerkuliahan (value, jadwal) {
-      this.matkulIsNull = false
       var index = this.idPerkuliahan.indexOf(value)
       if (index === -1) {
         this.idPerkuliahan.push(value)
