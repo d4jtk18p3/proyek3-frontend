@@ -76,6 +76,10 @@ export default {
               to: "/component-template/combobox"
             },
             {
+              text: "Paragraph",
+              to: "/component-template/paragraph"
+            },
+            {
               text: "TextArea",
               to: "/component-template/textarea"
             },

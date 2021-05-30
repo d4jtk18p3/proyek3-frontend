@@ -1,7 +1,7 @@
 <template>
-  <v-app>
+  <v-app :style="{background : '#272343'}">
     <v-main>
-      <v-container>
+      <v-container :class="isMobile? 'pa-5' : 'pa-12'" class="fill-height">
         <router-view/>
       </v-container>
     </v-main>
@@ -10,5 +10,10 @@
 
 <script>
 export default {
+  computed: {
+    isMobile () {
+      return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    }
+  }
 }
 </script>
