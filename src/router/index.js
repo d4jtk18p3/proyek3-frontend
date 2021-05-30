@@ -6,7 +6,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: "/mhs",
-    component: () => import("../views/monitoring/MonitoringMain"),
+    component: () => import("../views/monitoring/monitoringmain"),
     children: [
       {
         path: "/mhs/dashboard",
@@ -81,7 +81,7 @@ const routes = [
       {
         path: "/monitoring/dosen/monitoring-tugas",
         name: "MonitoringDosenMain",
-        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenMain")
+        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenMatkul")
       },
       {
         path: "/monitoring/dosen/monitoring-tugas/daftar-tugas",
@@ -91,7 +91,7 @@ const routes = [
       {
         path: "/monitoring/dosen/monitoring-tugas/matkul",
         name: "MonitoringDosenDaftarTugas",
-        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenMatkul")
+        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenMain")
       }
     ]
   },

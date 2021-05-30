@@ -11,8 +11,8 @@
         class="text-left font-weight-bold text-h5 mt-5"
         :style="{color: currentTheme.onBackground}"
         >Kelas</p>
-        <v-card link class="mb-3" v-for="item in listKelas" :key="item.Kelas">
-          <KelasItem :kelas="item.Kelas"/>
+        <v-card link class="mb-3" v-for="item in listKelas" :key="item">
+          <KelasItem :kelas="item"/>
         </v-card>
     </v-col>
     <v-divider v-if="!isMobile" vertical class="mx-5"></v-divider>
@@ -23,10 +23,10 @@
       >Mata Kuliah</p>
       <v-row>
         <v-col
-          no-gutters v-for="item in listMatkul" :key="item.Matkul"
+          no-gutters v-for="item in listMatkul" :key="item"
           :cols="isMobile? 12 : 6"
         >
-          <MatkulItem :mataKuliah="item.Matkul"/>
+          <MatkulItem :mataKuliah="item"/>
         </v-col>
       </v-row>
     </v-col>
@@ -38,6 +38,7 @@ import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import MatkulItem from "@/views/monitoring/component/MatkulItem"
 import KelasItem from "@/views/monitoring/component/KelasItem"
+import MonitoringDosen from "../../../../datasource/api/monitoring/MonitoringDosen"
 export default {
   name: "AbsensiDosenMain",
   components: { KelasItem, MatkulItem, Breadcumbs },
@@ -61,14 +62,10 @@ export default {
         }
       ],
       listKelas: [
-        { Kelas: "1A - D3 Teknik Informatika" },
-        { Kelas: "2A - D3 Teknik Informatika" },
-        { Kelas: "1A - D4 Teknik Informatika" }
+
       ],
       listMatkul: [
-        { Matkul: "Proyek 3" },
-        { Matkul: "APPL 2" },
-        { Matkul: "Pengantar Akuntansi" }
+
       ]
     }
   },
@@ -81,6 +78,10 @@ export default {
     }
   },
   methods: {
+  },
+  async mounted () {
+    this.listKelas = await MonitoringDosen.getListKelas("196610181995121001")
+    this.listMatkul = await MonitoringDosen.getMatkulKelas("196610181995121001")
   }
 }
 </script>
