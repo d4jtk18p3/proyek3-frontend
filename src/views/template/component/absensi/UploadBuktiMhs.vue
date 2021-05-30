@@ -27,7 +27,7 @@
                           small color="indigo"
                           class="ma-0 pa-0"
                           :label="`${jadwal.nama_mata_kuliah}`"
-                          :v-model="`${jadwal.nama_mata_kuliah}`"
+                          :v-model="jadwal.checked"
                           @change='selectedPerkuliahan(jadwal.id_studi, jadwal.nama_mata_kuliah)'
                         ></v-checkbox>
                       </div>
@@ -195,8 +195,14 @@ export default {
     // },
     selectedPerkuliahan (value, jadwal) {
       this.matkulIsNull = false
-      this.idPerkuliahan.push(value)
-      console.log(this.idPerkuliahan)
+      var index = this.idPerkuliahan.indexOf(value)
+      if (index === -1) {
+        this.idPerkuliahan.push(value)
+        console.log(this.idPerkuliahan)
+      } else {
+        this.idPerkuliahan.splice(index, 1)
+        console.log(this.idPerkuliahan)
+      }
     },
     addFile () {
       // const file = this.$refs.file.files[0]
