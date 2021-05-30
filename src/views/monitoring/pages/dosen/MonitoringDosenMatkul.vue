@@ -11,7 +11,7 @@
         class="text-left font-weight-bold text-h5 mt-5"
         :style="{color: currentTheme.onBackground}"
         >Kelas</p>
-        <v-card link class="mb-3" v-for="item in listKelas" :key="item">
+        <v-card link class="mb-3" v-for="item in listKelas" :key="item" @click="getIdKelas(item)">
           <KelasItem :kelas="item"/>
         </v-card>
     </v-col>
@@ -66,7 +66,8 @@ export default {
       ],
       listMatkul: [
 
-      ]
+      ],
+      id_matkul: ""
     }
   },
   computed: {
@@ -78,10 +79,26 @@ export default {
     }
   },
   methods: {
+    getIdKelas (item) {
+      var temp = item.substr(0, 3)
+      this.listMatkul = MonitoringDosen.getMatkulKelas("196610181995121001", temp)
+      console.log(temp)
+      console.log(this.listMatkul)
+    }
+  },
+  beforeMount () {
+    this.getIdKelas()
   },
   async mounted () {
     this.listKelas = await MonitoringDosen.getListKelas("196610181995121001")
-    this.listMatkul = await MonitoringDosen.getMatkulKelas("196610181995121001")
+    this.listMatkul = await MonitoringDosen.getMatkulKelas("196610181995121001", "301")
   }
+  // watch: {
+  //   getIdKelas (item) {
+  //     var temp = item.substr(0, 3)
+  //     this.listMatkul = MonitoringDosen.getMatkulKelas("196610181995121001", temp)
+  //     console.log(temp)
+  //   }
+  // }
 }
 </script>

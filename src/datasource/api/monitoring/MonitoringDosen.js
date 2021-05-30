@@ -18,14 +18,14 @@ const getListKelas = async (nip) => {
   }
 }
 
-const getMatkulKelas = async (nip) => {
+const getMatkulKelas = async (nip, kodeKelas) => {
   try {
-    const monitoringURL = MONITORING_URL + `/dosen/matkul/${nip}`
+    const monitoringURL = MONITORING_URL + `/dosen/matkul/${nip}/${kodeKelas}`
     const result = await axios.get(monitoringURL)
     var matkul = []
     var i = 0
     while (i < result.data.data.listMatkul.length) {
-      matkul[i] = result.data.data.listMatkul[i]
+      matkul[i] = result.data.data.listMatkul[i].nama_mata_kuliah
       i++
     }
     console.log(matkul)
