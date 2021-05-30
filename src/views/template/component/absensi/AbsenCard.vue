@@ -65,6 +65,8 @@
 import { mapGetters } from "vuex"
 import PresensiMahasiswa from "../../../../datasource/api/absensi/PresensiMahasiswa"
 
+// const THIRTY_MINUTES = 1000 * 60 * 30
+
 export default {
   name: "AbsenCard",
   props: {
@@ -90,7 +92,27 @@ export default {
         .catch(e => {
           console.log(e)
         })
+    },
+    presensiSchedule () {
+      // const schedule = require("node-schedule")
+      const startTime = new Date(Date.now() + 5000)
+      console.log(startTime)
+      console.log(startTime.getTime())
+      // for (var i in this.jadwalMhs) {
+      //   const startTime = new Date(this.jadwalMhs[i].waktu_mulai - THIRTY_MINUTES)
+      //   const endTime = new Date(this.jadwalMhs[i].waktu_mulai + THIRTY_MINUTES)
+      //   schedule.scheduleJob({ start: startTime, end: endTime, rule: "*/1 * * * * *" }, function () {
+      //     console.log("Time for tea!")
+      //   })
+      // }
+
+      // schedule.scheduleJob("5 * * * * *", function () {
+      //   console.log("The answer to life, the universe, and everything!")
+      // })
     }
+  },
+  beforeMount () {
+    this.presensiSchedule()
   }
 }
 </script>
