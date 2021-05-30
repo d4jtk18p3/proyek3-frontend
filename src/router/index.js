@@ -90,12 +90,14 @@ const routes = [
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "logbooksaya" */"../views/logbook/pages/mahasiswa/LogbookSaya")
+        component: () => import(/* webpackChunkName: "logbooksaya" */"../views/logbook/pages/mahasiswa/LogbookSaya"),
+        props: true
       },
       {
         path: "/logbook/addlogbook",
         name: "AddLogbook",
-        component: () => import(/* webpackChunkName: "tambahlogbook" */"../views/logbook/pages/mahasiswa/TambahLogbook")
+        component: () => import(/* webpackChunkName: "tambahlogbook" */"../views/logbook/pages/mahasiswa/TambahLogbook"),
+        props: true
       },
       {
         path: "/logbook/editlogbook/:logbookdate",
