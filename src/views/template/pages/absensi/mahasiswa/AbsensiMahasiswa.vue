@@ -48,7 +48,7 @@
       </v-col>
       <v-col cols="4">
       <v-flex>
-        <Uploadbukti/>
+        <Uploadbukti :jadwalMhs="jadwalMhs"></Uploadbukti>
         </v-flex>
       </v-col>
     </v-row>
@@ -67,6 +67,7 @@ import SakitIzinAlfaItem from "@/views/template/component/absensi/SakitIzinAlfaI
 import PersentaseKehadiran from "@/views/template/component/absensi/PersentaseKehadiran"
 import TotalJamSP from "@/views/template/component/absensi/TotalJamSP"
 import Uploadbukti from "@/views/template/component/absensi/UploadBuktiMhs"
+import JadwalMahasiswa from "../../../../../datasource/api/absensi/jadwal"
 
 export default {
   name: "AbsensiMahasiswa",
@@ -91,7 +92,8 @@ export default {
         }
       ],
       date: new Date().toISOString().substr(0, 10),
-      menu: false
+      menu: false,
+      jadwalMhs: []
     }
   },
   computed: {
@@ -102,12 +104,25 @@ export default {
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
-  }
-  // methods: {
+  },
+  methods: {
   //   itemRowBackground: function (isDark) {
   //     return isDark ? "white" : "black"
   //   }
-  // }
+    getJadwalMhs () {
+      JadwalMahasiswa.getJadwalMahasiswa(1, 181524010)
+        .then(response => {
+          this.jadwalMhs = response.data.jadwal
+          console.log(response.data.jadwal)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }
+  },
+  beforeMount () {
+    this.getJadwalMhs()
+  }
 }
 
 </script>
