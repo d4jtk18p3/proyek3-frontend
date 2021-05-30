@@ -41,7 +41,7 @@
           no-gutters v-for="item in listMatkul" :key="item.Matkul"
           sm="6"
         >
-          <NilaiMataKuliah :mataKuliah="item.Matkul"/>
+          <NilaiMataKuliah :mataKuliah="item.Matkul" :idMatkul="item.id_matkul"/>
         </v-col>
       </v-row>
     </v-col>
@@ -77,14 +77,14 @@ export default {
         }
       ],
       listKelas: [
-        { Kelas: "1A - D3 Teknik Informatika" },
-        { Kelas: "2A - D3 Teknik Informatika" },
-        { Kelas: "1A - D4 Teknik Informatika" }
+        { id_kelas: 0, Kelas: "1A - D3 Teknik Informatika" },
+        { id_kelas: 1, Kelas: "2A - D3 Teknik Informatika" },
+        { id_kelas: 2, Kelas: "1A - D4 Teknik Informatika" }
       ],
       listMatkul: [
-        { Matkul: "Proyek 3" },
-        { Matkul: "APPL 2" },
-        { Matkul: "Pengantar Angkungtangsi" }
+        { id_matkul: 0, Matkul: "Proyek 3" },
+        { id_matkul: 1, Matkul: "APPL 2" },
+        { id_matkul: 2, Matkul: "Pengantar Angkungtangsi" }
       ]
     }
   },

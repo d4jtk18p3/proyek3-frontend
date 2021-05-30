@@ -2,7 +2,8 @@ import axios from "axios"
 import * as Keycloak from "keycloak-js"
 import Vue from "vue"
 import VueRouter from "vue-router"
-// import _ from "lodash"
+import InputNilaiSection from "../views/pages/nilai/dosen/InputNilaiSection.vue"
+import InputNilaiMatkul from "../views/pages/nilai/dosen/InputNilaiMatkul.vue"
 
 Vue.use(VueRouter)
 
@@ -292,7 +293,23 @@ const routes = [
         component: () => import(/* webpackChunkName: "paragraph-template" */ "../views/componentTemplate/pages/DialogTemplate")
       }
     ]
-  }
+  },
+  {
+    path: "/penilaian",
+    component: () => import("../views/absensi/AbsensiMain"),
+    children: [
+      {
+        path: "/input_nilai/",
+        name: "Input Nilai Mahasiswa",
+        component: InputNilaiSection
+      },
+      {
+        path: "/input_nilai_matkul/:id",
+        name: "Input Nilai Matkul",
+        component: InputNilaiMatkul
+      }
+    ]
+  },
 ]
 
 // const fixup = (r) => {

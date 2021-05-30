@@ -2,6 +2,7 @@
   <v-card
     link
     class="rounded-card mr-3 mb-3"
+    @click="routeNilaiMatkul(idMatkul)"
   >
     <v-row class="pa-4 ma-0" :style="{background : currentTheme.colorSecondary}">
       <v-col cols="12" align-self="center" class="pa-0 ma-0">
@@ -26,11 +27,16 @@ export default {
       required: false,
       default: "Model Data Teori"
     },
-    onKelasClicked: {
+    idMatkul: {
+      type: Number,
+      required: false,
+      default: 0
+    },
+    onMatkulClicked: {
       type: Function,
       required: false,
-      default: (index, kelasString) => {
-        console.log(`index : ${index} , kelasString : ${kelasString}`)
+      default: (id) => {
+        console.log(id)
       }
     }
   },
@@ -38,6 +44,11 @@ export default {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
     })
+  },
+  methods: {
+    routeNilaiMatkul (id) {
+      this.$router.push("/input_nilai_matkul/" + id)
+    }
   }
 }
 </script>
