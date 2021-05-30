@@ -20,8 +20,8 @@
                         <v-checkbox
                           small color="indigo"
                           class="ma-0 pa-0"
-                          :label="`${jadwal.id_perkuliahan}`"
-                          @change='selectedPerkuliahan(jadwal.id_perkuliahan)'
+                          :label="`${jadwal.nama_mata_kuliah}`"
+                          @change='selectedPerkuliahan(jadwal.id_studi)'
                         ></v-checkbox>
                       </div>
                     </v-col>
@@ -92,7 +92,6 @@
 </template>
 <script>
 import { mapGetters } from "vuex"
-import JadwalMahasiswa from "../../../../datasource/api/absensi/jadwal"
 import Keterangan from "../../../../datasource/api/absensi/keterangan"
 export default {
   data () {
@@ -103,24 +102,21 @@ export default {
           isDark: "theme/getIsDark"
         })
       },
-      jadwalMhs: [],
       idPerkuliahan: [],
       file: null,
       url_gambar: null,
       imgRules: []
     }
   },
+  props: {
+    jadwalMhs: {
+      type: Object,
+      default () {
+        return {}
+      }
+    }
+  },
   methods: {
-    getJadwalMhs () {
-      JadwalMahasiswa.getJadwalMahasiswa(1, 181524010)
-        .then(response => {
-          this.jadwalMhs = response.result
-          console.log(response.result)
-        })
-        .catch(e => {
-          console.log(e)
-        })
-    },
     uploadKeterangan () {
       var data = new FormData()
       if (this.url_gambar) data.append("surat-izin", this.url_gambar)
@@ -159,9 +155,6 @@ export default {
         // this.urlTemp = URL.createObjectURL(this.url_gambar)
       }
     }
-  },
-  beforeMount () {
-    this.getJadwalMhs()
   }
 }
 </script>
