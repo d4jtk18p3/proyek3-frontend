@@ -159,10 +159,19 @@
 <script>
 import { mapGetters } from "vuex"
 import { VueEditor } from "vue2-editor"
+import BackEndLogbook from "../../../../datasource/api/logbook/logbook"
+import BackEndEntri from "../../../../datasource/api/logbook/entri"
 export default {
   name: "FormTambahLogbookItem",
   components: { VueEditor },
   props: {
+    picker: {
+      type: Date,
+      required: false,
+      default: () => {
+        return new Date().toISOString().substr(0, 10)
+      }
+    },
     kegiatan: {
       type: String,
       required: false,
@@ -182,6 +191,19 @@ export default {
       required: false,
       default: () => {
         return ""
+      }
+    },
+    identitas: {
+      type: Object,
+      required: false,
+      default: () => {
+        return {
+          nama: "Khoirunnisa Putri",
+          nim: "181524014",
+          kelas: "3A",
+          prodi: "D4 - Teknik Informatika",
+          matakuliah: "Proyek 3"
+        }
       }
     }
   },
@@ -246,12 +268,60 @@ export default {
     closeErrorDialog () {
       this.errordialog = false
     },
-    openDialog () {
-      if (!this.post) {
-        this.openErrorDialog()
-      } else {
-        this.openSuccessDialog()
+    async openDialog () {
+      // disini tambahin connect backend untuk add logbook
+      // validasi ada ga logbook punya nya @nim
+      // kalau ga ada bikin baru logbook nya
+      // kalau ada, get _id collections logbooks dan tambah entri
+
+      // ini validasi
+      var idLogbook = await BackEndLogbook.getIdLogbooksMhsByNIM(this.identitas.nim)
+      alert(idLogbook)
+      if (idLogbook == null) {
+        // disini bikin baru dulu logbook nya
+        var kelas = this.identitas.kelas.subStr(1, 2)
+        var prodi = this.identitas.prodi.subStr(0, 2)
+        var nomorKelas
+        switch (kelas) {
+          case "A": {
+            if (prodi === "D4") {
+              nomorKelas = "03"
+            } else {
+              nomorKelas = "01"
+            }
+            break
+          }
+          case "B": {
+            if (prodi === "D4") {
+              nomorKelas = "04"
+            } else {
+              nomorKelas = "02"
+            }
+            break
+          }
+        }
+        var dataMhs = {
+          nama: this.identitas.nama,
+          nim: this.identitas.nim,
+          kode_kelas: this.identitas.nim.subStr(0, 2) + nomorKelas, // format : [tahun angkatan][nomor kelas]
+          kelas_proyek: this.identitas.matakuliah.subStr(7, 8) // Proyek 3 -> 3
+        }
+        await BackEndLogbook.addLogbooksMhs(dataMhs)
+        idLogbook = await BackEndLogbook.getIdLogbooksMhsByNIM(this.identitas.nim)
       }
+      var dataLogbook = {
+        tanggal: this.picker,
+        kegiatan: this.kegiatan,
+        hasil: this.hasil,
+        kesan: this.kesan
+      }
+      this.post = await BackEndEntri.addEntryLogbookMhs(idLogbook, dataLogbook)
+      alert(this.post)
+      // if (!this.post) {
+      //   this.openErrorDialog()
+      // } else {
+      //   this.openSuccessDialog()
+      // }
     }
   }
 }
