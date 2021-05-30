@@ -48,7 +48,8 @@
       </v-col>
       <v-col cols="4">
       <v-flex>
-        <Uploadbukti :jadwalMhs="jadwalMhs"></Uploadbukti>
+      <Uploadbukti2></Uploadbukti2>
+      <Uploadbukti :jadwalMhs="jadwalMhs"></Uploadbukti>
         </v-flex>
       </v-col>
     </v-row>
@@ -67,11 +68,12 @@ import SakitIzinAlfaItem from "@/views/template/component/absensi/SakitIzinAlfaI
 import PersentaseKehadiran from "@/views/template/component/absensi/PersentaseKehadiran"
 import TotalJamSP from "@/views/template/component/absensi/TotalJamSP"
 import Uploadbukti from "@/views/template/component/absensi/UploadBuktiMhs"
+import Uploadbukti2 from "@/views/template/component/absensi/UploadBuktiMhs2"
 import JadwalMahasiswa from "../../../../../datasource/api/absensi/jadwal"
 
 export default {
   name: "AbsensiMahasiswa",
-  components: { Uploadbukti, Breadcumbs, AbsenCard, LogAktivitas, SakitIzinAlfaItem, PersentaseKehadiran, TotalJamSP },
+  components: { Uploadbukti, Uploadbukti2, Breadcumbs, AbsenCard, LogAktivitas, SakitIzinAlfaItem, PersentaseKehadiran, TotalJamSP },
   data () {
     return {
       breadcrumbItems: [
@@ -93,7 +95,8 @@ export default {
       ],
       date: new Date().toISOString().substr(0, 10),
       menu: false,
-      jadwalMhs: []
+      jadwalMhs: [],
+      isIzinDialogShown: true
     }
   },
   computed: {

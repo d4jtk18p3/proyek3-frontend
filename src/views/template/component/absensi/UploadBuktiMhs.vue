@@ -1,16 +1,22 @@
-<template lang="">
-    <v-dialog max-width="650">
+<template>
+    <v-dialog max-width="650" v-model="dialog">
       <template v-slot:activator="{on}">
-            <v-btn color="info" v-on="on" dark>+ AJUKAN IZIN PERKULIAHAN</v-btn>
+        <v-btn color="info" v-on="on" dark>+ AJUKAN IZIN PERKULIAHAN</v-btn>
       </template>
-      <v-card max-height="1000" max-width="650" style="border-radius:15px">
+      <v-card :loading="isLoading" max-height="1000" max-width="650" style="border-radius:15px">
         <div>
             <h1 align="center" >Ajukan Izin</h1>
              <form class="content">
                  <v-row>
                     <v-col cols="12">
                       <img width="25px" height="25px" src="../../../../assets/1.png"/>
-                      <p>Ajukan Izin untuk mata kuliah</p>
+                      <p class="judul">Ajukan Izin untuk mata kuliah</p>
+                      <div
+                        class="alert"
+                        v-if="matkulIsNull"
+                      >
+                        <p>Mata kuliah wajib diisi</p>
+                      </div>
                       <!--nanti diganti pakai nama matakuliah, terus paramater yang dipassnya id matkul-->
                       <div
                         v-for='(jadwal, index) in jadwalMhs'
@@ -21,13 +27,14 @@
                           small color="indigo"
                           class="ma-0 pa-0"
                           :label="`${jadwal.nama_mata_kuliah}`"
-                          @change='selectedPerkuliahan(jadwal.id_studi)'
+                          :v-model="`${jadwal.nama_mata_kuliah}`"
+                          @change='selectedPerkuliahan(jadwal.id_studi, jadwal.nama_mata_kuliah)'
                         ></v-checkbox>
                       </div>
                     </v-col>
                     <v-col cols="12">
                       <img width="25px" height="25px" src="../../../../assets/2.png"/>
-                        <p>Ajukan surat keterangan izin</p>
+                        <p class="judul">Ajukan surat keterangan izin</p>
                         <div class="inside">
                         <v-file-input
                           show-size
@@ -38,18 +45,19 @@
                           ref="file"
                           type="file"
                           accept="image/*"
-                          :rules="imgRules"
+                          :rules="[imgRules, rules.url_gambar]"
                           @change='addFile()'
                         ></v-file-input>
                         </div>
                     </v-col>
                     <v-col cols="12">
                       <img width="25px" height="25px" src="../../../../assets/3.png"/>
-                        <p>Konfirmasi diri</p>
+                        <p class="judul">Konfirmasi diri</p>
                         <div class="inside">
                         <v-text-field
                             label="Password"
                             v-model="password"
+                            :rules="[rules.password]"
                             :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                             :type="show1 ? 'text' : 'password'"
                             name="input-10-1"
@@ -58,29 +66,35 @@
                         </div>
                     </v-col>
                     <v-col cols="12">
-                        <v-checkbox v-model="checkbox" div class="inside">
-                        <template v-slot:label>
-                          <div >
-                            Dengan ini saya menyetujui segala
-                            <v-tooltip bottom>
-                              <template v-slot:activator="{ on }">
-                                <a
-                                  target="_blank"
-                                  href="/template/mahasiswa/absensi"
-                                  @click.stop
-                                  v-on="on"
-                                >
-                                  kebijakan
-                                </a>
-                              </template>
-                              Opens in new window
-                            </v-tooltip>
-                          </div>
-                        </template>
+                      <v-checkbox v-model="checkbox"
+                        :rules="[rules.checkbox]"
+                        label = "Dengan ini saya menyetujui segala kebijakan"
+                        >
                         </v-checkbox>
                     </v-col>
+                    <v-col cols="12">
+                    <v-alert
+                      dense
+                      outlined
+                      type="error"
+                      :icon="false"
+                      v-if="error.isError"
+                      class="text-center text-subtitle-2">{{errorMessage}}</v-alert>
+                      <v-alert
+                      dense
+                      outlined
+                      type="success"
+                      :icon="success"
+                      v-if="isSuccess"
+                      class="text-center text-subtitle-2">{{errorMessage}}</v-alert>
+                    </v-col>
                     <div div class="inside">
-                      <v-btn align="center" @click="uploadKeterangan">
+                      <v-btn
+                        align="center"
+                        @click="uploadKeterangan"
+                        color ="#FB8C00"
+                        :disabled = "isDisable"
+                      >
                             Kirim Permohonan
                         </v-btn>
                     </div>
@@ -88,6 +102,14 @@
              </form>
         </div>
       </v-card>
+      <v-progress-circular
+      class="progressbar"
+      v-if="isLoading"
+      color="#E52B38"
+      height="10"
+      indeterminate
+    ></v-progress-circular>
+    <v-overlay :value="isLoading" absolute></v-overlay>
     </v-dialog>
 </template>
 <script>
@@ -104,8 +126,29 @@ export default {
       },
       idPerkuliahan: [],
       file: null,
+      matkulIsNull: true,
+      isLoading: false,
+      isSuccess: false,
       url_gambar: null,
-      imgRules: []
+      password: undefined,
+      imgRules: [],
+      rules: {
+        password: (value) => !!value || "Password tidak boleh kosong",
+        checkbox: (value) => !!value || "Anda harus menyetujui segala kebijakan",
+        url_gambar: (value) => !!value || "Bukti kehadiran tidak boleh kosong"
+      },
+      error: {
+        isError: false,
+        message: ""
+      }
+    }
+  },
+  computed: {
+    errorMessage () {
+      return this.error.message
+    },
+    isDisable () {
+      return this.matkulIsNull || this.url_gambar == null || this.password.length === 0 || this.checkbox !== true
     }
   },
   props: {
@@ -118,6 +161,9 @@ export default {
   },
   methods: {
     uploadKeterangan () {
+      this.isLoading = true
+      this.isSuccess = false
+      this.error.isError = false
       var data = new FormData()
       if (this.url_gambar) data.append("surat-izin", this.url_gambar)
       data.append("status", "izin")
@@ -128,8 +174,14 @@ export default {
       Keterangan.uploadKeterangan(data)
         .then(response => {
           console.log(response)
+          this.error.message = "Upload bukti berhasil"
+          this.isLoading = false
+          this.isSuccess = true
         })
         .catch(e => {
+          this.error.message = e.message
+          this.error.isError = true
+          this.isLoading = false
           console.log(e)
         })
     },
@@ -141,7 +193,8 @@ export default {
     //   }
     //   console.log(this.idPerkuliahan)
     // },
-    selectedPerkuliahan (value) {
+    selectedPerkuliahan (value, jadwal) {
+      this.matkulIsNull = false
       this.idPerkuliahan.push(value)
       console.log(this.idPerkuliahan)
     },
@@ -176,7 +229,7 @@ h1 {
 img {
   float : left;
 }
-p {
+.judul {
   font-size: 18px;
   margin-left : 40px;
 }
@@ -185,5 +238,16 @@ p {
 }
 .submit{
   text-align : center;
+}
+.alert{
+  font-size: 12px;
+  margin-left : 40px;
+  color : red;
+}
+.progressbar {
+  position: fixed;
+  bottom: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>
