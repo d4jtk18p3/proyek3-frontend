@@ -7,7 +7,7 @@
       value="3"
     >
       <v-slide-item
-        v-for="item in jadwalList"
+        v-for="(item, index) in jadwalMhs"
         :key="item"
         class="d-flex align-self-center"
       >
@@ -19,8 +19,8 @@
           >
             <v-card-text
               class="pb-0"
-            > {{item.kode}}</v-card-text>
-            <h3 class="pt-0 text-center"> {{item.matkul}} <br/> {{item.kategori}}</h3>
+            > #{{item.id_studi}}</v-card-text>
+            <h3 class="pt-0 text-center"> {{item.nama_mata_kuliah}} <br/> {{item.jenis}}</h3>
             <v-row justify="center">
               <v-col cols="1" class="mr-0">
                 <v-avatar>
@@ -30,7 +30,7 @@
                 </v-avatar>
               </v-col>
               <v-col cols="10" >
-                <v-card-text class="pb-0"> {{item.dosen}}</v-card-text>
+                <v-card-text class="pb-0"> {{item.dosens[0].nama}}</v-card-text>
               </v-col>
             </v-row>
             <v-spacer></v-spacer>
@@ -42,6 +42,7 @@
                 class="ma-5"
                 color="#4CAF50"
                 width="120"
+                @click="presensiMahasiswa(index, item.id_studi, item.id_jadwal)"
               > Hadir</v-btn>
               <v-btn
                 v-else
@@ -62,57 +63,15 @@
 
 <script>
 import { mapGetters } from "vuex"
+import PresensiMahasiswa from "../../../../datasource/api/absensi/PresensiMahasiswa"
 
 export default {
   name: "AbsenCard",
-
   props: {
-    jadwalList: {
+    jadwalMhs: {
       type: Array,
-      required: false,
-      default: () => {
-        return [
-          {
-            dosen: "Urip Teguh Setihatmojo",
-            kode: "#16TIN6023",
-            matkul: "Sistem Terdistribusi",
-            kategori: "Teori",
-            ja: "1",
-            jb: "2",
-            absen: true,
-            hadir: false
-          },
-          {
-            dosen: "Setiadi Rachmat",
-            kode: "#16TIN6023",
-            matkul: "Sistem Terdistribusi",
-            kategori: "Praktek",
-            ja: "3",
-            jb: "5",
-            absen: false,
-            hadir: true
-          },
-          {
-            dosen: "Bambang Wisnuadhi",
-            kode: "#16TIN6013",
-            matkul: "Analisis dan Perancangan Perangkat Lunak 2",
-            kategori: "Teori",
-            ja: "3",
-            jb: "5",
-            absen: false,
-            hadir: false
-          },
-          {
-            dosen: "Bambang Wisnuadhi",
-            kode: "#16TIN6013",
-            matkul: "Analisis dan Perancangan Perangkat Lunak 2",
-            kategori: "Praktek",
-            ja: "7",
-            jb: "8",
-            absen: false,
-            hadir: false
-          }
-        ]
+      default () {
+        return {}
       }
     }
   },
@@ -120,6 +79,18 @@ export default {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
     })
+  },
+  methods: {
+    presensiMahasiswa (index, idStudi, idJadwal) {
+      PresensiMahasiswa.presensiMahasiswa(idStudi, idJadwal)
+        .then(response => {
+          this.jadwalMhs[index].absen = false
+          console.log(response)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }
   }
 }
 </script>

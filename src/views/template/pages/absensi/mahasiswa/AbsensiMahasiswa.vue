@@ -53,7 +53,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <AbsenCard/>
+      <AbsenCard :jadwalMhs="jadwalMhs"></AbsenCard>
     </v-row>
   </v-container>
 </template>
@@ -112,6 +112,9 @@ export default {
     getJadwalMhs () {
       JadwalMahasiswa.getJadwalMahasiswa(1, 181524010)
         .then(response => {
+          response.data.jadwal.forEach(function (element) {
+            element.absen = "false"
+          })
           this.jadwalMhs = response.data.jadwal
           console.log(response.data.jadwal)
         })

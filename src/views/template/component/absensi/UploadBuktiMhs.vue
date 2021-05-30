@@ -110,7 +110,7 @@ export default {
   },
   props: {
     jadwalMhs: {
-      type: Object,
+      type: Array,
       default () {
         return {}
       }
