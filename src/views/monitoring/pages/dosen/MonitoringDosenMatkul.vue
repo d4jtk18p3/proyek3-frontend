@@ -26,7 +26,7 @@
           no-gutters v-for="item in listMatkul" :key="item"
           :cols="isMobile? 12 : 6"
         >
-          <MatkulItem :mataKuliah="item"/>
+          <MatkulItem :mataKuliah="item"></MatkulItem>
         </v-col>
       </v-row>
     </v-col>
@@ -66,8 +66,7 @@ export default {
       ],
       listMatkul: [
 
-      ],
-      id_matkul: ""
+      ]
     }
   },
   computed: {
@@ -79,26 +78,19 @@ export default {
     }
   },
   methods: {
-    getIdKelas (item) {
+    async getIdKelas (item) {
       var temp = item.substr(0, 3)
-      this.listMatkul = MonitoringDosen.getMatkulKelas("196610181995121001", temp)
+      this.listMatkul = await MonitoringDosen.getMatkulKelas("196610181995121001", temp)
       console.log(temp)
       console.log(this.listMatkul)
     }
   },
-  beforeMount () {
-    this.getIdKelas()
-  },
+  // beforeMount () {
+  //   this.getIdKelas()
+  // },
   async mounted () {
     this.listKelas = await MonitoringDosen.getListKelas("196610181995121001")
     this.listMatkul = await MonitoringDosen.getMatkulKelas("196610181995121001", "301")
   }
-  // watch: {
-  //   getIdKelas (item) {
-  //     var temp = item.substr(0, 3)
-  //     this.listMatkul = MonitoringDosen.getMatkulKelas("196610181995121001", temp)
-  //     console.log(temp)
-  //   }
-  // }
 }
 </script>

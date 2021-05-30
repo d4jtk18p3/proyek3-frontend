@@ -35,18 +35,28 @@ const getMatkulKelas = async (nip, kodeKelas) => {
   }
 }
 
-const getTugasMatkul = async (id) => {
+const getTugasMatkul = async (idMatkul, idPerkuliahan) => {
   try {
-    const monitoringURL = MONITORING_URL + `/common/tugasByMatkul/${id}`
+    const monitoringURL = MONITORING_URL + `/common/tugasByMatkul/${idMatkul}/${idPerkuliahan}`
     const result = await axios.get(monitoringURL)
     var tugas = []
     var i = 0
-    while (i < result.data.data.listTugas[0].length) {
-      tugas[i] = result.data.data.listTugas[0][i].nama_tugas
+    while (i < result.data.data.listTugas.length) {
+      tugas[i] = result.data.data.listTugas[i]
       i++
     }
-    console.log(result.data.data.listTugas[0][0].nama_tugas)
+    console.log(result.data.data.listTugas[i])
     return tugas
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+const postTugasBaru = async (namaTugas, idPerkuliahan) => {
+  try {
+    const monitoringURL = MONITORING_URL + `/dosen/tugas-baru`
+    const result = await axios.post(monitoringURL, { nama_tugas: namaTugas, id_perkuliahan: idPerkuliahan })
+    return result.data
   } catch (err) {
     console.error(err)
   }
@@ -55,5 +65,6 @@ const getTugasMatkul = async (id) => {
 export default {
   getListKelas,
   getMatkulKelas,
-  getTugasMatkul
+  getTugasMatkul,
+  postTugasBaru
 }

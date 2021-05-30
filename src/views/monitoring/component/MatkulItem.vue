@@ -39,6 +39,9 @@ export default {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
     })
+  },
+  beforeMount () {
+    console.log(this.mataKuliah)
   }
 }
 </script>

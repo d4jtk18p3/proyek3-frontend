@@ -33,7 +33,7 @@ export default {
     }
   },
   async mounted () {
-    this.listTugas = await MonitoringDosen.getTugasMatkul("401")
+    this.listTugas = await MonitoringDosen.getTugasMatkul("401", "101")
   }
 }
 </script>

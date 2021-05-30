@@ -21,12 +21,12 @@
         </v-avatar>
         <p>Subtugas</p>
       </v-col> -->
-      <v-col cols="12" class="pa-0 ma-0" v-if="!isMobile">
+      <!-- <v-col cols="12" class="pa-0 ma-0" v-if="!isMobile">
         <div
           class="text-subtitle-1 text-capitalize font-weight-medium"
           :style="{color : currentTheme.colorOnSecondary}"
         >{{tenggat}}</div>
-      </v-col>
+      </v-col> -->
     </v-row>
     <div class="pa-4" :style="{background : currentTheme.surface}" v-if="!isMobile">
       <v-row>
