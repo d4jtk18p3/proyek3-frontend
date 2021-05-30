@@ -28,7 +28,7 @@
                           class="ma-0 pa-0"
                           :label="`${jadwal.nama_mata_kuliah}`"
                           :v-model="jadwal.checked"
-                          @change='selectedPerkuliahan(jadwal.id_studi, jadwal.nama_mata_kuliah)'
+                          @change='selectedPerkuliahan(jadwal.id_jadwal, jadwal.nama_mata_kuliah)'
                         ></v-checkbox>
                       </div>
                     </v-col>
@@ -175,9 +175,8 @@ export default {
       var data = new FormData()
       if (this.url_gambar) data.append("surat-izin", this.url_gambar)
       data.append("status", "izin")
-      for (var i in this.idPerkuliahan) {
-        data.append("idStudies", this.idPerkuliahan[i])
-      }
+      data.append("idJadwals", this.idPerkuliahan)
+      data.append("nim", 181524010)
       console.log(data)
       Keterangan.uploadKeterangan(data)
         .then(response => {
