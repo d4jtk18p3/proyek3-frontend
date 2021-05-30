@@ -125,6 +125,11 @@ const routes = [
         component: () => import(/* webpackChunkName: "textare-template" */ "../views/componentTemplate/pages/CalendarTemplate")
       }
     ]
+  },
+  {
+    path: "/vcalendar",
+    name: "VCalendar",
+    component: () => import("../views/shared/calendar/Calendar")
   }
 ]
 
