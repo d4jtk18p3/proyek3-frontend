@@ -18,15 +18,6 @@
           @click:clear="clearItems"
         ></v-file-input>
       </v-col>
-      <v-col align="right">
-        <v-btn
-          dense
-          :color="currentTheme.colorSecondary"
-          width="150"
-          style="color: #FFFFFF;"
-        >Submit XLSX
-        </v-btn>
-      </v-col>
     </v-row>
     <v-row :style="{color: currentTheme.onBackground}">
       <v-col>
@@ -55,6 +46,18 @@
         </v-data-table>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col align="right">
+        <v-btn
+          dense
+          :color="currentTheme.colorSecondary"
+          width="150"
+          style="color: #FFFFFF;"
+          @click="submitExcel"
+        >Submit XLSX
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -62,6 +65,7 @@
 import _ from "lodash"
 import { mapGetters } from "vuex"
 import XLSX from "xlsx"
+import axios from "axios"
 
 export default {
   name: "AddNewUserByExcel",
@@ -111,7 +115,7 @@ export default {
     }
   },
   methods: {
-    onAddFile: function (file) {
+    onAddFile (file) {
       this.isLoading = true
       const reader = new FileReader()
       if (file != null) {
@@ -119,15 +123,41 @@ export default {
           const data = new Uint8Array(e.target.result)
           const workbook = XLSX.read(data, { type: "array" })
           const worksheet = workbook.Sheets[workbook.SheetNames[0]]
-
-          console.log(this.parse(worksheet))
           this.items = this.parse(worksheet)
-          console.log(this.items)
         }
-
         reader.readAsArrayBuffer(file)
       }
       setTimeout(this.stopLoading, 1000)
+    },
+    async submitExcel () {
+      var i
+      for (i = 0; i < this.items.length; i++) {
+        const noInduk = this.items[i].nomorInduk
+        const jenisNoInduk = this.items[i].jenisNomorInduk
+        const nama = this.items[i].nama
+        const email = this.items[i].email
+        let role = this.items[i].role
+        if (role === "Tata Usaha") {
+          role = "tata_usaha"
+        }
+        try {
+          const url = "http://localhost:5001/user/create"
+          const result = await axios.post(url, {
+            noInduk: noInduk,
+            jenisNoInduk: jenisNoInduk.toLowerCase(),
+            nama: nama,
+            email: email,
+            role: role.toLowerCase()
+          })
+          if (result instanceof Error) {
+            throw result
+          } else {
+            console.log(result)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      }
     },
     parse: function (worksheet) {
       switch (_.toUpper(_.get(worksheet, "['A1'].v", ""))) {
@@ -155,9 +185,9 @@ export default {
           password: _.get(worksheet[
             XLSX.utils.encode_cell({ r: i, c: range.s.c + 4 })
           ], "v", null),
-          role: _.map(_.split(_.get(worksheet[
+          role: _.get(worksheet[
             XLSX.utils.encode_cell({ r: i, c: range.s.c + 5 })
-          ], "v", ""), ","), _.trim)
+          ], "v", null)
         }
       })
     },

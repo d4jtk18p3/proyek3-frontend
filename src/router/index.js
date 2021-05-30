@@ -55,17 +55,17 @@ const routes = [
       {
         path: "/admin",
         name: "AddNewUser",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewsUserMain")
+        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/AddNewUser/AddNewsUserMain")
       },
       {
         path: "/admin/add-user/form",
         name: "AddNewUserByForm",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewUserByForm")
+        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/AddNewUser/AddNewUserByForm")
       },
       {
         path: "/admin/add-user/excel",
         name: "AddNewUserByExcel",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewUserByExcel")
+        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/AddNewUser/AddNewUserByExcel")
       }
     ]
   },
@@ -81,7 +81,7 @@ const routes = [
       {
         path: "/auth/reset-password",
         name: "ResetPassword",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/resetPassword/ResetPassword")
+        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/ResetPassword/ResetPassword")
       }
     ]
   }

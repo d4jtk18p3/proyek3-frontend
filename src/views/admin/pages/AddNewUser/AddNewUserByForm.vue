@@ -73,8 +73,8 @@
             >Submit
           </v-btn>
         </v-col>
-        <SubmitSuccessDialog @dismiss-dialog="onDismissDialog" v-if="dialog" />
       </v-row>
+      <SubmitSuccessDialog @dismiss-dialog="onDismissDialog" v-if="dialog" />
     </v-container>
   </v-form>
 </template>
@@ -151,10 +151,13 @@ export default {
           email: this.email,
           role: role.toLowerCase()
         })
-        if (result instanceof Error) throw result
-        console.log(result)
-        this.dialog = true
-        this.reset()
+        if (result instanceof Error) {
+          throw result
+        } else {
+          console.log(result)
+          this.dialog = true
+          this.reset()
+        }
       } catch (error) {
         console.log(error)
       }
