@@ -12,6 +12,7 @@
       dark
       :allowed-dates="disableFutureDates"
       :readonly="viewOnly"
+      @change="onChangePicker"
     ></v-date-picker>
     <v-date-picker
       v-model="picker"
@@ -25,17 +26,15 @@
       Light
       :allowed-dates="disableFutureDates"
       :readonly="viewOnly"
+      @change="onChangePicker"
     ></v-date-picker>
-    <FormTambahLogbookItem v-show="false" :picker="this.picker"/>
   </v-row>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import FormTambahLogbookItem from "@/views/logbook/component/mahasiswa/FormTambahLogbookItem"
+import { mapGetters, mapActions } from "vuex"
 export default {
   name: "DatePickerItem",
-  component: { FormTambahLogbookItem },
   props: {
     picker: {
       type: Date,
@@ -61,6 +60,14 @@ export default {
     },
     disableFutureDates (val) {
       return val <= new Date().toISOString().substr(0, 10)
+    },
+    ...mapActions({
+      changePicker: "datePickerModule/setDatePickerValue"
+    }),
+    onChangePicker () {
+      this.changePicker({
+        picker: this.picker
+      })
     }
   },
   computed: {

@@ -6,8 +6,8 @@ const getLogbooksMhsByNIM = async (nim) => {
   try {
     const urlGetIdLogbooks = LOGBOOKS_URL + `/${nim}`
     const idLogbooks = await axios.get(urlGetIdLogbooks, {}, {})
-    console.log(idLogbooks.data.entri)
-    return entri.getAllEntryLogbookMhsByid(idLogbooks.data.entri)
+    console.log(idLogbooks.data.logbook[0].entri)
+    return entri.getAllEntryLogbookMhsByid(idLogbooks.data.logbook[0].entri)
   } catch (err) {
     console.error(err)
   }
@@ -17,8 +17,8 @@ const getIdLogbooksMhsByNIM = async (nim) => {
   try {
     const urlGetIdLogbooks = LOGBOOKS_URL + `/${nim}`
     const idLogbooks = await axios.get(urlGetIdLogbooks, {}, {})
-    console.log(idLogbooks.data._id)
-    return idLogbooks.data._id
+    console.log(idLogbooks.data.logbook[0]._id)
+    return idLogbooks.data.logbook[0]._id
   } catch (err) {
     console.error(err)
   }

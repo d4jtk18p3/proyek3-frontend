@@ -13,24 +13,24 @@
       <template v-slot:[`item.kegiatan`]="{ item }">
         <div
         class="text-truncate"
-        style="max-width: 200px;">
-          {{item.kegiatan}}
+        style="max-width: 200px;"
+        v-text="removeTags(item.kegiatan)">
         </div>
       </template>
 
       <template v-slot:[`item.hasil`]="{ item }">
         <div
         class="text-truncate"
-        style="max-width: 200px;">
-          {{item.hasil}}
+        style="max-width: 200px;"
+        v-text="removeTags(item.hasil)">
         </div>
       </template>
 
       <template v-slot:[`item.kesan`]="{ item }">
         <div
         class="text-truncate"
-        style="max-width: 200px;">
-          {{item.kesan}}
+        style="max-width: 200px;"
+        v-text="removeTags(item.kesan)">
         </div>
       </template>
 
@@ -97,24 +97,24 @@
       <template v-slot:[`item.kegiatan`]="{ item }">
         <div
         class="text-truncate"
-        style="max-width: 200px;">
-          {{item.kegiatan}}
+        style="max-width: 200px;"
+        v-text="removeTags(item.kegiatan)">
         </div>
       </template>
 
       <template v-slot:[`item.hasil`]="{ item }">
         <div
         class="text-truncate"
-        style="max-width: 200px;">
-          {{item.hasil}}
+        style="max-width: 200px;"
+        v-text="removeTags(item.hasil)">
         </div>
       </template>
 
       <template v-slot:[`item.kesan`]="{ item }">
         <div
         class="text-truncate"
-        style="max-width: 200px;">
-          {{item.kesan}}
+        style="max-width: 200px;"
+        v-text="removeTags(item.kesan)">
         </div>
       </template>
 
@@ -406,6 +406,17 @@ export default {
       } else {
         this.openSuccessDialog()
       }
+    },
+    removeTags (str) {
+      if ((str === null) || (str === "")) {
+        return false
+      } else {
+        str = str.toString()
+      }
+      // Regular expression to identify HTML tags in
+      // the input string. Replacing the identified
+      // HTML tag with a null string.
+      return str.replace(/(<([^>]+)>)/ig, "")
     }
   }
 }

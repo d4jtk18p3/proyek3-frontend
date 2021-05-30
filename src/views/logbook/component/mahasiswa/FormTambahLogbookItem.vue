@@ -224,7 +224,8 @@ export default {
   computed: {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor",
-      isDark: "theme/getIsDark"
+      isDark: "theme/getIsDark",
+      pickerValue: "datePickerModule/getDatePickerValue"
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
@@ -276,8 +277,8 @@ export default {
 
       // ini validasi
       var idLogbook = await BackEndLogbook.getIdLogbooksMhsByNIM(this.identitas.nim)
-      alert(idLogbook)
-      if (idLogbook == null) {
+      console.log(idLogbook)
+      if (idLogbook === undefined) {
         // disini bikin baru dulu logbook nya
         var kelas = this.identitas.kelas.subStr(1, 2)
         var prodi = this.identitas.prodi.subStr(0, 2)
@@ -306,17 +307,19 @@ export default {
           kode_kelas: this.identitas.nim.subStr(0, 2) + nomorKelas, // format : [tahun angkatan][nomor kelas]
           kelas_proyek: this.identitas.matakuliah.subStr(7, 8) // Proyek 3 -> 3
         }
+        console.log(dataMhs)
         await BackEndLogbook.addLogbooksMhs(dataMhs)
         idLogbook = await BackEndLogbook.getIdLogbooksMhsByNIM(this.identitas.nim)
       }
       var dataLogbook = {
-        tanggal: this.picker,
+        tanggal: this.pickerValue.picker,
         kegiatan: this.kegiatan,
         hasil: this.hasil,
         kesan: this.kesan
       }
+      console.log(dataLogbook)
       this.post = await BackEndEntri.addEntryLogbookMhs(idLogbook, dataLogbook)
-      alert(this.post)
+      console.log(this.post)
       // if (!this.post) {
       //   this.openErrorDialog()
       // } else {

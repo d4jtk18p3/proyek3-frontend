@@ -29,7 +29,7 @@ const getAllEntryLogbookMhsByid = async (idLogbooks) => {
 
 const addEntryLogbookMhs = async (idLogbook, dataLogbook) => {
   try {
-    var urlAddLogbook = LOGBOOKENTRI_URL + `create/${idLogbook}`
+    var urlAddLogbook = LOGBOOKENTRI_URL + `/create/${idLogbook}`
     var result = await axios.post(urlAddLogbook, {
       tanggal: dataLogbook.tanggal,
       kegiatan: dataLogbook.kegiatan,
