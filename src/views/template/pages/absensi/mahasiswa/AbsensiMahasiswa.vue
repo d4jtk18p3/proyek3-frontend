@@ -22,7 +22,7 @@
     </v-row>
     <v-row no-gutters>
       <v-col cols="5">
-          <LogAktivitas/>
+          <LogAktivitas :jadwalMhs="jadwalMhs"></LogAktivitas>
       </v-col>
       <v-col>
           <SakitIzinAlfaItem/>
