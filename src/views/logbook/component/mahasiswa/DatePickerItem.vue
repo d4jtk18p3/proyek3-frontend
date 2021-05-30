@@ -26,13 +26,16 @@
       :allowed-dates="disableFutureDates"
       :readonly="viewOnly"
     ></v-date-picker>
+    <FormTambahLogbookItem v-show="false" :picker="this.picker"/>
   </v-row>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
+import FormTambahLogbookItem from "@/views/logbook/component/mahasiswa/FormTambahLogbookItem"
 export default {
   name: "DatePickerItem",
+  component: { FormTambahLogbookItem },
   props: {
     picker: {
       type: Date,
