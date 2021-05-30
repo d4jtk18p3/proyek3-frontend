@@ -138,6 +138,11 @@ const routes = [
         path: "/component-template/calendar",
         name: "Calendar",
         component: () => import(/* webpackChunkName: "textare-template" */ "../views/componentTemplate/pages/CalendarTemplate")
+      },
+      {
+        path: "/component-template/paragraph",
+        name: "Paragraph",
+        component: () => import(/* webpackChunkName: "paragraph-template" */ "../views/componentTemplate/pages/ParapgraphTemplate")
       }
     ]
   }
