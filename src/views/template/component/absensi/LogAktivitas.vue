@@ -36,14 +36,14 @@ export default {
       current = new Date()
       this.currentHour = current.getHours()
       this.currentHour = ("0" + this.currentHour).slice(-2)
-    }, 100)
+    }, 1000)
     this.currentMinute = current.getMinutes()
     this.currentMinute = ("0" + this.currentMinute).slice(-2)
     setInterval(() => {
       current = new Date()
       this.currentMinute = current.getMinutes()
       this.currentMinute = ("0" + this.currentMinute).slice(-2)
-    }, 100)
+    }, 1000)
   },
   data () {
     return {
