@@ -155,7 +155,8 @@ export default {
           throw result
         } else {
           console.log(result)
-          this.dialog = true
+          // this.dialog = true
+          alert("Akun baru berhasil di submit")
           this.reset()
         }
       } catch (error) {
