@@ -46,7 +46,7 @@ export default {
     return {
       breadcrumbItems: [
         {
-          text: "Absensi",
+          text: "Monitoring",
           disabled: false,
           href: ""
         },

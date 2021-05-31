@@ -58,6 +58,7 @@
           </v-col>
           <v-col cols="6" align="left">
             <v-btn
+            :disabled="!this.namaTugas"
             class=" white--text"
             :color="currentTheme.colorOnSecondary"
             @click="addTugas"
