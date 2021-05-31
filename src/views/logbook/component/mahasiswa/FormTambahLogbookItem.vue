@@ -218,7 +218,7 @@ export default {
       confirmdialog: false,
       successdialog: false,
       errordialog: false,
-      post: false
+      post: null
     }
   },
   computed: {
@@ -261,6 +261,10 @@ export default {
     },
     closeSuccessDialog () {
       this.successdialog = false
+      this.$router.push({
+        path: "/logbook/mylogbook"
+      })
+      this.$router.go(1)
     },
     openErrorDialog () {
       this.confirmdialog = false
@@ -319,12 +323,12 @@ export default {
       }
       console.log(dataLogbook)
       this.post = await BackEndEntri.addEntryLogbookMhs(idLogbook, dataLogbook)
-      console.log(this.post)
-      // if (!this.post) {
-      //   this.openErrorDialog()
-      // } else {
-      //   this.openSuccessDialog()
-      // }
+      console.log(this.post.status)
+      if (this.post.status === 200) {
+        this.openSuccessDialog()
+      } else {
+        this.openErrorDialog()
+      }
     }
   }
 }
