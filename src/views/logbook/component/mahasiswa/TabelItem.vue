@@ -40,7 +40,7 @@
             <v-btn
               icon
               color="#FFFFFF"
-              @click="onViewClick(item.tanggal, item.kegiatan, item.hasil, item.kesan)"
+              @click="onViewClick(item.id, item.tanggal, item.kegiatan, item.hasil, item.kesan)"
               v-bind="attrs"
               v-on="on"
             >
@@ -94,6 +94,14 @@
         light
         mobile-breakpoint="100"
     >
+      <template v-slot:[`item.id`]="{ item }">
+        <div
+        class="text-truncate"
+        style="max-width: 200px;"
+        v-text="removeTags(item.kegiatan)">
+        </div>
+      </template>
+
       <template v-slot:[`item.kegiatan`]="{ item }">
         <div
         class="text-truncate"
@@ -124,7 +132,7 @@
             <v-btn
               icon
               color="#272343"
-              @click="onViewClick(item.tanggal, item.kegiatan, item.hasil, item.kesan)"
+              @click="onViewClick(item.id, item.tanggal, item.kegiatan, item.hasil, item.kesan)"
               v-bind="attrs"
               v-on="on"
             >
@@ -273,11 +281,16 @@
 
 <script>
 import { mapGetters } from "vuex"
+import BackEndEntri from "../../../../datasource/api/logbook/entri"
 export default {
   name: "TugasItem",
   props: {
     datas: {
       type: Array,
+      required: false
+    },
+    idLogbooks: {
+      type: String,
       required: false
     }
   },
@@ -331,9 +344,10 @@ export default {
       confirmdialog: false,
       successdialog: false,
       errordialog: false,
-      delete: true,
+      delete: null,
       deleteddata: null,
-      deleteddatatanggal: ""
+      deleteddatatanggal: "",
+      deleteddataid: ""
     }
   },
   computed: {
@@ -362,14 +376,15 @@ export default {
       })
       this.$router.go(1)
     },
-    onViewClick (tanggal, kegiatan, hasil, kesan) {
+    onViewClick (id, tanggal, kegiatan, hasil, kesan) {
       var parts = tanggal.split("-")
       var date = new Date(parts[2], parts[1] - 1, parts[0], 7).toISOString().substr(0, 10)
-      alert(date)
+      alert(id)
       this.$router.push({
         name: "ViewLogbook",
-        path: "/logbook/viewlogbook/" + date,
+        path: "/logbook/viewlogbook/" + id,
         params: {
+          idEntriLogbook: id,
           logbookdate: date,
           kegiatan: kegiatan,
           hasil: hasil,
@@ -381,6 +396,7 @@ export default {
     openConfirmDialog (data) {
       this.deleteddata = data
       this.deleteddatatanggal = this.deleteddata.tanggal
+      this.deleteddataid = this.deleteddata.id
       this.confirmdialog = true
     },
     closeConfirmDialog () {
@@ -400,12 +416,14 @@ export default {
     closeErrorDialog () {
       this.errordialog = false
     },
-    openDialog () {
-      if (!this.delete) {
-        this.openErrorDialog()
-      } else {
-        this.openSuccessDialog()
-      }
+    async openDialog () {
+      this.delete = await BackEndEntri.deleteEntryLogbookMhs(this.idLogbooks, this.deleteddataid)
+      console.log(this.delete)
+      // if (!this.delete) {
+      //   this.openErrorDialog()
+      // } else {
+      //   this.openSuccessDialog()
+      // }
     },
     removeTags (str) {
       if ((str === null) || (str === "")) {

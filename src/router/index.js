@@ -106,7 +106,7 @@ const routes = [
         props: true
       },
       {
-        path: "/logbook/viewlogbook/:logbookdate",
+        path: "/logbook/viewlogbook/:idEntriLogbook",
         name: "ViewLogbook",
         component: () => import(/* webpackChunkName: "lihatlogbook" */"../views/logbook/pages/mahasiswa/LihatLogbook"),
         props: true
