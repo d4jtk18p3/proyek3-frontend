@@ -149,7 +149,7 @@
             <v-btn
               icon
               color="#272343"
-              @click="onEditClick(item.tanggal, item.kegiatan, item.hasil, item.kesan)"
+              @click="onEditClick(item.id, item.tanggal, item.kegiatan, item.hasil, item.kesan)"
               v-bind="attrs"
               v-on="on"
             >
@@ -360,13 +360,14 @@ export default {
     }
   },
   methods: {
-    onEditClick (tanggal, kegiatan, hasil, kesan) {
+    onEditClick (id, tanggal, kegiatan, hasil, kesan) {
       var parts = tanggal.split("-")
       var date = new Date(parts[2], parts[1] - 1, parts[0], 7).toISOString().substr(0, 10)
       this.$router.push({
         name: "EditLogbook",
-        path: "/logbook/editlogbook/" + date,
+        path: "/logbook/editlogbook/" + id,
         params: {
+          idEntriLogbook: id,
           logbookdate: date,
           kegiatan: kegiatan,
           hasil: hasil,

@@ -74,7 +74,7 @@ const editEntryLogbookMhs = async (idEntriLogbook, newDataLogbook) => {
       kesan: newDataLogbook.kesan
     }, {})
 
-    return result.data
+    return result
   } catch (err) {
     console.error(err)
   }

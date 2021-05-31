@@ -100,7 +100,7 @@ const routes = [
         props: true
       },
       {
-        path: "/logbook/editlogbook/:logbookdate",
+        path: "/logbook/editlogbook/:idEntriLogbook",
         name: "EditLogbook",
         component: () => import(/* webpackChunkName: "ubahlogbook" */"../views/logbook/pages/mahasiswa/EditLogbook"),
         props: true

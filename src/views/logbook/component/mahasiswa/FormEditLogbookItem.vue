@@ -205,6 +205,7 @@
 <script>
 import { mapGetters } from "vuex"
 import { VueEditor } from "vue2-editor"
+import BackEndEntri from "../../../../datasource/api/logbook/entri"
 export default {
   name: "FormEditLogbookItem",
   components: { VueEditor },
@@ -229,6 +230,10 @@ export default {
       default: () => {
         return ""
       }
+    },
+    idEntriLogbook: {
+      type: String,
+      required: false
     }
   },
   data () {
@@ -249,7 +254,8 @@ export default {
   computed: {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor",
-      isDark: "theme/getIsDark"
+      isDark: "theme/getIsDark",
+      pickerValue: "datePickerModule/getDatePickerValue"
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
@@ -297,11 +303,21 @@ export default {
     closeErrorDialogSimpan () {
       this.errordialogsimpan = false
     },
-    openDialogSimpan () {
-      if (!this.put) {
-        this.openErrorDialogSimpan()
-      } else {
+    async openDialogSimpan () {
+      // kode untuk menghubungi ke backend
+      var newDataLogbook = {
+        tanggal: this.pickerValue.picker,
+        kegiatan: this.kegiatan,
+        hasil: this.hasil,
+        kesan: this.kesan
+      }
+      console.log(newDataLogbook)
+      this.put = await BackEndEntri.editEntryLogbookMhs(this.idEntriLogbook, newDataLogbook)
+      console.log(this.put.status)
+      if (this.put.status === 200) {
         this.openSuccessDialogSimpan()
+      } else {
+        this.openErrorDialogSimpan()
       }
     },
     openConfirmDialogBatal () {
