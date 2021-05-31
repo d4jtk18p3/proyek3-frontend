@@ -158,6 +158,9 @@ export default {
   async mounted () {
     var data = await BackEndEntri.getOneEntryLogbookMhsByid(this.idEntriLogbook)
     this.logbookdate = data.tanggal
+    var parts = data.tanggal.split("-")
+    this.logbookdate = new Date(parts[2], parts[1] - 1, parts[0], 7).toISOString().substr(0, 10)
+    console.log(this.logbookdate)
     this.kegiatan = data.kegiatan
     this.hasil = data.hasil
     this.kesan = data.kesan

@@ -363,7 +363,6 @@ export default {
     onEditClick (tanggal, kegiatan, hasil, kesan) {
       var parts = tanggal.split("-")
       var date = new Date(parts[2], parts[1] - 1, parts[0], 7).toISOString().substr(0, 10)
-      alert(date)
       this.$router.push({
         name: "EditLogbook",
         path: "/logbook/editlogbook/" + date,
@@ -379,7 +378,6 @@ export default {
     onViewClick (id, tanggal, kegiatan, hasil, kesan) {
       var parts = tanggal.split("-")
       var date = new Date(parts[2], parts[1] - 1, parts[0], 7).toISOString().substr(0, 10)
-      alert(id)
       this.$router.push({
         name: "ViewLogbook",
         path: "/logbook/viewlogbook/" + id,
@@ -419,11 +417,12 @@ export default {
     async openDialog () {
       this.delete = await BackEndEntri.deleteEntryLogbookMhs(this.idLogbooks, this.deleteddataid)
       console.log(this.delete)
-      // if (!this.delete) {
-      //   this.openErrorDialog()
-      // } else {
-      //   this.openSuccessDialog()
-      // }
+      console.log(this.delete.status)
+      if (this.delete.status === 200) {
+        this.openSuccessDialog()
+      } else {
+        this.openErrorDialog()
+      }
     },
     removeTags (str) {
       if ((str === null) || (str === "")) {
