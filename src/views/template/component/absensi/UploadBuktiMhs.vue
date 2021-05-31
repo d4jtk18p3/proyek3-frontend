@@ -80,14 +80,14 @@
                       type="error"
                       :icon="false"
                       v-if="error.isError"
-                      class="text-center text-subtitle-2">{{errorMessage}}</v-alert>
+                      class="text-subtitle-2">{{errorMessage}}</v-alert>
                       <v-alert
                       dense
                       outlined
                       type="success"
                       :icon="success"
                       v-if="isSuccess"
-                      class="text-center text-subtitle-2">{{errorMessage}}</v-alert>
+                      class="text-subtitle-2">{{errorMessage}}</v-alert>
                     </v-col>
                     <div div class="inside">
                       <v-btn
