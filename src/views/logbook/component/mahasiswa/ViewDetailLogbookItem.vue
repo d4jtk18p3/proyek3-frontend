@@ -3,40 +3,31 @@
       <v-row class="mt-0 mb-0">
         <v-col cols="12">
             Kegiatan
-            <v-textarea
-                v-model="kegiatan"
-                outlined
-                class="mt-3 mb-0"
-                :dark="isDark"
-                color="#272343"
-                readonly
-            ></v-textarea>
+            <vue-editor
+              v-model="kegiatan"
+              class="mt-3 mb-0 elevation-2"
+              disabled
+              ></vue-editor>
         </v-col>
       </v-row>
       <v-row class="mt-0 mb-0">
         <v-col cols="12">
             Hasil
-            <v-textarea
-                v-model="hasil"
-                outlined
-                class="mt-3 mb-0"
-                :dark="isDark"
-                color="#272343"
-                readonly
-            ></v-textarea>
+            <vue-editor
+              v-model="hasil"
+              class="mt-3 mb-0 elevation-2"
+              disabled
+            ></vue-editor>
         </v-col>
       </v-row>
       <v-row class="mt-0 mb-0">
         <v-col cols="12">
             Kesan
-            <v-textarea
-                v-model="kesan"
-                outlined
-                class="mt-3 mb-0"
-                :dark="isDark"
-                color="#272343"
-                readonly
-            ></v-textarea>
+            <vue-editor
+              v-model="kesan"
+              class="mt-3 mb-0 elevation-2"
+              disabled
+            ></vue-editor>
         </v-col>
       </v-row>
       <v-row class="mt-0 mb-0" justify="center">
@@ -54,8 +45,10 @@
 
 <script>
 import { mapGetters } from "vuex"
+import { VueEditor } from "vue2-editor"
 export default {
   name: "FormEditLogbookItem",
+  components: { VueEditor },
   props: {
     kegiatan: {
       type: String,

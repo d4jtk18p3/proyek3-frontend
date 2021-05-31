@@ -43,7 +43,7 @@
       </v-col>
     </v-row>
     <v-col cols="12" class="mt-2">
-      <TabelItem :datas="this.datas"/>
+      <TabelItem :datas="this.datas" :idLogbooks="this.idLogbooks"/>
     </v-col>
   </v-row>
 </template>
@@ -162,6 +162,10 @@ export default {
           }
         ]
       }
+    },
+    idLogbooks: {
+      type: String,
+      required: false
     }
   },
   data () {
@@ -190,6 +194,7 @@ export default {
   },
   async mounted () {
     this.datas = await BackEndLogbook.getLogbooksMhsByNIM("181524014")
+    this.idLogbooks = await BackEndLogbook.getIdLogbooksMhsByNIM("181524014")
   }
 }
 </script>
