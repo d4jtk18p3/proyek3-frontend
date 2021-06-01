@@ -71,9 +71,30 @@ import Uploadbukti from "@/views/template/component/absensi/UploadBuktiMhs"
 import Uploadbukti2 from "@/views/template/component/absensi/UploadBuktiMhs2"
 import JadwalMahasiswa from "../../../../../datasource/api/absensi/jadwal"
 
+const schedule = require("node-schedule")
+
 export default {
   name: "AbsensiMahasiswa",
-  components: { Uploadbukti, Uploadbukti2, Breadcumbs, AbsenCard, LogAktivitas, SakitIzinAlfaItem, PersentaseKehadiran, TotalJamSP },
+  components: {
+    Uploadbukti,
+    Uploadbukti2,
+    Breadcumbs,
+    AbsenCard,
+    LogAktivitas,
+    SakitIzinAlfaItem,
+    PersentaseKehadiran,
+    TotalJamSP
+  },
+  created () {
+    var current = new Date()
+    this.currentDay = current.getDay()
+    this.getJadwalMhs()
+    schedule.scheduleJob("0 0 0 * * *", function () {
+      this.currentDay = current.getDay()
+      this.getJadwalMhs()
+      console.log(this.jadwalMhs)
+    })
+  },
   data () {
     return {
       breadcrumbItems: [
@@ -96,7 +117,8 @@ export default {
       date: new Date().toISOString().substr(0, 10),
       menu: false,
       jadwalMhs: [],
-      isIzinDialogShown: true
+      isIzinDialogShown: true,
+      currentDay: null
     }
   },
   computed: {
@@ -113,7 +135,7 @@ export default {
   //     return isDark ? "white" : "black"
   //   }
     getJadwalMhs () {
-      JadwalMahasiswa.getJadwalMahasiswa(1, 181524010)
+      JadwalMahasiswa.getJadwalMahasiswa(this.currentDay, 181524010)
         .then(response => {
           response.data.jadwal.forEach(function (element) {
             element.absen = "false"
@@ -125,9 +147,6 @@ export default {
           console.log(e)
         })
     }
-  },
-  beforeMount () {
-    this.getJadwalMhs()
   }
 }
 

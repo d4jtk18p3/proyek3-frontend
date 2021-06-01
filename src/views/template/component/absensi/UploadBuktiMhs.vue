@@ -29,6 +29,7 @@
                           :label="`${jadwal.nama_mata_kuliah}`"
                           :v-model="jadwal.checked"
                           @change='selectedPerkuliahan(jadwal.id_jadwal, jadwal.nama_mata_kuliah)'
+                          :disabled="isSelected(jadwal.id_jadwal) && isIzin"
                         ></v-checkbox>
                       </div>
                     </v-col>
@@ -67,7 +68,7 @@
                     </v-col>
                     <v-col cols="12">
                       <v-checkbox
-                        :rules="[isChecked]"
+                        :rules="[rules.isChecked]"
                         @click="isChecked = !isChecked"
                         label = "Dengan ini saya menyetujui segala kebijakan"
                         >
@@ -114,7 +115,14 @@
 <script>
 import { mapGetters } from "vuex"
 import Keterangan from "../../../../datasource/api/absensi/keterangan"
+const schedule = require("node-schedule")
+
 export default {
+  created () {
+    schedule.scheduleJob("0 0 0 * * *", function () {
+      this.reset()
+    })
+  },
   data () {
     return {
       computed: {
@@ -142,7 +150,8 @@ export default {
         isError: false,
         message: ""
       },
-      show1: false
+      show1: false,
+      isIzin: false
     }
   },
   computed: {
@@ -183,6 +192,7 @@ export default {
           this.error.message = "Upload bukti berhasil ! Data akan segera divalidasi oleh dosen wali"
           this.isLoading = false
           this.isSuccess = true
+          this.isIzin = true
         })
         .catch(e => {
           this.error.message = e.message
@@ -191,14 +201,6 @@ export default {
           console.log(e)
         })
     },
-    // masih pakai id perkuliahan, nanti yang diambil nama matkulnya
-    // getPerkuliahan () {
-    //   const jadwal = this.jadwalMhs
-    //   for (var i in jadwal) {
-    //     this.idPerkuliahan.push(jadwal[i].id_perkuliahan)
-    //   }
-    //   console.log(this.idPerkuliahan)
-    // },
     selectedPerkuliahan (value, jadwal) {
       var index = this.idPerkuliahan.indexOf(value)
       if (index === -1) {
@@ -210,14 +212,24 @@ export default {
       }
     },
     addFile () {
-      // const file = this.$refs.file.files[0]
-      // this.file = file
       if (this.url_gambar) {
         this.imgRules = [
           (v) => v.type === "image/png" || "Gambar harus bertipe *.png"
         ]
-        // this.urlTemp = URL.createObjectURL(this.url_gambar)
       }
+    },
+    reset () {
+      this.idPerkuliahan = []
+      this.isChecked = false
+      this.isLoading = false
+      this.isSuccess = false
+    },
+    isSelected (value) {
+      var index = this.idPerkuliahan.indexOf(value)
+      if (index === -1) {
+        return false
+      }
+      return true
     }
   }
 }
