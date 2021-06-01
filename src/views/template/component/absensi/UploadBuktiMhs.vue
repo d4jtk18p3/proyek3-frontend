@@ -1,5 +1,5 @@
 <template>
-    <v-dialog max-width="650" v-model="dialog">
+    <v-dialog max-width="650">
       <template v-slot:activator="{on}">
         <v-btn color="info" v-on="on" dark>+ AJUKAN IZIN PERKULIAHAN</v-btn>
       </template>
@@ -45,7 +45,7 @@
                           ref="file"
                           type="file"
                           accept="image/*"
-                          :rules="[imgRules, rules.url_gambar]"
+                          :rules="[rules.url_gambar]"
                           @change='addFile()'
                         ></v-file-input>
                         </div>
@@ -66,8 +66,8 @@
                         </div>
                     </v-col>
                     <v-col cols="12">
-                      <v-checkbox v-model="checkbox"
-                        :rules="[checkboxValue]"
+                      <v-checkbox
+                        :rules="[isChecked]"
                         @click="isChecked = !isChecked"
                         label = "Dengan ini saya menyetujui segala kebijakan"
                         >
@@ -78,14 +78,12 @@
                       dense
                       outlined
                       type="error"
-                      :icon="false"
                       v-if="error.isError"
                       class="text-subtitle-2">{{errorMessage}}</v-alert>
                       <v-alert
                       dense
                       outlined
                       type="success"
-                      :icon="success"
                       v-if="isSuccess"
                       class="text-subtitle-2">{{errorMessage}}</v-alert>
                     </v-col>
@@ -132,7 +130,7 @@ export default {
       isLoading: false,
       isSuccess: false,
       url_gambar: null,
-      password: undefined,
+      password: "",
       imgRules: [],
       rules: {
         password: (value) => !!value || "Password tidak boleh kosong",
@@ -143,7 +141,8 @@ export default {
       error: {
         isError: false,
         message: ""
-      }
+      },
+      show1: false
     }
   },
   computed: {

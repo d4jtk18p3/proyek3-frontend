@@ -6,8 +6,8 @@
       <v-timeline-item
       class="pr-2"
         small
-          v-for="item in jadwalMhs"
-          :key="item">
+          v-for="(item,index) in jadwalMhs"
+          :key="index">
         {{ item.nama_mata_kuliah }}<br>
           Absen: {{ item.waktu_mulai.slice(0,5) }}
       </v-timeline-item>
