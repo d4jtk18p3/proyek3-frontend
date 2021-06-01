@@ -1,15 +1,15 @@
 <template>
   <v-card height="530" width="350" class="rounded-lg">
-    <p class="text-h2 font-weight-bold mr-10 text-right pt-2">{{ getDay }}</p>
-    <p class="text-h4 font-weight-bold mr-10 text-right">{{ currentTime }}</p>
+    <p class="text-h4 font-weight-bold mr-10 text-right pt-2">{{ getDay }}</p>
+    <p class="text-h5 font-weight-bold mr-10 text-right">{{ currentHour }}:{{ currentMinute }}</p>
     <v-timeline dense>
       <v-timeline-item
       class="pr-2"
         small
-          v-for="item in jadwalList"
-          :key="item">
-        {{ item.matkul }}<br>
-          Absen: {{ item.ja }}
+          v-for="(item,index) in jadwalMhs"
+          :key="index">
+        {{ item.nama_mata_kuliah }}<br>
+          Absen: {{ item.waktu_mulai.slice(0,5) }}
       </v-timeline-item>
     </v-timeline>
   </v-card>
@@ -30,66 +30,36 @@ export default {
     }, ONE_HOURS)
 
     this.currentTime = current.getHours() + ":" + current.getMinutes()
+    this.currentHour = current.getHours()
+    this.currentHour = ("0" + this.currentHour).slice(-2)
     setInterval(() => {
       current = new Date()
-      this.currentTime = current.getHours() + ":" + current.getMinutes()
-    }, 60000)
+      this.currentHour = current.getHours()
+      this.currentHour = ("0" + this.currentHour).slice(-2)
+    }, 1000)
+    this.currentMinute = current.getMinutes()
+    this.currentMinute = ("0" + this.currentMinute).slice(-2)
+    setInterval(() => {
+      current = new Date()
+      this.currentMinute = current.getMinutes()
+      this.currentMinute = ("0" + this.currentMinute).slice(-2)
+    }, 1000)
   },
   data () {
     return {
       currentTime: "",
+      currentHour: "",
+      currentMinute: "",
       currentDay: null
     }
   },
   name: "LogAktivitas",
 
   props: {
-    jadwalList: {
+    jadwalMhs: {
       type: Array,
-      required: false,
-      default: () => {
-        return [
-          {
-            dosen: "Urip Teguh Setihatmojo",
-            kode: "#16TIN6023",
-            matkul: "Sistem Terdistribusi",
-            kategori: "Teori",
-            ja: "7.00",
-            jb: "2",
-            absen: true,
-            hadir: false
-          },
-          {
-            dosen: "Setiadi Rachmat",
-            kode: "#16TIN6023",
-            matkul: "Sistem Terdistribusi",
-            kategori: "Praktek",
-            ja: "8.00",
-            jb: "5",
-            absen: false,
-            hadir: true
-          },
-          {
-            dosen: "Bambang Wisnuadhi",
-            kode: "#16TIN6013",
-            matkul: "Analisis dan Perancangan Perangkat Lunak 2",
-            kategori: "Teori",
-            ja: "9.00",
-            jb: "5",
-            absen: false,
-            hadir: false
-          },
-          {
-            dosen: "Bambang Wisnuadhi",
-            kode: "#16TIN6013",
-            matkul: "Analisis dan Perancangan Perangkat Lunak 2",
-            kategori: "Praktek",
-            ja: "10.00",
-            jb: "8",
-            absen: false,
-            hadir: false
-          }
-        ]
+      default () {
+        return {}
       }
     }
   },
@@ -117,7 +87,7 @@ export default {
         case 6:
           currentDay = "Sabtu"
           break
-        case 7:
+        case 0:
           currentDay = "Minggu"
           break
       }

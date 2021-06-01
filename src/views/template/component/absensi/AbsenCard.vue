@@ -1,14 +1,13 @@
 <template>
   <v-sheet class="mx-auto" max-width="1000">
     <v-slide-group
-      v-model="model"
       class="d-flex align-center pr-15"
       show-arrows
       value="3"
     >
       <v-slide-item
         v-for="(item, index) in jadwalMhs"
-        :key="item"
+        :key="index"
         class="d-flex align-self-center"
       >
         <v-col>
@@ -20,18 +19,13 @@
             <v-card-text
               class="pb-0"
             > #{{item.id_studi}}</v-card-text>
-            <h3 class="pt-0 text-center"> {{item.nama_mata_kuliah}} <br/> {{item.jenis}}</h3>
+            <h3 class="pt-0 pb-5 text-center"> {{item.nama_mata_kuliah}} <br/> {{item.jenis}}</h3>
             <v-row justify="center">
-              <v-col cols="1" class="mr-0">
-                <v-avatar>
-                  <v-icon>
-                    mdi-account-circle
-                  </v-icon>
-                </v-avatar>
-              </v-col>
-              <v-col cols="10" >
-                <v-card-text class="pb-0"> {{item.dosens[0].nama}}</v-card-text>
-              </v-col>
+                <v-card-text
+                  v-for="(dosen, index) in item.dosens"
+                  :key="index" class="pt-0 pb-0">
+                  {{dosen.nama}}
+                </v-card-text>
             </v-row>
             <v-spacer></v-spacer>
             <v-card-actions class="justify-center">
