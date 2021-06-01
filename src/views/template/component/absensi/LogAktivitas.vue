@@ -18,33 +18,33 @@
 <script>
 import { mapGetters } from "vuex"
 
-//  const ONE_HOURS = 1000 * 60 * 60
+const ONE_HOURS = 1000 * 60 * 60
 
 export default {
-  // created () {
-  //   var current = new Date()
-  //   this.currentDay = current.getDay()
-  //   setInterval(() => {
-  //     current = new Date()
-  //     this.currentDay = current.getDay()
-  //   }, ONE_HOURS)
+  created () {
+    var current = new Date()
+    this.currentDay = current.getDay()
+    setInterval(() => {
+      current = new Date()
+      this.currentDay = current.getDay()
+    }, ONE_HOURS)
 
-  //   this.currentTime = current.getHours() + ":" + current.getMinutes()
-  //   this.currentHour = current.getHours()
-  //   this.currentHour = ("0" + this.currentHour).slice(-2)
-  //   setInterval(() => {
-  //     current = new Date()
-  //     this.currentHour = current.getHours()
-  //     this.currentHour = ("0" + this.currentHour).slice(-2)
-  //   }, 1000)
-  //   this.currentMinute = current.getMinutes()
-  //   this.currentMinute = ("0" + this.currentMinute).slice(-2)
-  //   setInterval(() => {
-  //     current = new Date()
-  //     this.currentMinute = current.getMinutes()
-  //     this.currentMinute = ("0" + this.currentMinute).slice(-2)
-  //   }, 1000)
-  // },
+    this.currentTime = current.getHours() + ":" + current.getMinutes()
+    this.currentHour = current.getHours()
+    this.currentHour = ("0" + this.currentHour).slice(-2)
+    setInterval(() => {
+      current = new Date()
+      this.currentHour = current.getHours()
+      this.currentHour = ("0" + this.currentHour).slice(-2)
+    }, 1000)
+    this.currentMinute = current.getMinutes()
+    this.currentMinute = ("0" + this.currentMinute).slice(-2)
+    setInterval(() => {
+      current = new Date()
+      this.currentMinute = current.getMinutes()
+      this.currentMinute = ("0" + this.currentMinute).slice(-2)
+    }, 1000)
+  },
   data () {
     return {
       currentTime: "",
