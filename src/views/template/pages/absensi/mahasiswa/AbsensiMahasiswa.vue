@@ -49,7 +49,7 @@
       <v-col cols="4">
       <v-flex>
       <Uploadbukti2></Uploadbukti2>
-      <Uploadbukti :jadwalMhs="jadwalMhs"></Uploadbukti>
+      <Uploadbukti></Uploadbukti>
         </v-flex>
       </v-col>
     </v-row>
