@@ -215,7 +215,6 @@ export default {
       }
     },
     updateValue () {
-      this.getJadwalMhs()
       this.$refs.menu.save(this.dates)
       var convertdate = new Date(this.dates)
       this.chooseDay = convertdate.getDay()
