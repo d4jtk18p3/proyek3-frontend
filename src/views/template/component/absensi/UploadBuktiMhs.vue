@@ -219,7 +219,6 @@ export default {
       var convertdate = new Date(this.dates)
       this.chooseDay = convertdate.getDay()
       this.getJadwalMhs()
-      // this.$refs.form.reset()
     },
     uploadKeterangan () {
       this.isLoading = true
