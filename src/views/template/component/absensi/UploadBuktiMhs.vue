@@ -54,7 +54,7 @@
                           <v-btn
                             text
                             color="primary"
-                            @click="$refs.menu.save(dates)"
+                            @click="updateValue"
                           >
                             OK
                           </v-btn>
@@ -214,6 +214,14 @@ export default {
         return "Anda harus menyetujui segala kebijakan"
       }
     },
+    updateValue () {
+      this.getJadwalMhs()
+      this.$refs.menu.save(this.dates)
+      var convertdate = new Date(this.dates)
+      this.chooseDay = convertdate.getDay()
+      this.getJadwalMhs()
+      // this.$refs.form.reset()
+    },
     uploadKeterangan () {
       this.isLoading = true
       this.isSuccess = false
@@ -223,7 +231,6 @@ export default {
       data.append("status", "izin")
       data.append("idJadwals", this.idPerkuliahan)
       data.append("nim", 181524010)
-      console.log(data)
       Keterangan.uploadKeterangan(data)
         .then(response => {
           console.log(response)
@@ -271,6 +278,7 @@ export default {
       this.$refs.form.reset()
     },
     getJadwalMhs () {
+      console.log("HEELLOOOOOOOOOOOOOOOOOOO")
       JadwalMahasiswa.getJadwalMahasiswa(this.chooseDay, 181524010)
         .then(response => {
           response.data.jadwal.forEach(function (element) {
