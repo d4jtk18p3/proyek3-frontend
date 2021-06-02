@@ -6,7 +6,7 @@
       <v-card :loading="isLoading" max-height="1000" max-width="650" style="border-radius:15px">
         <div>
             <h1 align="center" >Ajukan Izin</h1>
-             <form class="content">
+             <v-form class="content" ref="form">
                  <v-row>
                     <v-col cols="12">
                       <img width="25px" height="25px" src="../../../../assets/1.png"/>
@@ -17,14 +17,56 @@
                       >
                         <p>Mata kuliah wajib diisi</p>
                       </div>
-                      <!--nanti diganti pakai nama matakuliah, terus paramater yang dipassnya id matkul-->
+                      <v-menu
+                        ref="menu"
+                        v-model="menu"
+                        :close-on-content-click="false"
+                        :return-value.sync="dates"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="auto"
+                      >
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-combobox
+                            v-model="dates"
+                            chips
+                            small-chips
+                            label="Tanggal perkuliahan"
+                            prepend-icon="mdi-calendar"
+                            readonly
+                            v-bind="attrs"
+                            v-on="on"
+                          ></v-combobox>
+                        </template>
+                        <v-date-picker
+                          v-model="dates"
+                          no-title
+                          scrollable
+                        >
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            text
+                            color="primary"
+                            @click="menu = false"
+                          >
+                            Cancel
+                          </v-btn>
+                          <v-btn
+                            text
+                            color="primary"
+                            @click="$refs.menu.save(dates)"
+                          >
+                            OK
+                          </v-btn>
+                        </v-date-picker>
+                      </v-menu>
                       <div
                         v-for='(jadwal, index) in jadwalMhs'
                         :key="index"
                         class="inside"
                       >
                         <v-checkbox
-                          small color="indigo"
+                          small color="#59DCDC"
                           class="ma-0 pa-0"
                           :label="`${jadwal.nama_mata_kuliah}`"
                           :v-model="jadwal.checked"
@@ -63,15 +105,19 @@
                             name="input-10-1"
                             width="100px"
                         ></v-text-field>
-                        </div>
-                    </v-col>
-                    <v-col cols="12">
-                      <v-checkbox
+                        <v-row
+                          align="center"
+                          justify="space-around"
+                        >
+                        <v-checkbox
+                        small color="#59DCDC"
                         :rules="[isChecked]"
                         @click="isChecked = !isChecked"
                         label = "Dengan ini saya menyetujui segala kebijakan"
                         >
                         </v-checkbox>
+                        </v-row>
+                        </div>
                     </v-col>
                     <v-col cols="12">
                     <v-alert
@@ -87,18 +133,21 @@
                       v-if="isSuccess"
                       class="text-subtitle-2">{{errorMessage}}</v-alert>
                     </v-col>
-                    <div div class="inside">
+                    <v-row
+                      align="center"
+                      justify="space-around"
+                    >
                       <v-btn
-                        align="center"
                         @click="uploadKeterangan"
-                        color ="#FB8C00"
+                        color ="#272343"
+                        class= "white--text"
                         :disabled = "isDisable"
                       >
                             Kirim Permohonan
                         </v-btn>
-                    </div>
+                    </v-row>
                  </v-row>
-             </form>
+             </v-form>
         </div>
       </v-card>
       <v-progress-circular
@@ -114,6 +163,8 @@
 <script>
 import { mapGetters } from "vuex"
 import Keterangan from "../../../../datasource/api/absensi/keterangan"
+import JadwalMahasiswa from "../../../../datasource/api/absensi/jadwal"
+
 export default {
   data () {
     return {
@@ -123,6 +174,10 @@ export default {
           isDark: "theme/getIsDark"
         })
       },
+      dates: new Date().toISOString().substr(0, 10),
+      chooseDay: new Date().getDay(),
+      jadwalMhs: [],
+      menu: false,
       idPerkuliahan: [],
       file: null,
       isChecked: false,
@@ -153,14 +208,6 @@ export default {
       return this.idPerkuliahan.length === 0 || this.url_gambar == null || this.password.length === 0 || this.isChecked !== true
     }
   },
-  props: {
-    jadwalMhs: {
-      type: Array,
-      default () {
-        return {}
-      }
-    }
-  },
   methods: {
     checkboxValue () {
       if (!this.isChecked) {
@@ -183,6 +230,7 @@ export default {
           this.error.message = "Upload bukti berhasil ! Data akan segera divalidasi oleh dosen wali"
           this.isLoading = false
           this.isSuccess = true
+          this.reset()
         })
         .catch(e => {
           this.error.message = e.message
@@ -218,7 +266,26 @@ export default {
         ]
         // this.urlTemp = URL.createObjectURL(this.url_gambar)
       }
+    },
+    reset () {
+      this.$refs.form.reset()
+    },
+    getJadwalMhs () {
+      JadwalMahasiswa.getJadwalMahasiswa(this.chooseDay, 181524010)
+        .then(response => {
+          response.data.jadwal.forEach(function (element) {
+            element.absen = "false"
+          })
+          this.jadwalMhs = response.data.jadwal
+          console.log(response.data.jadwal)
+        })
+        .catch(e => {
+          console.log(e)
+        })
     }
+  },
+  beforeMount () {
+    this.getJadwalMhs()
   }
 }
 </script>
