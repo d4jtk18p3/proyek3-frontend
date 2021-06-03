@@ -158,6 +158,7 @@ export default {
           console.log(error)
         }
       }
+      alert("Akun baru berhasil di submit")
     },
     parse: function (worksheet) {
       switch (_.toUpper(_.get(worksheet, "['A1'].v", ""))) {
