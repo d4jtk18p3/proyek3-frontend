@@ -171,7 +171,9 @@ const schedule = require("node-schedule")
 export default {
   created () {
     schedule.scheduleJob("0 0 0 * * *", function () {
-      this.reset()
+      this.idPerkuliahan = []
+      this.isSuccess = false
+      this.isError = false
     })
   },
   data () {
