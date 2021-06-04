@@ -226,9 +226,11 @@ export default {
       }
     },
     updateValue () {
+      console.log(this.dates)
       this.$refs.menu.save(this.dates)
       var convertdate = new Date(this.dates)
       this.chooseDay = convertdate.getDay()
+      console.log(this.dates)
       this.getJadwalMhs()
     },
     uploadKeterangan () {
@@ -240,6 +242,7 @@ export default {
       data.append("status", "izin")
       data.append("idJadwals", this.idPerkuliahan)
       data.append("nim", 181524010)
+      data.append("tglIzin", "2021-06-04")
       Keterangan.uploadKeterangan(data)
         .then(response => {
           console.log(response)
