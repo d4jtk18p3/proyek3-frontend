@@ -5,27 +5,6 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: "/mhs",
-    component: () => import("../views/monitoring/monitoringmain"),
-    children: [
-      {
-        path: "/mhs/dashboard",
-        name: "Dashboard",
-        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/dashboard/Dashboard")
-      },
-      {
-        path: "/mhs/monitoring",
-        name: "MonitoringMenu",
-        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/Monitoring")
-      },
-      {
-        path: "/mhs/monitoring/namaMatkul/namaTugas",
-        name: "Monitoring",
-        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/MonitoringTugas")
-      }
-    ]
-  },
-  {
     path: "/template",
     component: () => import("../views/template/TemplateMain"),
     children: [
@@ -71,7 +50,7 @@ const routes = [
   },
   {
     path: "/monitoring",
-    component: () => import("../views/monitoring/MonitoringMainDosen"),
+    component: () => import("../views/monitoring/MonitoringMain"),
     children: [
       // {
       //   path: "/monitoring/dashboard-tugas",
@@ -92,6 +71,21 @@ const routes = [
         path: "/monitoring/dosen/monitoring-tugas/matkul",
         name: "MonitoringDosenDaftarTugas",
         component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenMain")
+      },
+      {
+        path: "/monitoring/mahasiswa/dashboard",
+        name: "Dashboard",
+        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/dashboard/Dashboard")
+      },
+      {
+        path: "/monitoring/mahasiswa/daftar-tugas",
+        name: "MonitoringMenu",
+        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/Monitoring")
+      },
+      {
+        path: "/monitoring/mahasiswa/namaMatkul/namaTugas",
+        name: "Monitoring",
+        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/MonitoringTugas")
       }
     ]
   },

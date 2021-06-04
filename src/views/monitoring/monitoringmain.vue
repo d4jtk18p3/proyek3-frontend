@@ -43,9 +43,11 @@ export default {
       isAuthenticated: "",
       isLoading: false,
       sideBarItems: [
-        { text: "Dashboard", icon: "mdi-school-outline", to: "/mhs/dashboard" },
-        { text: "MonitoringMenu", icon: "mdi-monitor-multiple", to: "/mhs/monitoring" },
-        { text: "Monitoring", icon: "mdi-monitor-multiple", to: "/mhs/monitoring/namaMatkul/namaTugas" }
+        { text: "Dashboard Tugas", icon: "mdi-school-outline", to: "/template/dashboard" },
+        { text: "Monitoring Tugas", icon: "mdi-file-document-outline", to: "/monitoring/dosen/monitoring-tugas" },
+        { text: "Dashboard Mahasiswa", icon: "mdi-school-outline", to: "/monitoring/mahasiswa/dashboard" },
+        { text: "Daftar Tugas Mahasiswa", icon: "mdi-monitor-multiple", to: "/monitoring/mahasiswa/daftar-tugas" },
+        { text: "Monitoring Mahasiswa", icon: "mdi-monitor-multiple", to: "/monitoring/mahasiswa/namaMatkul/namaTugas" }
       ]
     }
   },
