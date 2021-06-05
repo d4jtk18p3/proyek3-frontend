@@ -22,6 +22,9 @@
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import MataKuliahItem from "@/views/logbook/component/dosen/MataKuliahItem"
+import BackEndMatakuliah from "../../../../datasource/api/logbook/matakuliah"
+import BackEndPerkuliahan from "../../../../datasource/api/logbook/perkuliahan"
+import BackEndKelas from "../../../../datasource/api/logbook/kelas"
 
 export default {
   name: "LogbookMahasiswa",
@@ -31,38 +34,18 @@ export default {
       type: Array,
       required: false,
       default: () => {
-        return [
-          {
-            namaMataKuliah: "Proyek 2",
-            prodi: "D3 - Teknik Informatika",
-            listKelas: ["1A", "1B"]
-          },
-          {
-            namaMataKuliah: "Proyek 1",
-            prodi: "D4 - Teknik Informatika",
-            listKelas: ["1A", "1B"]
-          },
-          {
-            namaMataKuliah: "Proyek 4",
-            prodi: "D3 - Teknik Informatika",
-            listKelas: ["2A", "2B"]
-          },
-          {
-            namaMataKuliah: "Proyek 6",
-            prodi: "D3 - Teknik Informatika",
-            listKelas: ["3A", "3B"]
-          },
-          {
-            namaMataKuliah: "Proyek 2",
-            prodi: "D4 - Teknik Informatika",
-            listKelas: ["2A", "2B"]
-          },
-          {
-            namaMataKuliah: "Proyek 3",
-            prodi: "D4 - Teknik Informatika",
-            listKelas: ["3A", "3B"]
-          }
-        ]
+        return []
+      }
+    },
+    dosen: {
+      type: Object,
+      required: false,
+      default: () => {
+        return {
+          nip: 1822316,
+          nama_dosen: "Ferry Feirizal",
+          id_jabatan: "Pengampu"
+        }
       }
     }
   },
@@ -88,6 +71,31 @@ export default {
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    }
+  },
+  async mounted () {
+    var matakuliah = await BackEndMatakuliah.getAllMataKuliahProyekyangDiampuDosen(this.dosen.nip)
+    var perkuliahan = await BackEndPerkuliahan.getAllPerkuliahanyangDiampuDosen(this.dosen.nip)
+    var i = 0
+    while (i < perkuliahan.length) {
+      var mataKuliahItem = matakuliah.filter(function (item) {
+        return item.id === perkuliahan[i].id_mata_kuliah
+      })
+      var kelas = await BackEndKelas.getAllKelasByMatkul(this.dosen.nip, mataKuliahItem[0].id)
+      var j = 0
+      var kelasString = []
+      while (j < kelas.length) {
+        kelasString[j] = kelas[j].kode_kelas
+        j++
+      }
+
+      this.listMataKuliah.push({
+        namaMataKuliah: mataKuliahItem[0].nama_mata_kuliah.substr(0, 8),
+        prodi: mataKuliahItem[0].kode_program_studi.substr(0, 2) + " - Teknik Informatika",
+        listKelas: kelasString
+      })
+      console.log(this.listMataKuliah[i])
+      i++
     }
   }
 }
