@@ -71,6 +71,23 @@ export default {
       }
     }
   },
+  created () {
+    var current = new Date()
+    this.currentHour = current.getHours()
+    this.currentMinute = current.getMinutes()
+    setInterval(() => {
+      current = new Date()
+      this.currentHour = current.getHours()
+      this.currentMinute = current.getMinutes()
+    }, 1000)
+
+  },
+  data () {
+    return {
+      currentHour: "",
+      currentMinute: "",
+    }
+  },
   computed: {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
