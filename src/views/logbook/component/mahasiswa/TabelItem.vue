@@ -238,7 +238,7 @@
           <v-btn
             outlined
             :color="isDark ? currentTheme.onSurface:'#272343'"
-            @click="closeSuccessDialog"
+            @click="refreshAfterDeletion"
           >
             ok
           </v-btn>
@@ -367,6 +367,7 @@ export default {
         name: "EditLogbook",
         path: "/logbook/editlogbook/" + id,
         params: {
+          idLogbooks: this.idLogbooks,
           idEntriLogbook: id,
           logbookdate: date,
           kegiatan: kegiatan,
@@ -435,6 +436,10 @@ export default {
       // the input string. Replacing the identified
       // HTML tag with a null string.
       return str.replace(/(<([^>]+)>)/ig, "")
+    },
+    async refreshAfterDeletion () {
+      await this.closeSuccessDialog()
+      this.$router.go()
     }
   }
 }
