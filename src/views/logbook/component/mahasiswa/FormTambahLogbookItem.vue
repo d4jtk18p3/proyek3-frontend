@@ -84,6 +84,7 @@
                 outlined
                 :color="isDark ? currentTheme.onSurface:'#272343'"
                 @click="openDialog"
+                :loading="this.loading"
               >
                 ya
               </v-btn>
@@ -218,7 +219,8 @@ export default {
       confirmdialog: false,
       successdialog: false,
       errordialog: false,
-      post: null
+      post: null,
+      loading: false
     }
   },
   computed: {
@@ -272,6 +274,7 @@ export default {
     },
     closeErrorDialog () {
       this.errordialog = false
+      this.loading = false
     },
     async openDialog () {
       // disini tambahin connect backend untuk add logbook
@@ -280,6 +283,7 @@ export default {
       // kalau ada, get _id collections logbooks dan tambah entri
 
       // ini validasi
+      this.loading = true
       var idLogbook = await BackEndLogbook.getIdLogbooksMhsByNIM(this.identitas.nim)
       console.log(idLogbook)
       if (idLogbook === undefined) {
@@ -315,19 +319,23 @@ export default {
         await BackEndLogbook.addLogbooksMhs(dataMhs)
         idLogbook = await BackEndLogbook.getIdLogbooksMhsByNIM(this.identitas.nim)
       }
+      var stringDate = this.pickerValue.picker.split("-")
+      var date = stringDate[0] + "/" + stringDate[1] + "/" + stringDate[2]
+      console.log(date)
       var dataLogbook = {
-        tanggal: this.pickerValue.picker,
+        tanggal: date,
         kegiatan: this.kegiatan,
         hasil: this.hasil,
         kesan: this.kesan
       }
       console.log(dataLogbook)
       this.post = await BackEndEntri.addEntryLogbookMhs(idLogbook, dataLogbook)
-      console.log(this.post.status)
+      console.log(this.post)
+      if (this.post === undefined) {
+        this.openErrorDialog()
+      }
       if (this.post.status === 200) {
         this.openSuccessDialog()
-      } else {
-        this.openErrorDialog()
       }
     }
   }
