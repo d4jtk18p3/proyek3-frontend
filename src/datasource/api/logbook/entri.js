@@ -64,9 +64,9 @@ const addEntryLogbookMhs = async (idLogbook, dataLogbook) => {
   }
 }
 
-const editEntryLogbookMhs = async (idEntriLogbook, newDataLogbook) => {
+const editEntryLogbookMhs = async (idLogbooks, idEntriLogbook, newDataLogbook) => {
   try {
-    var urlEditLogbook = LOGBOOKENTRI_URL + `/update/${idEntriLogbook}`
+    var urlEditLogbook = LOGBOOKENTRI_URL + `/update/${idLogbooks}?id=${idEntriLogbook}`
     var result = await axios.put(urlEditLogbook, {
       tanggal: newDataLogbook.tanggal,
       kegiatan: newDataLogbook.kegiatan,

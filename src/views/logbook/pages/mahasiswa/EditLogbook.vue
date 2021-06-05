@@ -59,6 +59,7 @@
     </v-col>
     <v-col :cols="isMobile ? `12` : `6` ">
       <FormEditLogbookItem
+      :idLogbooks="this.idLogbooks"
       :idEntriLogbook="this.idEntriLogbook"
       :kegiatan="this.kegiatan"
       :hasil="this.hasil"
@@ -118,6 +119,10 @@ export default {
       default: () => {
         return new Date().toISOString().substr(0, 10)
       }
+    },
+    idLogbooks: {
+      type: String,
+      required: false
     },
     idEntriLogbook: {
       type: String,

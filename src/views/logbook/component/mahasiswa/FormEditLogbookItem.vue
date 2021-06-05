@@ -93,6 +93,7 @@
                 outlined
                 :color="isDark ? currentTheme.onSurface:'#272343'"
                 @click="openDialogSimpan"
+                :loading="this.loading"
               >
                 ya
               </v-btn>
@@ -234,6 +235,10 @@ export default {
     idEntriLogbook: {
       type: String,
       required: false
+    },
+    idLogbooks: {
+      type: String,
+      required: false
     }
   },
   data () {
@@ -248,7 +253,8 @@ export default {
       successdialogsimpan: false,
       errordialogsimpan: false,
       put: true,
-      confirmdialogbatal: false
+      confirmdialogbatal: false,
+      loading: false
     }
   },
   computed: {
@@ -302,22 +308,28 @@ export default {
     },
     closeErrorDialogSimpan () {
       this.errordialogsimpan = false
+      this.loading = false
     },
     async openDialogSimpan () {
       // kode untuk menghubungi ke backend
+      this.loading = true
+      var stringDate = this.pickerValue.picker.split("-")
+      var date = stringDate[0] + "/" + stringDate[1] + "/" + stringDate[2]
+      console.log(this.idLogbooks)
       var newDataLogbook = {
-        tanggal: this.pickerValue.picker,
+        tanggal: date,
         kegiatan: this.kegiatan,
         hasil: this.hasil,
         kesan: this.kesan
       }
       console.log(newDataLogbook)
-      this.put = await BackEndEntri.editEntryLogbookMhs(this.idEntriLogbook, newDataLogbook)
-      console.log(this.put.status)
+      this.put = await BackEndEntri.editEntryLogbookMhs(this.idLogbooks, this.idEntriLogbook, newDataLogbook)
+      console.log(this.put)
+      if (this.put === undefined) {
+        this.openErrorDialogSimpan()
+      }
       if (this.put.status === 200) {
         this.openSuccessDialogSimpan()
-      } else {
-        this.openErrorDialogSimpan()
       }
     },
     openConfirmDialogBatal () {
