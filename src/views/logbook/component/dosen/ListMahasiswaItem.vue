@@ -7,7 +7,7 @@
         class="avatar-class"
       >
         <img
-          :src="dataMahasiswa.profilePicURL"
+          :src="dataMahasiswa.url_foto"
           alt="Foto Mahasiswa"
         />
       </v-avatar>

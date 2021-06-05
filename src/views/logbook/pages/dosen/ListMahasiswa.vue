@@ -31,8 +31,8 @@
           <v-col :cols="isMobile ? '1' : '4'"></v-col>
       </v-row>
     </v-col>
-    <v-col :cols="isMobile ? 12 : 4" v-for="index in 32" :key="index">
-        <ListMahasiswaItem v-if="!isMobile" :namaMataKuliah="namaMataKuliah" :prodi="prodi" :kelas="kelas"/>
+    <v-col :cols="isMobile ? 12 : 4" v-for="item in this.listMahasiswa" :key="item.nim">
+        <ListMahasiswaItem v-if="!isMobile" :namaMataKuliah="namaMataKuliah" :prodi="prodi" :kelas="kelas" :dataMahasiswa="item"/>
         <ListMahasiswaItemMobile v-if="isMobile" :namaMataKuliah="namaMataKuliah" :prodi="prodi" :kelas="kelas"/>
     </v-col>
   </v-row>
@@ -43,6 +43,7 @@ import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import ListMahasiswaItem from "@/views/logbook/component/dosen/ListMahasiswaItem"
 import ListMahasiswaItemMobile from "@/views/logbook/component/dosen/ListMahasiswaItemMobile"
+import BackEndMahasiswa from "../../../../datasource/api/logbook/mahasiswa"
 
 export default {
   name: "ListMahasiswa",
@@ -62,6 +63,10 @@ export default {
       type: String,
       required: false,
       default: "1A"
+    },
+    listMahasiswa: {
+      type: Array,
+      required: false
     }
   },
   data () {
@@ -92,6 +97,9 @@ export default {
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
+  },
+  async mounted () {
+    this.listMahasiswa = await BackEndMahasiswa.getAllMahasiswaByKelas(this.kelas)
   }
 }
 </script>

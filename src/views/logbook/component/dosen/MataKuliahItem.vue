@@ -68,7 +68,7 @@ export default {
     onKelasClick (kelas) {
       this.$router.push({
         name: "ListMahasiswa",
-        path: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.mataKuliah + "/" + kelas,
+        path: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.mataKuliah + "/" + kelas.toString(),
         params: {
           namaMataKuliah: this.mataKuliah,
           kelas: kelas,

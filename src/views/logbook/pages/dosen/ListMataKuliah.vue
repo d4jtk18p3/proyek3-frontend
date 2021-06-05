@@ -94,7 +94,6 @@ export default {
         prodi: mataKuliahItem[0].kode_program_studi.substr(0, 2) + " - Teknik Informatika",
         listKelas: kelasString
       })
-      console.log(this.listMataKuliah[i])
       i++
     }
   }
