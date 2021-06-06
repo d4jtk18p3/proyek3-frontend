@@ -99,6 +99,38 @@ const routes = [
     path: "/logbook",
     component: () => import("../views/logbook/LogbookMain"),
     children: [
+      // route logbook - dosen
+      {
+        path: "/logbook/dashboard",
+        name: "DashboardLogbook",
+        component: () => import(/* webpackChunkName: "dashboardlogbook" */"../views/logbook/pages/dosen/DashboardLogbook"),
+        props: true
+      },
+      {
+        path: "/logbook/logbook-mahasiswa",
+        name: "ListMataKuliah",
+        component: () => import(/* webpackChunkName: "listmatakuliah" */"../views/logbook/pages/dosen/ListMataKuliah"),
+        props: true
+      },
+      {
+        path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelas",
+        name: "ListMahasiswa",
+        component: () => import(/* webpackChunkName: "listmahasiswa" */"../views/logbook/pages/dosen/ListMahasiswa"),
+        props: true
+      },
+      {
+        path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelas/:nim",
+        name: "ListLogbook",
+        component: () => import(/* webpackChunkName: "listLogbook" */"../views/logbook/pages/dosen/LogbookMahasiswa"),
+        props: true
+      },
+      {
+        path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelas/:nim/viewlogbook/:idEntri",
+        name: "ViewLogbook",
+        component: () => import(/* webpackChunkName: "viewlogbook" */"../views/logbook/pages/dosen/ViewDetailLogbookMahasiswa"),
+        props: true
+      },
+      // route logbook - mahasiswa
       {
         path: "/logbook/mylogbook",
         name: "MyLogbook",

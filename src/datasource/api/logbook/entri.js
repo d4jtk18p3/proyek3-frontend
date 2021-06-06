@@ -9,7 +9,6 @@ const getAllEntryLogbookMhsByid = async (idLogbooks) => {
     while (i < idLogbooks.length) {
       var urlGetLogbook = LOGBOOKENTRI_URL + `/${ids[i]}`
       var logbook = await axios.get(urlGetLogbook, {}, {})
-      console.log(logbook.data.entri[0])
       var rawDate = new Date(logbook.data.entri[0].tanggal)
       var date = rawDate.getDate() + "-" + (rawDate.getMonth() + 1) + "-" + rawDate.getFullYear()
       logbooks[i] = {
@@ -32,7 +31,6 @@ const getOneEntryLogbookMhsByid = async (idEntriLogbook) => {
   try {
     var urlGetLogbook = LOGBOOKENTRI_URL + `/${idEntriLogbook}`
     var logbook = await axios.get(urlGetLogbook, {}, {})
-    console.log(logbook.data.entri[0])
     var rawDate = new Date(logbook.data.entri[0].tanggal)
     var date = rawDate.getDate() + "-" + (rawDate.getMonth() + 1) + "-" + rawDate.getFullYear()
     var logbooks = {

@@ -1,6 +1,6 @@
 <template>
   <v-app :style="{background : currentTheme.background}">
-    <side-bar v-if="!isMobile" :items="sideBarItems"/>
+    <side-bar v-if="!isMobile" :items="isUserDosen ? sideBarItemsDsn : sideBarItemsMhs"/>
     <nav-bar/>
     <v-main>
       <v-container :class="isMobile? 'pa-5' : 'pa-12'">
@@ -42,10 +42,15 @@ export default {
     return {
       isAuthenticated: "",
       isLoading: false,
-      sideBarItems: [
+      sideBarItemsMhs: [
         { text: "Logbook Saya", icon: "mdi-notebook-multiple", to: "/logbook/mylogbook" },
         { text: "Tambah Logbook", icon: "mdi-notebook-plus", to: "/logbook/addlogbook" }
-      ]
+      ],
+      sideBarItemsDsn: [
+        { text: "Dashboard Logbook", icon: "mdi-desktop-mac-dashboard", to: "/logbook/dashboard" },
+        { text: "Logbook Mahasiswa", icon: "mdi-notebook-multiple", to: "/logbook/logbook-mahasiswa" }
+      ],
+      isUserDosen: true
     }
   },
   computed: {
