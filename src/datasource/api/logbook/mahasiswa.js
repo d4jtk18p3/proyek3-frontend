@@ -5,7 +5,6 @@ const getAllMahasiswaByKelas = async (kodekelas) => {
   try {
     const urlGetMhsByKelas = MAHASISWA_URL + `/searchByKelas/${kodekelas}`
     const listMhs = await axios.get(urlGetMhsByKelas, {}, {})
-    console.log(listMhs.data.data)
     return listMhs.data.data
   } catch (err) {
     console.error(err)

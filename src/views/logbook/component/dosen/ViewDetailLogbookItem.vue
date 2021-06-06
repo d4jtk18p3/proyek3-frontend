@@ -78,18 +78,27 @@ export default {
         return ""
       }
     },
-    identitas: {
-      type: Object,
+    nim: {
+      type: String,
+      required: false
+    },
+    nama: {
+      type: String,
+      required: false
+    },
+    namaMataKuliah: {
+      type: String,
       required: false,
-      default: () => {
-        return {
-          nama: "Cecep Gorbacep",
-          nim: "181524000",
-          kelas: "3A",
-          prodi: "D4 - Teknik Informatika",
-          matakuliah: "Proyek 3"
-        }
-      }
+      default: "Proyek 1"
+    },
+    prodi: {
+      type: String,
+      required: false,
+      default: "D4 - Teknik Informatika"
+    },
+    kelas: {
+      type: Number,
+      required: false
     }
   },
   computed: {
@@ -105,10 +114,13 @@ export default {
     onClickKembali () {
       this.$router.push({
         name: "ListLogbook",
-        path: "/logbook/logbook-mahasiswa/" + this.identitas.prodi + "/" + this.identitas.matakuliah + "/" + this.identitas.kelas + "/" + this.identitas.nim,
+        path: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.namaMataKuliah + "/" + this.kelas + "/" + this.nim,
         params: {
-          nim: this.identitas.nim,
-          identitas: this.identitas
+          nim: this.nim,
+          nama: this.nama,
+          namaMataKuliah: this.namaMataKuliah,
+          kelas: this.kelas,
+          prodi: this.prodi
         }
       })
       this.$router.go(1)

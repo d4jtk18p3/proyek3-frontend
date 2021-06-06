@@ -14,35 +14,35 @@
               <div class="text-start">Nama</div>
             </v-col>
             <v-col :cols="isMobile ? '7' : '5'" class="py-0">
-              <div class="text-start">: {{identitas.nama}}</div>
+              <div class="text-start">: {{nama}}</div>
             </v-col>
             <v-col :cols="isMobile ? '1' : '4'"></v-col>
             <v-col :cols="isMobile ? '4' : '3'" class="py-0">
               <div class="text-start">NIM</div>
             </v-col>
             <v-col :cols="isMobile ? '7' : '5'" class="py-0">
-              <div class="text-start">: {{identitas.nim}}</div>
+              <div class="text-start">: {{nim}}</div>
             </v-col>
               <v-col :cols="isMobile ? '1' : '4'"></v-col>
             <v-col :cols="isMobile ? '4' : '3'" class="py-0">
               <div class="text-start">Kelas</div>
             </v-col>
             <v-col :cols="isMobile ? '7' : '5'" class="py-0">
-              <div class="text-start">: {{identitas.kelas}}</div>
+              <div class="text-start">: {{kelas}}</div>
             </v-col>
               <v-col :cols="isMobile ? '1' : '4'"></v-col>
             <v-col :cols="isMobile ? '4' : '3'" class="py-0">
               <div class="text-start">Prodi</div>
             </v-col>
             <v-col :cols="isMobile ? '7' : '7'" class="py-0">
-              <div class="text-start">: {{identitas.prodi}}</div>
+              <div class="text-start">: {{prodi}}</div>
             </v-col>
             <v-col :cols="isMobile ? '1' : '2'"></v-col>
             <v-col :cols="isMobile ? '4' : '3'" class="py-0">
               <div class="text-start">Mata Kuliah</div>
             </v-col>
             <v-col :cols="isMobile ? '7' : '5'" class="py-0">
-              <div class="text-start">: {{identitas.matakuliah}}</div>
+              <div class="text-start">: {{namaMataKuliah}}</div>
             </v-col>
             <v-col :cols="isMobile ? '1' : '4'"></v-col>
           </v-row>
@@ -60,7 +60,11 @@
       :kegiatan="this.kegiatan"
       :hasil="this.hasil"
       :kesan="this.kesan"
-      :identitas="this.identitas"/>
+      :nim="this.nim"
+      :nama="this.nama"
+      :kelas="this.kelas"
+      :namaMataKuliah="this.namaMataKuliah"
+      :prodi="this.prodi"/>
     </v-col>
   </v-row>
 </template>
@@ -75,18 +79,27 @@ export default {
   name: "LihatLogbook",
   components: { DatePickerItem, Breadcumbs, ViewDetailLogbookItem },
   props: {
-    identitas: {
-      type: Object,
+    nim: {
+      type: String,
+      required: false
+    },
+    nama: {
+      type: String,
+      required: false
+    },
+    namaMataKuliah: {
+      type: String,
       required: false,
-      default: () => {
-        return {
-          nama: "Cecep Gorbacep",
-          nim: "181524000",
-          kelas: "3A",
-          prodi: "D4 - Teknik Informatika",
-          matakuliah: "Proyek 3"
-        }
-      }
+      default: "Proyek 1"
+    },
+    prodi: {
+      type: String,
+      required: false,
+      default: "D4 - Teknik Informatika"
+    },
+    kelas: {
+      type: Number,
+      required: false
     },
     kegiatan: {
       type: String,
@@ -131,14 +144,14 @@ export default {
           href: "/logbook/logbook-mahasiswa"
         },
         {
-          text: this.identitas.prodi.substring(0, 2) + " - " + this.identitas.matakuliah + " - " + this.identitas.kelas,
+          text: this.prodi.substring(0, 2) + " - " + this.namaMataKuliah + " - " + this.kelas,
           disabled: false,
-          href: "/logbook/logbook-mahasiswa/" + this.identitas.prodi + "/" + this.identitas.matakuliah + "/" + this.identitas.kelas
+          href: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.namaMataKuliah + "/" + this.kelas
         },
         {
-          text: this.identitas.nim,
+          text: this.nim,
           disabled: false,
-          href: "/logbook/logbook-mahasiswa/" + this.identitas.prodi + "/" + this.identitas.matakuliah + "/" + this.identitas.kelas + "/" + this.identitas.nim
+          href: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.namaMataKuliah + "/" + this.kelas + "/" + this.nim
         },
         {
           text: "Lihat Detail Logbook",

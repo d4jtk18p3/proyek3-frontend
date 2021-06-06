@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters, mapActions } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import MataKuliahItem from "@/views/logbook/component/dosen/MataKuliahItem"
 import BackEndMatakuliah from "../../../../datasource/api/logbook/matakuliah"
@@ -42,7 +42,7 @@ export default {
       required: false,
       default: () => {
         return {
-          nip: 1822316,
+          nip: 1822310,
           nama_dosen: "Ferry Feirizal",
           id_jabatan: "Pengampu"
         }
@@ -67,13 +67,22 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentTheme: "theme/getCurrentColor"
+      currentTheme: "theme/getCurrentColor",
+      getNip: "logbook/getNip"
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
   },
+  methods: {
+    ...mapActions({
+      setNip: "logbook/setNip"
+    })
+  },
   async mounted () {
+    this.setNip({
+      nip: this.dosen.nip
+    })
     var matakuliah = await BackEndMatakuliah.getAllMataKuliahProyekyangDiampuDosen(this.dosen.nip)
     var perkuliahan = await BackEndPerkuliahan.getAllPerkuliahanyangDiampuDosen(this.dosen.nip)
     var i = 0

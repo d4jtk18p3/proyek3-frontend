@@ -60,9 +60,8 @@ export default {
       default: "D4 - Teknik Informatika"
     },
     kelas: {
-      type: String,
-      required: false,
-      default: "1A"
+      type: Number,
+      required: false
     },
     listMahasiswa: {
       type: Array,

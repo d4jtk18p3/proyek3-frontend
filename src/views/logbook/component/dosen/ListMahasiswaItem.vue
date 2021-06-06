@@ -46,20 +46,12 @@
 
 <script>
 import { mapGetters } from "vuex"
-const defaultImage = "https://firebasestorage.googleapis.com/v0/b/proyek3-95653.appspot.com/o/DSC_0020_2.jpg?alt=media&token=ec10fda4-20c1-410d-bce1-b870be48774c"
 export default {
   name: "MahasiswaItem",
   props: {
     dataMahasiswa: {
       type: Object,
-      required: false,
-      default: () => {
-        return {
-          nama: "Cecep Gorbacep",
-          nim: "181524000",
-          profilePicURL: defaultImage
-        }
-      }
+      required: false
     },
     namaMataKuliah: {
       type: String,
@@ -72,9 +64,8 @@ export default {
       default: "D4 - Teknik Informatika"
     },
     kelas: {
-      type: String,
-      required: false,
-      default: "1A"
+      type: Number,
+      required: false
     }
   },
   computed: {
@@ -91,19 +82,15 @@ export default {
   },
   methods: {
     onLihatLogbookClick () {
-      var mahasiswa = {
-        nama: this.dataMahasiswa.nama,
-        nim: this.dataMahasiswa.nim,
-        kelas: this.kelas,
-        prodi: this.prodi,
-        matakuliah: this.namaMataKuliah
-      }
       this.$router.push({
         name: "ListLogbook",
-        path: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.mataKuliah + "/" + this.kelas + "/" + this.dataMahasiswa.nim,
+        path: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.namaMataKuliah + "/" + this.kelas + "/" + this.dataMahasiswa.nim,
         params: {
           nim: this.dataMahasiswa.nim,
-          identitas: mahasiswa
+          nama: this.dataMahasiswa.nama,
+          namaMataKuliah: this.namaMataKuliah,
+          prodi: this.prodi,
+          kelas: this.kelas
         }
       })
       this.$router.go(1)

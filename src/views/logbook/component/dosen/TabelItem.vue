@@ -13,24 +13,24 @@
       <template v-slot:[`item.kegiatan`]="{ item }">
         <div
         class="text-truncate"
-        style="max-width: 200px;">
-          {{item.kegiatan}}
+        style="max-width: 200px;"
+        v-text="removeTags(item.kegiatan)">
         </div>
       </template>
 
       <template v-slot:[`item.hasil`]="{ item }">
         <div
         class="text-truncate"
-        style="max-width: 200px;">
-          {{item.hasil}}
+        style="max-width: 200px;"
+        v-text="removeTags(item.hasil)">
         </div>
       </template>
 
       <template v-slot:[`item.kesan`]="{ item }">
         <div
         class="text-truncate"
-        style="max-width: 200px;">
-          {{item.kesan}}
+        style="max-width: 200px;"
+        v-text="removeTags(item.kesan)">
         </div>
       </template>
 
@@ -63,24 +63,24 @@
       <template v-slot:[`item.kegiatan`]="{ item }">
         <div
         class="text-truncate"
-        style="max-width: 200px;">
-          {{item.kegiatan}}
+        style="max-width: 200px;"
+        v-text="removeTags(item.kegiatan)">
         </div>
       </template>
 
       <template v-slot:[`item.hasil`]="{ item }">
         <div
         class="text-truncate"
-        style="max-width: 200px;">
-          {{item.hasil}}
+        style="max-width: 200px;"
+        v-text="removeTags(item.hasil)">
         </div>
       </template>
 
       <template v-slot:[`item.kesan`]="{ item }">
         <div
         class="text-truncate"
-        style="max-width: 200px;">
-          {{item.kesan}}
+        style="max-width: 200px;"
+        v-text="removeTags(item.kesan)">
         </div>
       </template>
 
@@ -107,112 +107,33 @@
 <script>
 import { mapGetters } from "vuex"
 export default {
-  name: "TugasItem",
+  name: "TabelItem",
   props: {
     datas: {
       type: Array,
-      required: false,
-      default: () => {
-        return [
-          {
-            nomor: "1",
-            tanggal: "01-03-2021",
-            kegiatan: "Membuat design halaman utama log Membuat design halaman utama log",
-            hasil: "Hasil design telah dikumpulkan di fig...",
-            kesan: "Ketika mendesign dapat pengalaman..."
-          },
-          {
-            nomor: "2",
-            tanggal: "02-03-2021",
-            kegiatan: "Membuat design halaman utama log...",
-            hasil: "Hasil design telah dikumpulkan di fig...",
-            kesan: "Ketika mendesign dapat pengalaman..."
-          },
-          {
-            nomor: "3",
-            tanggal: "03-03-2021",
-            kegiatan: "Membuat design halaman utama log...",
-            hasil: "Hasil design telah dikumpulkan di fig...",
-            kesan: "Ketika mendesign dapat pengalaman..."
-          },
-          {
-            nomor: "4",
-            tanggal: "04-03-2021",
-            kegiatan: "Membuat design halaman utama log...",
-            hasil: "Hasil design telah dikumpulkan di fig...",
-            kesan: "Ketika mendesign dapat pengalaman..."
-          },
-          {
-            nomor: "5",
-            tanggal: "05-03-2021",
-            kegiatan: "Membuat design halaman utama log...",
-            hasil: "Hasil design telah dikumpulkan di fig...",
-            kesan: "Ketika mendesign dapat pengalaman..."
-          },
-          {
-            nomor: "6",
-            tanggal: "06-03-2021",
-            kegiatan: "Membuat design halaman utama log...",
-            hasil: "Hasil design telah dikumpulkan di fig...",
-            kesan: "Ketika mendesign dapat pengalaman..."
-          },
-          {
-            nomor: "7",
-            tanggal: "07-03-2021",
-            kegiatan: "Membuat design halaman utama log...",
-            hasil: "Hasil design telah dikumpulkan di fig...",
-            kesan: "Ketika mendesign dapat pengalaman..."
-          },
-          {
-            nomor: "8",
-            tanggal: "08-03-2021",
-            kegiatan: "Membuat design halaman utama log...",
-            hasil: "Hasil design telah dikumpulkan di fig...",
-            kesan: "Ketika mendesign dapat pengalaman..."
-          },
-          {
-            nomor: "9",
-            tanggal: "09-03-2021",
-            kegiatan: "Membuat design halaman utama log...",
-            hasil: "Hasil design telah dikumpulkan di fig...",
-            kesan: "Ketika mendesign dapat pengalaman..."
-          },
-          {
-            nomor: "10",
-            tanggal: "10-03-2021",
-            kegiatan: "Membuat design halaman utama log...",
-            hasil: "Hasil design telah dikumpulkan di fig...",
-            kesan: "Ketika mendesign dapat pengalaman..."
-          },
-          {
-            nomor: "11",
-            tanggal: "11-03-2021",
-            kegiatan: "Membuat design halaman utama log...",
-            hasil: "Hasil design telah dikumpulkan di fig...",
-            kesan: "Ketika mendesign dapat pengalaman..."
-          },
-          {
-            nomor: "12",
-            tanggal: "12-03-2021",
-            kegiatan: "Membuat design halaman utama log...",
-            hasil: "Hasil design telah dikumpulkan di fig...",
-            kesan: "Ketika mendesign dapat pengalaman..."
-          }
-        ]
-      }
+      required: false
     },
-    identitas: {
-      type: Object,
+    nim: {
+      type: String,
+      required: false
+    },
+    nama: {
+      type: String,
+      required: false
+    },
+    namaMataKuliah: {
+      type: String,
       required: false,
-      default: () => {
-        return {
-          nama: "Cecep Gorbacep",
-          nim: "181524000",
-          kelas: "3A",
-          prodi: "D4 - Teknik Informatika",
-          matakuliah: "Proyek 3"
-        }
-      }
+      default: "Proyek 1"
+    },
+    prodi: {
+      type: String,
+      required: false,
+      default: "D4 - Teknik Informatika"
+    },
+    kelas: {
+      type: Number,
+      required: false
     }
   },
   data () {
@@ -265,19 +186,33 @@ export default {
     onViewClick (tanggal, kegiatan, hasil, kesan) {
       var parts = tanggal.split("-")
       var date = new Date(parts[2], parts[1] - 1, parts[0], 7).toISOString().substr(0, 10)
-      alert(date)
       this.$router.push({
         name: "ViewLogbook",
-        path: "/logbook/logbook-mahasiswa/" + this.identitas.prodi + "/" + this.identitas.mataKuliah + "/" + this.identitas.kelas + "/" + this.identitas.nim + "/viewlogbook/" + date,
+        path: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.namaMataKuliah + "/" + this.kelas + "/" + this.nim + "/viewlogbook/" + date,
         params: {
           logbookdate: date,
           kegiatan: kegiatan,
           hasil: hasil,
           kesan: kesan,
-          identitas: this.identitas
+          nim: this.nim,
+          nama: this.nama,
+          namaMataKuliah: this.namaMataKuliah,
+          kelas: this.kelas,
+          prodi: this.prodi
         }
       })
       this.$router.go(1)
+    },
+    removeTags (str) {
+      if ((str === null) || (str === "")) {
+        return false
+      } else {
+        str = str.toString()
+      }
+      // Regular expression to identify HTML tags in
+      // the input string. Replacing the identified
+      // HTML tag with a null string.
+      return str.replace(/(<([^>]+)>)/ig, "")
     }
   }
 }

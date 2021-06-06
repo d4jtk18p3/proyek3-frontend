@@ -53,10 +53,7 @@ export default {
     },
     listKelas: {
       type: Array,
-      required: false,
-      default: () => {
-        return ["1A", "1B"]
-      }
+      required: false
     }
   },
   computed: {
@@ -68,7 +65,7 @@ export default {
     onKelasClick (kelas) {
       this.$router.push({
         name: "ListMahasiswa",
-        path: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.mataKuliah + "/" + kelas.toString(),
+        path: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.mataKuliah + "/" + kelas,
         params: {
           namaMataKuliah: this.mataKuliah,
           kelas: kelas,
