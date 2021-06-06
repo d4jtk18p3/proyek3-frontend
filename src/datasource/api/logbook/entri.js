@@ -46,7 +46,53 @@ const getOneEntryLogbookMhsByid = async (idEntriLogbook) => {
   }
 }
 
+const addEntryLogbookMhs = async (idLogbook, dataLogbook) => {
+  try {
+    var urlAddLogbook = LOGBOOKENTRI_URL + `/create/${idLogbook}`
+    var result = await axios.post(urlAddLogbook, {
+      tanggal: dataLogbook.tanggal,
+      kegiatan: dataLogbook.kegiatan,
+      hasil: dataLogbook.hasil,
+      kesan: dataLogbook.kesan
+    }, {})
+
+    return result
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+const editEntryLogbookMhs = async (idLogbooks, idEntriLogbook, newDataLogbook) => {
+  try {
+    var urlEditLogbook = LOGBOOKENTRI_URL + `/update/${idLogbooks}?id=${idEntriLogbook}`
+    var result = await axios.put(urlEditLogbook, {
+      tanggal: newDataLogbook.tanggal,
+      kegiatan: newDataLogbook.kegiatan,
+      hasil: newDataLogbook.hasil,
+      kesan: newDataLogbook.kesan
+    }, {})
+
+    return result
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+const deleteEntryLogbookMhs = async (idLogbooks, idEntriLogbook) => {
+  try {
+    var urlDeleteLogbook = LOGBOOKENTRI_URL + `/delete/${idLogbooks}?id=${idEntriLogbook}`
+    var result = await axios.delete(urlDeleteLogbook)
+
+    return result
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 export default {
   getAllEntryLogbookMhsByid,
-  getOneEntryLogbookMhsByid
+  getOneEntryLogbookMhsByid,
+  addEntryLogbookMhs,
+  editEntryLogbookMhs,
+  deleteEntryLogbookMhs
 }
