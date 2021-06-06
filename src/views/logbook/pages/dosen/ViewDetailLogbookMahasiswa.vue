@@ -74,6 +74,8 @@ import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import DatePickerItem from "@/views/logbook/component/dosen/DatePickerItem"
 import ViewDetailLogbookItem from "@/views/logbook/component/dosen/ViewDetailLogbookItem"
+import BackEndLogbook from "../../../../datasource/api/logbook/logbook"
+import BackEndEntri from "../../../../datasource/api/logbook/entri"
 
 export default {
   name: "LihatLogbook",
@@ -128,6 +130,10 @@ export default {
       default: () => {
         return new Date().toISOString().substr(0, 10)
       }
+    },
+    idEntri: {
+      type: String,
+      required: false
     }
   },
   data () {
@@ -173,6 +179,16 @@ export default {
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
+  },
+  async mounted () {
+    var entri = await BackEndEntri.getOneEntryLogbookMhsByid(this.idEntri)
+    this.kegiatan = entri.kegiatan
+    this.hasil = entri.hasil
+    this.kesan = entri.kesan
+    var parts = entri.tanggal.split("-")
+    this.logbookdate = new Date(parts[2], parts[1] - 1, parts[0], 7).toISOString().substr(0, 10)
+    var logbooks = await BackEndLogbook.getLogbooksMhsByNIM(this.nim)
+    this.nama = logbooks.nama
   }
 }
 </script>

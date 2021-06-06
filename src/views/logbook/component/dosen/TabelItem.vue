@@ -40,7 +40,7 @@
             <v-btn
               icon
               color="#FFFFFF"
-              @click="onViewClick(item.tanggal, item.kegiatan, item.hasil, item.kesan)"
+              @click="onViewClick(item.id)"
               v-bind="attrs"
               v-on="on"
             >
@@ -90,7 +90,7 @@
             <v-btn
               icon
               color="#272343"
-              @click="onViewClick(item.tanggal, item.kegiatan, item.hasil, item.kesan)"
+              @click="onViewClick(item.id)"
               v-bind="attrs"
               v-on="on"
             >
@@ -183,17 +183,12 @@ export default {
     }
   },
   methods: {
-    onViewClick (tanggal, kegiatan, hasil, kesan) {
-      var parts = tanggal.split("-")
-      var date = new Date(parts[2], parts[1] - 1, parts[0], 7).toISOString().substr(0, 10)
+    onViewClick (id) {
       this.$router.push({
         name: "ViewLogbook",
-        path: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.namaMataKuliah + "/" + this.kelas + "/" + this.nim + "/viewlogbook/" + date,
+        path: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.namaMataKuliah + "/" + this.kelas + "/" + this.nim + "/viewlogbook/" + id,
         params: {
-          logbookdate: date,
-          kegiatan: kegiatan,
-          hasil: hasil,
-          kesan: kesan,
+          idEntri: id,
           nim: this.nim,
           nama: this.nama,
           namaMataKuliah: this.namaMataKuliah,

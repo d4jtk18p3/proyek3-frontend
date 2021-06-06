@@ -129,7 +129,6 @@ export default {
   async mounted () {
     this.dataLogbooks = await BackEndLogbook.getAllEntriLogbooksMhsByNIM(this.nim)
     var logbooks = await BackEndLogbook.getLogbooksMhsByNIM(this.nim)
-    console.log(logbooks.nama)
     this.nama = logbooks.nama
   }
 }

@@ -109,7 +109,7 @@ const routes = [
         props: true
       },
       {
-        path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelas/:nim/viewlogbook/:logbookdate",
+        path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelas/:nim/viewlogbook/:idEntri",
         name: "ViewLogbook",
         component: () => import(/* webpackChunkName: "viewlogbook" */"../views/logbook/pages/dosen/ViewDetailLogbookMahasiswa"),
         props: true
