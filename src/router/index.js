@@ -67,11 +67,11 @@ const routes = [
     path: "/admin",
     component: () => import("../views/admin/AdminMain"),
     children: [
-      {
-        path: "/admin",
-        name: "AddNewUser",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewsUserMain")
-      }
+      // {
+      //   path: "/admin",
+      //   name: "AddNewUser",
+      //   component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewsUserMain")
+      // }
       // {
       //   path: "/admin/add-user/form",
       //   name: "AddNewUserByForm",
@@ -87,11 +87,44 @@ const routes = [
         path: "/auth/forget-password",
         name: "ForgetPassword",
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/forgetPassword/ForgetPassword")
+      }
+      // {
+      //   path: "/auth/reset-password",
+      //   name: "ResetPassword",
+      //   component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/resetPassword/ResetPassword")
+      // }
+    ]
+  },
+  {
+    path: "/logbook",
+    component: () => import("../views/logbook/LogbookMain"),
+    children: [
+      {
+        path: "/logbook/mylogbook",
+        name: "MyLogbook",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "logbooksaya" */"../views/logbook/pages/mahasiswa/LogbookSaya"),
+        props: true
       },
       {
-        path: "/auth/reset-password",
-        name: "ResetPassword",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/resetPassword/ResetPassword")
+        path: "/logbook/addlogbook",
+        name: "AddLogbook",
+        component: () => import(/* webpackChunkName: "tambahlogbook" */"../views/logbook/pages/mahasiswa/TambahLogbook"),
+        props: true
+      },
+      {
+        path: "/logbook/editlogbook/:idEntriLogbook",
+        name: "EditLogbook",
+        component: () => import(/* webpackChunkName: "ubahlogbook" */"../views/logbook/pages/mahasiswa/EditLogbook"),
+        props: true
+      },
+      {
+        path: "/logbook/viewlogbook/:idEntriLogbook",
+        name: "ViewLogbook",
+        component: () => import(/* webpackChunkName: "lihatlogbook" */"../views/logbook/pages/mahasiswa/LihatLogbook"),
+        props: true
       }
     ]
   },
