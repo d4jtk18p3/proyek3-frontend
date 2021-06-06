@@ -1,4 +1,4 @@
-const datePickerModule = {
+const LogbookModule = {
   namespaced: true,
   state: () => ({
     picker: null
@@ -20,4 +20,4 @@ const datePickerModule = {
   }
 }
 
-export default datePickerModule
+export default LogbookModule

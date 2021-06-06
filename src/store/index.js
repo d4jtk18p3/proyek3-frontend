@@ -1,12 +1,12 @@
 import Vue from "vue"
 import Vuex from "vuex"
 import theme from "@/store/modules/theme"
-import datePickerModule from "@/store/modules/datepicker"
+import logbook from "@/store/modules/logbook"
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
     theme,
-    datePickerModule
+    logbook
   }
 })

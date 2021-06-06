@@ -200,7 +200,7 @@ export default {
       default: () => {
         return {
           nama: "Khoirunnisa Putri",
-          nim: "181524014",
+          nim: "191524034",
           kelas: "3A",
           prodi: "D4 - Teknik Informatika",
           matakuliah: "Proyek 3"
@@ -227,7 +227,7 @@ export default {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor",
       isDark: "theme/getIsDark",
-      pickerValue: "datePickerModule/getDatePickerValue"
+      pickerValue: "logbook/getDatePickerValue"
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
@@ -319,6 +319,7 @@ export default {
         await BackEndLogbook.addLogbooksMhs(dataMhs)
         idLogbook = await BackEndLogbook.getIdLogbooksMhsByNIM(this.identitas.nim)
       }
+      console.log(this.pickerValue.picker)
       var stringDate = this.pickerValue.picker.split("-")
       var date = stringDate[0] + "/" + stringDate[1] + "/" + stringDate[2]
       console.log(date)

@@ -85,7 +85,7 @@ export default {
       default: () => {
         return {
           nama: "Khoirunnisa Putri",
-          nim: "181524014",
+          nim: "191524034",
           kelas: "3A",
           prodi: "D4 - Teknik Informatika",
           matakuliah: "Proyek 3"

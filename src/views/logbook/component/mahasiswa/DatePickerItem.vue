@@ -62,7 +62,7 @@ export default {
       return val <= new Date().toISOString().substr(0, 10)
     },
     ...mapActions({
-      changePicker: "datePickerModule/setDatePickerValue"
+      changePicker: "logbook/setDatePickerValue"
     }),
     onChangePicker () {
       this.changePicker({
@@ -75,6 +75,12 @@ export default {
       currentTheme: "theme/getCurrentColor",
       isDark: "theme/getIsDark"
     })
+  },
+  async mounted () {
+    await this.changePicker({
+      picker: this.picker
+    })
+    console.log(this.picker)
   }
 }
 </script>

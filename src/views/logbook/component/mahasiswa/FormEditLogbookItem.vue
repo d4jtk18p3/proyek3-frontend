@@ -261,7 +261,7 @@ export default {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor",
       isDark: "theme/getIsDark",
-      pickerValue: "datePickerModule/getDatePickerValue"
+      pickerValue: "logbook/getDatePickerValue"
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs

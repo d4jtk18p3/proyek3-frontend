@@ -64,10 +64,10 @@ export default {
       default: () => {
         return {
           nama: "Khoirunnisa Putri",
-          nim: "181524014",
+          nim: "191524034",
           kelas: "3A",
           prodi: "D4 - Teknik Informatika",
-          matakuliah: "Proyek 3"
+          matakuliah: "Proyek 2"
         }
       }
     },
@@ -193,8 +193,9 @@ export default {
     }
   },
   async mounted () {
-    this.datas = await BackEndLogbook.getLogbooksMhsByNIM("181524014")
-    this.idLogbooks = await BackEndLogbook.getIdLogbooksMhsByNIM("181524014")
+    this.datas = await BackEndLogbook.getLogbooksMhsByNIM("191524034")
+    console.log(this.datas)
+    this.idLogbooks = await BackEndLogbook.getIdLogbooksMhsByNIM("191524034")
   }
 }
 </script>
