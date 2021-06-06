@@ -381,7 +381,7 @@ export default {
       var parts = tanggal.split("-")
       var date = new Date(parts[2], parts[1] - 1, parts[0], 7).toISOString().substr(0, 10)
       this.$router.push({
-        name: "ViewLogbook",
+        name: "ViewLogbookMahasiswa",
         path: "/logbook/viewlogbook/" + id,
         params: {
           idEntriLogbook: id,

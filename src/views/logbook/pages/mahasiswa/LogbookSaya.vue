@@ -193,7 +193,7 @@ export default {
     }
   },
   async mounted () {
-    this.datas = await BackEndLogbook.getLogbooksMhsByNIM("191524034")
+    this.datas = await BackEndLogbook.getAllEntriLogbooksMhsByNIM("191524034")
     console.log(this.datas)
     this.idLogbooks = await BackEndLogbook.getIdLogbooksMhsByNIM("191524034")
   }

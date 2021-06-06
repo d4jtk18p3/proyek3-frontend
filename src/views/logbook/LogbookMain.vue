@@ -50,7 +50,7 @@ export default {
         { text: "Dashboard Logbook", icon: "mdi-desktop-mac-dashboard", to: "/logbook/dashboard" },
         { text: "Logbook Mahasiswa", icon: "mdi-notebook-multiple", to: "/logbook/logbook-mahasiswa" }
       ],
-      isUserDosen: true
+      isUserDosen: false
     }
   },
   computed: {
