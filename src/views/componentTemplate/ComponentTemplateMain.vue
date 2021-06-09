@@ -76,6 +76,10 @@ export default {
               to: "/component-template/combobox"
             },
             {
+              text: "Dialog",
+              to: "/component-template/dialog"
+            },
+            {
               text: "Paragraph",
               to: "/component-template/paragraph"
             },
