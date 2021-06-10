@@ -1,6 +1,6 @@
 <template>
   <v-app :style="{background : currentTheme.background}">
-    <side-bar v-if="!isMobile" :items="sideBarItems"/>
+    <SideBar v-if="!isMobile" :items="sidebarItems"/>
     <nav-bar/>
     <v-main>
       <v-container :class="isMobile? 'pa-5' : 'pa-12'">
@@ -13,9 +13,9 @@
 <script>
 
 import * as Keycloak from "keycloak-js"
-import SideBar from "@/views/shared/navigation/SideBar"
 import NavBar from "@/views/shared/navigation/NavBar"
 import { mapGetters, mapActions } from "vuex"
+import SideBar from "@/views/shared/navigation/SideBar"
 
 /*
   Token Access interval adalah 5 jam maka
@@ -33,19 +33,76 @@ export default {
     NavBar
   },
   created () {
-    this.initKeycloak()
+    // this.sychronize("dani")
+    // if (!this.$keycloak) {
+    //   this.initKeycloak()
+    // }
   },
   data () {
     return {
-      isAuthenticated: false,
+      isAuthenticated: "",
       isLoading: false,
-      sideBarItems: [
-        { text: "Dashboard", icon: "mdi-school-outline", to: "/template/dashboard" },
-        { text: "Profile Mahasiswa", icon: "mdi-account-outline", to: "/template/mahasiswa/profile" },
-        { text: "Profilling Mahasiswa", icon: "mdi-file-document-outline", to: "/template/mahasiswa/profilling" },
-        { text: "Nilai Mahasiswa", icon: "mdi-bookmark-multiple-outline", to: "/template/mahasiswa/nilai" },
-        { text: "Absensi Mahasiswa", icon: "mdi-email-outline", to: "/template/mahasiswa/absensi" },
-        { text: "Absensi Dosen", icon: "mdi-school-outline", to: "/template/dosen/absensi" }
+      sidebarItems: [
+        {
+          text: "Theme"
+        },
+        {
+          to: "/",
+          icon: "mdi-opacity",
+          text: "Colors"
+        },
+        {
+          to: "/component-template/Typography",
+          icon: "mdi-pencil",
+          text: "Typography"
+        },
+        {
+          text: "Components"
+        },
+        {
+          icon: "mdi-tennis",
+          text: "Base",
+          subLinks: [
+            {
+              text: "Alert",
+              to: "/component-template/alert"
+            },
+            {
+              text: "Calendar",
+              to: "/component-template/calendar"
+            },
+            {
+              text: "ComboBox",
+              to: "/component-template/combobox"
+            },
+            {
+              text: "Dialog",
+              to: "/component-template/dialog"
+            },
+            {
+              text: "Paragraph",
+              to: "/component-template/paragraph"
+            },
+            {
+              text: "TextArea",
+              to: "/component-template/textarea"
+            },
+            {
+              text: "TextField",
+              to: "/component-template/textfield"
+            }
+          ]
+        },
+        {
+          icon: "mdi-dns",
+          text: "Button",
+          to: "/component-template/button"
+        },
+        {
+          icon: "mdi-trending-down",
+          text: "Graphics",
+          to: "/component-template/grafik"
+        }
       ]
     }
   },
@@ -97,6 +154,7 @@ export default {
       }, TOKEN_ACCESS_INTERVAL)
       console.log("keycloak udah")
       this.isAuthenticated = keycloak.authenticated
+      this.$keycloak = keycloak
       console.log(this.$keycloak)
       this.isLoading = false
     }

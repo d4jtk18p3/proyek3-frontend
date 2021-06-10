@@ -52,14 +52,17 @@
           </v-row>
         </v-card>
       </v-col>
-      <SuccessDialog @dismiss-dialog="onDismissDialog" v-if="dialog" :email="email"/>
+      <SuccessDialog @dismiss-dialog="onDismissDialog" v-if="dialog" title="Email berhasil dikirim"  :message="successMessage"/>
+      <v-overlay :value="isLoading">
+        <v-progress-circular indeterminate size="32" :color="currentTheme.colorSecondary"></v-progress-circular>
+      </v-overlay>
     </v-row>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import SuccessDialog from "@/views/auth/component/forgetPassword/SuccessDialog"
-
+import SuccessDialog from "@/views/shared/dialog/InformationDialog"
+import { requestResetPasswordEmail } from "@/datasource/network/auth/auth"
 export default {
   name: "ForgetPassword",
   components: { SuccessDialog },
@@ -70,7 +73,9 @@ export default {
         isEmailValid: (value) => value.includes("@") || "Email tidak valid"
       },
       email: "",
-      dialog: false
+      dialog: false,
+      isLoading: false,
+      successMessage: ""
     }
   },
   computed: {
@@ -86,9 +91,14 @@ export default {
   },
   methods: {
     async requestResetPassword () {
-      // this.$router.push({
-      //   name:
-      // })
+      this.isLoading = true
+      const result = await requestResetPasswordEmail(this.email)
+      this.isLoading = false
+      if (result instanceof Error) {
+        console.log(`Error with result ${result}`)
+        return
+      }
+      this.successMessage = "Sukses mengirim email ke " + this.email
       this.dialog = true
     },
     onDismissDialog () {

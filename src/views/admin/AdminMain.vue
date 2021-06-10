@@ -12,8 +12,8 @@
 
 <script>
 import { mapGetters } from "vuex"
-import NavBar from "@/views/shared/ui/NavBar"
-import SideBar from "@/views/shared/ui/SideBar"
+import NavBar from "@/views/shared/navigation/NavBar"
+import SideBar from "@/views/shared/navigation/SideBar"
 
 export default {
   name: "AdminMain",

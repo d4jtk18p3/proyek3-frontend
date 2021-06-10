@@ -83,7 +83,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import Breadcumbs from "@/views/shared/ui/Breadcumbs"
+import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import MhsViewTableDekstop from "@/views/template/component/absensi/MhsViewTableDekstop"
 import MhsViewTableMobile from "@/views/template/component/absensi/MhsViewTableMobile"
 
