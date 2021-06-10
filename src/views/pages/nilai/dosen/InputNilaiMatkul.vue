@@ -245,7 +245,7 @@ export default {
       defaultBobot: null,
       breadcrumbItems: [
         {
-          text: "Absensi",
+          text: "Penilaian",
           disabled: false,
           href: ""
         },

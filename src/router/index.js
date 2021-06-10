@@ -4,6 +4,7 @@ import Vue from "vue"
 import VueRouter from "vue-router"
 import InputNilaiSection from "../views/pages/nilai/dosen/InputNilaiSection.vue"
 import InputNilaiMatkul from "../views/pages/nilai/dosen/InputNilaiMatkul.vue"
+import DashboardNilaiMahasiswa from "@/views/pages/dashboard/DashboardNilaiMahasiswa.vue"
 
 Vue.use(VueRouter)
 
@@ -95,7 +96,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/forgetPassword/ForgetPassword")
       },
       {
-      path: "/auth/reset-password",
+        path: "/auth/reset-password",
         name: "ResetPassword",
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/ResetPassword/ResetPassword")
       }
@@ -307,9 +308,19 @@ const routes = [
         path: "/input_nilai_matkul/:id",
         name: "Input Nilai Matkul",
         component: InputNilaiMatkul
+      },
+      {
+        path: "/input_nilai_matkul/:id",
+        name: "Input Nilai Matkul",
+        component: InputNilaiMatkul
+      },
+      {
+        path: "/dashboard_nilai_mahasiswa",
+        name: "Dashboard Nilai Mahasiswa",
+        component: DashboardNilaiMahasiswa
       }
     ]
-  },
+  }
 ]
 
 // const fixup = (r) => {
