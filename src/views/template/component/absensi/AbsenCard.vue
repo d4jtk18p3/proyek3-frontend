@@ -47,7 +47,7 @@
                 <p
                   class="float-right"
                   :style="!item.active? 'color: #272343' : 'color: white'">
-                  {{item.waktu_mulai.slice(0,5)}}
+                  {{item.waktu_selesai.slice(0,5)}}
                 </p>
               </v-col>
                 <v-progress-linear
@@ -158,11 +158,15 @@ export default {
     },
     presensiSchedule () {
       if (currentJadwal < this.jadwalMhs.length) {
-        var format = "hh:mm:ss"
+        var format = "HH:mm:ss"
         var currentTime = moment(this.currentTime, format)
         var beforeTime = moment(this.jadwalMhs[currentJadwal].waktu_mulai, format)
+        beforeTime.subtract(30, "minutes")
         var afterTime = moment(this.jadwalMhs[currentJadwal].waktu_selesai, format)
-        this.jadwalMhs[currentJadwal].value = moment.duration(afterTime.diff(beforeTime, "seconds"))
+        var d = moment.duration(afterTime.diff(beforeTime, "seconds"))
+        this.jadwalMhs[currentJadwal].value = d._milliseconds
+        console.log(beforeTime)
+        console.log(this.jadwalMhs[currentJadwal].value)
         this.cekAktivasiTombol(this.jadwalMhs[currentJadwal].id_jadwal)
         if (currentTime.isBetween(beforeTime, afterTime)) {
           if (this.currentKehadiran.isHadir === false && this.currentKehadiran.id_keterangan === null) {
