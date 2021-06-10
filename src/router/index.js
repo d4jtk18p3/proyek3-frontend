@@ -67,11 +67,11 @@ const routes = [
     path: "/admin",
     component: () => import("../views/admin/AdminMain"),
     children: [
-      {
-        path: "/admin",
-        name: "AddNewUser",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewsUserMain")
-      }
+      // {
+      //   path: "/admin",
+      //   name: "AddNewUser",
+      //   component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewsUserMain")
+      // }
       // {
       //   path: "/admin/add-user/form",
       //   name: "AddNewUserByForm",
@@ -87,11 +87,76 @@ const routes = [
         path: "/auth/forget-password",
         name: "ForgetPassword",
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/forgetPassword/ForgetPassword")
+      }
+      // {
+      //   path: "/auth/reset-password",
+      //   name: "ResetPassword",
+      //   component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/resetPassword/ResetPassword")
+      // }
+    ]
+  },
+  {
+    path: "/logbook",
+    component: () => import("../views/logbook/LogbookMain"),
+    children: [
+      // route logbook - dosen
+      {
+        path: "/logbook/dashboard",
+        name: "DashboardLogbook",
+        component: () => import(/* webpackChunkName: "dashboardlogbook" */"../views/logbook/pages/dosen/DashboardLogbook"),
+        props: true
       },
       {
-        path: "/auth/reset-password",
-        name: "ResetPassword",
-        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/resetPassword/ResetPassword")
+        path: "/logbook/logbook-mahasiswa",
+        name: "ListMataKuliah",
+        component: () => import(/* webpackChunkName: "listmatakuliah" */"../views/logbook/pages/dosen/ListMataKuliah"),
+        props: true
+      },
+      {
+        path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelas",
+        name: "ListMahasiswa",
+        component: () => import(/* webpackChunkName: "listmahasiswa" */"../views/logbook/pages/dosen/ListMahasiswa"),
+        props: true
+      },
+      {
+        path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelas/:nim",
+        name: "ListLogbook",
+        component: () => import(/* webpackChunkName: "listLogbook" */"../views/logbook/pages/dosen/LogbookMahasiswa"),
+        props: true
+      },
+      {
+        path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelas/:nim/viewlogbook/:idEntri",
+        name: "ViewLogbook",
+        component: () => import(/* webpackChunkName: "viewlogbook" */"../views/logbook/pages/dosen/ViewDetailLogbookMahasiswa"),
+        props: true
+      },
+      // route logbook - mahasiswa
+      {
+        path: "/logbook/mylogbook",
+        name: "MyLogbook",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "logbooksaya" */"../views/logbook/pages/mahasiswa/LogbookSaya"),
+        props: true
+      },
+      {
+        path: "/logbook/addlogbook",
+        name: "AddLogbook",
+        component: () => import(/* webpackChunkName: "tambahlogbook" */"../views/logbook/pages/mahasiswa/TambahLogbook"),
+        props: true
+      },
+      {
+        path: "/logbook/editlogbook/:idEntriLogbook",
+        name: "EditLogbook",
+        component: () => import(/* webpackChunkName: "ubahlogbook" */"../views/logbook/pages/mahasiswa/EditLogbook"),
+        props: true
+      },
+      {
+        path: "/logbook/viewlogbook/:idEntriLogbook",
+        name: "ViewLogbookMahasiswa",
+        component: () => import(/* webpackChunkName: "lihatlogbook" */"../views/logbook/pages/mahasiswa/LihatLogbook"),
+        props: true
       }
     ]
   },
