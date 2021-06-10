@@ -53,7 +53,7 @@
                 <v-progress-linear
                   background-color="#bfbfbf"
                   :color="item.absen? 'success' : 'error'"
-                  :value="currentValue"
+                  :value="item.value"
                   height="5"
                   class="mt-0 pt-0 ml-8 mr-8 mb-8 justify-center"
                 ></v-progress-linear>
@@ -89,8 +89,7 @@
 import { mapGetters } from "vuex"
 import PresensiMahasiswa from "../../../../datasource/api/absensi/PresensiMahasiswa"
 
-// const THIRTY_MINUTES = 1000 * 60 * 30
-const ONE_MINUTE = 1000 * 15
+const INTERVAL = 1000 * 15
 const moment = require("moment")
 var currentJadwal = 0
 
@@ -116,7 +115,7 @@ export default {
       this.currentMinute = current.getMinutes()
       this.currentTime = this.currentHour + ":" + this.currentMinute + ":" + current.getSeconds()
       this.presensiSchedule()
-    }, ONE_MINUTE)
+    }, INTERVAL)
   },
   data () {
     return {
@@ -126,11 +125,7 @@ export default {
       currentDate: "",
       currentJadwal: null,
       currentKehadiran: null,
-      currentValue: 0,
-      //  data test
-      jam_mulai: "11:30:00",
-      jam_selesai: "13:00:00",
-      absen: false
+      interval: 0
     }
   },
   computed: {
@@ -140,7 +135,6 @@ export default {
   },
   methods: {
     presensiMahasiswa (index, idStudi, idJadwal) {
-      //  belum berhasil, apakah karena libur? bukan nad, salah route.
       PresensiMahasiswa.presensiMahasiswa(idStudi, idJadwal, 181524010)
         .then(response => {
           this.jadwalMhs[index].absen = false
@@ -166,16 +160,16 @@ export default {
       if (currentJadwal < this.jadwalMhs.length) {
         var format = "hh:mm:ss"
         var currentTime = moment(this.currentTime, format)
-        //  beforetimenya belum kelar, cari tau dlu cara ngurangin jam pake moment, disini before time masih jam awal
         var beforeTime = moment(this.jadwalMhs[currentJadwal].waktu_mulai, format)
         var afterTime = moment(this.jadwalMhs[currentJadwal].waktu_selesai, format)
+        this.jadwalMhs[currentJadwal].value = moment.duration(afterTime.diff(beforeTime, "seconds"))
         this.cekAktivasiTombol(this.jadwalMhs[currentJadwal].id_jadwal)
         if (currentTime.isBetween(beforeTime, afterTime)) {
           if (this.currentKehadiran.isHadir === false && this.currentKehadiran.id_keterangan === null) {
             console.log(currentJadwal)
             this.jadwalMhs[currentJadwal].absen = true
           }
-          this.currentValue++
+          this.jadwalMhs[currentJadwal].value = this.jadwalMhs[currentJadwal].value + ((this.interval._milliseconds / 360) * (15 / 100))
           this.jadwalMhs[currentJadwal].active = true
           console.log("abseeeeennnn")
         } else {
@@ -194,13 +188,6 @@ export default {
     },
     cekAktivasiTombol (idJadwal) {
       this.statusKehadiranMahasiswa(idJadwal)
-    },
-    //  untuk keperluan eksplorasi
-    setJamAwal () {
-      this.jam_mulai = moment(moment().add(7, "minutes"), "hh:mm:ss")
-      console.log(this.jam_mulai)
-      var now = moment()
-      console.log(now)
     }
   }
 }

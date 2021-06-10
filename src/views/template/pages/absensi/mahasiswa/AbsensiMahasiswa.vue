@@ -140,6 +140,7 @@ export default {
           response.data.jadwal.forEach(function (element) {
             element.absen = "false"
             element.active = "false"
+            element.value = 0
           })
           this.jadwalMhs = response.data.jadwal
           console.log(this.currentDay + " : " + response.data.jadwal)
