@@ -8,24 +8,42 @@
     :items-per-page="5"
     class="elevation-1"
     :style="{ backgroundColor: currentTheme.colorPrimary }"
+    :search="search"
   >
-    //<template v-slot:[`item.actions`]="{ item }">
-      //<v-icon small class="mr-2" @click="editAkun(item.id)"
-        >mdi-pencil</v-icon
-      >
-      //</template
+  <template v-slot:top>
+    <v-card>
+      <v-combobox
+      v-model="select"
+      :items="combofilter"
+      label="Filter"
+      ></v-combobox>
+    </v-card>
+    <v-text-field
+    v-model="search"
+    append-icon="mdi-magnify"
+    label="Search"
+    single-line
+    hide-details
     >
+    </v-text-field>
+  </template>
+    <template v-slot:[`item.actions`]="{ item }">
+      <v-icon small class="mr-2" @click="editAkun(item.attributes.noInduk[0])">mdi-pencil</v-icon>
+      <v-icon small @click="deleteAkun(item.attributes.noInduk[0])">mdi-delete</v-icon>
+    </template>
   </v-data-table>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import axios from "axios"
-// import AkunService from "../../../../datasource/http-common"
+import AkunService from "../../../../services/AkunServices"
 export default {
   name: "ListAkun",
   data () {
     return {
+      search: "",
+      select: [],
+      combofilter: ["mahasiswa", "dosen", "tata_usaha", "admin"],
       headers: [
         {
           text: "NIP/NIM",
@@ -57,6 +75,11 @@ export default {
           text: "Status",
           value: "attributes.isActive[0]",
           class: "white--text text-lg-subtitle-1 font-weight-bold"
+        },
+        {
+          text: "Actions",
+          value: "actions",
+          sortable: false
         }
       ],
       items: []
@@ -73,9 +96,27 @@ export default {
           console.log(e)
         }) */
       try {
-        const result = await axios.get("http://localhost:5001/user")
+        const result = await AkunService.getAll()
         this.items = result.data.data
         console.log(result.data.data)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    refreshList () {
+      this.retrieveAkun()
+    },
+    editAkun (id) {
+      this.$router.push({
+        name: "EditAkun",
+        params: { id: id }
+      })
+    },
+    async deleteAkun (id) {
+      try {
+        const result = await AkunService.delete(id)
+        this.refreshList()
+        console.log(result)
       } catch (error) {
         console.log(error)
       }
@@ -85,6 +126,13 @@ export default {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
     })
+  },
+  watch: {
+    select: async function (role) {
+      const result = await AkunService.getbyRole(role)
+      console.log(result.data.data)
+      this.items = result.data.data
+    }
   },
   mounted () {
     this.retrieveAkun()

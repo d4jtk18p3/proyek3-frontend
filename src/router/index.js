@@ -76,6 +76,11 @@ const routes = [
         path: "/admin/list-akun",
         name: "ListAkun",
         component: () => import("../views/admin/pages/ListAkun/ListAkun")
+      },
+      {
+        path: "/admin/akun/:id",
+        name: "EditAkun",
+        component: () => import("../views/admin/pages/EditAkun/EditAkun")
       }
       // {
       //   path: "/admin/add-user/form",

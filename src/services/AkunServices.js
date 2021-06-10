@@ -1,9 +1,29 @@
-import http from "../datasource/http-common";
+import http from "../datasource/http-common"
 
 class AkunServices {
-    getAll(){
-        return http.get("/user/");
-    }
+  async getAll () {
+    return await http.get("/user/")
+  }
+
+  async get (id) {
+    return await http.get("user?key=" + id)
+  }
+
+  async getbyRole (role) {
+    return await http.get("user?role=" + role)
+  }
+
+  async delete (id) {
+    return await http.delete("user/" + id)
+  }
+
+  async update (id, email, status) {
+    return await http.put("user/update-account", {
+      username: id,
+      newEmail: email,
+      newStatus: status
+    })
+  }
 }
 
-export default new AkunServices();
+export default new AkunServices()
