@@ -15,6 +15,7 @@
           small
           class="font-weight-bold"
           :style="item.disabled ? breadcrumbItemDisableStyle : breadcrumbItemEnableStyle"
+          @click="onButtonBreadcumbClick(item.href)"
         >{{item.text}}</v-btn>
       </v-breadcrumbs-item>
     </template>
@@ -63,6 +64,14 @@ export default {
       return {
         color: this.isDark ? this.currentTheme.onBackground : "#C4C4C4"
       }
+    }
+  },
+  methods: {
+    onButtonBreadcumbClick (href) {
+      this.$router.push({
+        path: href
+      })
+      this.$router.go(1)
     }
   }
 }
