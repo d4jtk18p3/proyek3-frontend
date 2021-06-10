@@ -11,12 +11,6 @@
                     <v-col cols="12">
                       <img width="25px" height="25px" src="../../../../assets/1.png"/>
                       <p class="judul">Ajukan Izin untuk mata kuliah</p>
-                      <div
-                        class="alert"
-                        v-if="idPerkuliahan.length === 0"
-                      >
-                        <p>Mata kuliah wajib diisi</p>
-                      </div>
                       <v-menu
                         ref="menu"
                         v-model="menu"
@@ -36,6 +30,7 @@
                             readonly
                             v-bind="attrs"
                             v-on="on"
+                            :rules="[validateDate]"
                           ></v-combobox>
                         </template>
                         <v-date-picker
@@ -60,6 +55,12 @@
                           </v-btn>
                         </v-date-picker>
                       </v-menu>
+                      <div
+                        class="alert"
+                        v-if="idPerkuliahan.length === 0"
+                        >
+                          <p>Mata kuliah wajib diisi</p>
+                      </div>
                       <div
                         v-for='(jadwal, index) in jadwalMhs'
                         :key="index"
@@ -170,6 +171,7 @@ const schedule = require("node-schedule")
 
 export default {
   created () {
+    this.getJadwalMhs()
     schedule.scheduleJob("0 0 0 * * *", function () {
       this.idPerkuliahan = []
       this.isSuccess = false
@@ -208,7 +210,8 @@ export default {
         message: ""
       },
       show1: false,
-      isIzin: false
+      isIzin: false,
+      invalidDate: false
     }
   },
   computed: {
@@ -216,7 +219,7 @@ export default {
       return this.error.message
     },
     isDisable () {
-      return this.idPerkuliahan.length === 0 || this.url_gambar == null || this.password.length === 0 || this.isChecked !== true
+      return this.idPerkuliahan.length === 0 || this.url_gambar == null || this.password.length === 0 || this.isChecked !== true || this.invalidDate === true
     }
   },
   methods: {
@@ -225,12 +228,26 @@ export default {
         return "Anda harus menyetujui segala kebijakan"
       }
     },
+    validateDate () {
+      var moment = require("moment")
+      var currentDate = new Date()
+      if (!moment(this.dates).isSameOrAfter(currentDate, "day")) {
+        this.invalidDate = true
+        return "Tanggal tidak valid"
+      } else {
+        if (this.chooseDay === 6 || this.chooseDay === 0) {
+          this.invalidDate = true
+          return "Pemilihan hari harus selain Sabtu atau Minggu"
+        } else {
+          this.invalidDate = false
+          return " "
+        }
+      }
+    },
     updateValue () {
-      console.log(this.dates)
       this.$refs.menu.save(this.dates)
       var convertdate = new Date(this.dates)
       this.chooseDay = convertdate.getDay()
-      console.log(this.dates)
       this.getJadwalMhs()
     },
     uploadKeterangan () {
@@ -242,7 +259,7 @@ export default {
       data.append("status", "izin")
       data.append("idJadwals", this.idPerkuliahan)
       data.append("nim", 181524010)
-      data.append("tglIzin", "2021-06-04")
+      data.append("tglIzin", this.dates)
       Keterangan.uploadKeterangan(data)
         .then(response => {
           console.log(response)
@@ -263,10 +280,8 @@ export default {
       var index = this.idPerkuliahan.indexOf(value)
       if (index === -1) {
         this.idPerkuliahan.push(value)
-        console.log(this.idPerkuliahan)
       } else {
         this.idPerkuliahan.splice(index, 1)
-        console.log(this.idPerkuliahan)
       }
     },
     addFile () {
@@ -287,7 +302,6 @@ export default {
       return true
     },
     getJadwalMhs () {
-      console.log("HEELLOOOOOOOOOOOOOOOOOOO")
       JadwalMahasiswa.getJadwalMahasiswa(this.chooseDay, 181524010)
         .then(response => {
           response.data.jadwal.forEach(function (element) {
@@ -300,9 +314,6 @@ export default {
           console.log(e)
         })
     }
-  },
-  beforeMount () {
-    this.getJadwalMhs()
   }
 }
 </script>

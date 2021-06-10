@@ -50,6 +50,11 @@ const routes = [
         path: "/template/dosen/absensi-mahasiswa",
         name: "AbsensiMahasiswaDosenView",
         component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/template/pages/absensi/dosen/AbsensiMahasiswaDosenView")
+      },
+      {
+        path: "/template/dosen/perkuliahan",
+        name: "Perkuliahan",
+        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/template/pages/absensi/dosen/PerkuliahanDosen")
       }
     ]
   },
