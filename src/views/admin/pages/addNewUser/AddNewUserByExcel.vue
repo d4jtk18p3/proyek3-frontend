@@ -48,7 +48,6 @@
 import _ from "lodash"
 import { mapGetters } from "vuex"
 import XLSX from "xlsx"
-import axios from "axios"
 import DataTable from "@/views/admin/component/AddNewUser/DataTable"
 import Admin from "@/datasource/network/admin/admin"
 
