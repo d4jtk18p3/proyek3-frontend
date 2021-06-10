@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-dialog v-model="show" max-width="500px">
-      <v-card class="mx-auto pa-5">
+      <v-card class="mx-auto pa-5" :style="{background: currentTheme.surface}">
         <v-row  :style="{color: currentTheme.onBackground}">
           <v-col cols="12" align="center">
             <p class="text-h4 font-weight-bold">Tambah Monitoring</p>
@@ -10,7 +10,7 @@
 
         <v-row  :style="{color: currentTheme.onBackground}">
           <v-col cols="12">
-            <p class="text-h6 font-weight-bold">Tugas</p>
+            <div class="text-h6 font-weight-bold">Tugas</div>
           </v-col>
         </v-row>
 
@@ -21,14 +21,15 @@
               label="Nama Tugas"
               outlined
               clearable
+              :dark="isDark"
               :color="currentTheme.colorSecondary"
             ></v-text-field>
           </v-col>
         </v-row>
 
-        <!-- <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
+        <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
           <v-col cols="12">
-            <p class="text-h6 font-weight-bold">Kriteria</p>
+            <div class="text-h6 font-weight-bold">Kriteria</div>
           </v-col>
         </v-row>
         <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
@@ -41,26 +42,27 @@
               outlined
               dense
               clearable
+              :dark="isDark"
               :color="currentTheme.colorSecondary"
             ></v-combobox>
           </v-col>
-        </v-row> -->
+        </v-row>
 
         <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
           <v-col cols="6" align="right">
             <v-btn
             outlined
-            :color="currentTheme.colorOnSecondary"
+            :color="isDark? currentTheme.colorSecondary : currentTheme.colorOnSecondary"
             @click="closeDialog()"
-          >
-            Batal
-          </v-btn>
+            >
+              Batal
+            </v-btn>
           </v-col>
           <v-col cols="6" align="left">
             <v-btn
             :disabled="!this.namaTugas"
             class=" white--text"
-            :color="currentTheme.colorOnSecondary"
+            :color="isDark? currentTheme.colorSecondary : currentTheme.colorOnSecondary"
             @click="addTugas"
           >
             Submit
@@ -160,7 +162,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import MonitoringDosen from "../../../datasource/api/monitoring/MonitoringDosen"
+import MonitoringDosen from "../../../../datasource/api/monitoring/MonitoringDosen"
 export default {
   name: "FormAddMonitoring",
   props: ["visible"],
@@ -183,7 +185,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentTheme: "theme/getCurrentColor"
+      currentTheme: "theme/getCurrentColor",
+      isDark: "theme/getIsDark"
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs

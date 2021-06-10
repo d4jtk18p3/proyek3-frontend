@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import MataKuliahItem from "@/views/monitoring/component/MataKuliahItem"
+import MataKuliahItem from "@/views/monitoring/component/dosen/MataKuliahItem"
 export default {
   name: "MonitoringDosenMataKuliahItem",
   components: { MataKuliahItem },

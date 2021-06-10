@@ -36,8 +36,8 @@
 <script>
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
-import MatkulItem from "@/views/monitoring/component/MatkulItem"
-import KelasItem from "@/views/monitoring/component/KelasItem"
+import MatkulItem from "@/views/monitoring/component/dosen/MatkulItem"
+import KelasItem from "@/views/monitoring/component/dosen/KelasItem"
 import MonitoringDosen from "../../../../datasource/api/monitoring/MonitoringDosen"
 export default {
   name: "AbsensiDosenMain",

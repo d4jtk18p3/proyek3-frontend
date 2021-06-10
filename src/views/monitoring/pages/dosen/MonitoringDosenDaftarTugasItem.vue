@@ -11,8 +11,8 @@
 
 <script>
 import { mapGetters } from "vuex"
-import TugasItem from "@/views/monitoring/component/TugasItem"
-import TambahMonitoring from "@/views/monitoring/component/TambahMonitoring"
+import TugasItem from "@/views/monitoring/component/dosen/TugasItem"
+import TambahMonitoring from "@/views/monitoring/component/dosen/TambahMonitoring"
 import MonitoringDosen from "../../../../datasource/api/monitoring/MonitoringDosen"
 export default {
   name: "DashboardMain",

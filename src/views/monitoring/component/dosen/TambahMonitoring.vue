@@ -28,7 +28,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import DialogFormTambahMonitoring from "@/views/monitoring/component/DialogFormTambahMonitoring"
+import DialogFormTambahMonitoring from "@/views/monitoring/component/dosen/DialogFormTambahMonitoring"
 export default {
   name: "TambahMonitoring",
   components: { DialogFormTambahMonitoring },
