@@ -30,10 +30,38 @@
       <v-simple-table>
         <thead>
           <tr>
-            <th :style="{background: currentTheme.onBackground, color: currentTheme.background, 'text-align': 'center', 'border': '1px solid' + currentTheme.background}" v-for="header in headerParentNilaiETS" :key="header.key" :colspan="header.colspan" @click="changeBobot(header)">{{ header.label }}</th>
+            <th :style="{background: currentTheme.onBackground, color: currentTheme.background, 'text-align': 'center', 'border': '1px solid' + currentTheme.background}" v-for="(header, index) in headerParentNilaiETS" :key="header.key" :colspan="header.colspan" @click="changeBobot(header)">
+              <v-badge
+                v-if="index > 0"
+                :color="currentTheme.onBackground"
+                icon="mdi-pencil"
+              >
+              {{ header.label }}
+              </v-badge>
+              <v-badge
+                v-else
+                :color="currentTheme.onBackground"
+              >
+              {{ header.label }}
+              </v-badge>
+            </th>
           </tr>
           <tr>
-            <th :style="{background: currentTheme.onBackground, color: currentTheme.background, 'text-align': 'center', 'border': '1px solid' + currentTheme.background}" v-for="header in headerChildNilaiETS" :key="header.key" :colspan="header.colspan" @click="changeBobot(header)">{{ header.label }}</th>
+            <th :style="{background: currentTheme.onBackground, color: currentTheme.background, 'text-align': 'center', 'border': '1px solid' + currentTheme.background}" v-for="(header, index) in headerChildNilaiETS" :key="header.key" :colspan="header.colspan" @click="changeBobot(header)">
+              <v-badge
+                v-if="index > 1"
+                :color="currentTheme.onBackground"
+                icon="mdi-pencil"
+              >
+              {{ header.label }}
+              </v-badge>
+              <v-badge
+                v-else
+                :color="currentTheme.onBackground"
+              >
+              {{ header.label }}
+              </v-badge>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -42,7 +70,7 @@
               <template v-if="headerChildNilaiETS[index].readOnly" >
                 {{ dataNilaiMahasiswaETS[indexNilai][name] }}
               </template>
-              <input v-else v-model="dataNilaiMahasiswaETS[indexNilai][name]" placeholder="Enter nilai" :style="{'width': '100px', 'text-align': 'center'}"/>
+              <input v-else v-model="dataNilaiMahasiswaETS[indexNilai][name]" placeholder="Enter nilai" type="number" :min="0" :max="100" @change="dataNilaiMahasiswaETS[indexNilai][name] = Math.max(Math.min(Math.round(dataNilaiMahasiswaETS[indexNilai][name]), 100), 0)" :style="{'width': '100px', 'text-align': 'center'}"/>
             </td>
           </tr>
         </tbody>
@@ -54,10 +82,38 @@
       <v-simple-table>
         <thead>
           <tr>
-            <th :style="{background: currentTheme.onBackground, color: currentTheme.background, 'text-align': 'center', 'border': '1px solid' + currentTheme.background}" v-for="header in headerParentNilaiEAS" :key="header.key" :colspan="header.colspan" @click="changeBobot(header)">{{ header.label }}</th>
+            <th :style="{background: currentTheme.onBackground, color: currentTheme.background, 'text-align': 'center', 'border': '1px solid' + currentTheme.background}" v-for="(header, index) in headerParentNilaiEAS" :key="header.key" :colspan="header.colspan" @click="changeBobot(header)">
+              <v-badge
+                v-if="index > 0"
+                :color="currentTheme.onBackground"
+                icon="mdi-pencil"
+              >
+              {{ header.label }}
+              </v-badge>
+              <v-badge
+                v-else
+                :color="currentTheme.onBackground"
+              >
+              {{ header.label }}
+              </v-badge>
+            </th>
           </tr>
           <tr>
-            <th :style="{background: currentTheme.onBackground, color: currentTheme.background, 'text-align': 'center', 'border': '1px solid' + currentTheme.background}" v-for="header in headerChildNilaiEAS" :key="header.key" :colspan="header.colspan" @click="changeBobot(header)">{{ header.label }}</th>
+            <th :style="{background: currentTheme.onBackground, color: currentTheme.background, 'text-align': 'center', 'border': '1px solid' + currentTheme.background}" v-for="(header, index) in headerChildNilaiEAS" :key="header.key" :colspan="header.colspan" @click="changeBobot(header)">
+              <v-badge
+                v-if="index > 1"
+                :color="currentTheme.onBackground"
+                icon="mdi-pencil"
+              >
+              {{ header.label }}
+              </v-badge>
+              <v-badge
+                v-else
+                :color="currentTheme.onBackground"
+              >
+              {{ header.label }}
+              </v-badge>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -66,7 +122,7 @@
               <template v-if="headerChildNilaiEAS[index].readOnly" >
                 {{ dataNilaiMahasiswaEAS[indexNilai][name] }}
               </template>
-              <input v-else v-model="dataNilaiMahasiswaEAS[indexNilai][name]" placeholder="Enter nilai" :style="{'width': '100px', 'text-align': 'center'}"/>
+              <input v-else v-model="dataNilaiMahasiswaEAS[indexNilai][name]" placeholder="Enter nilai" type="number" :min="0" :max="100" @change="dataNilaiMahasiswaEAS[indexNilai][name] = Math.max(Math.min(Math.round(dataNilaiMahasiswaEAS[indexNilai][name]), 100), 0)" :style="{'width': '100px', 'text-align': 'center'}"/>
             </td>
           </tr>
         </tbody>
@@ -275,7 +331,7 @@ export default {
           this.dataNilaiMahasiswaETS = this.parse(worksheetETS, this.headerChildNilaiETS)
 
           // Data Nilai EAS
-          headers = [{ label: "Detail Mahasiswa", colspan: 2, key: "parrent1" }]
+          headers = [{ label: "Detail Mahasiswa", colspan: 2, key: "parrent1", readOnly: true }]
           range = XLSX.utils.decode_range(worksheetEAS["!ref"])
           R = range.s.r /* start in the first row */
           /* walk every column in the range */
@@ -401,7 +457,7 @@ export default {
           idKategori: getLastIdKategori,
           parent: this.headerETS.idKategori,
           nama_kategori: this.headerParentNilaiETS[i].label,
-          bobot_nilai: this.headerParentNilaiETS[i].bobot
+          bobot_nilai: parseInt(this.headerParentNilaiETS[i].bobot)
         }
         kategoriNilai.push(kategori)
         getLastIdKategori++
@@ -417,7 +473,7 @@ export default {
             idKategori: getLastIdKategori,
             parent: listParent[j].idKategori,
             nama_kategori: this.headerChildNilaiETS[k + iter].label,
-            bobot_nilai: this.headerChildNilaiETS[k + iter].bobot
+            bobot_nilai: parseInt(this.headerChildNilaiETS[k + iter].bobot)
           }
           kategoriNilaiChild.push(kategori)
           getLastIdKategori++
@@ -435,7 +491,7 @@ export default {
         for (i = 0; i < kategoriNilaiChild.length; i++) {
           nilai = {
             id_kategori: kategoriNilaiChild[i].idKategori,
-            nilai: this.dataNilaiMahasiswaETS[j]["Nilai" + (i + 1)],
+            nilai: parseInt(this.dataNilaiMahasiswaETS[j]["Nilai" + (i + 1)]),
             nim: this.dataNilaiMahasiswaETS[j].NIM
           }
           dataNilai.push(nilai)
@@ -448,7 +504,7 @@ export default {
       var dataNilaiMahasiswa = {}
 
       // Input Mata Kuliah
-      dataNilaiMahasiswa.idMataKuliah = 1 // get id mata kuliah from API
+      dataNilaiMahasiswa.idMataKuliah = parseInt(this.$route.params.id) // get id mata kuliah from API
 
       // Input Kategori
       var kategoriNilai = []
@@ -464,7 +520,7 @@ export default {
           idKategori: getLastIdKategori,
           parent: this.headerEAS.idKategori,
           nama_kategori: this.headerParentNilaiEAS[i].label,
-          bobot_nilai: this.headerParentNilaiEAS[i].bobot
+          bobot_nilai: parseInt(this.headerParentNilaiEAS[i].bobot)
         }
         kategoriNilai.push(kategori)
         getLastIdKategori++
@@ -480,7 +536,7 @@ export default {
             idKategori: getLastIdKategori,
             parent: listParent[j].idKategori,
             nama_kategori: this.headerChildNilaiEAS[k + iter].label,
-            bobot_nilai: this.headerChildNilaiEAS[k + iter].bobot
+            bobot_nilai: parseInt(this.headerChildNilaiEAS[k + iter].bobot)
           }
           kategoriNilaiChild.push(kategori)
           getLastIdKategori++
@@ -498,7 +554,7 @@ export default {
         for (i = 0; i < kategoriNilaiChild.length; i++) {
           nilai = {
             id_kategori: kategoriNilaiChild[i].idKategori,
-            nilai: this.dataNilaiMahasiswaEAS[j]["Nilai" + (i + 1)],
+            nilai: parseInt(this.dataNilaiMahasiswaEAS[j]["Nilai" + (i + 1)]),
             nim: this.dataNilaiMahasiswaEAS[j].NIM
           }
           dataNilai.push(nilai)
@@ -514,6 +570,7 @@ export default {
       this.headerChildNilaiETS = null
       this.headerParentNilaiEAS = null
       this.headerChildNilaiEAS = null
+      window.location.reload()
     }
   },
   mounted () {
