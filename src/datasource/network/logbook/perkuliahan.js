@@ -1,5 +1,5 @@
 import axios from "axios"
-import { PERKULIAHAN_URL } from "../const"
+import { PERKULIAHAN_URL } from "./const"
 
 const getAllPerkuliahanyangDiampuDosen = async (nip) => {
   try {

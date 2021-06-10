@@ -1,5 +1,5 @@
 import axios from "axios"
-import { MATAKULIAH_URL } from "../const"
+import { MATAKULIAH_URL } from "./const"
 
 const getAllMataKuliahProyekyangDiampuDosen = async (nip) => {
   try {

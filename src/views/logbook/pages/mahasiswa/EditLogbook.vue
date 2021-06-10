@@ -73,7 +73,7 @@ import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import DatePickerItem from "@/views/logbook/component/mahasiswa/DatePickerItem"
 import FormEditLogbookItem from "@/views/logbook/component/mahasiswa/FormEditLogbookItem"
-import BackEndEntri from "../../../../datasource/api/logbook/entri"
+import BackEndEntri from "../../../../datasource/network/logbook/entri"
 
 export default {
   name: "EditLogbook",

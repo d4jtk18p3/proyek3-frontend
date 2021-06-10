@@ -1,5 +1,5 @@
 import axios from "axios"
-import { LOGBOOKENTRI_URL } from "../const"
+import { LOGBOOKENTRI_URL } from "./const"
 
 const getAllEntryLogbookMhsByid = async (idLogbooks) => {
   try {

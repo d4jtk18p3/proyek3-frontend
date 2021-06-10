@@ -1,5 +1,5 @@
 import axios from "axios"
-import { MAHASISWA_URL } from "../const"
+import { MAHASISWA_URL } from "./const"
 
 const getAllMahasiswaByKelas = async (kodekelas) => {
   try {
