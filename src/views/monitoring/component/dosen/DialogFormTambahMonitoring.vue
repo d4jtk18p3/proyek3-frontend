@@ -162,7 +162,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import MonitoringDosen from "../../../../datasource/api/monitoring/MonitoringDosen"
+import MonitoringDosen from "../../../../datasource/network/monitoring/monitoringdosen"
 export default {
   name: "FormAddMonitoring",
   props: ["visible"],
