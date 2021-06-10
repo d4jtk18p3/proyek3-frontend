@@ -208,6 +208,11 @@ const routes = [
         path: "/component-template/paragraph",
         name: "Paragraph",
         component: () => import(/* webpackChunkName: "paragraph-template" */ "../views/componentTemplate/pages/ParapgraphTemplate")
+      },
+      {
+        path: "/component-template/dialog",
+        name: "Dialog",
+        component: () => import(/* webpackChunkName: "paragraph-template" */ "../views/componentTemplate/pages/DialogTemplate")
       }
     ]
   }
