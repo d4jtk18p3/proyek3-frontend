@@ -44,7 +44,7 @@ const routes = [
       {
         path: "/template/dosen/absensi",
         name: "AbsensiDosen",
-        component: () => import(/* webpackChunkName: "absensimahasiswadosenviewhome" */ "../views/template/pages/absensi/dosen/AbsensiDosenMain")
+        component: () => import(/* webpackChunkName: "absensimahasiswadosenviewhome" */ "../views/template/pages/absensi/dosen/AbsensiDosen")
       },
       {
         path: "/template/dosen/absensi-mahasiswa",
