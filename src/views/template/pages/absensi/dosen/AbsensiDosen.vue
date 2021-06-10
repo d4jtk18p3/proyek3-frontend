@@ -22,7 +22,7 @@
     </v-row>
     <v-row no-gutters>
       <v-col cols="5">
-          <LogAktivitas :jadwalMhs="jadwalMhs"></LogAktivitas>
+          <LogAktivitas :jadwalDsn="jadwalDsn"></LogAktivitas>
       </v-col>
       <v-col cols="5">
         <PersentaseMengajar></PersentaseMengajar>
@@ -34,7 +34,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <AbsenCardDosen :jadwalMhs="jadwalMhs"></AbsenCardDosen>
+      <AbsenCardDosen :jadwalDsn="jadwalDsn"></AbsenCardDosen>
     </v-row>
   </v-container>
 </template>
@@ -45,7 +45,7 @@ import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import AbsenCardDosen from "@/views/template/component/absensi/AbsenCardDosen"
 import LogAktivitas from "@/views/template/component/absensi/LogAktivitas"
 import PersentaseMengajar from "@/views/template/component/absensi/PersentaseMengajar"
-import JadwalMahasiswa from "../../../../../datasource/api/absensi/jadwal"
+import JadwalDosen from "../../../../../datasource/api/absensi/jadwalDosen"
 
 const schedule = require("node-schedule")
 
@@ -60,11 +60,11 @@ export default {
   created () {
     var current = new Date()
     this.currentDay = current.getDay()
-    this.getJadwalMhs()
+    this.getJadwalDsn()
     schedule.scheduleJob("0 0 0 * * *", function () {
       this.currentDay = current.getDay()
-      this.getJadwalMhs()
-      console.log(this.jadwalMhs)
+      this.getJadwalDsn()
+      console.log(this.jadwalDsn)
     })
   },
   data () {
@@ -88,8 +88,7 @@ export default {
       ],
       date: new Date().toISOString().substr(0, 10),
       menu: false,
-      jadwalMhs: [],
-      isIzinDialogShown: true,
+      jadwalDsn: [],
       currentDay: null
     }
   },
@@ -103,16 +102,13 @@ export default {
     }
   },
   methods: {
-  //   itemRowBackground: function (isDark) {
-  //     return isDark ? "white" : "black"
-  //   }
-    getJadwalMhs () {
-      JadwalMahasiswa.getJadwalMahasiswa(this.currentDay, 181524010)
+    getJadwalDsn () {
+      JadwalDosen.getJadwalDosen(this.currentDay, 11113)
         .then(response => {
           response.data.jadwal.forEach(function (element) {
             element.absen = "false"
           })
-          this.jadwalMhs = response.data.jadwal
+          this.jadwalDsn = response.data.jadwal
           console.log(response.data.jadwal)
         })
         .catch(e => {

@@ -6,7 +6,7 @@
       value="3"
     >
       <v-slide-item
-        v-for="(item, index) in jadwalMhs"
+        v-for="(item, index) in jadwalDsn"
         :key="index"
         class="d-flex align-self-center"
       >
@@ -30,7 +30,6 @@
                   class="ma-5"
                   color="#4CAF50"
                   width="120"
-                  @click="presensiMahasiswa(index, item.id_studi, item.id_jadwal)"
                 > Hadir</v-btn>
                 <v-btn
                   v-else
@@ -62,14 +61,13 @@
 
 <script>
 import { mapGetters } from "vuex"
-import PresensiMahasiswa from "../../../../datasource/api/absensi/PresensiMahasiswa"
 
 // const THIRTY_MINUTES = 1000 * 60 * 30
 
 export default {
   name: "AbsenCardDosen",
   props: {
-    jadwalMhs: {
+    jadwalDsn: {
       type: Array,
       default () {
         return {}
@@ -80,38 +78,6 @@ export default {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
     })
-  },
-  methods: {
-    presensiMahasiswa (index, idStudi, idJadwal) {
-      PresensiMahasiswa.presensiMahasiswa(idStudi, idJadwal)
-        .then(response => {
-          this.jadwalMhs[index].absen = false
-          console.log(response)
-        })
-        .catch(e => {
-          console.log(e)
-        })
-    },
-    presensiSchedule () {
-      // const schedule = require("node-schedule")
-      const startTime = new Date(Date.now() + 5000)
-      console.log(startTime)
-      console.log(startTime.getTime())
-      // for (var i in this.jadwalMhs) {
-      //   const startTime = new Date(this.jadwalMhs[i].waktu_mulai - THIRTY_MINUTES)
-      //   const endTime = new Date(this.jadwalMhs[i].waktu_mulai + THIRTY_MINUTES)
-      //   schedule.scheduleJob({ start: startTime, end: endTime, rule: "*/1 * * * * *" }, function () {
-      //     console.log("Time for tea!")
-      //   })
-      // }
-
-      // schedule.scheduleJob("5 * * * * *", function () {
-      //   console.log("The answer to life, the universe, and everything!")
-      // })
-    }
-  },
-  beforeMount () {
-    this.presensiSchedule()
   }
 }
 </script>
