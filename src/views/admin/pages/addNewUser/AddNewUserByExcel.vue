@@ -50,6 +50,7 @@ import { mapGetters } from "vuex"
 import XLSX from "xlsx"
 import axios from "axios"
 import DataTable from "@/views/admin/component/AddNewUser/DataTable"
+import Admin from "@/datasource/network/admin/admin"
 
 export default {
   name: "AddNewUserByExcel",
@@ -126,14 +127,13 @@ export default {
           role = "tata_usaha"
         }
         try {
-          const url = "http://localhost:5001/user/create"
-          const result = await axios.post(url, {
-            noInduk: noInduk,
-            jenisNoInduk: jenisNoInduk.toLowerCase(),
-            nama: nama,
-            email: email,
-            role: role.toLowerCase()
-          })
+          const result = await Admin.createOneAccount(
+            noInduk,
+            jenisNoInduk,
+            nama,
+            email,
+            role
+          )
           if (result instanceof Error) {
             throw result
           } else {

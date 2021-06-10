@@ -81,7 +81,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import axios from "axios"
+import Admin from "@/datasource/network/admin/admin"
 import SubmitSuccessDialog from "@/views/admin/component/AddNewUser/SubmitSuccessDialog"
 
 export default {
@@ -143,14 +143,13 @@ export default {
         role = "tata_usaha"
       }
       try {
-        const url = "http://localhost:5001/user/create"
-        const result = await axios.post(url, {
-          noInduk: this.nomor,
-          jenisNoInduk: this.induk.toLowerCase(),
-          nama: this.nama,
-          email: this.email,
-          role: role.toLowerCase()
-        })
+        const result = await Admin.createOneAccount(
+          this.nomor,
+          this.induk,
+          this.nama,
+          this.email,
+          role
+        )
         if (result instanceof Error) {
           throw result
         } else {
