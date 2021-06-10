@@ -232,9 +232,16 @@ export default {
       var moment = require("moment")
       var currentDate = new Date()
       if (!moment(this.dates).isSameOrAfter(currentDate, "day")) {
+        this.invalidDate = true
         return "Tanggal tidak valid"
       } else {
-        return " "
+        if (this.chooseDay === 6 || this.chooseDay === 0) {
+          this.invalidDate = true
+          return "Pemilihan hari harus selain Sabtu atau Minggu"
+        } else {
+          this.invalidDate = false
+          return " "
+        }
       }
     },
     updateValue () {
