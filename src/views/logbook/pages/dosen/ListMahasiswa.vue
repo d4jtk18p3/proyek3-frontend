@@ -43,7 +43,7 @@ import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import ListMahasiswaItem from "@/views/logbook/component/dosen/ListMahasiswaItem"
 import ListMahasiswaItemMobile from "@/views/logbook/component/dosen/ListMahasiswaItemMobile"
-import BackEndMahasiswa from "../../../../datasource/api/logbook/mahasiswa"
+import BackEndMahasiswa from "../../../../datasource/network/logbook/mahasiswa"
 
 export default {
   name: "ListMahasiswa",

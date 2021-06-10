@@ -206,7 +206,7 @@
 <script>
 import { mapGetters } from "vuex"
 import { VueEditor } from "vue2-editor"
-import BackEndEntri from "../../../../datasource/api/logbook/entri"
+import BackEndEntri from "../../../../datasource/network/logbook/entri"
 export default {
   name: "FormEditLogbookItem",
   components: { VueEditor },

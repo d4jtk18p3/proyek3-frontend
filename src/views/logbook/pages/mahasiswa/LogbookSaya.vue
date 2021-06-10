@@ -52,7 +52,7 @@
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import TabelItem from "@/views/logbook/component/mahasiswa/TabelItem"
-import BackEndLogbook from "../../../../datasource/api/logbook/logbook"
+import BackEndLogbook from "../../../../datasource/network/logbook/logbook"
 
 export default {
   name: "LogbookSaya",

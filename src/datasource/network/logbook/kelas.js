@@ -1,5 +1,5 @@
 import axios from "axios"
-import { KELAS_URL } from "../const"
+import { KELAS_URL } from "./const"
 
 const getAllKelasByMatkul = async (nip, idMatkul) => {
   try {

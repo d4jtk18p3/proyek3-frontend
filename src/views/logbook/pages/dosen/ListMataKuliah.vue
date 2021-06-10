@@ -22,9 +22,9 @@
 import { mapGetters, mapActions } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import MataKuliahItem from "@/views/logbook/component/dosen/MataKuliahItem"
-import BackEndMatakuliah from "../../../../datasource/api/logbook/matakuliah"
-import BackEndPerkuliahan from "../../../../datasource/api/logbook/perkuliahan"
-import BackEndKelas from "../../../../datasource/api/logbook/kelas"
+import BackEndMatakuliah from "../../../../datasource/network/logbook/matakuliah"
+import BackEndPerkuliahan from "../../../../datasource/network/logbook/perkuliahan"
+import BackEndKelas from "../../../../datasource/network/logbook/kelas"
 
 export default {
   name: "LogbookMahasiswa",

@@ -160,8 +160,8 @@
 <script>
 import { mapGetters } from "vuex"
 import { VueEditor } from "vue2-editor"
-import BackEndLogbook from "../../../../datasource/api/logbook/logbook"
-import BackEndEntri from "../../../../datasource/api/logbook/entri"
+import BackEndLogbook from "../../../../datasource/network/logbook/logbook"
+import BackEndEntri from "../../../../datasource/network/logbook/entri"
 export default {
   name: "FormTambahLogbookItem",
   components: { VueEditor },
