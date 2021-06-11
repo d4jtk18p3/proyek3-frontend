@@ -1,5 +1,7 @@
 import axios from "axios"
-import { MONITORING_URL } from "../const"
+import { MONITORING_URL } from "./const"
+import errorHandler
+  from "@/datasource/network/errorHandler"
 
 const getListKelas = async (nip) => {
   try {
@@ -13,8 +15,8 @@ const getListKelas = async (nip) => {
     }
     console.log(kelas)
     return kelas
-  } catch (err) {
-    console.error(err)
+  } catch (e) {
+    return await errorHandler(e)
   }
 }
 
@@ -30,8 +32,8 @@ const getMatkulKelas = async (nip, kodeKelas) => {
     }
     console.log(matkul)
     return matkul
-  } catch (err) {
-    console.error(err)
+  } catch (e) {
+    return await errorHandler(e)
   }
 }
 
@@ -47,8 +49,8 @@ const getTugasMatkul = async (idMatkul, idPerkuliahan) => {
     }
     console.log(result.data.data.listTugas[i])
     return tugas
-  } catch (err) {
-    console.error(err)
+  } catch (e) {
+    return await errorHandler(e)
   }
 }
 
@@ -57,8 +59,8 @@ const postTugasBaru = async (namaTugas, idPerkuliahan) => {
     const monitoringURL = MONITORING_URL + `/dosen/tugas-baru`
     const result = await axios.post(monitoringURL, { nama_tugas: namaTugas, id_perkuliahan: idPerkuliahan })
     return result.data
-  } catch (err) {
-    console.error(err)
+  } catch (e) {
+    return await errorHandler(e)
   }
 }
 

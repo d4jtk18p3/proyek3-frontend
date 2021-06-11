@@ -1,6 +1,6 @@
 <template>
   <v-app :style="{background : currentTheme.background}">
-    <side-bar v-if="!isMobile" :items="sideBarItems"/>
+    <side-bar v-if="!isMobile" :items="isUserDosen ? sideBarItemsDsn : sideBarItemsMhs"/>
     <nav-bar/>
     <v-main>
       <v-container :class="isMobile? 'pa-5' : 'pa-12'">
@@ -27,13 +27,13 @@ const initOptions = {
   url: "https://keycloak.ca9db134.nip.io/auth", realm: "polban-realm", clientId: "template", onLoad: "login-required"
 }
 export default {
-  name: "TemplateMain",
+  name: "LogbookMain",
   components: {
     SideBar,
     NavBar
   },
   created () {
-    // this.sychronize("dani")
+    this.sychronize("dani")
     if (!this.$keycloak) {
       this.initKeycloak()
     }
@@ -42,13 +42,15 @@ export default {
     return {
       isAuthenticated: "",
       isLoading: false,
-      sideBarItems: [
-        { text: "Dashboard Tugas", icon: "mdi-school-outline", to: "/template/dashboard" },
-        { text: "Monitoring Tugas", icon: "mdi-file-document-outline", to: "/monitoring/dosen/monitoring-tugas" },
-        { text: "Dashboard Mahasiswa", icon: "mdi-school-outline", to: "/monitoring/mahasiswa/dashboard" },
-        { text: "Daftar Tugas Mahasiswa", icon: "mdi-monitor-multiple", to: "/monitoring/mahasiswa/daftar-tugas" },
-        { text: "Monitoring Mahasiswa", icon: "mdi-monitor-multiple", to: "/monitoring/mahasiswa/namaMatkul/namaTugas" }
-      ]
+      sideBarItemsMhs: [
+        { text: "Logbook Saya", icon: "mdi-notebook-multiple", to: "/logbook/mylogbook" },
+        { text: "Tambah Logbook", icon: "mdi-notebook-plus", to: "/logbook/addlogbook" }
+      ],
+      sideBarItemsDsn: [
+        { text: "Dashboard Logbook", icon: "mdi-desktop-mac-dashboard", to: "/logbook/dashboard" },
+        { text: "Logbook Mahasiswa", icon: "mdi-notebook-multiple", to: "/logbook/logbook-mahasiswa" }
+      ],
+      isUserDosen: false
     }
   },
   computed: {

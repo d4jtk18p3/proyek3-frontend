@@ -1,6 +1,7 @@
 <template>
   <v-card
     class="rounded-card rounded-xl"
+    to="/monitoring/dosen/monitoring-tugas/daftar-tugas/tugas"
   >
     <v-row class="pa-4 ma-0" :style="{background : currentTheme.colorSecondary}">
       <v-col align-self="center" class="pa-0 ma-0"

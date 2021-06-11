@@ -11,16 +11,17 @@
 
 <script>
 import { mapGetters } from "vuex"
-import TugasItem from "@/views/monitoring/component/TugasItem"
-import TambahMonitoring from "@/views/monitoring/component/TambahMonitoring"
-import MonitoringDosen from "../../../../datasource/api/monitoring/MonitoringDosen"
+import TugasItem from "@/views/monitoring/component/dosen/TugasItem"
+import TambahMonitoring from "@/views/monitoring/component/dosen/TambahMonitoring"
+// import MonitoringDosen from "../../../../datasource/network/monitoring/monitoringdosen"
 export default {
   name: "DashboardMain",
   components: { TugasItem, TambahMonitoring },
   data () {
     return {
       listTugas: [
-
+        "Membuat Website Akademik POLBAN",
+        "Menonton Video Communication"
       ]
     }
   },
@@ -31,9 +32,9 @@ export default {
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
-  },
-  async mounted () {
-    this.listTugas = await MonitoringDosen.getTugasMatkul("401", "101")
   }
+  // async mounted () {
+  //   this.listTugas = await MonitoringDosen.getTugasMatkul("401", "101")
+  // }
 }
 </script>
