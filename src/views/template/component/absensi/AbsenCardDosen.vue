@@ -19,7 +19,7 @@
             <v-card-text
               class="pb-0"
             > #{{item.id_studi}}</v-card-text>
-            <h3 class="pt-0 pb-5 text-center"> {{item.nama_mata_kuliah}} <br/> {{item.jenis}}</h3>
+            <h3 class="pt-0 pb-5 text-center"> {{item.mata_kuliah.nama_mata_kuliah}} <br/> {{item.jenis}}</h3>
             <v-spacer></v-spacer>
             <div>
               <v-card-actions class="justify-center">
