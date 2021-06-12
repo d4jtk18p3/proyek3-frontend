@@ -105,11 +105,11 @@ export default {
     getJadwalDsn () {
       JadwalDosen.getJadwalDosen(this.currentDay, 11113)
         .then(response => {
-          response.data.jadwal.forEach(function (element) {
-            element.absen = "false"
-          })
-          this.jadwalDsn = response.data.jadwal
-          console.log(response.data.jadwal)
+          // response.data.jadwal.forEach(function (element) {
+          //   element.absen = "false"
+          // })
+          this.jadwalDsn = response.result
+          console.log(response.result)
         })
         .catch(e => {
           console.log(e)
