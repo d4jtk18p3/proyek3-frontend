@@ -24,7 +24,7 @@
             <h3
               class="pt-0 pb-5 text-center"
               :style="!item.active? 'color: #272343' : 'color: white'"
-            > {{item.mata_kuliah.nama_mata_kuliah}}
+            > {{item.nama_mata_kuliah}}
               <br/>
               {{item.jenis}}
             </h3>
@@ -87,7 +87,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import PresensiMahasiswa from "../../../../datasource/api/absensi/PresensiMahasiswa"
+import PresensiMahasiswa from "@/datasource/network/absensi/PresensiMahasiswa"
 
 const INTERVAL = 1000 * 15
 const moment = require("moment")

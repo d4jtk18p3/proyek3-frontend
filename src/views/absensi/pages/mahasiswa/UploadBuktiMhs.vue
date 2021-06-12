@@ -5,7 +5,7 @@
              <form class="content">
                  <v-row>
                     <v-col cols="12">
-                      <img width="25px" height="25px" src="../../../../../assets/1.png"/>
+                      <img width="25px" height="25px" src="@/assets/1.png"/>
                       <p>Ajukan Izin untuk mata kuliah</p>
                       <div class="inside">
                         <v-checkbox small color="indigo" class="ma-0 pa-0" label="Sistem Terdistribusi (T)"></v-checkbox>
@@ -15,7 +15,7 @@
                       </div>
                     </v-col>
                     <v-col cols="12">
-                      <img width="25px" height="25px" src="../../../../../assets/2.png"/>
+                      <img width="25px" height="25px" src="@/assets/2.png"/>
                         <p>Ajukan surat keterangan izin</p>
                         <div class="inside">
                         <v-file-input
@@ -27,7 +27,7 @@
                         </div>
                     </v-col>
                     <v-col cols="12">
-                      <img width="25px" height="25px" src="../../../../../assets/3.png"/>
+                      <img width="25px" height="25px" src="@/assets/3.png"/>
                         <p>Konfirmasi diri</p>
                         <div class="inside">
                         <v-text-field

@@ -6,9 +6,9 @@
       <v-timeline-item
       class="pr-2"
         small
-          v-for="(item,index) in jadwalDsn"
+          v-for="(item,index) in jadwalMhs"
           :key="index">
-        {{ item.mata_kuliah.nama_mata_kuliah }}<br>
+        {{ item.nama_mata_kuliah }}<br>
           Absen: {{ item.waktu_mulai.slice(0,5) }}
       </v-timeline-item>
     </v-timeline>
@@ -56,7 +56,7 @@ export default {
   name: "LogAktivitas",
 
   props: {
-    jadwalDsn: {
+    jadwalMhs: {
       type: Array,
       default () {
         return {}

@@ -42,10 +42,10 @@
 <script>
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
-import AbsenCardDosen from "@/views/template/component/absensi/AbsenCardDosen"
-import LogAktivitas from "@/views/template/component/absensi/LogAktivitas"
-import PersentaseMengajar from "@/views/template/component/absensi/PersentaseMengajar"
-import JadwalDosen from "../../../../../datasource/api/absensi/jadwalDosen"
+import AbsenCardDosen from "@/views/absensi/component/dosen/AbsenCardDosen"
+import LogAktivitas from "@/views/absensi/component/dosen/LogAktivitasDosen"
+import PersentaseMengajar from "@/views/absensi/component/dosen/PersentaseMengajar"
+import JadwalDosen from "@/datasource/network/absensi/jadwalDosen"
 
 const schedule = require("node-schedule")
 

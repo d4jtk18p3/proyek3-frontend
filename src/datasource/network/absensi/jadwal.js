@@ -1,5 +1,5 @@
 import axios from "axios"
-import { JADWAL_URL } from "../const"
+import { JADWAL_URL } from "./const"
 
 const getJadwalMahasiswa = async (hari, nim) => {
   try {

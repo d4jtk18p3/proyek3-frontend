@@ -62,14 +62,14 @@
 <script>
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
-import AbsenCard from "@/views/template/component/absensi/AbsenCard"
-import LogAktivitas from "@/views/template/component/absensi/LogAktivitas"
-import SakitIzinAlfaItem from "@/views/template/component/absensi/SakitIzinAlfaItem"
-import PersentaseKehadiran from "@/views/template/component/absensi/PersentaseKehadiran"
-import TotalJamSP from "@/views/template/component/absensi/TotalJamSP"
-import Uploadbukti from "@/views/template/component/absensi/UploadBuktiMhs"
-import Uploadbukti2 from "@/views/template/component/absensi/UploadBuktiMhs2"
-import JadwalMahasiswa from "../../../../../datasource/api/absensi/jadwal"
+import AbsenCard from "@/views/absensi/component/mahasiswa/AbsenCard"
+import LogAktivitas from "@/views/absensi/component/mahasiswa/LogAktivitas"
+import SakitIzinAlfaItem from "@/views/absensi/component/mahasiswa/SakitIzinAlfaItem"
+import PersentaseKehadiran from "@/views/absensi/component/mahasiswa/PersentaseKehadiran"
+import TotalJamSP from "@/views/absensi/component/mahasiswa/TotalJamSP"
+import Uploadbukti from "@/views/absensi/component/mahasiswa/UploadBuktiMhs"
+import Uploadbukti2 from "@/views/absensi/component/mahasiswa/UploadBuktiMhs2"
+import JadwalMahasiswa from "@/datasource/network/absensi/jadwal"
 
 const schedule = require("node-schedule")
 

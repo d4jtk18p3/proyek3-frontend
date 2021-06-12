@@ -29,12 +29,7 @@ const routes = [
       {
         path: "/template/mahasiswa/absensi",
         name: "AbsensiMahasiswa",
-        component: () => import(/* webpackChunkName: "absensimahasiswa" */ "../views/template/pages/absensi/mahasiswa/AbsensiMahasiswa")
-      },
-      {
-        path: "/template/mahasiswa/upload",
-        name: "AbsensiMahasiswa",
-        component: () => import(/* webpackChunkName: "absensimahasiswa" */ "../views/template/pages/absensi/mahasiswa/UploadBuktiMhs")
+        component: () => import(/* webpackChunkName: "absensimahasiswa" */ "../views/template/pages/absensi/mahasiswa/AbsensiMahasiswaView")
       },
       {
         path: "/template/mahasiswa/nilai",
@@ -44,17 +39,12 @@ const routes = [
       {
         path: "/template/dosen/absensi",
         name: "AbsensiDosen",
-        component: () => import(/* webpackChunkName: "absensimahasiswadosenviewhome" */ "../views/template/pages/absensi/dosen/AbsensiDosen")
+        component: () => import(/* webpackChunkName: "absensimahasiswadosenviewhome" */ "../views/template/pages/absensi/dosen/AbsensiDosenMain")
       },
       {
         path: "/template/dosen/absensi-mahasiswa",
         name: "AbsensiMahasiswaDosenView",
         component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/template/pages/absensi/dosen/AbsensiMahasiswaDosenView")
-      },
-      {
-        path: "/template/dosen/perkuliahan",
-        name: "Perkuliahan",
-        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/template/pages/absensi/dosen/PerkuliahanDosen")
       }
     ]
   },
@@ -88,6 +78,27 @@ const routes = [
       //   name: "ResetPassword",
       //   component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/resetPassword/ResetPassword")
       // }
+    ]
+  },
+  {
+    path: "/absensi",
+    component: () => import("../views/absensi/AbsensiMain"),
+    children: [
+      {
+        path: "/absensi/mahasiswa/absensi",
+        name: "AbsensiMahasiswa",
+        component: () => import(/* webpackChunkName: "absensimahasiswa" */ "../views/absensi/pages/mahasiswa/AbsensiMahasiswa")
+      },
+      {
+        path: "/absensi/mahasiswa/upload",
+        name: "UploadBukti",
+        component: () => import(/* webpackChunkName: "uploadbukti" */ "../views/absensi/pages/mahasiswa/UploadBuktiMhs")
+      },
+      {
+        path: "/absensi/dosen/absensi",
+        name: "AbsensiDosen",
+        component: () => import(/* webpackChunkName: "absensidosen" */ "../views/absensi/pages/dosen/AbsensiDosen")
+      }
     ]
   },
   {

@@ -9,7 +9,7 @@
              <v-form class="content" ref="form">
                  <v-row>
                     <v-col cols="12">
-                      <img width="25px" height="25px" src="../../../../assets/1.png"/>
+                      <img width="25px" height="25px" src="@/assets/1.png"/>
                       <p class="judul">Ajukan Izin untuk mata kuliah</p>
                       <v-menu
                         ref="menu"
@@ -77,7 +77,7 @@
                       </div>
                     </v-col>
                     <v-col cols="12">
-                      <img width="25px" height="25px" src="../../../../assets/2.png"/>
+                      <img width="25px" height="25px" src="@/assets/2.png"/>
                         <p class="judul">Ajukan surat keterangan izin</p>
                         <div class="inside">
                         <v-file-input
@@ -95,7 +95,7 @@
                         </div>
                     </v-col>
                     <v-col cols="12">
-                      <img width="25px" height="25px" src="../../../../assets/3.png"/>
+                      <img width="25px" height="25px" src="@/assets/3.png"/>
                         <p class="judul">Konfirmasi diri</p>
                         <div class="inside">
                         <v-text-field
@@ -164,8 +164,8 @@
 </template>
 <script>
 import { mapGetters } from "vuex"
-import Keterangan from "../../../../datasource/api/absensi/keterangan"
-import JadwalMahasiswa from "../../../../datasource/api/absensi/jadwal"
+import Keterangan from "@/datasource/network/absensi/keterangan"
+import JadwalMahasiswa from "@/datasource/network/absensi/jadwal"
 
 const schedule = require("node-schedule")
 

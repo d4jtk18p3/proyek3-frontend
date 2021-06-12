@@ -1,5 +1,5 @@
 import axios from "axios"
-import { JADWAL_DOSEN_URL } from "../const"
+import { JADWAL_DOSEN_URL } from "./const"
 
 const getJadwalDosen = async (hari, nip) => {
   try {

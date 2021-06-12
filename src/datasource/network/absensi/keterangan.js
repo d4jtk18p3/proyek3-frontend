@@ -1,5 +1,5 @@
 import axios from "axios"
-import { KETERANGAN_URL } from "../const"
+import { KETERANGAN_URL } from "./const"
 
 const uploadKeterangan = async (data) => {
   try {
