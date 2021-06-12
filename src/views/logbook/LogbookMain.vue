@@ -1,6 +1,6 @@
 <template>
   <v-app :style="{background : currentTheme.background}">
-    <side-bar v-if="!isMobile" :items="sideBarItems"/>
+    <side-bar v-if="!isMobile" :items="isUserDosen ? sideBarItemsDsn : sideBarItemsMhs"/>
     <nav-bar/>
     <v-main>
       <v-container :class="isMobile? 'pa-5' : 'pa-12'">
@@ -27,26 +27,30 @@ const initOptions = {
   url: "https://keycloak.ca9db134.nip.io/auth", realm: "polban-realm", clientId: "template", onLoad: "login-required"
 }
 export default {
-  name: "TemplateMain",
+  name: "LogbookMain",
   components: {
     SideBar,
     NavBar
   },
   created () {
-    this.initKeycloak()
+    this.sychronize("dani")
+    if (!this.$keycloak) {
+      this.initKeycloak()
+    }
   },
   data () {
     return {
-      isAuthenticated: false,
+      isAuthenticated: "",
       isLoading: false,
-      sideBarItems: [
-        { text: "Dashboard", icon: "mdi-school-outline", to: "/template/dashboard" },
-        { text: "Profile Mahasiswa", icon: "mdi-account-outline", to: "/template/mahasiswa/profile" },
-        { text: "Profilling Mahasiswa", icon: "mdi-file-document-outline", to: "/template/mahasiswa/profilling" },
-        { text: "Nilai Mahasiswa", icon: "mdi-bookmark-multiple-outline", to: "/template/mahasiswa/nilai" },
-        { text: "Absensi Mahasiswa", icon: "mdi-email-outline", to: "/template/mahasiswa/absensi" },
-        { text: "Absensi Dosen", icon: "mdi-school-outline", to: "/template/dosen/absensi" }
-      ]
+      sideBarItemsMhs: [
+        { text: "Logbook Saya", icon: "mdi-notebook-multiple", to: "/logbook/mylogbook" },
+        { text: "Tambah Logbook", icon: "mdi-notebook-plus", to: "/logbook/addlogbook" }
+      ],
+      sideBarItemsDsn: [
+        { text: "Dashboard Logbook", icon: "mdi-desktop-mac-dashboard", to: "/logbook/dashboard" },
+        { text: "Logbook Mahasiswa", icon: "mdi-notebook-multiple", to: "/logbook/logbook-mahasiswa" }
+      ],
+      isUserDosen: false
     }
   },
   computed: {
@@ -97,6 +101,7 @@ export default {
       }, TOKEN_ACCESS_INTERVAL)
       console.log("keycloak udah")
       this.isAuthenticated = keycloak.authenticated
+      this.$keycloak = keycloak
       console.log(this.$keycloak)
       this.isLoading = false
     }

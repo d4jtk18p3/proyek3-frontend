@@ -1,9 +1,24 @@
+import axios from "axios"
+import * as Keycloak from "keycloak-js"
 import Vue from "vue"
 import VueRouter from "vue-router"
+// import _ from "lodash"
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: "/akun",
+    meta: { requiresAuth: true },
+    component: () => import(/* webpackChunkName: "akun" */"../views/akun/Home"),
+    children: [
+      {
+        path: "masuk",
+        meta: { requiresAuth: false },
+        component: () => import(/* webpackChunkName: "akun.masuk" */"../views/akun/Masuk")
+      }
+    ]
+  },
   {
     path: "/template",
     component: () => import("../views/template/TemplateMain"),
@@ -52,16 +67,21 @@ const routes = [
     path: "/admin",
     component: () => import("../views/admin/AdminMain"),
     children: [
-      // {
-      //   path: "/admin",
-      //   name: "AddNewUser",
-      //   component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/addNewUser/AddNewsUserMain")
-      // }
-      // {
-      //   path: "/admin/add-user/form",
-      //   name: "AddNewUserByForm",
-      //   component: () => import(/* webpackChunkName: "add-new-user" */ "../views/admin/pages/AddNewUser/AddNewUserByForm")
-      // }
+      {
+        path: "/admin",
+        name: "AddNewUser",
+        component: () => import(/* webpackChunkName: "add-new-user-" */ "../views/admin/pages/AddNewUser/AddNewsUserMain")
+      },
+      {
+        path: "/admin/add-user/form",
+        name: "AddNewUserByForm",
+        component: () => import(/* webpackChunkName: "add-new-user-by-form" */ "../views/admin/pages/AddNewUser/AddNewUserByForm")
+      },
+      {
+        path: "/admin/add-user/excel",
+        name: "AddNewUserByExcel",
+        component: () => import(/* webpackChunkName: "add-new-user-by-excel" */ "../views/admin/pages/AddNewUser/AddNewUserByExcel")
+      }
     ]
   },
   {
@@ -98,6 +118,71 @@ const routes = [
         path: "/absensi/dosen/absensi",
         name: "AbsensiDosen",
         component: () => import(/* webpackChunkName: "absensidosen" */ "../views/absensi/pages/dosen/AbsensiDosen")
+      }
+    ]
+  },
+  {
+    path: "/logbook",
+    component: () => import("../views/logbook/LogbookMain"),
+    children: [
+      // route logbook - dosen
+      {
+        path: "/logbook/dashboard",
+        name: "DashboardLogbook",
+        component: () => import(/* webpackChunkName: "dashboardlogbook" */"../views/logbook/pages/dosen/DashboardLogbook"),
+        props: true
+      },
+      {
+        path: "/logbook/logbook-mahasiswa",
+        name: "ListMataKuliah",
+        component: () => import(/* webpackChunkName: "listmatakuliah" */"../views/logbook/pages/dosen/ListMataKuliah"),
+        props: true
+      },
+      {
+        path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelas",
+        name: "ListMahasiswa",
+        component: () => import(/* webpackChunkName: "listmahasiswa" */"../views/logbook/pages/dosen/ListMahasiswa"),
+        props: true
+      },
+      {
+        path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelas/:nim",
+        name: "ListLogbook",
+        component: () => import(/* webpackChunkName: "listLogbook" */"../views/logbook/pages/dosen/LogbookMahasiswa"),
+        props: true
+      },
+      {
+        path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelas/:nim/viewlogbook/:idEntri",
+        name: "ViewLogbook",
+        component: () => import(/* webpackChunkName: "viewlogbook" */"../views/logbook/pages/dosen/ViewDetailLogbookMahasiswa"),
+        props: true
+      },
+      // route logbook - mahasiswa
+      {
+        path: "/logbook/mylogbook",
+        name: "MyLogbook",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "logbooksaya" */"../views/logbook/pages/mahasiswa/LogbookSaya"),
+        props: true
+      },
+      {
+        path: "/logbook/addlogbook",
+        name: "AddLogbook",
+        component: () => import(/* webpackChunkName: "tambahlogbook" */"../views/logbook/pages/mahasiswa/TambahLogbook"),
+        props: true
+      },
+      {
+        path: "/logbook/editlogbook/:idEntriLogbook",
+        name: "EditLogbook",
+        component: () => import(/* webpackChunkName: "ubahlogbook" */"../views/logbook/pages/mahasiswa/EditLogbook"),
+        props: true
+      },
+      {
+        path: "/logbook/viewlogbook/:idEntriLogbook",
+        name: "ViewLogbookMahasiswa",
+        component: () => import(/* webpackChunkName: "lihatlogbook" */"../views/logbook/pages/mahasiswa/LihatLogbook"),
+        props: true
       }
     ]
   },
@@ -144,15 +229,101 @@ const routes = [
         path: "/component-template/calendar",
         name: "Calendar",
         component: () => import(/* webpackChunkName: "textare-template" */ "../views/componentTemplate/pages/CalendarTemplate")
+      },
+      {
+        path: "/component-template/paragraph",
+        name: "Paragraph",
+        component: () => import(/* webpackChunkName: "paragraph-template" */ "../views/componentTemplate/pages/ParapgraphTemplate")
+      },
+      {
+        path: "/component-template/dialog",
+        name: "Dialog",
+        component: () => import(/* webpackChunkName: "paragraph-template" */ "../views/componentTemplate/pages/DialogTemplate")
       }
     ]
   }
 ]
+
+// const fixup = (r) => {
+//   if (_.isArray(r)) {
+//     return _.map(r, route => {
+//       return fixup(route)
+//     })
+//   }
+
+//   if (_.has(r, "children")) {
+//     r.children = fixup(r.children)
+//   }
+//   r.path = r.path.replace(/^\/akun/, "/")
+
+//   return r
+// }
+
+// const fixup2 = (routes) => {
+//   return fixup(_.filter(routes, route => {
+//     return route.path.startsWith("/akun")
+//   }))
+// }
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach(async (to, from, next) => {
+  try {
+    if (!(to.meta.requiresAuth && from === VueRouter.START_LOCATION)) {
+      next()
+      return
+    }
+
+    await axios.post("https://akun.6766998f.nip.io/keycloak-proxy/configure", {
+      loginPattern: "/auth/realms/staging/protocol/openid-connect/auth",
+      loginUrl: "http://localhost:5002/akun/masuk"
+    }, {
+      withCredentials: true
+    })
+
+    const keycloak = Keycloak({
+      url: "https://akun.6766998f.nip.io/keycloak-proxy/auth",
+      realm: "staging",
+      clientId: "public"
+    })
+    const auth = await keycloak.init({ onLoad: "login-required" })
+
+    if (!auth) {
+      window.location.reload()
+    } else {
+      next()
+    }
+
+    setInterval(async () => {
+      try {
+        await keycloak.updateToken(70)
+      } catch (err) {
+        console.error(err)
+      }
+    }, 6000)
+  } catch (err) {
+    console.error(err)
+    next()
+  }
+})
+
+// router.beforeEach((to, from, next) => {
+//   if (from === VueRouter.START_LOCATION) {
+//     return next()
+//   }
+
+//   const newTo = Object.assign({}, to)
+//   newTo.path = newTo.path.replace(/^\/akun/, "/")
+
+//   if (to.path === newTo.path) {
+//     return next()
+//   }
+
+//   next(newTo)
+// })
 
 export default router
