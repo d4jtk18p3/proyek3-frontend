@@ -1,13 +1,16 @@
-import axios from "axios"
-import { PERKULIAHAN_URL } from "./const"
+import baseHttp from "./http"
+import errorHandler
+  from "@/datasource/network/errorHandler"
+
+const PERKULIAHAN_URL = "/perkuliahan"
 
 const getAllPerkuliahanyangDiampuDosen = async (nip) => {
   try {
     const urlGetPerkuliahan = PERKULIAHAN_URL + `/searchPerkuliahanDiampu/${nip}`
-    const perkuliahan = await axios.get(urlGetPerkuliahan, {}, {})
+    const perkuliahan = await baseHttp.get(urlGetPerkuliahan, {}, {})
     return perkuliahan.data.data
   } catch (err) {
-    console.error(err)
+    return await errorHandler(err)
   }
 }
 

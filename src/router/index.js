@@ -92,12 +92,12 @@ const routes = [
         path: "/auth/forget-password",
         name: "ForgetPassword",
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/forgetPassword/ForgetPassword")
+      },
+      {
+      path: "/auth/reset-password",
+        name: "ResetPassword",
+        component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/ResetPassword/ResetPassword")
       }
-      // {
-      //   path: "/auth/reset-password",
-      //   name: "ResetPassword",
-      //   component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/resetPassword/ResetPassword")
-      // }
     ]
   },
   {
@@ -183,6 +183,57 @@ const routes = [
         name: "ViewLogbookMahasiswa",
         component: () => import(/* webpackChunkName: "lihatlogbook" */"../views/logbook/pages/mahasiswa/LihatLogbook"),
         props: true
+      }
+    ]
+  },
+  {
+    path: "/monitoring",
+    component: () => import("../views/monitoring/monitoringmain"),
+    children: [
+      // {
+      //   path: "/monitoring/dashboard-tugas",
+      //   name: "Dashboard",
+      //   component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/dashboard/DashboardMain")
+      // },
+      {
+        path: "/monitoring/dosen/monitoring-tugas",
+        name: "MonitoringDosenMain",
+        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenMatkul")
+      },
+      {
+        path: "/monitoring/dosen/monitoring-tugas/daftar-tugas",
+        name: "MonitoringDosenDaftarTugas",
+        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenDaftarTugas")
+      },
+      {
+        path: "/monitoring/dosen/monitoring-tugas/matkul",
+        name: "MonitoringDosenDaftarTugas",
+        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenMain")
+      },
+      {
+        path: "/monitoring/dosen/monitoring-tugas/daftar-tugas/tugas",
+        name: "MonitoringDosenTugas",
+        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenTabel")
+      },
+      {
+        path: "/monitoring/dosen/monitoring-tugas/tabel-detail",
+        name: "MonitoringDosenDetailTabel",
+        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenDetailTabel")
+      },
+      {
+        path: "/monitoring/mahasiswa/dashboard",
+        name: "Dashboard",
+        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/dashboard/Dashboard")
+      },
+      {
+        path: "/monitoring/mahasiswa/daftar-tugas",
+        name: "MonitoringMenu",
+        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/Monitoring")
+      },
+      {
+        path: "/monitoring/mahasiswa/namaMatkul/namaTugas",
+        name: "Monitoring",
+        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/MonitoringTugas")
       }
     ]
   },

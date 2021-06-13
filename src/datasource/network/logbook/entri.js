@@ -1,5 +1,8 @@
-import axios from "axios"
-import { LOGBOOKENTRI_URL } from "./const"
+import baseHttp from "./http"
+import errorHandler
+  from "@/datasource/network/errorHandler"
+
+const LOGBOOKENTRI_URL = "logbook/entri"
 
 const getAllEntryLogbookMhsByid = async (idLogbooks) => {
   try {
@@ -8,7 +11,7 @@ const getAllEntryLogbookMhsByid = async (idLogbooks) => {
     const ids = idLogbooks
     while (i < idLogbooks.length) {
       var urlGetLogbook = LOGBOOKENTRI_URL + `/${ids[i]}`
-      var logbook = await axios.get(urlGetLogbook, {}, {})
+      var logbook = await baseHttp.get(urlGetLogbook, {}, {})
       var rawDate = new Date(logbook.data.entri[0].tanggal)
       var date = rawDate.getDate() + "-" + (rawDate.getMonth() + 1) + "-" + rawDate.getFullYear()
       logbooks[i] = {
@@ -23,14 +26,14 @@ const getAllEntryLogbookMhsByid = async (idLogbooks) => {
     }
     return logbooks
   } catch (err) {
-    console.error(err)
+    return await errorHandler(err)
   }
 }
 
 const getOneEntryLogbookMhsByid = async (idEntriLogbook) => {
   try {
     var urlGetLogbook = LOGBOOKENTRI_URL + `/${idEntriLogbook}`
-    var logbook = await axios.get(urlGetLogbook, {}, {})
+    var logbook = await baseHttp.get(urlGetLogbook, {}, {})
     var rawDate = new Date(logbook.data.entri[0].tanggal)
     var date = rawDate.getDate() + "-" + (rawDate.getMonth() + 1) + "-" + rawDate.getFullYear()
     var logbooks = {
@@ -42,30 +45,29 @@ const getOneEntryLogbookMhsByid = async (idEntriLogbook) => {
     }
     return logbooks
   } catch (err) {
-    console.error(err)
+    return await errorHandler(err)
   }
 }
 
 const addEntryLogbookMhs = async (idLogbook, dataLogbook) => {
   try {
     var urlAddLogbook = LOGBOOKENTRI_URL + `/create/${idLogbook}`
-    var result = await axios.post(urlAddLogbook, {
+    var result = await baseHttp.post(urlAddLogbook, {
       tanggal: dataLogbook.tanggal,
       kegiatan: dataLogbook.kegiatan,
       hasil: dataLogbook.hasil,
       kesan: dataLogbook.kesan
     }, {})
-
     return result
   } catch (err) {
-    console.error(err)
+    return await errorHandler(err)
   }
 }
 
 const editEntryLogbookMhs = async (idLogbooks, idEntriLogbook, newDataLogbook) => {
   try {
     var urlEditLogbook = LOGBOOKENTRI_URL + `/update/${idLogbooks}?id=${idEntriLogbook}`
-    var result = await axios.put(urlEditLogbook, {
+    var result = await baseHttp.put(urlEditLogbook, {
       tanggal: newDataLogbook.tanggal,
       kegiatan: newDataLogbook.kegiatan,
       hasil: newDataLogbook.hasil,
@@ -74,18 +76,18 @@ const editEntryLogbookMhs = async (idLogbooks, idEntriLogbook, newDataLogbook) =
 
     return result
   } catch (err) {
-    console.error(err)
+    return await errorHandler(err)
   }
 }
 
 const deleteEntryLogbookMhs = async (idLogbooks, idEntriLogbook) => {
   try {
     var urlDeleteLogbook = LOGBOOKENTRI_URL + `/delete/${idLogbooks}?id=${idEntriLogbook}`
-    var result = await axios.delete(urlDeleteLogbook)
+    var result = await baseHttp.delete(urlDeleteLogbook)
 
     return result
   } catch (err) {
-    console.error(err)
+    return await errorHandler(err)
   }
 }
 
