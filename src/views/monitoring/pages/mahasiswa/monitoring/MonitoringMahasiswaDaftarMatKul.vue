@@ -8,9 +8,9 @@
         <p
         class="text-left font-weight-bold text-h5"
         :style="{color: currentTheme.onBackground}"
-        >Kelas</p>
-        <v-card link class="mb-3" v-for="item in listKelas" :key="item">
-          <KelasItem :kelas="item"/>
+        >Mata Kuliah</p>
+        <v-card link class="mb-3" v-for="item in listMatkul" :key="item">
+          <MatkulItem :mataKuliah="item"></MatkulItem>
         </v-card>
     </v-col>
     <v-divider v-if="!isMobile" vertical class="mx-5"></v-divider>
@@ -18,13 +18,13 @@
       <p
       class="text-left font-weight-bold text-h5"
       :style="{color: currentTheme.onBackground}"
-      >Mata Kuliah</p>
+      >Tugas</p>
       <v-row>
         <v-col
-          no-gutters v-for="item in listMatkul" :key="item"
+          no-gutters v-for="item in listTugas" :key="item"
           :cols="isMobile? 12 : 6"
         >
-          <MatkulItem :mataKuliah="item"></MatkulItem>
+            <TugasItem :tugas="item"></TugasItem>
         </v-col>
       </v-row>
     </v-col>
@@ -34,39 +34,34 @@
 <script>
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
-import MatkulItem from "@/views/monitoring/component/dosen/MatkulItem"
-import KelasItem from "@/views/monitoring/component/dosen/KelasItem"
-// import MonitoringDosen from "../../../../datasource/network/monitoring/monitoringdosen"
+import MatkulItem from "@/views/monitoring/component/mahasiswa/monitoring/MatkulItem"
+import TugasItem from "@/views/monitoring/component/mahasiswa/monitoring/TugasItem"
 export default {
   name: "AbsensiDosenMain",
-  components: { KelasItem, MatkulItem, Breadcumbs },
+  components: { MatkulItem, Breadcumbs, TugasItem },
   data () {
     return {
       breadcrumbItems: [
         {
           text: "Monitoring",
-          disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 1",
-          disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 2",
           disabled: true,
+          href: ""
+        },
+        {
+          text: "Mata Kuliah",
+          disabled: false,
           href: ""
         }
       ],
-      listKelas: [
-        "3A D4-Teknik Informatika",
-        "1A D4-Teknik Informatika",
-        "2A D4-Teknik Informatika"
-      ],
       listMatkul: [
-        "Proyek 3",
-        "PLOO"
+        "APPL 1",
+        "Sistem terdistribusi",
+        "Akuntansi"
+      ],
+      listTugas: [
+        "W1 Polymorphism",
+        "Worksheet",
+        "Buku Besar"
       ]
     }
   },

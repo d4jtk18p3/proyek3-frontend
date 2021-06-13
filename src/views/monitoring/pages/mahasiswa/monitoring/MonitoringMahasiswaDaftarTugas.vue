@@ -2,6 +2,7 @@
   <v-row :style="{color: currentTheme.onBackground}">
     <v-col cols="12">
       <p class="text-h4 font-weight-bold">Monitoring Tugas</p>
+      <breadcumbs :breadcrumb-items="breadcrumbItems"/>
     </v-col>
     <v-col cols="9">
     <div v-for="Tugas in TugasList"
@@ -57,10 +58,11 @@
 
 <script>
 import { mapGetters } from "vuex"
+import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 
 export default {
   name: "Dashboard",
-  components: {},
+  components: { Breadcumbs },
   props: {
     TugasList: {
       type: Array,
@@ -94,6 +96,18 @@ export default {
   },
   data () {
     return {
+      breadcrumbItems: [
+        {
+          text: "Monitoring",
+          disabled: true,
+          href: ""
+        },
+        {
+          text: "Tugas",
+          disabled: false,
+          href: ""
+        }
+      ]
     }
   },
   computed: {

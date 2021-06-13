@@ -1,12 +1,11 @@
 <template>
-  <v-container>
+<div>
     <v-row :style="{color: currentTheme.onBackground}">
       <v-col cols="12">
         <p class="text-h4 font-weight-bold">Monitoring APPL 1 - W1 Polymorphism</p>
-      </v-col>
-      <v-col cols="12">
         <breadcumbs :breadcrumb-items="breadcrumbItems"/>
       </v-col>
+      <v-col class="mt-2">
       <v-data-table
         v-model="selected"
         dark
@@ -84,122 +83,29 @@
             </v-icon>
           </v-btn>
         </template>
+        <template v-slot:[`item.lampiran`]>
+          <td><a v-bind:href="items.lampiran" :key="items.lampiran"> link </a></td>
+        </template>
+        <template v-slot:[`item.Durasi`]>
+          <Durasi/>
+        </template>
       </v-data-table>
-      <v-dialog
-        v-model="dialog"
-        width="420"
-      >
-        <v-card
-          :style="{background: currentTheme.surface}"
-          class="pa-3"
-        >
-          <v-row justify="center" class="my-5">
-            <v-col cols="12">
-              <div class="text-h4 font-weight-bold text-center" :style="{color: currentTheme.onSurface}">Edit Progress</div>
-              <div class="text-h7 font-weight-bold text-center font-italic" :style="{color: currentTheme.onSurface}">{{ subTask }}</div>
-            </v-col>
-            <v-col cols="12" sm="10" class="mt-3">
-              <div class="text-h7 font-weight-bold" :style="{color: currentTheme.onSurface}">Target</div>
-              <div class="text-caption font-weight-medium font-italic" :style="{color: currentTheme.onSurface}">*isi dengan rentang 1-100</div>
-              <v-slider
-                v-model="targetValue"
-                :thumb-size="24"
-                :color="currentTheme.colorSecondary"
-                thumb-label
-              ></v-slider>
-              <div class="text-h7 font-weight-bold" :style="{color: currentTheme.onSurface}">Skala Pemahaman</div>
-              <div class="text-caption font-weight-medium font-italic" :style="{color: currentTheme.onSurface}">*isi dengan rentang 1-5</div>
-              <v-slider
-                v-model="skalaPemahamanValue"
-                :thumb-size="24"
-                :color="currentTheme.colorSecondary"
-                thumb-label
-                max="5"
-                step="0.1"
-              ></v-slider>
-              <div class="text-h7 font-weight-bold pb-1" :style="{color: currentTheme.onSurface}">Catatan</div>
-              <v-textarea
-                v-model="catatan"
-                outlined
-                :color="currentTheme.colorSecondary"
-              ></v-textarea>
-              <v-row justify="center">
-                <v-col sm="5" class="mt-1">
-                  <v-btn color="currentTheme.colorPrimary" elevation="2" width="100" outlined>
-                    <span style="font-size: 12px" class="font-weight-bold">Batal</span>
-                  </v-btn>
-                </v-col>
-                <v-col sm="5" class="mt-1">
-                  <v-btn
-                    :color="currentTheme.colorPrimary"
-                    dark
-                    v-bind="attrs"
-                    v-on="on"
-                    width="100"
-                  >
-                    <span style="font-size: 12px" class="font-weight-light">Simpan</span>
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-dialog>
-      <v-dialog
-        v-model="dialogSelesai"
-        width="420"
-      >
-        <v-card
-          :style="{background: currentTheme.surface}"
-          class="pa-3"
-        >
-          <v-row justify="center" class="my-5">
-            <v-col cols="12">
-              <div class="text-h4 font-weight-bold text-center" :style="{color: currentTheme.onSurface}">Serahkan Tugas</div>
-              <div class="text-h7 font-weight-bold text-center font-italic" :style="{color: currentTheme.onSurface}">{{ subTask }}</div>
-            </v-col>
-            <v-col cols="12" sm="10" class="mt-3">
-              <div class="text-h7 font-weight-bold" :style="{color: currentTheme.onSurface}">Lampiran</div>
-              <div class="text-caption font-weight-medium font-italic" :style="{color: currentTheme.onSurface}">*Berupa link</div>
-              <v-text-field
-                v-model="lampiran"
-                outlined
-                class="mt-3 mb-0"
-                :color="currentTheme.colorSecondary"
-              ></v-text-field>
-              <v-row justify="center">
-                <v-col sm="5" class="mt-1">
-                  <v-btn color="currentTheme.colorPrimary" elevation="2" width="100" outlined>
-                    <span style="font-size: 12px" class="font-weight-bold">Batal</span>
-                  </v-btn>
-                </v-col>
-                <v-col sm="5" class="mt-1">
-                  <v-btn
-                    :color="currentTheme.colorPrimary"
-                    dark
-                    v-bind="attrs"
-                    v-on="on"
-                    width="100"
-                  >
-                    <span style="font-size: 12px" class="font-weight-light">Simpan</span>
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-dialog>
+      </v-col>
     </v-row>
-  </v-container>
+  <editProgress :visible="dialog" @close="dialog=false" />
+  <SerahkanTugas :visible="dialogSelesai" @close="dialogSelesai=false" />
+  </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
-
+import editProgress from "@/views/monitoring/component/mahasiswa/monitoring/DialogFormEditProgress.vue"
+import SerahkanTugas from "@/views/monitoring/component/mahasiswa/monitoring/DialogFormSerahkanTugas.vue"
+import Durasi from "@/views/monitoring/component/mahasiswa/monitoring/Durasi.vue"
 export default {
   name: "KelasItem",
-  components: { Breadcumbs },
+  components: { Breadcumbs, editProgress, SerahkanTugas, Durasi },
   computed: {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
@@ -214,17 +120,17 @@ export default {
       breadcrumbItems: [
         {
           text: "Monitoring",
-          disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 1",
-          disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 2",
           disabled: true,
+          href: ""
+        },
+        {
+          text: "MATA KULIAH APPL 1",
+          disabled: false,
+          href: ""
+        },
+        {
+          text: "TUGAS W1 POLYMORPHISM",
+          disabled: false,
           href: ""
         }
       ],
@@ -260,7 +166,7 @@ export default {
           text: "Durasi",
           align: "center",
           sortable: false,
-          value: "durasi",
+          value: "Durasi",
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
@@ -294,7 +200,8 @@ export default {
       ],
       items: [
         {
-          selesai: "1",
+          id: 1,
+          selesai: false,
           subTask: "Another Type of Employee",
           progress: "50",
           skala: "",
@@ -303,16 +210,18 @@ export default {
           lampiran: ""
         },
         {
-          selesai: "2",
+          id: 2,
+          selesai: true,
           subTask: "Painting Shapes",
           progress: "100",
           skala: "5",
           durasi: "00:11:32",
           catatan: "Dalam kasus ini multi-Thread, ketika program di run hasil nya kata Hello JTK 2018 tidak beraturan, ini dikarenakan thred . . . ",
-          lampiran: "Link Doc"
+          lampiran: "https://www.youtube.com/"
         },
         {
-          selesai: "3",
+          id: 3,
+          selesai: false,
           subTask: "Polymorphic Sorting",
           progress: "",
           skala: "",
@@ -321,7 +230,8 @@ export default {
           lampiran: ""
         },
         {
-          selesai: "4",
+          id: 4,
+          selesai: false,
           subTask: "Searching and Sorting an Integer List",
           progress: "",
           skala: "",
@@ -330,7 +240,8 @@ export default {
           lampiran: ""
         },
         {
-          selesai: "5",
+          id: 5,
+          selesai: false,
           subTask: "Timing Searching and Sorting Algorithms",
           progress: "",
           skala: "",

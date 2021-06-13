@@ -1,6 +1,6 @@
 <template>
   <v-dialog
-    v-model="dialog"
+    v-model="show"
     width="420"
   >
     <v-card
@@ -39,7 +39,7 @@
           ></v-textarea>
           <v-row justify="center">
             <v-col sm="5" class="mt-1">
-              <v-btn color="currentTheme.colorPrimary" elevation="2" width="100" outlined>
+              <v-btn color="currentTheme.colorPrimary" elevation="2" width="100" outlined @click="closeDialog()">
                 <span style="font-size: 12px" class="font-weight-bold">Batal</span>
               </v-btn>
             </v-col>
@@ -66,22 +66,38 @@ import { mapGetters } from "vuex"
 
 export default {
   name: "subTask",
-  props: {
-    subTask: {
-      type: String,
-      required: false,
-      default: "Another Type of Employee"
+  props: ["visible"],
+  // props: {
+  //   subTask: {
+  //     type: String,
+  //     required: false,
+  //     default: "Another Type of Employee"
+  //   }
+  // },
+  data () {
+    return {
+      targetValue: 0,
+      skalaPemahamanValue: 0
     }
   },
   computed: {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
     }),
-    data () {
-      return {
-        targetValue: 0,
-        skalaPemahamanValue: 0
+    show: {
+      get () {
+        return this.visible
+      },
+      set (value) {
+        if (!value) {
+          this.$emit("close")
+        }
       }
+    }
+  },
+  methods: {
+    closeDialog () {
+      this.$emit("close")
     }
   }
 }
