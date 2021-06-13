@@ -13,15 +13,15 @@
 import { mapGetters } from "vuex"
 import TugasItem from "@/views/monitoring/component/dosen/TugasItem"
 import TambahMonitoring from "@/views/monitoring/component/dosen/TambahMonitoring"
-// import MonitoringDosen from "../../../../datasource/network/monitoring/monitoringdosen"
+import TugasMonitoringDosen from "../../../../datasource/network/monitoring/tugas"
 export default {
   name: "DashboardMain",
   components: { TugasItem, TambahMonitoring },
   data () {
     return {
       listTugas: [
-        "Membuat Website Akademik POLBAN",
-        "Menonton Video Communication"
+        // "Membuat Website Akademik POLBAN",
+        // "Menonton Video Communication"
       ]
     }
   },
@@ -32,9 +32,16 @@ export default {
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
+  },
+  async mounted () {
+    var tugas = await TugasMonitoringDosen.getTugasMatkul("16TIN4014", "5")
+    var tugasList = []
+    var i = 0
+    while (i < tugas.length) {
+      tugasList[i] = tugas[i]
+      i++
+    }
+    this.listTugas = tugasList
   }
-  // async mounted () {
-  //   this.listTugas = await MonitoringDosen.getTugasMatkul("401", "101")
-  // }
 }
 </script>

@@ -94,7 +94,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/forgetPassword/ForgetPassword")
       },
       {
-      path: "/auth/reset-password",
+        path: "/auth/reset-password",
         name: "ResetPassword",
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/ResetPassword/ResetPassword")
       }
@@ -188,7 +188,7 @@ const routes = [
   },
   {
     path: "/monitoring",
-    component: () => import("../views/monitoring/monitoringmain"),
+    component: () => import("../views/monitoring/MonitoringMain"),
     children: [
       // {
       //   path: "/monitoring/dashboard-tugas",
@@ -197,7 +197,7 @@ const routes = [
       // },
       {
         path: "/monitoring/dosen/monitoring-tugas",
-        name: "MonitoringDosenMain",
+        name: "MonitoringDosenMatkul",
         component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenMatkul")
       },
       {
@@ -207,7 +207,7 @@ const routes = [
       },
       {
         path: "/monitoring/dosen/monitoring-tugas/matkul",
-        name: "MonitoringDosenDaftarTugas",
+        name: "MonitoringDosenMain",
         component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenMain")
       },
       {

@@ -11,7 +11,7 @@
         class="text-left font-weight-bold text-h5 mt-5"
         :style="{color: currentTheme.onBackground}"
         >Kelas</p>
-        <v-card link class="mb-3" v-for="item in listKelas" :key="item">
+        <v-card link class="mb-3" v-for="item in listKelas" :key="item" @click="getIdKelas(item)">
           <KelasItem :kelas="item"/>
         </v-card>
     </v-col>
@@ -38,7 +38,8 @@ import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import MatkulItem from "@/views/monitoring/component/dosen/MatkulItem"
 import KelasItem from "@/views/monitoring/component/dosen/KelasItem"
-// import MonitoringDosen from "../../../../datasource/network/monitoring/monitoringdosen"
+import KelasMonitoringDosen from "../../../../datasource/network/monitoring/kelas"
+import MatkulMonitoringDosen from "../../../../datasource/network/monitoring/matakuliah"
 export default {
   name: "AbsensiDosenMain",
   components: { KelasItem, MatkulItem, Breadcumbs },
@@ -48,11 +49,11 @@ export default {
         {
           text: "Monitoring",
           disabled: false,
-          href: ""
+          href: "/monitoring/dosen/monitoring-tugas"
         },
         {
-          text: "Link 1",
-          disabled: false,
+          text: "Daftar Tugas",
+          disabled: true,
           href: ""
         },
         {
@@ -62,13 +63,8 @@ export default {
         }
       ],
       listKelas: [
-        "3A D4-Teknik Informatika",
-        "1A D4-Teknik Informatika",
-        "2A D4-Teknik Informatika"
       ],
       listMatkul: [
-        "Proyek 3",
-        "PLOO"
       ]
     }
   },
@@ -79,21 +75,46 @@ export default {
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
-  }
-  // methods: {
-  //   async getIdKelas (item) {
-  //     var temp = item.substr(0, 3)
-  //     this.listMatkul = await MonitoringDosen.getMatkulKelas("196610181995121001", temp)
-  //     console.log(temp)
-  //     console.log(this.listMatkul)
-  //   }
-  // },
+  },
+  methods: {
+    async getIdKelas (item) {
+      if (item != null) {
+        var temp = item.substr(0, 4)
+      }
+
+      var matkul = await MatkulMonitoringDosen.getMatkulKelas("1011", "1803")
+      var matkulList = []
+      var j = 0
+      while (j < matkul.length) {
+        matkulList[j] = matkul[j].nama_mata_kuliah
+        j++
+      }
+      this.listMatkul = matkulList
+      console.log(temp)
+      console.log(this.listMatkul)
+    }
+  },
   // beforeMount () {
   //   this.getIdKelas()
   // },
-  // async mounted () {
-  //   this.listKelas = await MonitoringDosen.getListKelas("196610181995121001")
-  //   this.listMatkul = await MonitoringDosen.getMatkulKelas("196610181995121001", "301")
-  // }
+  async mounted () {
+    var kelas = await KelasMonitoringDosen.getListKelas("1011")
+    var i = 0
+    var kelasList = []
+    while (i < kelas.length) {
+      kelasList[i] = kelas[i].kode_kelas + " - " + kelas[i].kode_program_studi
+      i++
+    }
+    this.listKelas = kelasList
+
+    // var matkul = await MatkulMonitoringDosen.getMatkulKelas("1011", "1803")
+    // var matkulList = []
+    // var j = 0
+    // while (j < matkul.length) {
+    //   matkulList[j] = matkul[j].nama_mata_kuliah
+    //   j++
+    // }
+    // this.listMatkul = matkulList
+  }
 }
 </script>
