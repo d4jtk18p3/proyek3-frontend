@@ -1,13 +1,16 @@
-import axios from "axios"
-import { MATAKULIAH_URL } from "./const"
+import baseHttp from "./http"
+import errorHandler
+  from "@/datasource/network/errorHandler"
+
+const MATAKULIAH_URL = "/mata-kuliah"
 
 const getAllMataKuliahProyekyangDiampuDosen = async (nip) => {
   try {
     const urlGetMatkulProyek = MATAKULIAH_URL + `/searchMatkul/${nip}`
-    const mataKuliahProyek = await axios.get(urlGetMatkulProyek, {}, {})
+    const mataKuliahProyek = await baseHttp.get(urlGetMatkulProyek, {}, {})
     return mataKuliahProyek.data.data
   } catch (err) {
-    console.error(err)
+    return await errorHandler(err)
   }
 }
 
