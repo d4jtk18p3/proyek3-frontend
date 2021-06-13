@@ -94,9 +94,30 @@ const routes = [
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/forgetPassword/ForgetPassword")
       },
       {
-        path: "/auth/reset-password",
+      path: "/auth/reset-password",
         name: "ResetPassword",
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/ResetPassword/ResetPassword")
+      }
+    ]
+  },
+  {
+    path: "/absensi",
+    component: () => import("../views/absensi/AbsensiMain"),
+    children: [
+      {
+        path: "/absensi/mahasiswa/absensi",
+        name: "AbsensiMahasiswa",
+        component: () => import(/* webpackChunkName: "absensimahasiswa" */ "../views/absensi/pages/mahasiswa/AbsensiMahasiswa")
+      },
+      {
+        path: "/absensi/mahasiswa/upload",
+        name: "UploadBukti",
+        component: () => import(/* webpackChunkName: "uploadbukti" */ "../views/absensi/pages/mahasiswa/UploadBuktiMhs")
+      },
+      {
+        path: "/absensi/dosen/absensi",
+        name: "AbsensiDosen",
+        component: () => import(/* webpackChunkName: "absensidosen" */ "../views/absensi/pages/dosen/AbsensiDosen")
       }
     ]
   },
