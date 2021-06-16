@@ -27,6 +27,16 @@
     >
     </v-text-field>
   </template>
+  <template v-slot:[`item.attributes.isActive[0]`]="{ item }">
+      {{ item.attributes.isActive[0] ? 'Aktif' : 'Non-Aktif' }}
+  </template>
+  <template v-slot:[`item.attributes.role[0]`]="{ item }">
+      <div v-if="item.attributes.role[0] === 'dosen'">Dosen</div>
+      <div v-if="item.attributes.role[0] === 'mahasiswa'">Mahasiswa</div>
+      <div v-if="item.attributes.role[0] === 'admin'">Admin</div>
+      <div v-if="item.attributes.role[0] === 'tata_usaha'">Tata Usaha</div>
+      <div v-if="item.attributes.role[0] === 'superadmin'">Super Admin</div>
+  </template>
     <template v-slot:[`item.actions`]="{ item }">
       <v-icon small class="mr-2" @click="editAkun(item.attributes.noInduk[0])">mdi-pencil</v-icon>
       <v-icon small @click="deleteAkun(item.attributes.noInduk[0])">mdi-delete</v-icon>
@@ -51,16 +61,6 @@ export default {
           sortable: false,
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
-        // {
-        //   text: "Jenis Nomor Induk",
-        //   value: "jenisNomorInduk",
-        //   class: "white--text text-lg-subtitle-1 font-weight-bold"
-        // },
-        // {
-        //   text: "Nama",
-        //   value: "nama",
-        //   class: "white--text text-lg-subtitle-1 font-weight-bold"
-        // },
         {
           text: "E-mail",
           value: "email",
