@@ -1,4 +1,3 @@
-<!-- Test Repo -->
 <template>
   <v-data-table
     dark
@@ -68,7 +67,12 @@ export default {
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
-          text: "Role/Jenis Akun",
+          text: "Nama",
+          value: "attributes.name[0]",
+          class: "white--text text-lg-subtitle-1 font-weight-bold"
+        },
+        {
+          text: "Role",
           value: "attributes.role[0]",
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
