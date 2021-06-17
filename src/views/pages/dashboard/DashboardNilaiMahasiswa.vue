@@ -12,9 +12,9 @@
     <v-col :cols="isMobile ? 12 : 2" class="mt-2">
       <DataIPMahasiswa/>
     </v-col>
-    <v-col :cols="isMobile ? 0 : 6">
+    <v-col :cols="isMobile ? 12 : 6">
     </v-col>
-    <v-col :cols="isMobile ? 12 : 1" class="mt-2 mr-2" v-for="(mhs) in Mahasiswa.Nilai" :key="mhs.label">
+    <v-col :cols="isMobile ? 3 : 1" class="mt-2 mr-2" v-for="(mhs) in Mahasiswa.Nilai" :key="mhs.label">
       <v-btn rounded :color="currentTheme.colorPrimary" :style="{'color': currentTheme.surface}" @click="NilaiSemesterSelected = mhs"> {{ mhs.label }} </v-btn>
     </v-col>
     <v-col :cols="isMobile ? 0 : 4">
@@ -49,21 +49,21 @@
         <v-simple-table>
             <thead>
                 <tr>
-                <th class="text-left" :style="{background: currentTheme.onBackground, color: currentTheme.background, 'border': '1px solid' + currentTheme.background}">
-                    Kode Dosen
-                </th>
-                <th class="text-left" :style="{background: currentTheme.onBackground, color: currentTheme.background, 'border': '1px solid' + currentTheme.background}">
-                    Kode Mata Kuliah
-                </th>
-                <th class="text-left" :style="{background: currentTheme.onBackground, color: currentTheme.background, 'border': '1px solid' + currentTheme.background}">
-                    Mata Kuliah
-                </th>
-                <th class="text-left" :style="{background: currentTheme.onBackground, color: currentTheme.background, 'border': '1px solid' + currentTheme.background}">
-                    SKS
-                </th>
-                <th class="text-left" :style="{background: currentTheme.onBackground, color: currentTheme.background, 'border': '1px solid' + currentTheme.background}">
-                    Nilai
-                </th>
+                  <th class="text-left" :style="{background: currentTheme.onBackground, color: currentTheme.background, 'border': '1px solid' + currentTheme.background}">
+                      Kode Dosen
+                  </th>
+                  <th class="text-left" :style="{background: currentTheme.onBackground, color: currentTheme.background, 'border': '1px solid' + currentTheme.background}">
+                      Kode Mata Kuliah
+                  </th>
+                  <th class="text-left" :style="{background: currentTheme.onBackground, color: currentTheme.background, 'border': '1px solid' + currentTheme.background}">
+                      Mata Kuliah
+                  </th>
+                  <th class="text-left" :style="{background: currentTheme.onBackground, color: currentTheme.background, 'border': '1px solid' + currentTheme.background}">
+                      SKS
+                  </th>
+                  <th class="text-left" :style="{background: currentTheme.onBackground, color: currentTheme.background, 'border': '1px solid' + currentTheme.background}">
+                      Nilai
+                  </th>
                 </tr>
             </thead>
             <tbody>
