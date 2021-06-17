@@ -223,17 +223,22 @@ const routes = [
       {
         path: "/monitoring/mahasiswa/dashboard",
         name: "Dashboard",
-        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/dashboard/Dashboard")
+        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/dashboard/DashboardMahasiswa")
       },
       {
         path: "/monitoring/mahasiswa/daftar-tugas",
         name: "MonitoringMenu",
-        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/Monitoring")
+        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/MonitoringMahasiswaDaftarTugas")
       },
       {
         path: "/monitoring/mahasiswa/namaMatkul/namaTugas",
         name: "Monitoring",
-        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/MonitoringTugas")
+        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/MonitoringMahasiswaTugasItem")
+      },
+      {
+        path: "/monitoring/mahasiswa/matakuliah",
+        name: "Monitoring",
+        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/MonitoringMahasiswaDaftarMatKul")
       }
     ]
   },

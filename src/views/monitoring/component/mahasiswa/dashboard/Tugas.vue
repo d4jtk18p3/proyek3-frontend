@@ -3,7 +3,7 @@
     <div v-for="Tugas in TugasList"
         :key="Tugas.matkul">
     <v-card
-        class="pa-3 mt-2 rounded-card rounded-lg"
+        class="pa-3 mb-1 rounded-card rounded-lg"
         elevation="2"
     >
         <v-row>
@@ -13,6 +13,7 @@
                 <div class="caption font-weight-medium font-italic ml-2" :style="{color : isDark ? currentTheme.surface : currentTheme.onSurface}">{{Tugas.subtask}}</div>
             </v-col>
             <v-col
+                cols="auto"
                 md="3"
                 class="ml-auto mt-1"
             >

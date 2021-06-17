@@ -1,10 +1,10 @@
 <template>
+<v-col cols="12">
   <v-card
-    class="rounded-card rounded-lg mt-5"
+    class="rounded-card rounded-lg"
     color="grey lighten-3"
     @click="addMorePintasan"
     elevation="0"
-    height="140"
   >
     <v-row :class="isMobile ? 'pa-3':'pa-5'" justify="center" align="center">
       <v-col :cols="isMobile ? '2': '12'" class="pa-0 mt-0" >
@@ -23,6 +23,7 @@
       </v-col>
     </v-row>
   </v-card>
+</v-col>
 </template>
 
 <script>
