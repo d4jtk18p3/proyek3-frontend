@@ -35,16 +35,41 @@
         <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
           <v-col cols="12">
             <v-combobox
-              v-model="select"
-              :items="items"
-              label="Kriteria"
               multiple
               outlined
-              dense
               clearable
+              :item-color="currentTheme.colorSecondary"
               :dark="isDark"
               :color="currentTheme.colorSecondary"
-            ></v-combobox>
+              v-model="selectedKriteria"
+              :items="items"
+              label="Pilih Kriteria">
+              <template v-slot:selection="data">
+                <v-chip
+                  :key="JSON.stringify(data.item)"
+                  v-bind="data.attrs"
+                  :input-value="data.selected"
+                  :disabled="data.disabled"
+                  :dark="isDark"
+                  :color="currentTheme.colorSecondary"
+                >
+                  <div :style="{color: currentTheme.colorPrimary}">
+                    {{ data.item }}
+                  </div>
+                  <v-avatar
+                    right
+                    size="5"
+                    :color="currentTheme.colorPrimary"
+                  >
+                    <v-icon
+                      @click="onUnselect(data.index)"
+                      x-small
+                      color="white"
+                    >mdi-close</v-icon>
+                  </v-avatar>
+                </v-chip>
+              </template>
+            </v-combobox>
           </v-col>
         </v-row>
 
@@ -71,110 +96,27 @@
         </v-row>
       </v-card>
     </v-dialog>
-    <v-dialog
-      v-model="dialogSubTask"
-      max-width="500px"
-    >
-      <v-card>
-        <v-card-text>
-        <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
-          <v-col cols="12">
-            <p class="text-h6 font-weight-bold">Subtugas</p>
-          </v-col>
-        </v-row>
-
-        <div v-for="(sub, i) in subtugas" :key="i">
-          <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
-            <v-col cols="12">
-              <p class="text-h7 font-weight-bold">Subtugas {{i+1}}</p>
-            </v-col>
-          </v-row>
-          <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
-            <v-col cols="12">
-              <v-text-field
-                v-model="sub.value1"
-                :label="sub.label1"
-                outlined
-                clearable
-                :color="currentTheme.colorSecondary"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
-            <v-col cols="12">
-              <v-text-field
-                v-model="sub.value2"
-                :label="sub.label2"
-                outlined
-                clearable
-                :color="currentTheme.colorSecondary"
-              >
-              </v-text-field>
-              <!-- <v-date-picker v-model="date" mode="dateTime" is24hr>
-                <template v-slot="{ inputValue, inputEvents }">
-                  <input
-                    class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
-                    :value="inputValue"
-                    v-on="inputEvents"
-                  />
-                </template>
-              </v-date-picker> -->
-            </v-col>
-          </v-row>
-        </div>
-        <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
-          <v-col cols="12" align="right">
-            <v-btn
-            outlined
-            :color="currentTheme.colorSecondary"
-            @click="add"
-            >
-              Tambah
-            </v-btn>
-          </v-col>
-        </v-row>
-        </v-card-text>
-          <v-card-actions>
-            <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
-              <v-col cols="6" align="right">
-                <v-btn
-                outlined
-                :color="currentTheme.colorOnSecondary"
-                @click="dialogSubTask = false"
-              >
-                Batal
-              </v-btn>
-              </v-col>
-              <v-col cols="6" align="left">
-                <v-btn
-                class=" white--text"
-                :color="currentTheme.colorOnSecondary"
-              >
-                Simpan
-              </v-btn>
-              </v-col>
-            </v-row>
-          </v-card-actions>
-      </v-card>
-    </v-dialog>
   </v-row>
   </template>
 
 <script>
 import { mapGetters } from "vuex"
-import MonitoringDosen from "../../../../datasource/network/monitoring/monitoringdosen"
+// import MonitoringDosen from "../../../../datasource/network/monitoring/monitoringdosen"
 export default {
   name: "FormAddMonitoring",
   props: ["visible"],
   data () {
     return {
-      dialogSubTask: false,
       namaTugas: "",
-      subtugas: [],
-      date: new Date(),
-      select: ["Status", "Skala Pemahaman"],
+      statusProgress: false,
+      statusDurasi: false,
+      statusSkala: false,
+      statusCatatan: false,
+      statusLampiran: false,
+      idPerkuliahan: "",
+      NIP: "",
+      selectedKriteria: [],
       items: [
-        "Status",
         "Progres",
         "Skala Pemahaman",
         "Catatan",
@@ -203,24 +145,21 @@ export default {
     }
   },
   methods: {
-    add () {
-      this.subtugas.push({
-        label1: "Nama Subtugas",
-        value1: "",
-        label2: "Tenggat",
-        value2: ""
-      })
-    },
     closeDialog () {
       this.$emit("close")
     },
+    onUnselect (index) {
+      this.select.splice(index, 1)
+    },
     async addTugas () {
-      var tugasBaru
-      console.log(this.namaTugas)
-      tugasBaru = await MonitoringDosen.postTugasBaru(this.namaTugas, "101")
-      console.log(tugasBaru)
+      // var tugasBaru
+      console.log(this.namaTugas, this.selectedKriteria)
+      // tugasBaru = await MonitoringDosen.postTugasBaru(this.namaTugas,
+      //              this.statusProgress, this.statusDurasi, this.statusSkala,
+      // this.statusCatatan, this.statusLampiran, "5", "196610181995121000")
+      // console.log(tugasBaru)
       this.$emit("close")
-      location.reload()
+      // location.reload()
     }
   }
 
