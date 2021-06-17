@@ -82,11 +82,11 @@ export default {
         var temp = item.substr(0, 4)
       }
 
-      var matkul = await MatkulMonitoringDosen.getMatkulKelas("196610181995121000", "1803")
+      var matkul = await MatkulMonitoringDosen.getMatkulKelas("196610181995121000", temp)
       var matkulList = []
       var j = 0
-      while (j < matkul.length) {
-        matkulList[j] = matkul[j].nama_mata_kuliah
+      while (j < matkul.listMatkul.length) {
+        matkulList[j] = matkul.listMatkul[j].nama_mata_kuliah
         j++
       }
       this.listMatkul = matkulList

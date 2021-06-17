@@ -14,8 +14,8 @@ const getListKelas = async (nip) => {
     //   kelas[i] = result.data.data.listKelas[i].kode_kelas + "-" + result.data.data.listKelas[i].kode_program_studi
     //   i++
     // }
-    console.log(result.data.data.listKelas)
-    return result.data.data.listKelas
+    console.log(result.data.data.uniqueClass)
+    return result.data.data.uniqueClass
   } catch (e) {
     return await errorHandler(e)
   }

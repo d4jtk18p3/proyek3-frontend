@@ -101,7 +101,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-// import MonitoringDosen from "../../../../datasource/network/monitoring/monitoringdosen"
+import TugasMonitoringDosen from "../../../../datasource/network/monitoring/tugas"
 export default {
   name: "FormAddMonitoring",
   props: ["visible"],
@@ -152,14 +152,20 @@ export default {
       this.select.splice(index, 1)
     },
     async addTugas () {
-      // var tugasBaru
+      var tugasBaru
       console.log(this.namaTugas, this.selectedKriteria)
-      // tugasBaru = await MonitoringDosen.postTugasBaru(this.namaTugas,
-      //              this.statusProgress, this.statusDurasi, this.statusSkala,
-      // this.statusCatatan, this.statusLampiran, "5", "196610181995121000")
-      // console.log(tugasBaru)
+      this.statusProgress = this.selectedKriteria.includes("Progres")
+      this.statusDurasi = this.selectedKriteria.includes("Durasi")
+      this.statusSkala = this.selectedKriteria.includes("Skala Pemahaman")
+      this.statusCatatan = this.selectedKriteria.includes("Catatan")
+      this.statusLampiran = this.selectedKriteria.includes("Lampiran")
+      console.log(this.statusProgress)
+      tugasBaru = await TugasMonitoringDosen.postTugasBaru(this.namaTugas,
+        this.statusProgress, this.statusDurasi, this.statusSkala,
+        this.statusCatatan, this.statusLampiran, "5", "196610181995121000")
+      console.log(tugasBaru)
       this.$emit("close")
-      // location.reload()
+      location.reload()
     }
   }
 

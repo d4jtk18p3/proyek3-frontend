@@ -14,8 +14,8 @@ const getMatkulKelas = async (nip, kodeKelas) => {
     //   matkul[i] = result.data.data.listMatkul[i].nama_mata_kuliah
     //   i++
     // }
-    console.log(result.data.data.listMatkul)
-    return result.data.data.listMatkul
+    console.log(result.data.data)
+    return result.data.data
   } catch (e) {
     return await errorHandler(e)
   }
