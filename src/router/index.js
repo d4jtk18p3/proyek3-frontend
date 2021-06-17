@@ -411,19 +411,28 @@ const routes = [
     component: () => import("../views/penilaian/PenilaianMain"),
     children: [
       {
-        path: "/input_nilai/",
+        path: "/penilaian/input-nilai",
         name: "Input Nilai Mahasiswa",
-        component: () => import(/* webpackChunkName: "inputnilaisection" */ "../views/penilaian/pages/dosen/InputNilaiSection.vue")
+        component: () =>
+          import(
+            /* webpackChunkName: "inputnilaisection" */ "../views/penilaian/pages/dosen/InputNilaiSection.vue"
+          )
       },
       {
-        path: "/input_nilai_matkul/:id",
+        path: "/penilaian/input-nilai-matkul/:id",
         name: "Input Nilai Matkul",
-        component: () => import(/* webpackChunkName: "inputnilaisection" */ "../views/penilaian/pages/dosen/InputNilaiMatkul.vue")
+        component: () =>
+          import(
+            /* webpackChunkName: "inputnilaisection" */ "../views/penilaian/pages/dosen/InputNilaiMatkul.vue"
+          )
       },
       {
-        path: "/dashboard_nilai_mahasiswa",
+        path: "/penilaian/dashboard-nilai-mahasiswa",
         name: "Dashboard Nilai Mahasiswa",
-        component: () => import(/* webpackChunkName: "inputnilaisection" */ "../views/penilaian/pages/mahasiswa/DashboardNilaiMahasiswa.vue")
+        component: () =>
+          import(
+            /* webpackChunkName: "inputnilaisection" */ "../views/penilaian/pages/mahasiswa/DashboardNilaiMahasiswa.vue"
+          )
       }
     ]
   }

@@ -47,14 +47,8 @@ export default {
   },
   methods: {
     routeNilaiMatkul (id) {
-      this.$router.push("/input_nilai_matkul/" + id)
+      this.$router.push("penilaian/input-nilai-matkul/" + id)
     }
   }
 }
 </script>
-
-<style scoped>
-.rounded-card{
-  border-radius:1000px;
-}
-</style>
