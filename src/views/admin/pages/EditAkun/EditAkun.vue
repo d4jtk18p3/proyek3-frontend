@@ -60,6 +60,7 @@ export default {
       try {
         const result = await AkunService.update(this.currentAkun.username, this.currentAkun.email, this.currentAkun.enabled)
         console.log(result)
+        alert(result.data.message)
       } catch (error) {
         console.log(error)
       }

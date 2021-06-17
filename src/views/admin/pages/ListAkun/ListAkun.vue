@@ -11,14 +11,33 @@
     :search="search"
   >
     <template v-slot:top>
-      <v-card>
+      <v-row>
+      <v-col md="3" offset-sm="1">
         <v-combobox
           v-model="select"
           :items="combofilter"
           label="Filter"
-        ></v-combobox>
-      </v-card>
-      <v-text-field
+          clearable
+        >
+          <template v-slot:selection="data">
+            <div v-if="data.item === 'dosen'">Dosen</div>
+            <div v-if="data.item === 'mahasiswa'">Mahasiswa</div>
+            <div v-if="data.item === 'admin'">Admin</div>
+            <div v-if="data.item === 'tata_usaha'">Tata Usaha</div>
+            <div v-if="data.item === 'superadmin'">Super Admin</div>
+          </template>
+          <template v-slot:item="data">
+            <div v-if="data.item === 'dosen'">Dosen</div>
+            <div v-if="data.item === 'mahasiswa'">Mahasiswa</div>
+            <div v-if="data.item === 'admin'">Admin</div>
+            <div v-if="data.item === 'tata_usaha'">Tata Usaha</div>
+            <div v-if="data.item === 'superadmin'">Super Admin</div>
+          </template>
+        </v-combobox>
+      </v-col>
+
+        <v-col md="6" offset-md="1">
+        <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
         label="Search"
@@ -26,6 +45,8 @@
         hide-details
       >
       </v-text-field>
+        </v-col>
+      </v-row>
     </template>
     <template v-slot:[`item.attributes.isActive[0]`]="{ item }">
       {{ item.attributes.isActive[0] ? "Aktif" : "Non-Aktif" }}
@@ -38,10 +59,10 @@
       <div v-if="item.attributes.role[0] === 'superadmin'">Super Admin</div>
     </template>
     <template v-slot:[`item.actions`]="{ item }">
-      <v-icon small class="mr-2" @click="editAkun(item.attributes.noInduk[0])"
+      <v-icon light small class="mr-2" @click="editAkun(item.attributes.noInduk[0])"
         >mdi-pencil</v-icon
       >
-      <v-icon small @click="deleteAkun(item.attributes.noInduk[0])"
+      <v-icon light small @click="deleteAkun(item.attributes.noInduk[0])"
         >mdi-delete</v-icon
       >
     </template>
@@ -138,7 +159,13 @@ export default {
   },
   watch: {
     select: async function (role) {
-      const result = await AkunService.getbyRole(role)
+      console.log(role)
+      var result = null
+      if (role == null) {
+        this.refreshList()
+      } else {
+        result = await AkunService.getbyRole(role)
+      }
       console.log(result.data.data)
       this.items = result.data.data
     }
