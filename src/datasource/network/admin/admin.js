@@ -4,7 +4,7 @@ import errorHandler
 
 const NETWORK_TIMEOUT = 10000
 const BASE_URL = "http://localhost:5001"
-export const createOneAccount = async (noInduk, jenisNoInduk, nama, email, role) => {
+export default async (noInduk, jenisNoInduk, nama, email, role) => {
   try {
     const result = await axios.post(BASE_URL + "/user/create", {
       noInduk: noInduk,

@@ -3,23 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve:development": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "serve:development": "vue-cli-service serve"
   },
   "dependencies": {
     "apexcharts": "^3.26.0",
     "axios": "~0.21.1",
     "core-js": "~3.9.1",
     "date-and-time": "^1.0.1",
+    "firebase": "^8.6.7",
     "keycloak-js": "^12.0.4",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "node-schedule": "^2.0.0",
+    "register-service-worker": "^1.7.1",
+    "v-calendar": "^2.3.0",
     "vue": "~2.6.12",
     "vue-apexcharts": "^1.6.1",
     "vue-router": "~3.5.1",
-    "vue2-editor": "^2.10.2",
+    "vue2-editor": "^1.0.1",
     "vuetify": "~2.4.7",
     "vuex": "~3.6.2",
     "xlsx": "^0.16.9"
@@ -27,10 +30,11 @@
   "devDependencies": {
     "@vue/cli": "~4.5.12",
     "@vue/cli-plugin-babel": "~4.5.12",
-    "@vue/cli-plugin-eslint": "~4.5.12",
+    "@vue/cli-plugin-eslint": "^4.5.13",
+    "@vue/cli-plugin-pwa": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.12",
     "@vue/cli-plugin-vuex": "~4.5.12",
-    "@vue/cli-service": "~4.5.12",
+    "@vue/cli-service": "^4.5.13",
     "@vue/eslint-config-standard": "~5.1.2",
     "babel-eslint": "~10.1.0",
     "eslint": "~6.8.0",
