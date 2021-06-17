@@ -2,9 +2,6 @@ import axios from "axios"
 import * as Keycloak from "keycloak-js"
 import Vue from "vue"
 import VueRouter from "vue-router"
-import InputNilaiSection from "../views/pages/nilai/dosen/InputNilaiSection.vue"
-import InputNilaiMatkul from "../views/pages/nilai/dosen/InputNilaiMatkul.vue"
-import DashboardNilaiMahasiswa from "@/views/pages/dashboard/DashboardNilaiMahasiswa.vue"
 
 Vue.use(VueRouter)
 
@@ -190,7 +187,7 @@ const routes = [
   },
   {
     path: "/monitoring",
-    component: () => import("../views/monitoring/monitoringmain"),
+    component: () => import("../views/monitoring/MonitoringMain"),
     children: [
       // {
       //   path: "/monitoring/dashboard-tugas",
@@ -297,27 +294,22 @@ const routes = [
   },
   {
     path: "/penilaian",
-    component: () => import("../views/absensi/AbsensiMain"),
+    component: () => import("../views/penilaian/PenilaianMain"),
     children: [
       {
         path: "/input_nilai/",
         name: "Input Nilai Mahasiswa",
-        component: InputNilaiSection
+        component: () => import(/* webpackChunkName: "inputnilaisection" */ "../views/penilaian/pages/dosen/InputNilaiSection.vue")
       },
       {
         path: "/input_nilai_matkul/:id",
         name: "Input Nilai Matkul",
-        component: InputNilaiMatkul
-      },
-      {
-        path: "/input_nilai_matkul/:id",
-        name: "Input Nilai Matkul",
-        component: InputNilaiMatkul
+        component: () => import(/* webpackChunkName: "inputnilaisection" */ "../views/penilaian/pages/dosen/InputNilaiMatkul.vue")
       },
       {
         path: "/dashboard_nilai_mahasiswa",
         name: "Dashboard Nilai Mahasiswa",
-        component: DashboardNilaiMahasiswa
+        component: () => import(/* webpackChunkName: "inputnilaisection" */ "../views/penilaian/pages/mahasiswa/DashboardNilaiMahasiswa.vue")
       }
     ]
   }

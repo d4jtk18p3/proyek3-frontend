@@ -50,9 +50,9 @@
 
 <script>
 import { mapGetters } from "vuex"
-import Breadcumbs from "@/views/component/UI/Breadcumbs"
-import NilaiMataKuliah from "@/views/component/nilai/NilaiMataKuliah"
-import KelasItem from "@/views/component/absensi/KelasItem"
+import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
+import NilaiMataKuliah from "@/views/penilaian/component/dosen/NilaiMataKuliah"
+import KelasItem from "@/views/template/component/absensi/KelasItem"
 
 export default {
   name: "AbsensiDosenMain",

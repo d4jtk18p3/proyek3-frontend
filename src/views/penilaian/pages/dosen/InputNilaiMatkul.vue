@@ -187,7 +187,7 @@ th:hover {
 import _ from "lodash"
 import XLSX from "xlsx"
 import { mapGetters } from "vuex"
-import Breadcumbs from "@/views/component/UI/Breadcumbs"
+import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 
 export default {
   name: "AbsensiDosenMain",

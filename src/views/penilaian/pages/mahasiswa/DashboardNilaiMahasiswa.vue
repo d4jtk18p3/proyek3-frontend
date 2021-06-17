@@ -85,9 +85,9 @@
 
 <script>
 import { mapGetters } from "vuex"
-import Breadcumbs from "@/views/component/UI/Breadcumbs"
-import DataMahasiswa from "@/views/component/dashboard/DataMahasiswa"
-import DataIPMahasiswa from "@/views/component/dashboard/DataIPMahasiswa"
+import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
+import DataMahasiswa from "@/views/penilaian/component/mahasiswa/DataMahasiswa"
+import DataIPMahasiswa from "@/views/penilaian/component/mahasiswa/DataIPMahasiswa"
 
 export default {
   name: "DashboardMain",
