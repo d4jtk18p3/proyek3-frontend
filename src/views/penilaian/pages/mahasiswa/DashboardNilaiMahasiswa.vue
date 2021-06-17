@@ -1,7 +1,7 @@
 <template>
   <v-row :style="{color: currentTheme.onBackground}">
     <v-col cols="12">
-      <p class="text-h4 font-weight-bold">Input Nilai Mahasiswa</p>
+      <p class="text-h4 font-weight-bold">Dashboard Mahasiswa</p>
     </v-col>
     <v-col cols="12">
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
@@ -13,6 +13,12 @@
       <DataIPMahasiswa/>
     </v-col>
     <v-col :cols="isMobile ? 12 : 6">
+    </v-col>
+    <v-col cols="12">
+      <div>
+      <GraphDekstop v-if="!isMobile" :nilai-list="nilaiList"  :ip-list="ipList"/>
+      <GraphMobile v-else :nilai-list="nilaiList"  :ip-list="ipList"/>
+      </div>
     </v-col>
     <v-col :cols="isMobile ? 3 : 1" class="mt-2 mr-2" v-for="(mhs) in Mahasiswa.Nilai" :key="mhs.label">
       <v-btn rounded :color="currentTheme.colorPrimary" :style="{'color': currentTheme.surface}" @click="NilaiSemesterSelected = mhs"> {{ mhs.label }} </v-btn>
@@ -80,6 +86,11 @@
             </tbody>
         </v-simple-table>
     </v-col>
+    <v-col cols="9">
+    </v-col>
+    <v-col cols="3">
+    <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="TranskripNilai(idMahasiswa)">Transkrip Nilai</v-btn>
+    </v-col>
   </v-row>
 </template>
 
@@ -88,10 +99,12 @@ import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import DataMahasiswa from "@/views/penilaian/component/mahasiswa/DataMahasiswa"
 import DataIPMahasiswa from "@/views/penilaian/component/mahasiswa/DataIPMahasiswa"
+import GraphDekstop from "@/views/template/pages/nilai/mahasiswa/GraphDekstop"
+import GraphMobile from "@/views/template/pages/nilai/mahasiswa/GraphMobile"
 
 export default {
   name: "DashboardMain",
-  components: { Breadcumbs, DataMahasiswa, DataIPMahasiswa },
+  components: { Breadcumbs, DataMahasiswa, DataIPMahasiswa, GraphDekstop, GraphMobile },
   data () {
     return {
       breadcrumbItems: [
@@ -101,7 +114,7 @@ export default {
           href: ""
         },
         {
-          text: "Link 1",
+          text: "Dashboard Mahasiswa",
           disabled: false,
           href: ""
         },
@@ -111,6 +124,8 @@ export default {
           href: ""
         }
       ],
+      ipList: [3.2, 2.0, 2.95, 0.51, 2.52, 3.5, 1.0],
+      nilaiList: [6, 7, 4, 7, 5],
       NilaiSemesterSelected: null,
       Mahasiswa: {
         Nilai: [
@@ -297,6 +312,9 @@ export default {
   methods: {
     test (mhsNilai) {
       console.log(mhsNilai)
+    },
+    TranskripNilai (id) {
+      this.$router.push("transkripsi-nilai/" + id)
     }
   }
 }

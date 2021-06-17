@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     routeNilaiMatkul (id) {
-      this.$router.push("penilaian/input-nilai-matkul/" + id)
+      this.$router.push("input-nilai-matkul/" + id)
     }
   }
 }

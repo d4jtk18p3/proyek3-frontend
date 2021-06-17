@@ -433,6 +433,14 @@ const routes = [
           import(
             /* webpackChunkName: "inputnilaisection" */ "../views/penilaian/pages/mahasiswa/DashboardNilaiMahasiswa.vue"
           )
+      },
+      {
+        path: "/penilaian/transkripsi-nilai/:id",
+        name: "Transkripsi Nilai",
+        component: () =>
+          import(
+            /* webpackChunkName: "inputnilaisection" */ "../views/penilaian/pages/mahasiswa/TranskripsiNilai.vue"
+          )
       }
     ]
   }
