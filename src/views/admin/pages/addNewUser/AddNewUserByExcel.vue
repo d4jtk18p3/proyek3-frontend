@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row :style="{color: currentTheme.onBackground}">
+    <v-row :style="{ color: currentTheme.onBackground }">
       <v-col cols="12">
         <p class="text-h4 font-weight-bold">Pendaftaran Akun Baru via Excel</p>
       </v-col>
@@ -19,14 +19,14 @@
         ></v-file-input>
       </v-col>
     </v-row>
-    <v-row :style="{color: currentTheme.onBackground}">
+    <v-row :style="{ color: currentTheme.onBackground }">
       <v-col>
         <p class="text-h5 font-weight-bold">Tinjauan XLSX</p>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <DataTable :headers="headers" :items="items"/>
+        <DataTable :headers="headers" :items="items" />
       </v-col>
     </v-row>
     <v-row>
@@ -35,9 +35,9 @@
           dense
           :color="currentTheme.colorSecondary"
           width="150"
-          style="color: #FFFFFF;"
+          style="color: #ffffff"
           @click="submitExcel"
-        >Submit XLSX
+          >Submit XLSX
         </v-btn>
       </v-col>
     </v-row>
@@ -49,7 +49,7 @@ import _ from "lodash"
 import { mapGetters } from "vuex"
 import XLSX from "xlsx"
 import DataTable from "@/views/admin/component/AddNewUser/DataTable"
-import Admin from "@/datasource/network/admin/admin"
+import { createOneAccount } from "@/datasource/network/admin/admin"
 
 export default {
   name: "AddNewUserByExcel",
@@ -87,7 +87,10 @@ export default {
       items: [],
       isLoading: false,
       rulesFile: {
-        onlyXlsx: (v) => v.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || "File harus bertipe *.xlsx"
+        onlyXlsx: (v) =>
+          v.type ===
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+          "File harus bertipe *.xlsx"
       }
     }
   },
@@ -126,7 +129,7 @@ export default {
           role = "tata_usaha"
         }
         try {
-          const result = await Admin.createOneAccount(
+          const result = await createOneAccount(
             noInduk,
             jenisNoInduk,
             nama,
@@ -155,24 +158,36 @@ export default {
 
       return _.map(_.range(range.s.r + 2, range.e.r + 1, 1), (i) => {
         return {
-          nomorInduk: _.get(worksheet[
-            XLSX.utils.encode_cell({ r: i, c: range.s.c })
-          ], "v", null),
-          jenisNomorInduk: _.get(worksheet[
-            XLSX.utils.encode_cell({ r: i, c: range.s.c + 1 })
-          ], "v", null),
-          nama: _.get(worksheet[
-            XLSX.utils.encode_cell({ r: i, c: range.s.c + 2 })
-          ], "v", null),
-          email: _.get(worksheet[
-            XLSX.utils.encode_cell({ r: i, c: range.s.c + 3 })
-          ], "v", null),
-          password: _.get(worksheet[
-            XLSX.utils.encode_cell({ r: i, c: range.s.c + 4 })
-          ], "v", null),
-          role: _.get(worksheet[
-            XLSX.utils.encode_cell({ r: i, c: range.s.c + 5 })
-          ], "v", null)
+          nomorInduk: _.get(
+            worksheet[XLSX.utils.encode_cell({ r: i, c: range.s.c })],
+            "v",
+            null
+          ),
+          jenisNomorInduk: _.get(
+            worksheet[XLSX.utils.encode_cell({ r: i, c: range.s.c + 1 })],
+            "v",
+            null
+          ),
+          nama: _.get(
+            worksheet[XLSX.utils.encode_cell({ r: i, c: range.s.c + 2 })],
+            "v",
+            null
+          ),
+          email: _.get(
+            worksheet[XLSX.utils.encode_cell({ r: i, c: range.s.c + 3 })],
+            "v",
+            null
+          ),
+          password: _.get(
+            worksheet[XLSX.utils.encode_cell({ r: i, c: range.s.c + 4 })],
+            "v",
+            null
+          ),
+          role: _.get(
+            worksheet[XLSX.utils.encode_cell({ r: i, c: range.s.c + 5 })],
+            "v",
+            null
+          )
         }
       })
     },
