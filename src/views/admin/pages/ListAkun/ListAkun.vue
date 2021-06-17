@@ -10,36 +10,40 @@
     :style="{ backgroundColor: currentTheme.colorPrimary }"
     :search="search"
   >
-  <template v-slot:top>
-    <v-card>
-      <v-combobox
-      v-model="select"
-      :items="combofilter"
-      label="Filter"
-      ></v-combobox>
-    </v-card>
-    <v-text-field
-    v-model="search"
-    append-icon="mdi-magnify"
-    label="Search"
-    single-line
-    hide-details
-    >
-    </v-text-field>
-  </template>
-  <template v-slot:[`item.attributes.isActive[0]`]="{ item }">
-      {{ item.attributes.isActive[0] ? 'Aktif' : 'Non-Aktif' }}
-  </template>
-  <template v-slot:[`item.attributes.role[0]`]="{ item }">
+    <template v-slot:top>
+      <v-card>
+        <v-combobox
+          v-model="select"
+          :items="combofilter"
+          label="Filter"
+        ></v-combobox>
+      </v-card>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      >
+      </v-text-field>
+    </template>
+    <template v-slot:[`item.attributes.isActive[0]`]="{ item }">
+      {{ item.attributes.isActive[0] ? "Aktif" : "Non-Aktif" }}
+    </template>
+    <template v-slot:[`item.attributes.role[0]`]="{ item }">
       <div v-if="item.attributes.role[0] === 'dosen'">Dosen</div>
       <div v-if="item.attributes.role[0] === 'mahasiswa'">Mahasiswa</div>
       <div v-if="item.attributes.role[0] === 'admin'">Admin</div>
       <div v-if="item.attributes.role[0] === 'tata_usaha'">Tata Usaha</div>
       <div v-if="item.attributes.role[0] === 'superadmin'">Super Admin</div>
-  </template>
+    </template>
     <template v-slot:[`item.actions`]="{ item }">
-      <v-icon small class="mr-2" @click="editAkun(item.attributes.noInduk[0])">mdi-pencil</v-icon>
-      <v-icon small @click="deleteAkun(item.attributes.noInduk[0])">mdi-delete</v-icon>
+      <v-icon small class="mr-2" @click="editAkun(item.attributes.noInduk[0])"
+        >mdi-pencil</v-icon
+      >
+      <v-icon small @click="deleteAkun(item.attributes.noInduk[0])"
+        >mdi-delete</v-icon
+      >
     </template>
   </v-data-table>
 </template>
@@ -68,7 +72,7 @@ export default {
         },
         {
           text: "Nama",
-          value: "attributes.name[0]",
+          value: "firstName",
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
@@ -92,7 +96,7 @@ export default {
   },
   methods: {
     async retrieveAkun () {
-    /* await AkunService.getAll()
+      /* await AkunService.getAll()
         .then((response) => {
           this.items = response.data
           console.log(response.data)
@@ -143,7 +147,6 @@ export default {
     this.retrieveAkun()
   }
 }
-
 </script>
 
 <style lang="scss">
