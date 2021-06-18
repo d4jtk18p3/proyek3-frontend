@@ -189,16 +189,16 @@ export default {
     },
     async addSubtugas () {
       var subtugasBaru
-      var date = this.tenggat.toLocaleString()
+      var date = this.tenggat
       var d = new Date(date)
-      var dateStr =
-        d.getFullYear() + "-" +
-        ("00" + (d.getMonth() + 1)).slice(-2) + "-" +
-        ("00" + d.getDate()).slice(-2)
-        // ("00" + d.getDate()).slice(-2) + " " +
-        // ("00" + d.getHours()).slice(-2) + ":" +
-        // ("00" + d.getMinutes()).slice(-2) + ":" +
-        // ("00" + d.getSeconds()).slice(-2) + "+07"
+      var dateStr = d.toISOString()
+      // d.getFullYear() + "-" +
+      // ("00" + (d.getMonth() + 1)).slice(-2) + "-" +
+      // ("00" + d.getDate()).slice(-2)
+      // ("00" + d.getDate()).slice(-2) + " " +
+      // ("00" + d.getHours()).slice(-2) + ":" +
+      // ("00" + d.getMinutes()).slice(-2) + ":" +
+      // ("00" + d.getSeconds()).slice(-2) + "+07"
       // var d = new Date(date)
       // var month = "" + (d.getMonth() + 1)
       // var day = "" + d.getDate()
@@ -219,7 +219,7 @@ export default {
         dateStr, "2", "1")
       console.log(subtugasBaru)
       this.$emit("close")
-      // location.reload()
+      location.reload()
     }
   }
 

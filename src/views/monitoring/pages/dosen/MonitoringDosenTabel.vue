@@ -37,13 +37,14 @@
           >No Data Available
           </p>
         </template>
-        <template v-slot:[`item.Edit`]>
+        <template v-slot:[`item.id`]="{item}">
           <v-btn
               text
               color="primary"
               v-bind="attrs"
               v-on="on"
               class="ma-2"
+              @click="editSubtugas(item)"
           >
             <v-icon>
             mdi-pencil
@@ -137,6 +138,7 @@ export default {
       subtugas: [],
       items: [
         {
+          id: "",
           nama_subtugas: "",
           tenggat: ""
         }
@@ -157,7 +159,7 @@ export default {
         {
           text: "Edit",
           align: "center",
-          value: "Edit",
+          value: "id",
           sortable: false,
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         }
@@ -280,6 +282,22 @@ export default {
   methods: {
     addSubtugas () {
       this.showDialogForm = true
+    },
+    async editSubtugas (item) {
+      if (item != null) {
+        var temp = item.id
+      }
+
+      // var sub = await SubtugasMonitoringDosen.putSubtugas(temp)
+      // var matkulList = []
+      // var j = 0
+      // while (j < matkul.listMatkul.length) {
+      //   matkulList[j] = matkul.listMatkul[j].nama_mata_kuliah
+      //   j++
+      // }
+      // this.listMatkul = matkulList
+      console.log(temp)
+      // console.log(this.listMatkul)
     }
   },
   async mounted () {
