@@ -36,7 +36,7 @@
                 :color="currentTheme.onBackground"
                 icon="mdi-pencil"
               >
-              {{ header.label }}
+              {{ header.label }} ({{ header.bobot }}%)
               </v-badge>
               <v-badge
                 v-else
@@ -53,7 +53,7 @@
                 :color="currentTheme.onBackground"
                 icon="mdi-pencil"
               >
-              {{ header.label }}
+              {{ header.label }} ({{ header.bobot }}%)
               </v-badge>
               <v-badge
                 v-else
@@ -70,7 +70,7 @@
               <template v-if="headerChildNilaiETS[index].readOnly" >
                 {{ dataNilaiMahasiswaETS[indexNilai][name] }}
               </template>
-              <input v-else v-model="dataNilaiMahasiswaETS[indexNilai][name]" placeholder="Enter nilai" type="number" :min="0" :max="100" @change="dataNilaiMahasiswaETS[indexNilai][name] = Math.max(Math.min(Math.round(dataNilaiMahasiswaETS[indexNilai][name]), 100), 0)" :style="{'width': '100px', 'text-align': 'center'}"/>
+              <input v-else v-model="dataNilaiMahasiswaETS[indexNilai][name]" placeholder="Enter nilai" @change="dataNilaiMahasiswaETS[indexNilai][name] = Math.max(Math.min(dataNilaiMahasiswaETS[indexNilai][name], 100), 0)" :style="{'width': '100px', 'text-align': 'center'}"/>
             </td>
           </tr>
         </tbody>
@@ -88,7 +88,7 @@
                 :color="currentTheme.onBackground"
                 icon="mdi-pencil"
               >
-              {{ header.label }}
+              {{ header.label }} ({{ header.bobot }}%)
               </v-badge>
               <v-badge
                 v-else
@@ -105,7 +105,7 @@
                 :color="currentTheme.onBackground"
                 icon="mdi-pencil"
               >
-              {{ header.label }}
+              {{ header.label }} ({{ header.bobot }}%)
               </v-badge>
               <v-badge
                 v-else
@@ -122,7 +122,7 @@
               <template v-if="headerChildNilaiEAS[index].readOnly" >
                 {{ dataNilaiMahasiswaEAS[indexNilai][name] }}
               </template>
-              <input v-else v-model="dataNilaiMahasiswaEAS[indexNilai][name]" placeholder="Enter nilai" type="number" :min="0" :max="100" @change="dataNilaiMahasiswaEAS[indexNilai][name] = Math.max(Math.min(Math.round(dataNilaiMahasiswaEAS[indexNilai][name]), 100), 0)" :style="{'width': '100px', 'text-align': 'center'}"/>
+              <input v-else v-model="dataNilaiMahasiswaEAS[indexNilai][name]" placeholder="Enter nilai" @change="dataNilaiMahasiswaEAS[indexNilai][name] = Math.max(Math.min(dataNilaiMahasiswaEAS[indexNilai][name], 100), 0)" :style="{'width': '100px', 'text-align': 'center'}"/>
             </td>
           </tr>
         </tbody>
@@ -134,7 +134,7 @@
       >
         <v-card>
           <v-card-title>
-            <span class="headline">Edit Bobot</span>
+            <span class="headline">Edit Detail Tugas</span>
           </v-card-title>
 
           <v-card-text>
@@ -146,9 +146,25 @@
                   md="4"
                 >
                   <v-text-field
+                    v-model="editedItem.label"
+                    label="Label"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="8"
+                  md="4"
+                >
+                  <v-text-field
                     v-model="editedItem.bobot"
                     label="Bobot"
+                    @input="bobotOnChange"
                   ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <p v-if="!saveButton" class="error--text">Bobot total melebihi 100! Sisa bobot: {{ sisaBobot }}</p>
                 </v-col>
               </v-row>
             </v-container>
@@ -164,6 +180,7 @@
               Cancel
             </v-btn>
             <v-btn
+              :disabled="!saveButton"
               color="blue darken-1"
               text
               @click="save()"
@@ -239,6 +256,9 @@ export default {
       headerETS: { idKategori: null, parent: null, nama_kategori: "ETS", bobot_nilai: 0 },
       headerEAS: { idKategori: null, parent: null, nama_kategori: "ETS", bobot_nilai: 0 },
       dialog: false,
+      saveButton: true,
+      sisaBobot: 0,
+      headerSelected: null,
       editedItem: {
         bobot: 0
       },
@@ -250,7 +270,7 @@ export default {
           href: ""
         },
         {
-          text: "Link 1",
+          text: "Input Nilai Mahasiswa",
           disabled: false,
           href: ""
         },
@@ -304,7 +324,7 @@ export default {
           }
 
           this.headerParentNilaiETS = headers
-          // console.log(headers)
+          console.log(headers)
 
           var fieldNilai = [{ label: "NIM", colspan: 1, key: "NIM", readOnly: true }, { label: "Nama", colspan: 1, key: "Nama", readOnly: true }]
           R = range.s.r + 1/* start in the first row */
@@ -325,7 +345,7 @@ export default {
           }
 
           this.headerChildNilaiETS = fieldNilai
-          // console.log(fieldNilai)
+          console.log(fieldNilai)
 
           // console.log(this.parse(worksheetETS, this.headerChildNilaiETS))
           this.dataNilaiMahasiswaETS = this.parse(worksheetETS, this.headerChildNilaiETS)
@@ -417,11 +437,63 @@ export default {
       document.getElementById("fileInput").click()
     },
     changeBobot (header) {
+      var i
+      var totalindex
       if (!header.readOnly) {
-        // console.log("halo " + header.bobot)
+        if (this.headerParentNilaiETS.indexOf(header) > 0) {
+          this.headerSelected = this.headerParentNilaiETS
+        } else if (this.headerParentNilaiEAS.indexOf(header) > 0) {
+          this.headerSelected = this.headerParentNilaiEAS
+        } else if (this.headerChildNilaiETS.indexOf(header) > 0) {
+          this.headerSelected = this.headerChildNilaiETS
+          i = 1
+          totalindex = 2
+          // console.log("index=" + this.headerSelected.indexOf(header))
+          while (totalindex < this.headerSelected.indexOf(header) + 1) {
+            totalindex += parseInt(this.headerParentNilaiETS[i].colspan)
+            i++
+          }
+          // console.log(this.headerParentNilaiETS[i - 1].label)
+          // console.log("dari" + (totalindex - parseInt(this.headerParentNilaiETS[i - 1].colspan)) + " hingga " + (totalindex - 1))
+          this.headerSelected = []
+          for (i = (totalindex - parseInt(this.headerParentNilaiETS[i - 1].colspan)); i <= (totalindex - 1); i++) {
+            this.headerSelected.push(this.headerChildNilaiETS[i])
+          }
+          // console.log(this.headerSelected)
+        } else {
+          this.headerSelected = this.headerChildNilaiEAS
+          i = 1
+          totalindex = 2
+          // console.log("index=" + this.headerSelected.indexOf(header))
+          while (totalindex < this.headerSelected.indexOf(header) + 1) {
+            totalindex += parseInt(this.headerParentNilaiEAS[i].colspan)
+            i++
+          }
+          // console.log(this.headerParentNilaiETS[i - 1].label)
+          // console.log("dari" + (totalindex - parseInt(this.headerParentNilaiEAS[i - 1].colspan)) + " hingga " + (totalindex - 1))
+          this.headerSelected = []
+          for (i = (totalindex - parseInt(this.headerParentNilaiEAS[i - 1].colspan)); i <= (totalindex - 1); i++) {
+            this.headerSelected.push(this.headerChildNilaiEAS[i])
+          }
+          // console.log(this.headerSelected)
+        }
         this.defaultBobot = header.bobot
         this.editedItem = header
         this.dialog = true
+      }
+    },
+    bobotOnChange () {
+      var totalBeban = 0
+      for (var i = 0; i < this.headerSelected.length; i++) {
+        if (!(i === this.headerSelected.indexOf(this.editedItem)) && !this.headerSelected[i].readOnly) {
+          totalBeban += parseInt(this.headerSelected[i].bobot)
+        }
+      }
+      if (totalBeban + parseInt(this.editedItem.bobot) > 100) {
+        this.sisaBobot = 100 - totalBeban
+        this.saveButton = false
+      } else {
+        this.saveButton = true
       }
     },
     close () {
@@ -457,7 +529,7 @@ export default {
           idKategori: getLastIdKategori,
           parent: this.headerETS.idKategori,
           nama_kategori: this.headerParentNilaiETS[i].label,
-          bobot_nilai: parseInt(this.headerParentNilaiETS[i].bobot)
+          bobot_nilai: parseFloat(this.headerParentNilaiETS[i].bobot)
         }
         kategoriNilai.push(kategori)
         getLastIdKategori++
@@ -473,7 +545,7 @@ export default {
             idKategori: getLastIdKategori,
             parent: listParent[j].idKategori,
             nama_kategori: this.headerChildNilaiETS[k + iter].label,
-            bobot_nilai: parseInt(this.headerChildNilaiETS[k + iter].bobot)
+            bobot_nilai: parseFloat(this.headerChildNilaiETS[k + iter].bobot)
           }
           kategoriNilaiChild.push(kategori)
           getLastIdKategori++
@@ -491,7 +563,7 @@ export default {
         for (i = 0; i < kategoriNilaiChild.length; i++) {
           nilai = {
             id_kategori: kategoriNilaiChild[i].idKategori,
-            nilai: parseInt(this.dataNilaiMahasiswaETS[j]["Nilai" + (i + 1)]),
+            nilai: parseFloat(this.dataNilaiMahasiswaETS[j]["Nilai" + (i + 1)]),
             nim: this.dataNilaiMahasiswaETS[j].NIM
           }
           dataNilai.push(nilai)
@@ -520,7 +592,7 @@ export default {
           idKategori: getLastIdKategori,
           parent: this.headerEAS.idKategori,
           nama_kategori: this.headerParentNilaiEAS[i].label,
-          bobot_nilai: parseInt(this.headerParentNilaiEAS[i].bobot)
+          bobot_nilai: parseFloat(this.headerParentNilaiEAS[i].bobot)
         }
         kategoriNilai.push(kategori)
         getLastIdKategori++
@@ -536,7 +608,7 @@ export default {
             idKategori: getLastIdKategori,
             parent: listParent[j].idKategori,
             nama_kategori: this.headerChildNilaiEAS[k + iter].label,
-            bobot_nilai: parseInt(this.headerChildNilaiEAS[k + iter].bobot)
+            bobot_nilai: parseFloat(this.headerChildNilaiEAS[k + iter].bobot)
           }
           kategoriNilaiChild.push(kategori)
           getLastIdKategori++
@@ -554,7 +626,7 @@ export default {
         for (i = 0; i < kategoriNilaiChild.length; i++) {
           nilai = {
             id_kategori: kategoriNilaiChild[i].idKategori,
-            nilai: parseInt(this.dataNilaiMahasiswaEAS[j]["Nilai" + (i + 1)]),
+            nilai: parseFloat(this.dataNilaiMahasiswaEAS[j]["Nilai" + (i + 1)]),
             nim: this.dataNilaiMahasiswaEAS[j].NIM
           }
           dataNilai.push(nilai)

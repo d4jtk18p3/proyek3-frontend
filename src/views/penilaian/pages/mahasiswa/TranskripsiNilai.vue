@@ -47,7 +47,7 @@
     <v-col cols="10" class="py-0">
       <p class="text-h7"> : 4</p>
     </v-col>
-    <v-col cols="10">
+    <v-col cols="9">
     </v-col>
     <v-col cols="2">
         <v-btn color="#2196F3" elevation="2" class="white--text" depressed @click="SavePDF()">Simpan Sebagai PDF</v-btn>

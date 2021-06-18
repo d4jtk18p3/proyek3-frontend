@@ -14,11 +14,8 @@
     </v-col>
     <v-col :cols="isMobile ? 12 : 6">
     </v-col>
-    <v-col cols="12">
-      <div>
-      <GraphDekstop v-if="!isMobile" :nilai-list="nilaiList"  :ip-list="ipList"/>
-      <GraphMobile v-else :nilai-list="nilaiList"  :ip-list="ipList"/>
-      </div>
+    <v-col :cols="isMobile ? 12 : 12">
+      <GraphSection :ipList="ipList" :nilaiList="nilaiList" />
     </v-col>
     <v-col :cols="isMobile ? 3 : 1" class="mt-2 mr-2" v-for="(mhs) in Mahasiswa.Nilai" :key="mhs.label">
       <v-btn rounded :color="currentTheme.colorPrimary" :style="{'color': currentTheme.surface}" @click="NilaiSemesterSelected = mhs"> {{ mhs.label }} </v-btn>
@@ -99,12 +96,11 @@ import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import DataMahasiswa from "@/views/penilaian/component/mahasiswa/DataMahasiswa"
 import DataIPMahasiswa from "@/views/penilaian/component/mahasiswa/DataIPMahasiswa"
-import GraphDekstop from "@/views/template/pages/nilai/mahasiswa/GraphDekstop"
-import GraphMobile from "@/views/template/pages/nilai/mahasiswa/GraphMobile"
+import GraphSection from "@/views/template/pages/nilai/mahasiswa/GraphSection"
 
 export default {
   name: "DashboardMain",
-  components: { Breadcumbs, DataMahasiswa, DataIPMahasiswa, GraphDekstop, GraphMobile },
+  components: { Breadcumbs, DataMahasiswa, DataIPMahasiswa, GraphSection },
   data () {
     return {
       breadcrumbItems: [
@@ -308,6 +304,9 @@ export default {
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
+  },
+  mounted () {
+    this.NilaiSemesterSelected = this.Mahasiswa.Nilai[0]
   },
   methods: {
     test (mhsNilai) {

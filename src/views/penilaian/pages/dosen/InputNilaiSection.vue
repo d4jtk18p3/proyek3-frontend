@@ -61,7 +61,7 @@ export default {
     return {
       breadcrumbItems: [
         {
-          text: "Absensi",
+          text: "Penilaian",
           disabled: false,
           href: ""
         },
