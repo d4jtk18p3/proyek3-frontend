@@ -13,7 +13,7 @@
           <div class="text-h7 font-weight-bold text-center font-italic" :style="{color: currentTheme.onSurface}">{{ subTask }}</div>
         </v-col>
         <v-col cols="12" sm="10" class="mt-3">
-          <div class="text-h7 font-weight-bold" :style="{color: currentTheme.onSurface}">Target</div>
+          <div class="text-h7 font-weight-bold" :style="{color: currentTheme.onSurface}">Progress</div>
           <div class="text-caption font-weight-medium font-italic" :style="{color: currentTheme.onSurface}">*isi dengan rentang 1-100</div>
           <v-slider
             v-model="target"

@@ -154,7 +154,7 @@ export default {
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
-          text: "Target",
+          text: "Progress",
           align: "center",
           sortable: false,
           value: "progress",
