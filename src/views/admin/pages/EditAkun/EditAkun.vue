@@ -10,6 +10,13 @@
       ></v-text-field>
 
       <v-text-field
+        v-model="currentAkun.firstName"
+        :rules="[(v) => !!v || 'Name is required']"
+        label="Name"
+        required
+      ></v-text-field>
+
+      <v-text-field
         v-model="currentAkun.email"
         :rules="[(v) => !!v || 'Email is required']"
         label="Email"
@@ -56,7 +63,8 @@ export default {
         const result = await AkunService.update(
           this.currentAkun.username,
           this.currentAkun.email,
-          this.currentAkun.enabled
+          this.currentAkun.enabled,
+          this.currentAkun.firstName
         )
         console.log(result)
         alert(result.data.message)
