@@ -48,8 +48,8 @@
         </v-col>
       </v-row>
     </template>
-    <template v-slot:[`item.attributes.isActive[0]`]="{ item }">
-      {{ item.attributes.isActive[0] ? "Aktif" : "Non-Aktif" }}
+    <template v-slot:[`item.enabled`]="{ item }">
+      {{ item.enabled ? "Aktif" : "Non-Aktif" }}
     </template>
     <template v-slot:[`item.attributes.role[0]`]="{ item }">
       <div v-if="item.attributes.role[0] === 'dosen'">Dosen</div>
@@ -103,7 +103,7 @@ export default {
         },
         {
           text: "Status",
-          value: "attributes.isActive[0]",
+          value: "enabled",
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
