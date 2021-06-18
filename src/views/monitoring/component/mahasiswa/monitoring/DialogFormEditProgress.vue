@@ -16,7 +16,7 @@
           <div class="text-h7 font-weight-bold" :style="{color: currentTheme.onSurface}">Target</div>
           <div class="text-caption font-weight-medium font-italic" :style="{color: currentTheme.onSurface}">*isi dengan rentang 1-100</div>
           <v-slider
-            v-model="targetValue"
+            v-model="target"
             :thumb-size="24"
             :color="currentTheme.colorSecondary"
             thumb-label
@@ -24,7 +24,7 @@
           <div class="text-h7 font-weight-bold" :style="{color: currentTheme.onSurface}">Skala Pemahaman</div>
           <div class="text-caption font-weight-medium font-italic" :style="{color: currentTheme.onSurface}">*isi dengan rentang 1-5</div>
           <v-slider
-            v-model="skalaPemahamanValue"
+            v-model="skalaPemahaman"
             :thumb-size="24"
             :color="currentTheme.colorSecondary"
             thumb-label
@@ -50,8 +50,9 @@
                 v-bind="attrs"
                 v-on="on"
                 width="100"
+                @click="edit"
               >
-                <span style="font-size: 12px" class="font-weight-light">Simpan</span>
+                Simpan
               </v-btn>
             </v-col>
           </v-row>
@@ -63,10 +64,10 @@
 
 <script>
 import { mapGetters } from "vuex"
-
+import SubtugasMonitoringDosen from "../../../../../datasource/network/monitoring/subtugas"
 export default {
   name: "subTask",
-  props: ["visible"],
+  props: ["visible", "index"],
   // props: {
   //   subTask: {
   //     type: String,
@@ -76,8 +77,9 @@ export default {
   // },
   data () {
     return {
-      targetValue: 0,
-      skalaPemahamanValue: 0
+      target: 0,
+      skalaPemahaman: 0,
+      catatan: "-"
     }
   },
   computed: {
@@ -98,6 +100,14 @@ export default {
   methods: {
     closeDialog () {
       this.$emit("close")
+    },
+    async edit () {
+      var updateSubTugas
+      console.log(this.index)
+      updateSubTugas = await SubtugasMonitoringDosen.putSubTugas(this.index, this.target, this.skalaPemahaman, this.catatan)
+      console.log(updateSubTugas)
+      this.$emit("close")
+      window.location.reload()
     }
   }
 }

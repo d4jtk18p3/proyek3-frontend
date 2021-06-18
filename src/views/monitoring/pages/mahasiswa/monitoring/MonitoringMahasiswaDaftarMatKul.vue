@@ -9,8 +9,8 @@
         class="text-left font-weight-bold text-h5"
         :style="{color: currentTheme.onBackground}"
         >Mata Kuliah</p>
-        <v-card link class="mb-3" v-for="item in listMatkul" :key="item">
-          <MatkulItem :mataKuliah="item"></MatkulItem>
+        <v-card link class="mb-3" v-for="item in listMatkul" :key="item" @click="getIdMatkul(item)">
+          <MatkulItem :mataKuliah="item.idMatkul"></MatkulItem>
         </v-card>
     </v-col>
     <v-divider v-if="!isMobile" vertical class="mx-5"></v-divider>
@@ -36,6 +36,7 @@ import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import MatkulItem from "@/views/monitoring/component/mahasiswa/monitoring/MatkulItem"
 import TugasItem from "@/views/monitoring/component/mahasiswa/monitoring/TugasItem"
+import TugasMonitoringMahasiswa from "../../../../../datasource/network/monitoring/tugas"
 export default {
   name: "AbsensiDosenMain",
   components: { MatkulItem, Breadcumbs, TugasItem },
@@ -54,14 +55,16 @@ export default {
         }
       ],
       listMatkul: [
-        "APPL 1",
-        "Sistem terdistribusi",
-        "Akuntansi"
+        {
+          idMatkul: "16TIN4014",
+          idPerkuliahan: "5"
+        },
+        {
+          idMatkul: "16TIN4024",
+          idPerkuliahan: "6"
+        }
       ],
       listTugas: [
-        "W1 Polymorphism",
-        "Worksheet",
-        "Buku Besar"
       ]
     }
   },
@@ -72,18 +75,18 @@ export default {
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
+  },
+  methods: {
+    async getIdMatkul (item) {
+      var idPerkuliahan = item.idPerkuliahan
+      var idMatkul = item.idMatkul
+      this.listTugas = await TugasMonitoringMahasiswa.getTugasMatkul(idMatkul, idPerkuliahan)
+      console.log(this.listTugas)
+    }
+  },
+  beforeMount () {
+    this.getIdMatkul()
   }
-  // methods: {
-  //   async getIdKelas (item) {
-  //     var temp = item.substr(0, 3)
-  //     this.listMatkul = await MonitoringDosen.getMatkulKelas("196610181995121001", temp)
-  //     console.log(temp)
-  //     console.log(this.listMatkul)
-  //   }
-  // },
-  // beforeMount () {
-  //   this.getIdKelas()
-  // },
   // async mounted () {
   //   this.listKelas = await MonitoringDosen.getListKelas("196610181995121001")
   //   this.listMatkul = await MonitoringDosen.getMatkulKelas("196610181995121001", "301")

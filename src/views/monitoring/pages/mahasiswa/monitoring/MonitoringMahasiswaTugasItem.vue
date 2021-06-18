@@ -24,14 +24,15 @@
           >No Data Available
           </p>
         </template>
-        <template v-slot:item.selesai="{ item }">
+        <template v-slot:item.status_subtugas="{ item }">
           <v-simple-checkbox
-            v-model="item.selesai"
+            v-model="item.status_subtugas"
             light
+            disabled
             :color="currentTheme.colorPrimary"
           ></v-simple-checkbox>
         </template>
-        <template v-slot:[`item.Detail`]>
+        <template v-slot:item.Detail="{ item }">
           <v-btn
             color="primary"
             dark
@@ -65,35 +66,35 @@
             rounded="6"
             small
             class="mt-1 mb-1"
-            @click="selesaiItem()"
+            @click="selesaiItem(item.id)"
           >
             <span style="font-size: 12px" class="font-weight-bold">Selesai</span>
           </v-btn>
         </template>
-        <template v-slot:[`item.Edit`]>
+        <template v-slot:item.Edit="{ item }">
           <v-btn
             class="mr-5"
             v-bind="attrs"
             v-on="on"
             icon :style="{color: currentTheme.onBackground}"
-            @click="editItem()"
           >
-            <v-icon>
+            <v-icon
+            @click="editItem(item.id)">
             mdi-pencil
             </v-icon>
           </v-btn>
         </template>
-        <template v-slot:[`item.lampiran`]>
+        <!-- <template v-slot:[`item.lampiran`]>
           <td><a v-bind:href="items.lampiran" :key="items.lampiran"> link </a></td>
-        </template>
+        </template> -->
         <template v-slot:[`item.Durasi`]>
           <Durasi/>
         </template>
       </v-data-table>
       </v-col>
     </v-row>
-  <editProgress :visible="dialog" @close="dialog=false" />
-  <SerahkanTugas :visible="dialogSelesai" @close="dialogSelesai=false" />
+  <editProgress :index="editedIndex" :visible="dialog" @close="dialog=false" />
+  <SerahkanTugas :index="editedIndex" :visible="dialogSelesai" @close="dialogSelesai=false" />
   </div>
 </template>
 
@@ -103,6 +104,7 @@ import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import editProgress from "@/views/monitoring/component/mahasiswa/monitoring/DialogFormEditProgress.vue"
 import SerahkanTugas from "@/views/monitoring/component/mahasiswa/monitoring/DialogFormSerahkanTugas.vue"
 import Durasi from "@/views/monitoring/component/mahasiswa/monitoring/Durasi.vue"
+import SubTugasMonitoringMahasiswa from "../../../../../datasource/network/monitoring/subtugas"
 export default {
   name: "KelasItem",
   components: { Breadcumbs, editProgress, SerahkanTugas, Durasi },
@@ -134,22 +136,25 @@ export default {
           href: ""
         }
       ],
+      items: [
+      ],
+      editedIndex: -1,
       headers: [
         {
           text: "Selesai",
           align: "center",
-          value: "selesai",
+          value: "status_subtugas",
           sortable: false,
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
           text: "Sub-task",
-          value: "subTask",
+          value: "nama_subtugas",
           sortable: false,
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
-          text: "Progress",
+          text: "Target",
           align: "center",
           sortable: false,
           value: "progress",
@@ -159,14 +164,14 @@ export default {
           text: "Skala",
           align: "center",
           sortable: false,
-          value: "skala",
+          value: "skala_pemahaman",
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
           text: "Durasi",
           align: "center",
           sortable: false,
-          value: "Durasi",
+          value: "waktu_selesai",
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
@@ -198,70 +203,23 @@ export default {
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         }
       ],
-      items: [
-        {
-          id: 1,
-          selesai: false,
-          subTask: "Another Type of Employee",
-          progress: "50",
-          skala: "",
-          durasi: "00:00:00",
-          catatan: "",
-          lampiran: ""
-        },
-        {
-          id: 2,
-          selesai: true,
-          subTask: "Painting Shapes",
-          progress: "100",
-          skala: "5",
-          durasi: "00:11:32",
-          catatan: "Dalam kasus ini multi-Thread, ketika program di run hasil nya kata Hello JTK 2018 tidak beraturan, ini dikarenakan thred . . . ",
-          lampiran: "https://www.youtube.com/"
-        },
-        {
-          id: 3,
-          selesai: false,
-          subTask: "Polymorphic Sorting",
-          progress: "",
-          skala: "",
-          durasi: "00:00:00",
-          catatan: "",
-          lampiran: ""
-        },
-        {
-          id: 4,
-          selesai: false,
-          subTask: "Searching and Sorting an Integer List",
-          progress: "",
-          skala: "",
-          durasi: "00:00:00",
-          catatan: "",
-          lampiran: ""
-        },
-        {
-          id: 5,
-          selesai: false,
-          subTask: "Timing Searching and Sorting Algorithms",
-          progress: "",
-          skala: "",
-          durasi: "00:00:00",
-          catatan: "",
-          lampiran: ""
-        }
-      ],
       isLoading: false,
       rulesFile: {
       }
     }
   },
   methods: {
-    editItem () {
+    editItem (item) {
+      this.editedIndex = item
       this.dialog = true
     },
-    selesaiItem () {
+    selesaiItem (item) {
+      this.editedIndex = item
       this.dialogSelesai = true
     }
+  },
+  async mounted () {
+    this.items = await SubTugasMonitoringMahasiswa.getSubTugasMatkul("1")
   }
 }
 </script>

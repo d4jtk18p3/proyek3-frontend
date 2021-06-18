@@ -34,8 +34,9 @@
                 v-bind="attrs"
                 v-on="on"
                 width="100"
+                @click="serahkan"
               >
-                <span style="font-size: 12px" class="font-weight-light">Simpan</span>
+                Simpan
               </v-btn>
             </v-col>
           </v-row>
@@ -47,19 +48,13 @@
 
 <script>
 import { mapGetters } from "vuex"
-
+import SubtugasMonitoringDosen from "../../../../../datasource/network/monitoring/subtugas"
 export default {
   name: "subTask",
-  props: ["visible"],
-  // props: {
-  //   subTask: {
-  //     type: String,
-  //     required: false,
-  //     default: "Another Type of Employee"
-  //   }
-  // },
+  props: ["visible", "index"],
   data () {
     return {
+      lampiran: ""
     }
   },
   computed: {
@@ -80,6 +75,14 @@ export default {
   methods: {
     closeDialog () {
       this.$emit("close")
+    },
+    async serahkan () {
+      var updateSubTugas
+      console.log(this.lampiran)
+      updateSubTugas = await SubtugasMonitoringDosen.putSubTugasSerahkan(this.index, this.lampiran)
+      console.log(updateSubTugas)
+      this.$emit("close")
+      window.location.reload()
     }
   }
 }
