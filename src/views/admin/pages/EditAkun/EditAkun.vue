@@ -4,9 +4,16 @@
 
     <v-form ref="form" lazy-validation>
       <v-text-field
-        v-model="currentAkun.attributes.noInduk[0]"
+        v-model="currentAkun.username"
         label="NIK"
         disabled
+      ></v-text-field>
+
+      <v-text-field
+        v-model="currentAkun.firstName"
+        :rules="[(v) => !!v || 'Name is required']"
+        label="Name"
+        required
       ></v-text-field>
 
       <v-text-field
@@ -15,15 +22,10 @@
         label="Email"
         required
       ></v-text-field>
-      <v-switch
-       v-model="currentAkun.enabled"
-       label="Status"
-      ></v-switch>
+      <v-switch v-model="currentAkun.enabled" label="Status"></v-switch>
       <v-divider class="my-5"></v-divider>
 
-      <v-btn color="success" small @click="updateAkun">
-        Update
-      </v-btn>
+      <v-btn color="success" small @click="updateAkun"> Update </v-btn>
     </v-form>
 
     <p class="mt-3">{{ message }}</p>
@@ -58,7 +60,12 @@ export default {
     },
     async updateAkun () {
       try {
-        const result = await AkunService.update(this.currentAkun.username, this.currentAkun.email, this.currentAkun.enabled)
+        const result = await AkunService.update(
+          this.currentAkun.username,
+          this.currentAkun.email,
+          this.currentAkun.enabled,
+          this.currentAkun.firstName
+        )
         console.log(result)
         alert(result.data.message)
       } catch (error) {

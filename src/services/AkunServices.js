@@ -17,11 +17,12 @@ class AkunServices {
     return await http.delete("user/" + id)
   }
 
-  async update (id, email, status) {
+  async update (id, email, status, name) {
     return await http.put("user/update-account", {
       username: id,
       newEmail: email,
-      newStatus: status
+      newStatus: status,
+      newName: name
     })
   }
 }

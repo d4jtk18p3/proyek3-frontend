@@ -12,39 +12,39 @@
   >
     <template v-slot:top>
       <v-row>
-      <v-col md="3" offset-sm="1">
-        <v-combobox
-          v-model="select"
-          :items="combofilter"
-          label="Filter"
-          clearable
-        >
-          <template v-slot:selection="data">
-            <div v-if="data.item === 'dosen'">Dosen</div>
-            <div v-if="data.item === 'mahasiswa'">Mahasiswa</div>
-            <div v-if="data.item === 'admin'">Admin</div>
-            <div v-if="data.item === 'tata_usaha'">Tata Usaha</div>
-            <div v-if="data.item === 'superadmin'">Super Admin</div>
-          </template>
-          <template v-slot:item="data">
-            <div v-if="data.item === 'dosen'">Dosen</div>
-            <div v-if="data.item === 'mahasiswa'">Mahasiswa</div>
-            <div v-if="data.item === 'admin'">Admin</div>
-            <div v-if="data.item === 'tata_usaha'">Tata Usaha</div>
-            <div v-if="data.item === 'superadmin'">Super Admin</div>
-          </template>
-        </v-combobox>
-      </v-col>
+        <v-col md="3" offset-sm="1">
+          <v-combobox
+            v-model="select"
+            :items="combofilter"
+            label="Filter"
+            clearable
+          >
+            <template v-slot:selection="data">
+              <div v-if="data.item === 'dosen'">Dosen</div>
+              <div v-if="data.item === 'mahasiswa'">Mahasiswa</div>
+              <div v-if="data.item === 'admin'">Admin</div>
+              <div v-if="data.item === 'tata_usaha'">Tata Usaha</div>
+              <div v-if="data.item === 'superadmin'">Super Admin</div>
+            </template>
+            <template v-slot:item="data">
+              <div v-if="data.item === 'dosen'">Dosen</div>
+              <div v-if="data.item === 'mahasiswa'">Mahasiswa</div>
+              <div v-if="data.item === 'admin'">Admin</div>
+              <div v-if="data.item === 'tata_usaha'">Tata Usaha</div>
+              <div v-if="data.item === 'superadmin'">Super Admin</div>
+            </template>
+          </v-combobox>
+        </v-col>
 
         <v-col md="6" offset-md="1">
-        <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Search"
-        single-line
-        hide-details
-      >
-      </v-text-field>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          >
+          </v-text-field>
         </v-col>
       </v-row>
     </template>
@@ -59,7 +59,11 @@
       <div v-if="item.attributes.role[0] === 'superadmin'">Super Admin</div>
     </template>
     <template v-slot:[`item.actions`]="{ item }">
-      <v-icon light small class="mr-2" @click="editAkun(item.attributes.noInduk[0])"
+      <v-icon
+        light
+        small
+        class="mr-2"
+        @click="editAkun(item.attributes.noInduk[0])"
         >mdi-pencil</v-icon
       >
       <v-icon light small @click="deleteAkun(item.attributes.noInduk[0])"
@@ -82,7 +86,7 @@ export default {
       headers: [
         {
           text: "NIP/NIM",
-          value: "attributes.noInduk[0]",
+          value: "username",
           sortable: false,
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
