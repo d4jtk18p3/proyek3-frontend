@@ -33,14 +33,11 @@ export default {
     NavBar
   },
   created () {
-    // this.sychronize("dani")
-    if (!this.$keycloak) {
-      this.initKeycloak()
-    }
+    this.initKeycloak()
   },
   data () {
     return {
-      isAuthenticated: "",
+      isAuthenticated: false,
       isLoading: false,
       sideBarItems: [
         { text: "Dashboard", icon: "mdi-school-outline", to: "/template/dashboard" },
@@ -100,7 +97,6 @@ export default {
       }, TOKEN_ACCESS_INTERVAL)
       console.log("keycloak udah")
       this.isAuthenticated = keycloak.authenticated
-      this.$keycloak = keycloak
       console.log(this.$keycloak)
       this.isLoading = false
     }
