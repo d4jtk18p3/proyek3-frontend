@@ -6,46 +6,52 @@
     <v-col cols="12">
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
     </v-col>
-    <v-col cols="2" class="py-0">
-      <p class="text-h10">Nama Mahasiswa </p>
-    </v-col>
-    <v-col cols="10" class="py-0">
-      <p class="text-h10">: {{DataMahasiswa.Nama}}</p>
+    <v-col cols="12">
     </v-col>
     <v-col cols="2" class="py-0">
-      <p class="text-h10" > NIM </p>
+      <p class="text-h7">Nama Mahasiswa </p>
     </v-col>
     <v-col cols="10" class="py-0">
-      <p class="text-h10"> : {{DataMahasiswa.Nim}}</p>
+      <p class="text-h7">: {{DataMahasiswa.Nama}}</p>
     </v-col>
     <v-col cols="2" class="py-0">
-      <p class="text-h10"> Program Studi </p>
+      <p class="text-h7" > NIM </p>
     </v-col>
     <v-col cols="10" class="py-0">
-      <p class="text-h10"> : {{DataMahasiswa.Prodi}}</p>
+      <p class="text-h7"> : {{DataMahasiswa.Nim}}</p>
+    </v-col>
+    <v-col cols="2" class="py-0">
+      <p class="text-h7"> Program Studi </p>
+    </v-col>
+    <v-col cols="10" class="py-0">
+      <p class="text-h7"> : {{DataMahasiswa.Prodi}}</p>
     </v-col>
     <v-col cols="12">
         <NilaiTable/>
     </v-col>
      <v-col cols="2" class="py-0">
-      <p class="text-h10"> Jumlah Mata Kuliah </p>
+      <p class="text-h7"> Jumlah Mata Kuliah </p>
     </v-col>
     <v-col cols="10" class="py-0">
-      <p class="text-h10">: 10 </p>
+      <p class="text-h7">: 10 </p>
     </v-col>
     <v-col cols="2" class="py-0">
-      <p class="text-h10" > Jumlah SKS </p>
+      <p class="text-h7" > Jumlah SKS </p>
     </v-col>
     <v-col cols="10" class="py-0">
-      <p class="text-h10"> : 20 </p>
+      <p class="text-h7"> : 20 </p>
     </v-col>
     <v-col cols="2" class="py-0">
-      <p class="text-h10"> IPK </p>
+      <p class="text-h7"> IPK </p>
     </v-col>
     <v-col cols="10" class="py-0">
-      <p class="text-h10"> : 4</p>
+      <p class="text-h7"> : 4</p>
     </v-col>
-     <v-btn color="#2196F3" elevation="2" class="white--text" depressed @click="TranskripNilai(idMahasiswa)">Transkrip Nilai</v-btn>
+    <v-col cols="10">
+    </v-col>
+    <v-col cols="2">
+        <v-btn color="#2196F3" elevation="2" class="white--text" depressed @click="SavePDF()">Simpan Sebagai PDF</v-btn>
+    </v-col>
   </v-row>
 </template>
 
@@ -136,6 +142,9 @@ export default {
   methods: {
     test (mhsNilai) {
       console.log(mhsNilai)
+    },
+    SavePDF () {
+      console.log("SimpanKePDF")
     }
   }
 }
