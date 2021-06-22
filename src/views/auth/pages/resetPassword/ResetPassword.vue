@@ -85,13 +85,20 @@
         </v-row>
       </v-card>
     </v-col>
+    <SuccessDialog @dismiss-dialog="onDismissDialog" v-if="dialog" title="Reset Password Berhasil" message="Kami telah mengubah password anda silahkan coba login kembali" />
+    <v-overlay :value="isLoading">
+      <v-progress-circular indeterminate size="32" :color="currentTheme.colorSecondary"></v-progress-circular>
+    </v-overlay>
   </v-row>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
+import { resetPassword } from "@/datasource/network/auth/auth"
+import SuccessDialog from "@/views/shared/dialog/InformationDialog"
 export default {
   name: "ResetPassword",
+  components: { SuccessDialog },
   created () {
     if (!this.currentToken) {
       this.$router.push("/")
@@ -116,7 +123,9 @@ export default {
       confirmNewPassword: "",
       isconfirmNewPasswordShown: false,
       isNewPasswordShown: false,
-      hint: ""
+      hint: "",
+      isLoading: false,
+      dialog: false
     }
   },
   computed: {
@@ -140,10 +149,18 @@ export default {
   },
   methods: {
     async resetPassword () {
-      // this.$router.push({
-      //   name:
-      // })
-      console.log(`Mengirim email ke ${this.email}`)
+      this.isLoading = true
+      const result = await resetPassword(this.currentToken, this.newPassword, this.hint)
+      this.isLoading = false
+      if (result instanceof Error) {
+        return
+      }
+      this.dialog = true
+    },
+    onDismissDialog () {
+      this.$router.push({
+        path: "/template/dashboard"
+      })
     }
   }
 }
