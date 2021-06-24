@@ -34,7 +34,7 @@ export default {
     }
   },
   async mounted () {
-    var tugas = await TugasMonitoringDosen.getTugasMatkul("16TIN4014", "5")
+    var tugas = await TugasMonitoringDosen.getTugasMatkul(this.$route.params.id_matkul, this.$route.params.id_perkuliahan)
     var tugasList = []
     var i = 0
     while (i < tugas.length) {

@@ -23,10 +23,10 @@
       >Mata Kuliah</p>
       <v-row>
         <v-col
-          no-gutters v-for="item in listMatkul" :key="item"
+          no-gutters v-for="item in listMatkul" :key="item.id"
           :cols="isMobile? 12 : 6"
         >
-          <MatkulItem :mataKuliah="item"></MatkulItem>
+          <MatkulItem :mataKuliah="item.nama" :idMatkul="item.id" :idPerkuliahan="item.id_perkuliahan"></MatkulItem>
         </v-col>
       </v-row>
     </v-col>
@@ -86,12 +86,17 @@ export default {
       var matkulList = []
       var j = 0
       while (j < matkul.listMatkul.length) {
-        matkulList[j] = matkul.listMatkul[j].nama_mata_kuliah
+        matkulList.push({
+          id: matkul.listMatkul[j].id,
+          nama: matkul.listMatkul[j].nama_mata_kuliah,
+          id_perkuliahan: matkul.id_perkuliahan[j]
+        })
         j++
       }
       this.listMatkul = matkulList
-      console.log(temp)
-      console.log(this.listMatkul)
+      // console.log(temp)
+      // console.log(matkulList)
+      // console.log(this.listMatkul)
     }
   },
   // beforeMount () {

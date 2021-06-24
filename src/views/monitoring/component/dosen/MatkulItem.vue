@@ -2,7 +2,7 @@
   <v-card
     link
     class="rounded-card mr-3 mb-3"
-    to="/monitoring/dosen/monitoring-tugas/daftar-tugas"
+    @click="routeDaftarTugas(idMatkul, idPerkuliahan)"
   >
     <v-row class="pa-4 ma-0" :style="{background : currentTheme.colorSecondary}">
       <v-col cols="12" align-self="center" class="pa-0 ma-0">
@@ -27,6 +27,16 @@ export default {
       required: false,
       default: "Model Data Teori"
     },
+    idMatkul: {
+      type: String,
+      required: false,
+      default: "16TIN4014"
+    },
+    idPerkuliahan: {
+      type: Number,
+      required: false,
+      default: 1
+    },
     onKelasClicked: {
       type: Function,
       required: false,
@@ -40,8 +50,13 @@ export default {
       currentTheme: "theme/getCurrentColor"
     })
   },
-  beforeMount () {
-    console.log(this.mataKuliah)
+  // beforeMount () {
+
+  // },
+  methods: {
+    routeDaftarTugas (idMatkul, idPerkuliahan) {
+      this.$router.push("monitoring-tugas/daftar-tugas/" + idMatkul + "/" + idPerkuliahan)
+    }
   }
 }
 </script>

@@ -198,27 +198,27 @@ const routes = [
       {
         path: "/monitoring/dosen/monitoring-tugas",
         name: "MonitoringDosenMatkul",
-        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenMatkul")
+        component: () => import(/* webpackChunkName: "monitoringDosenMatkul" */ "../views/monitoring/pages/dosen/MonitoringDosenMatkul")
       },
       {
-        path: "/monitoring/dosen/monitoring-tugas/daftar-tugas",
+        path: "/monitoring/dosen/monitoring-tugas/daftar-tugas/:id_matkul/:id_perkuliahan",
         name: "MonitoringDosenDaftarTugas",
-        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenDaftarTugas")
+        component: () => import(/* webpackChunkName: "monitoringDosenDaftarTugas" */ "../views/monitoring/pages/dosen/MonitoringDosenDaftarTugas")
       },
       {
         path: "/monitoring/dosen/monitoring-tugas/matkul",
         name: "MonitoringDosenMain",
-        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenMain")
+        component: () => import(/* webpackChunkName: "monitoringDosenMain" */ "../views/monitoring/pages/dosen/MonitoringDosenMain")
       },
       {
         path: "/monitoring/dosen/monitoring-tugas/daftar-tugas/tugas",
         name: "MonitoringDosenTugas",
-        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenTabel")
+        component: () => import(/* webpackChunkName: "monitoringDosenTugas" */ "../views/monitoring/pages/dosen/MonitoringDosenTabel")
       },
       {
         path: "/monitoring/dosen/monitoring-tugas/tabel-detail",
         name: "MonitoringDosenDetailTabel",
-        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenDetailTabel")
+        component: () => import(/* webpackChunkName: "monitoringDosenDetailTabel" */ "../views/monitoring/pages/dosen/MonitoringDosenDetailTabel")
       },
       {
         path: "/monitoring/mahasiswa/dashboard",
