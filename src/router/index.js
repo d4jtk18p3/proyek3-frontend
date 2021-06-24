@@ -104,7 +104,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/forgetPassword/ForgetPassword")
       },
       {
-      path: "/auth/reset-password",
+        path: "/auth/reset-password",
         name: "ResetPassword",
         component: () => import(/* webpackChunkName: "add-new-user" */ "../views/auth/pages/ResetPassword/ResetPassword")
       }
@@ -198,7 +198,7 @@ const routes = [
   },
   {
     path: "/monitoring",
-    component: () => import("../views/monitoring/monitoringmain"),
+    component: () => import("../views/monitoring/MonitoringMain"),
     children: [
       // {
       //   path: "/monitoring/dashboard-tugas",
