@@ -1,7 +1,7 @@
 <template>
   <v-row :style="{color: currentTheme.onBackground}">
-    <v-col no-gutters v-for="item in listTugas" :key="item" :cols="isMobile ? 12 : 4" class="mt-2">
-      <TugasItem :tugas="item"/>
+    <v-col no-gutters v-for="item in listTugas" :key="item.id_tugas" :cols="isMobile ? 12 : 4" class="mt-2">
+      <TugasItem :tugas="item.nama_tugas" :idTugas="item.id_tugas"/>
     </v-col>
     <v-col :cols="isMobile ? 12 : 4" class="mt-5">
       <TambahMonitoring/>

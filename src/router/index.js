@@ -211,7 +211,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "monitoringDosenMain" */ "../views/monitoring/pages/dosen/MonitoringDosenMain")
       },
       {
-        path: "/monitoring/dosen/monitoring-tugas/daftar-tugas/tugas",
+        path: "/monitoring/dosen/monitoring-tugas/daftar-tugas/:id_matkul/:id_perkuliahan/tugas/:id_tugas",
         name: "MonitoringDosenTugas",
         component: () => import(/* webpackChunkName: "monitoringDosenTugas" */ "../views/monitoring/pages/dosen/MonitoringDosenTabel")
       },

@@ -1,7 +1,7 @@
 <template>
   <v-card
     class="rounded-card rounded-xl"
-    to="/monitoring/dosen/monitoring-tugas/daftar-tugas/tugas"
+    @click="routeTugas(idTugas)"
   >
     <v-row class="pa-4 ma-0" :style="{background : currentTheme.colorSecondary}">
       <v-col align-self="center" class="pa-0 ma-0"
@@ -46,6 +46,11 @@ import { mapGetters } from "vuex"
 export default {
   name: "TugasItem",
   props: {
+    idTugas: {
+      type: Number,
+      required: false,
+      default: 0
+    },
     tugas: {
       type: String,
       required: false,
@@ -68,6 +73,16 @@ export default {
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    }
+  },
+  methods: {
+    routeTugas (idTugas) {
+      const currentRoute = this.$route.path
+      this.$router.push(currentRoute + "/tugas/" + idTugas).catch(error => {
+        if (error.name !== "NavigationDuplicated") {
+          throw error
+        }
+      })
     }
   }
 }

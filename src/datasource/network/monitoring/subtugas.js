@@ -30,11 +30,12 @@ const postSubtugasBaru = async (namaSubtugas, tenggat, idTugas, idStudi) => {
   }
 }
 
-const putSubtugas = async (idSubtugas) => {
+const putSubtugas = async (idSubtugas, namaSubtugas, tenggat) => {
   try {
     const monitoringURL = MONITORING_URL + `/common/updateSubtugas/${idSubtugas}`
     const result = await baseHttp.put(monitoringURL, {
-      id_subtugas: idSubtugas
+      nama_subtugas: namaSubtugas,
+      tenggat: tenggat
     })
     return result.data
   } catch (e) {

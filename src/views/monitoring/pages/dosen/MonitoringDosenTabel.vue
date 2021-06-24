@@ -99,6 +99,7 @@
     </v-col> -->
   </v-row>
   <DialogFormTambahSubtugas :visible="showDialogForm" @close="showDialogForm=false" />
+  <DialogFormEditSubtugas :visible="showDialogFormEdit" :idSubtugas="id_subtugas" @close="showDialogFormEdit=false" />
 </v-container>
 </template>
 
@@ -106,10 +107,11 @@
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import DialogFormTambahSubtugas from "@/views/monitoring/component/dosen/DialogFormTambahSubtugas"
+import DialogFormEditSubtugas from "@/views/monitoring/component/dosen/DialogFormEditSubtugas"
 import SubtugasMonitoringDosen from "../../../../datasource/network/monitoring/subtugas"
 export default {
   name: "KelasItem",
-  components: { Breadcumbs, DialogFormTambahSubtugas },
+  components: { Breadcumbs, DialogFormTambahSubtugas, DialogFormEditSubtugas },
   computed: {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
@@ -117,7 +119,9 @@ export default {
   },
   data () {
     return {
+      id_subtugas: "",
       showDialogForm: false,
+      showDialogFormEdit: false,
       breadcrumbItems: [
         {
           text: "Monitoring",
@@ -284,8 +288,9 @@ export default {
       this.showDialogForm = true
     },
     async editSubtugas (item) {
+      this.showDialogFormEdit = true
       if (item != null) {
-        var temp = item.id
+        this.id_subtugas = item.id
       }
 
       // var sub = await SubtugasMonitoringDosen.putSubtugas(temp)
@@ -296,12 +301,12 @@ export default {
       //   j++
       // }
       // this.listMatkul = matkulList
-      console.log(temp)
+      console.log(this.id_subtugas)
       // console.log(this.listMatkul)
     }
   },
   async mounted () {
-    var sub = await SubtugasMonitoringDosen.getSubtugasByTugas("2")
+    var sub = await SubtugasMonitoringDosen.getSubtugasByTugas(this.$route.params.id_tugas)
     // var i = 0
     // var kelasList = []
     // while (i < sub.length) {
