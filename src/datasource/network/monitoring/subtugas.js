@@ -43,9 +43,9 @@ const postTugasBaru = async (namaTugas, statusProgress, statusDurasi,
 
 const putSubTugasSerahkan = async (id, lampiran) => {
   try {
-    const monitoringURL = `/api/subtugasLampiran-id/updateSubtugasLampiran-mahasiswa/${id}`
+    const monitoringURL = MONITORING_URL + `/updateSubtugasLampiran-mahasiswa/${id}`
     const result = await baseHttp.put(monitoringURL, {
-      lampiran: lampiran
+      Lampiran: lampiran
     })
     return result.data
   } catch (e) {
@@ -55,7 +55,7 @@ const putSubTugasSerahkan = async (id, lampiran) => {
 
 const putSubTugas = async (id, progress, skalaPemahaman, catatan) => {
   try {
-    const monitoringURL = `/api/subtugas-id/updateSubtugas-mahasiswa/${id}`
+    const monitoringURL = MONITORING_URL + `/updateSubtugas-mahasiswa/${id}`
     const result = await baseHttp.put(monitoringURL, {
       progress: progress,
       skala_pemahaman: skalaPemahaman,
