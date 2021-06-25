@@ -44,6 +44,7 @@ export default {
       isLoading: false,
       sideBarItems: [
         { text: "Dashboard Nilai Mahasiswa", icon: "mdi-school-outline", to: "/penilaian/dashboard-nilai-mahasiswa" },
+        { text: "Dashboard Nilai Dosen Pengampu", icon: "mdi-school-outline", to: "/penilaian/dashboard-nilai-dosen-pengampu" },
         { text: "Input Nilai Mahasiswa", icon: "mdi-file-document-outline", to: "/penilaian/input-nilai" }
       ]
     }

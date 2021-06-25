@@ -435,6 +435,14 @@ const routes = [
           )
       },
       {
+        path: "/penilaian/dashboard-nilai-dosen-pengampu",
+        name: "Dashboard Nilai Dosen Pengampu",
+        component: () =>
+          import(
+            /* webpackChunkName: "inputnilaisection" */ "../views/penilaian/pages/dosen/DashboardNilaiDosenPengampu.vue"
+          )
+      },
+      {
         path: "/penilaian/transkripsi-nilai/:id",
         name: "Transkripsi Nilai",
         component: () =>

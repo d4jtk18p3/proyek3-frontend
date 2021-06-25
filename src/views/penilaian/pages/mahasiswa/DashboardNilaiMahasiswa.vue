@@ -15,14 +15,14 @@
     <v-col :cols="isMobile ? 12 : 6">
     </v-col>
     <v-col :cols="isMobile ? 12 : 12">
-      <GraphSection :ipList="ipList" :nilaiList="nilaiList" />
+      <GraphSection :ipList="getIPSemester(Mahasiswa)" :nilaiList="getNilaiList (Mahasiswa)" />
     </v-col>
     <v-col :cols="isMobile ? 3 : 1" class="mt-2 mr-2" v-for="(mhs) in Mahasiswa.Nilai" :key="mhs.label">
       <v-btn rounded :color="currentTheme.colorPrimary" :style="{'color': currentTheme.surface}" @click="NilaiSemesterSelected = mhs"> {{ mhs.label }} </v-btn>
     </v-col>
     <v-col :cols="isMobile ? 0 : 4">
     </v-col>
-    <v-col :cols="isMobile ? 12 : 2" class="mt-2">
+    <v-col :cols="isMobile ? 6 : 2" class="mt-2">
     <v-card
         class="mx-auto"
         height="130"
@@ -34,7 +34,7 @@
         </v-card-text>
     </v-card>
     </v-col>
-    <v-col :cols="isMobile ? 12 : 2" class="mt-2">
+    <v-col :cols="isMobile ? 6 : 2" class="mt-2">
         <v-card
             class="mx-auto"
             height="130"
@@ -120,8 +120,6 @@ export default {
           href: ""
         }
       ],
-      ipList: [3.2, 2.0, 2.95, 0.51, 2.52, 3.5, 1.0],
-      nilaiList: [6, 7, 4, 7, 5],
       NilaiSemesterSelected: null,
       Mahasiswa: {
         Nilai: [
@@ -142,14 +140,14 @@ export default {
                 KodeMK: "16TIN0002",
                 MataKuliah: "Struktur Data dan Algoritma",
                 SKS: 3,
-                Nilai: "A"
+                Nilai: "BC"
               },
               {
                 KodeDosen: "KO005N",
                 KodeMK: "16TIN0003",
                 MataKuliah: "Struktur Data dan Algoritma",
                 SKS: 3,
-                Nilai: "A"
+                Nilai: "E"
               }
             ]
           },
@@ -163,27 +161,27 @@ export default {
                 KodeMK: "16TIN0001",
                 MataKuliah: "Angkungtansi",
                 SKS: 3,
-                Nilai: "A"
+                Nilai: "C"
               },
               {
                 KodeDosen: "KO005N",
                 KodeMK: "16TIN0002",
                 MataKuliah: "Struktur Data dan Algoritma",
                 SKS: 3,
-                Nilai: "A"
+                Nilai: "CD"
               },
               {
                 KodeDosen: "KO005N",
                 KodeMK: "16TIN0003",
                 MataKuliah: "Struktur Data dan Algoritma",
                 SKS: 3,
-                Nilai: "A"
+                Nilai: "AB"
               }
             ]
           },
           {
             label: "SEM -3",
-            IPSemester: 4.0,
+            IPSemester: 1.6,
             JumlahSKS: 27,
             NilaiSemester: [
               {
@@ -191,7 +189,7 @@ export default {
                 KodeMK: "16TIN0001",
                 MataKuliah: "Project 3",
                 SKS: 3,
-                Nilai: "A"
+                Nilai: "BC"
               },
               {
                 KodeDosen: "KO005N",
@@ -205,13 +203,13 @@ export default {
                 KodeMK: "16TIN0003",
                 MataKuliah: "Angkungtansi 2",
                 SKS: 3,
-                Nilai: "A"
+                Nilai: "D"
               }
             ]
           },
           {
             label: "SEM -4",
-            IPSemester: 4.0,
+            IPSemester: 3.2,
             JumlahSKS: 27,
             NilaiSemester: [
               {
@@ -219,27 +217,27 @@ export default {
                 KodeMK: "16TIN0001",
                 MataKuliah: "Struktur Data dan Algoritma",
                 SKS: 3,
-                Nilai: "A"
+                Nilai: "D"
               },
               {
                 KodeDosen: "KO005N",
                 KodeMK: "16TIN0002",
                 MataKuliah: "Struktur Data dan Algoritma",
                 SKS: 3,
-                Nilai: "A"
+                Nilai: "B"
               },
               {
                 KodeDosen: "KO005N",
                 KodeMK: "16TIN0003",
                 MataKuliah: "Struktur Data dan Algoritma",
                 SKS: 3,
-                Nilai: "A"
+                Nilai: "AB"
               }
             ]
           },
           {
             label: "SEM -5",
-            IPSemester: 4.0,
+            IPSemester: 3.6,
             JumlahSKS: 27,
             NilaiSemester: [
               {
@@ -247,27 +245,27 @@ export default {
                 KodeMK: "16TIN0001",
                 MataKuliah: "Struktur Data dan Algoritma",
                 SKS: 3,
-                Nilai: "A"
+                Nilai: "C"
               },
               {
                 KodeDosen: "KO005N",
                 KodeMK: "16TIN0002",
                 MataKuliah: "Struktur Data dan Algoritma",
                 SKS: 3,
-                Nilai: "A"
+                Nilai: "BC"
               },
               {
                 KodeDosen: "KO005N",
                 KodeMK: "16TIN0003",
                 MataKuliah: "Struktur Data dan Algoritma",
                 SKS: 3,
-                Nilai: "A"
+                Nilai: "BC"
               }
             ]
           },
           {
             label: "SEM -6",
-            IPSemester: 4.0,
+            IPSemester: 2.0,
             JumlahSKS: 27,
             NilaiSemester: [
               {
@@ -275,21 +273,21 @@ export default {
                 KodeMK: "16TIN0001",
                 MataKuliah: "Struktur Data dan Algoritma",
                 SKS: 3,
-                Nilai: "A"
+                Nilai: "C"
               },
               {
                 KodeDosen: "KO005N",
                 KodeMK: "16TIN0002",
                 MataKuliah: "Struktur Data dan Algoritma",
                 SKS: 3,
-                Nilai: "A"
+                Nilai: "B"
               },
               {
                 KodeDosen: "KO005N",
                 KodeMK: "16TIN0003",
                 MataKuliah: "Struktur Data dan Algoritma",
                 SKS: 3,
-                Nilai: "A"
+                Nilai: "C"
               }
             ]
           }
@@ -309,6 +307,47 @@ export default {
     this.NilaiSemesterSelected = this.Mahasiswa.Nilai[0]
   },
   methods: {
+    getIPSemester (data) {
+      var listIP = []
+      for (var i = 0; i < data.Nilai.length; i++) {
+        listIP.push(data.Nilai[i].IPSemester)
+      }
+      return listIP
+    },
+    getNilaiList (data) {
+      var listNilai = [0, 0, 0, 0, 0]
+      for (var i = 0; i < data.Nilai.length; i++) {
+        for (var j = 0; j < data.Nilai[i].NilaiSemester.length; j++) {
+          switch (data.Nilai[i].NilaiSemester[j].Nilai) {
+            case "A" :
+              listNilai[0] += 1
+              break
+            case "AB" :
+              listNilai[0] += 1
+              break
+            case "B" :
+              listNilai[1] += 1
+              break
+            case "BC" :
+              listNilai[1] += 1
+              break
+            case "C" :
+              listNilai[2] += 1
+              break
+            case "CD" :
+              listNilai[2] += 1
+              break
+            case "D" :
+              listNilai[3] += 1
+              break
+            case "E" :
+              listNilai[4] += 1
+              break
+          }
+        }
+      }
+      return listNilai
+    },
     test (mhsNilai) {
       console.log(mhsNilai)
     },
