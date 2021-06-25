@@ -75,7 +75,8 @@
           </tr>
         </tbody>
       </v-simple-table>
-      <v-btn class="mt-2" v-if="dataNilaiMahasiswaETS" :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="submitETS()">Submit Nilai ETS</v-btn>
+      <v-btn class="mt-2 mr-2" v-if="dataNilaiMahasiswaETS" :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="submitETS(nilaiakhir=false)">Simpan Nilai ETS</v-btn>
+      <v-btn class="mt-2" v-if="dataNilaiMahasiswaETS" :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="submitETS(nilaiakhir=true)">Submit Nilai ETS</v-btn>
     </v-col>
     <v-col cols="12">
       <p class="text-h4 font-weight-bold">EAS</p>
@@ -127,7 +128,8 @@
           </tr>
         </tbody>
       </v-simple-table>
-      <v-btn class="mt-2" v-if="dataNilaiMahasiswaEAS" :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="submitEAS()">Submit Nilai EAS</v-btn>
+      <v-btn class="mt-2 mr-2" v-if="dataNilaiMahasiswaEAS" :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="submitEAS(nilaiakhir=false)">Simpan Nilai EAS</v-btn>
+      <v-btn class="mt-2" v-if="dataNilaiMahasiswaEAS" :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="submitEAS(nilaiakhir=true)">Submit Nilai EAS</v-btn>
       <v-dialog
         v-model="dialog"
         max-width="500px"
@@ -324,7 +326,7 @@ export default {
           }
 
           this.headerParentNilaiETS = headers
-          console.log(headers)
+          // console.log(headers)
 
           var fieldNilai = [{ label: "NIM", colspan: 1, key: "NIM", readOnly: true }, { label: "Nama", colspan: 1, key: "Nama", readOnly: true }]
           R = range.s.r + 1/* start in the first row */
@@ -345,7 +347,7 @@ export default {
           }
 
           this.headerChildNilaiETS = fieldNilai
-          console.log(fieldNilai)
+          // console.log(fieldNilai)
 
           // console.log(this.parse(worksheetETS, this.headerChildNilaiETS))
           this.dataNilaiMahasiswaETS = this.parse(worksheetETS, this.headerChildNilaiETS)
@@ -509,7 +511,7 @@ export default {
       this.defaultBobot = null
       this.close()
     },
-    submitETS () {
+    submitETS (finalize) {
       var dataNilaiMahasiswa = {}
 
       // Input Mata Kuliah
@@ -570,9 +572,81 @@ export default {
         }
       }
       dataNilaiMahasiswa.dataNilai = dataNilai
-      console.log(dataNilaiMahasiswa)
+      // console.log(dataNilaiMahasiswa) // submit nilai mhs
+
+      if (finalize) {
+        for (i = 0; i < dataNilaiMahasiswa.dataNilai.length; i++) {
+          var index = dataNilaiMahasiswa.dataKategori.findIndex(obj => obj.idKategori === dataNilaiMahasiswa.dataNilai[i].id_kategori)
+          dataNilaiMahasiswa.dataNilai[i].parent = dataNilaiMahasiswa.dataKategori[index].parent
+          dataNilaiMahasiswa.dataNilai[i].nilai = dataNilaiMahasiswa.dataKategori[index].bobot_nilai / 100 * dataNilaiMahasiswa.dataNilai[i].nilai
+        }
+        var listMhs = []
+        var dataMhs = []
+        var indexMhs = 0
+        for (i = 0; i < dataNilaiMahasiswa.dataNilai.length; i++) {
+          if (indexMhs < 1) {
+            dataMhs.push(dataNilaiMahasiswa.dataNilai[i])
+            indexMhs++
+          } else {
+            if (dataNilaiMahasiswa.dataNilai[i].nim === dataMhs[indexMhs - 1].nim) {
+              dataMhs.push(dataNilaiMahasiswa.dataNilai[i])
+              indexMhs++
+              // listMhs.push(dataMhs)
+              // dataMhs = []
+              // indexMhs = 0
+            } else {
+              listMhs.push(dataMhs)
+              dataMhs = []
+              dataMhs.push(dataNilaiMahasiswa.dataNilai[i])
+              indexMhs = 1
+              // dataMhs.push(dataNilaiMahasiswa.dataNilai[i])
+              // indexMhs++
+            }
+          }
+        }
+        listMhs.push(dataMhs)
+
+        // console.log(listMhs) // total nilai level child
+
+        var listNilaiMhs = []
+        var nilaiMhs = []
+        var iNilai = 0
+        for (i = 0; i < listMhs.length; i++) {
+          nilaiMhs.push({ totalNilai: listMhs[i][0].nilai, nim: listMhs[i][0].nim, parent: listMhs[i][0].parent })
+          iNilai++
+          for (j = 1; j < listMhs[i].length; j++) {
+            if (listMhs[i][j].parent === nilaiMhs[iNilai - 1].parent) {
+              nilaiMhs[iNilai - 1].totalNilai += listMhs[i][j].nilai
+            } else {
+              nilaiMhs[iNilai - 1].bobot = dataNilaiMahasiswa.dataKategori[dataNilaiMahasiswa.dataKategori.findIndex(obj => obj.idKategori === nilaiMhs[iNilai - 1].parent)].bobot_nilai
+              nilaiMhs[iNilai - 1].totalNilai = nilaiMhs[iNilai - 1].totalNilai * nilaiMhs[iNilai - 1].bobot / 100
+
+              nilaiMhs.push({ totalNilai: listMhs[i][j].nilai, nim: listMhs[i][j].nim, parent: listMhs[i][j].parent })
+              iNilai++
+            }
+          }
+          nilaiMhs[iNilai - 1].bobot = dataNilaiMahasiswa.dataKategori[dataNilaiMahasiswa.dataKategori.findIndex(obj => obj.idKategori === nilaiMhs[iNilai - 1].parent)].bobot_nilai
+          nilaiMhs[iNilai - 1].totalNilai = nilaiMhs[iNilai - 1].totalNilai * nilaiMhs[iNilai - 1].bobot / 100
+          listNilaiMhs.push(nilaiMhs)
+          nilaiMhs = []
+          iNilai = 0
+        }
+
+        // console.log(listNilaiMhs) // total nilai level parent
+
+        var listNilaiFinal = []
+        for (i = 0; i < listNilaiMhs.length; i++) {
+          var totalNilaiAkhir = 0
+          for (j = 0; j < listNilaiMhs[i].length; j++) {
+            totalNilaiAkhir += listNilaiMhs[i][j].totalNilai
+          }
+          listNilaiFinal.push({ nim: listNilaiMhs[i][0].nim, nilaiAkhir: totalNilaiAkhir })
+        }
+
+        console.log(listNilaiFinal) // total nilai level ets/eas
+      }
     },
-    submitEAS () {
+    submitEAS (finalize) {
       var dataNilaiMahasiswa = {}
 
       // Input Mata Kuliah
@@ -633,7 +707,79 @@ export default {
         }
       }
       dataNilaiMahasiswa.dataNilai = dataNilai
-      console.log(dataNilaiMahasiswa)
+      // console.log(dataNilaiMahasiswa)
+
+      if (finalize) {
+        for (i = 0; i < dataNilaiMahasiswa.dataNilai.length; i++) {
+          var index = dataNilaiMahasiswa.dataKategori.findIndex(obj => obj.idKategori === dataNilaiMahasiswa.dataNilai[i].id_kategori)
+          dataNilaiMahasiswa.dataNilai[i].parent = dataNilaiMahasiswa.dataKategori[index].parent
+          dataNilaiMahasiswa.dataNilai[i].nilai = dataNilaiMahasiswa.dataKategori[index].bobot_nilai / 100 * dataNilaiMahasiswa.dataNilai[i].nilai
+        }
+        var listMhs = []
+        var dataMhs = []
+        var indexMhs = 0
+        for (i = 0; i < dataNilaiMahasiswa.dataNilai.length; i++) {
+          if (indexMhs < 1) {
+            dataMhs.push(dataNilaiMahasiswa.dataNilai[i])
+            indexMhs++
+          } else {
+            if (dataNilaiMahasiswa.dataNilai[i].nim === dataMhs[indexMhs - 1].nim) {
+              dataMhs.push(dataNilaiMahasiswa.dataNilai[i])
+              indexMhs++
+              // listMhs.push(dataMhs)
+              // dataMhs = []
+              // indexMhs = 0
+            } else {
+              listMhs.push(dataMhs)
+              dataMhs = []
+              dataMhs.push(dataNilaiMahasiswa.dataNilai[i])
+              indexMhs = 1
+              // dataMhs.push(dataNilaiMahasiswa.dataNilai[i])
+              // indexMhs++
+            }
+          }
+        }
+        listMhs.push(dataMhs)
+
+        // console.log(listMhs) // total nilai level child
+
+        var listNilaiMhs = []
+        var nilaiMhs = []
+        var iNilai = 0
+        for (i = 0; i < listMhs.length; i++) {
+          nilaiMhs.push({ totalNilai: listMhs[i][0].nilai, nim: listMhs[i][0].nim, parent: listMhs[i][0].parent })
+          iNilai++
+          for (j = 1; j < listMhs[i].length; j++) {
+            if (listMhs[i][j].parent === nilaiMhs[iNilai - 1].parent) {
+              nilaiMhs[iNilai - 1].totalNilai += listMhs[i][j].nilai
+            } else {
+              nilaiMhs[iNilai - 1].bobot = dataNilaiMahasiswa.dataKategori[dataNilaiMahasiswa.dataKategori.findIndex(obj => obj.idKategori === nilaiMhs[iNilai - 1].parent)].bobot_nilai
+              nilaiMhs[iNilai - 1].totalNilai = nilaiMhs[iNilai - 1].totalNilai * nilaiMhs[iNilai - 1].bobot / 100
+
+              nilaiMhs.push({ totalNilai: listMhs[i][j].nilai, nim: listMhs[i][j].nim, parent: listMhs[i][j].parent })
+              iNilai++
+            }
+          }
+          nilaiMhs[iNilai - 1].bobot = dataNilaiMahasiswa.dataKategori[dataNilaiMahasiswa.dataKategori.findIndex(obj => obj.idKategori === nilaiMhs[iNilai - 1].parent)].bobot_nilai
+          nilaiMhs[iNilai - 1].totalNilai = nilaiMhs[iNilai - 1].totalNilai * nilaiMhs[iNilai - 1].bobot / 100
+          listNilaiMhs.push(nilaiMhs)
+          nilaiMhs = []
+          iNilai = 0
+        }
+
+        // console.log(listNilaiMhs) // total nilai level parent
+
+        var listNilaiFinal = []
+        for (i = 0; i < listNilaiMhs.length; i++) {
+          var totalNilaiAkhir = 0
+          for (j = 0; j < listNilaiMhs[i].length; j++) {
+            totalNilaiAkhir += listNilaiMhs[i][j].totalNilai
+          }
+          listNilaiFinal.push({ nim: listNilaiMhs[i][0].nim, nilaiAkhir: totalNilaiAkhir })
+        }
+
+        console.log(listNilaiFinal) // total nilai level ets/eas
+      }
     },
     resetTable () {
       this.dataNilaiMahasiswaETS = null
