@@ -20,6 +20,10 @@
       </v-btn>
     </v-col>
     <v-col cols="12">
+      <p
+      class="text-center font-weight-bold text-h5"
+      :style="{color: currentTheme.onBackground}"
+      >Daftar Subtugas</p>
       <v-data-table
         dark
         :headers="headers"
@@ -46,30 +50,22 @@
               class="ma-2"
               @click="editSubtugas(item)"
           >
-            <v-icon>
+            <v-icon :style="{color: currentTheme.onBackground}">
             mdi-pencil
             </v-icon>
           </v-btn>
         </template>
-        <!-- <template v-slot:[`item.Detail`]>
-          <v-btn
-              text
-              color="primary"
-              :to="`/monitoring/dosen/monitoring-tugas/tabel-detail`"
-              v-bind="attrs"
-              v-on="on"
-              class="ma-2"
-          >
-            <span style="font-size: 12px">Lihat Detail</span>
-          </v-btn>
-        </template> -->
       </v-data-table>
     </v-col>
-    <!-- <v-col cols="12">
+    <v-col cols="12">
+      <p
+      class="text-center font-weight-bold text-h5"
+      :style="{color: currentTheme.onBackground}"
+      >Monitoring Mahasiswa</p>
       <v-data-table
         dark
-        :headers="headers"
-        :items="items"
+        :headers="headersMhs"
+        :items="listMhs"
         :loading="isLoading"
         loading-text=""
         :items-per-page="5"
@@ -96,7 +92,7 @@
           </v-btn>
         </template>
       </v-data-table>
-    </v-col> -->
+    </v-col>
   </v-row>
   <DialogFormTambahSubtugas :visible="showDialogForm" @close="showDialogForm=false" />
   <DialogFormEditSubtugas :visible="showDialogFormEdit" :idSubtugas="id_subtugas" @close="showDialogFormEdit=false" />
@@ -109,6 +105,7 @@ import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import DialogFormTambahSubtugas from "@/views/monitoring/component/dosen/DialogFormTambahSubtugas"
 import DialogFormEditSubtugas from "@/views/monitoring/component/dosen/DialogFormEditSubtugas"
 import SubtugasMonitoringDosen from "../../../../datasource/network/monitoring/subtugas"
+import TugasMonitoringDosen from "../../../../datasource/network/monitoring/tugas"
 export default {
   name: "KelasItem",
   components: { Breadcumbs, DialogFormTambahSubtugas, DialogFormEditSubtugas },
@@ -167,120 +164,123 @@ export default {
           sortable: false,
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         }
+      ],
+      headersMhs: [
+        {
+          text: "NIM",
+          align: "center",
+          value: "Nim",
+          sortable: false,
+          class: "white--text text-lg-subtitle-1 font-weight-bold"
+        },
+        {
+          text: "Nama",
+          value: "Nama",
+          class: "white--text text-lg-subtitle-1 font-weight-bold"
+        },
+        {
+          text: "Rata-Rata Progress",
+          align: "center",
+          value: "RataRataProgress",
+          class: "white--text text-lg-subtitle-1 font-weight-bold"
+        },
+        {
+          text: "Taks Dikerjakan",
+          align: "center",
+          value: "TaksDikerjakan",
+          class: "white--text text-lg-subtitle-1 font-weight-bold"
+        },
+        {
+          text: "Total Durasi",
+          align: "center",
+          value: "TotalDurasi",
+          class: "white--text text-lg-subtitle-1 font-weight-bold"
+        },
+        {
+          text: "Detail",
+          value: "Detail",
+          align: "center",
+          sortable: false,
+          class: "white--text text-lg-subtitle-1 font-weight-bold"
+        }
+      ],
+      listMhs: [
         // {
-        //   text: "NIM",
-        //   align: "center",
-        //   value: "Nim",
-        //   sortable: false,
-        //   class: "white--text text-lg-subtitle-1 font-weight-bold"
+        //   Nim: "181524002",
+        //   Nama: "Alvira Putrina Derajat",
+        //   RataRataProgress: "50%",
+        //   TaksDikerjakan: "3",
+        //   TotalDurasi: "250"
         // },
         // {
-        //   text: "Nama",
-        //   value: "Nama",
-        //   class: "white--text text-lg-subtitle-1 font-weight-bold"
+        //   Nim: "181524003",
+        //   Nama: "Ananda Bayu Fauzan",
+        //   RataRataProgress: "60%",
+        //   TaksDikerjakan: "5",
+        //   TotalDurasi: "300"
         // },
         // {
-        //   text: "Rata-Rata Progress",
-        //   align: "center",
-        //   value: "RataRataProgress",
-        //   class: "white--text text-lg-subtitle-1 font-weight-bold"
+        //   Nim: "181524004",
+        //   Nama: "Chofief Al Farroqie Ariestotles",
+        //   RataRataProgress: "60%",
+        //   TaksDikerjakan: "4",
+        //   TotalDurasi: "270"
         // },
         // {
-        //   text: "Taks Dikerjakan",
-        //   align: "center",
-        //   value: "TaksDikerjakan",
-        //   class: "white--text text-lg-subtitle-1 font-weight-bold"
+        //   Nim: "181524005",
+        //   Nama: "Dewanto Joyo Pramono",
+        //   RataRataProgress: "50%",
+        //   TaksDikerjakan: "4",
+        //   TotalDurasi: "240"
         // },
         // {
-        //   text: "Total Durasi",
-        //   align: "center",
-        //   value: "TotalDurasi",
-        //   class: "white--text text-lg-subtitle-1 font-weight-bold"
+        //   Nim: "181524006",
+        //   Nama: "Dwinanda Alfauzan Suhando",
+        //   RataRataProgress: "50%",
+        //   TaksDikerjakan: "3",
+        //   TotalDurasi: "150"
         // },
         // {
-        //   text: "Detail",
-        //   value: "Detail",
-        //   align: "center",
-        //   sortable: false,
-        //   class: "white--text text-lg-subtitle-1 font-weight-bold"
+        //   Nim: "181524007",
+        //   Nama: "Evan Lokajaya",
+        //   RataRataProgress: "70%",
+        //   TaksDikerjakan: "5",
+        //   TotalDurasi: "340"
+        // },
+        // {
+        //   Nim: "181524008",
+        //   Nama: "Fajrina Aflaha",
+        //   RataRataProgress: "50%",
+        //   TaksDikerjakan: "4",
+        //   TotalDurasi: "300",
+        //   Detail: "Lihat Detail"
+        // },
+        // {
+        //   Nim: "181524009",
+        //   Nama: "Fatharani",
+        //   RataRataProgress: "60%",
+        //   TaksDikerjakan: "5",
+        //   TotalDurasi: "300"
+        // },
+        // {
+        //   Nim: "181524010",
+        //   Nama: "Hafizh Muhammad F",
+        //   RataRataProgress: "60%",
+        //   TaksDikerjakan: "3",
+        //   TotalDurasi: "300"
+        // },
+        // {
+        //   Nim: "181524012",
+        //   Nama: "Hanifah Sholihat",
+        //   RataRataProgress: "50%",
+        //   TaksDikerjakan: "2",
+        //   TotalDurasi: "200"
         // }
       ],
-      // items: [
-      //   {
-      //     Nim: "181524002",
-      //     Nama: "Alvira Putrina Derajat",
-      //     RataRataProgress: "50%",
-      //     TaksDikerjakan: "3",
-      //     TotalDurasi: "250"
-      //   },
-      //   {
-      //     Nim: "181524003",
-      //     Nama: "Ananda Bayu Fauzan",
-      //     RataRataProgress: "60%",
-      //     TaksDikerjakan: "5",
-      //     TotalDurasi: "300"
-      //   },
-      //   {
-      //     Nim: "181524004",
-      //     Nama: "Chofief Al Farroqie Ariestotles",
-      //     RataRataProgress: "60%",
-      //     TaksDikerjakan: "4",
-      //     TotalDurasi: "270"
-      //   },
-      //   {
-      //     Nim: "181524005",
-      //     Nama: "Dewanto Joyo Pramono",
-      //     RataRataProgress: "50%",
-      //     TaksDikerjakan: "4",
-      //     TotalDurasi: "240"
-      //   },
-      //   {
-      //     Nim: "181524006",
-      //     Nama: "Dwinanda Alfauzan Suhando",
-      //     RataRataProgress: "50%",
-      //     TaksDikerjakan: "3",
-      //     TotalDurasi: "150"
-      //   },
-      //   {
-      //     Nim: "181524007",
-      //     Nama: "Evan Lokajaya",
-      //     RataRataProgress: "70%",
-      //     TaksDikerjakan: "5",
-      //     TotalDurasi: "340"
-      //   },
-      //   {
-      //     Nim: "181524008",
-      //     Nama: "Fajrina Aflaha",
-      //     RataRataProgress: "50%",
-      //     TaksDikerjakan: "4",
-      //     TotalDurasi: "300",
-      //     Detail: "Lihat Detail"
-      //   },
-      //   {
-      //     Nim: "181524009",
-      //     Nama: "Fatharani",
-      //     RataRataProgress: "60%",
-      //     TaksDikerjakan: "5",
-      //     TotalDurasi: "300"
-      //   },
-      //   {
-      //     Nim: "181524010",
-      //     Nama: "Hafizh Muhammad F",
-      //     RataRataProgress: "60%",
-      //     TaksDikerjakan: "3",
-      //     TotalDurasi: "300"
-      //   },
-      //   {
-      //     Nim: "181524012",
-      //     Nama: "Hanifah Sholihat",
-      //     RataRataProgress: "50%",
-      //     TaksDikerjakan: "2",
-      //     TotalDurasi: "200"
-      //   }
-      // ],
       isLoading: false,
       rulesFile: {
-      }
+      },
+      kriteriaTugas: ""
     }
   },
   methods: {
@@ -292,29 +292,28 @@ export default {
       if (item != null) {
         this.id_subtugas = item.id
       }
-
-      // var sub = await SubtugasMonitoringDosen.putSubtugas(temp)
-      // var matkulList = []
-      // var j = 0
-      // while (j < matkul.listMatkul.length) {
-      //   matkulList[j] = matkul.listMatkul[j].nama_mata_kuliah
-      //   j++
-      // }
-      // this.listMatkul = matkulList
       console.log(this.id_subtugas)
-      // console.log(this.listMatkul)
     }
   },
   async mounted () {
     var sub = await SubtugasMonitoringDosen.getSubtugasByTugas(this.$route.params.id_tugas)
-    // var i = 0
-    // var kelasList = []
-    // while (i < sub.length) {
-    //   kelasList[i] = sub[i].kode_kelas + " - " + sub[i].kode_program_studi
-    //   i++
-    // }
+    var mhs = await TugasMonitoringDosen.getMahasiswaByTugas("2")
+    var kriteria = await TugasMonitoringDosen.getKriteriaByTugas("2")
+    var i = 0
+    var mhsList = []
+    while (i < mhs.listNIMMahasiswa.length) {
+      mhsList.push({
+        Nim: mhs.listNIMMahasiswa[i],
+        Nama: mhs.listNamaMahasiswa[i]
+        // RataRataProgress: "50%",
+        // TaksDikerjakan: "2",
+        // TotalDurasi: "200"
+      })
+      i++
+    }
     this.subtugas = sub
-    console.log(this.subtugas)
+    this.listMhs = mhsList
+    this.kriteriaTugas = kriteria
   }
 }
 </script>
