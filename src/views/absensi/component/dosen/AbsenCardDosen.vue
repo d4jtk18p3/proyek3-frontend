@@ -24,20 +24,12 @@
             <div>
               <v-card-actions class="justify-center">
                 <v-btn
-                  v-if="item.absen"
                   elevation="2"
                   rounded
                   class="ma-5"
                   color="#4CAF50"
                   width="120"
-                > Hadir</v-btn>
-                <v-btn
-                  v-else
-                  elevation="2"
-                  rounded
-                  class="mt-5 pb-0"
-                  disabled
-                  width="120"
+                  @click="presensiDosen(index, item.id_studi, item.id_jadwal)"
                 > Hadir</v-btn>
               </v-card-actions>
             </div>
@@ -61,6 +53,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import PresensiDosen from "@/datasource/api/absensi/PresensiDosen"
 
 // const THIRTY_MINUTES = 1000 * 60 * 30
 
@@ -78,6 +71,19 @@ export default {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
     })
+  },
+  methods: {
+    presensiDosen (index, idStudi, idJadwal) {
+      PresensiDosen.presensiDosen(11113, idStudi, idJadwal)
+        .then(response => {
+          this.jadwalDsn[index].absen = false
+          console.log("Dosen telah absen untuk jadwal " + idStudi)
+          console.log(response)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }
   }
 }
 </script>
