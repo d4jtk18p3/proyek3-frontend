@@ -15,12 +15,12 @@
             class="text-center justify-center rounded-xl d-flex flex-column active"
             width="255"
             height="300"
-            :style="item.active? 'background: #272343' : 'background: white'"
+            :style="!item.active? 'background: white' : 'background: #272343'"
           >
             <v-card-text
               class="pb-0"
               :style="!item.active? 'color: #272343' : 'color: white'"
-            > #{{item.id_studi}}</v-card-text>
+            > #{{item.id_jadwal}}</v-card-text>
             <h3
               class="pt-0 pb-5 text-center"
               :style="!item.active? 'color: #272343' : 'color: white'"
@@ -52,7 +52,7 @@
               </v-col>
                 <v-progress-linear
                   background-color="#bfbfbf"
-                  :color="item.absen? 'success' : 'error'"
+                  :color="item.active? 'success' : 'white'"
                   :value="item.value"
                   height="5"
                   class="mt-0 pt-0 ml-8 mr-8 mb-8 justify-center"
@@ -135,6 +135,7 @@ export default {
   },
   methods: {
     presensiMahasiswa (index, idStudi, idJadwal) {
+      console.log(idJadwal)
       PresensiMahasiswa.presensiMahasiswa(idStudi, idJadwal, 181524010)
         .then(response => {
           this.jadwalMhs[index].absen = false
@@ -165,8 +166,6 @@ export default {
         var afterTime = moment(this.jadwalMhs[currentJadwal].waktu_selesai, format)
         var d = moment.duration(afterTime.diff(beforeTime, "seconds"))
         this.jadwalMhs[currentJadwal].value = d._milliseconds
-        console.log(beforeTime)
-        console.log(this.jadwalMhs[currentJadwal].value)
         this.cekAktivasiTombol(this.jadwalMhs[currentJadwal].id_jadwal)
         if (currentTime.isBetween(beforeTime, afterTime)) {
           if (this.currentKehadiran.isHadir === false && this.currentKehadiran.id_keterangan === null) {
@@ -175,16 +174,14 @@ export default {
           }
           this.jadwalMhs[currentJadwal].value = this.jadwalMhs[currentJadwal].value + ((this.interval._milliseconds / 360) * (15 / 100))
           this.jadwalMhs[currentJadwal].active = true
-          console.log("abseeeeennnn")
         } else {
           if (currentTime.isAfter(afterTime)) {
-            console.log("kelar")
             this.jadwalMhs[currentJadwal].absen = false
             this.jadwalMhs[currentJadwal].active = false
             console.log(currentJadwal)
             currentJadwal++
           } else {
-            console.log("belum waktunya absen")
+            this.jadwalMhs[currentJadwal].active = false
             this.jadwalMhs[currentJadwal].absen = false
           }
         }
