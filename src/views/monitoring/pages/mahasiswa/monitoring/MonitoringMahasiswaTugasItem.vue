@@ -8,13 +8,12 @@
       <v-col class="mt-2">
       <v-data-table
         v-model="selected"
-        dark
         :headers="headers"
         :items="items"
         :loading="isLoading"
         loading-text=""
         :items-per-page="5"
-        class="elevation-3"
+        class="elevation-3 white--text"
         :style="{backgroundColor: currentTheme.onBackground}"
       >
         <template v-slot:no-data>
@@ -34,6 +33,7 @@
         </template>
         <template v-slot:item.Detail="{ item }">
           <v-btn
+            v-if="btnMulai[item.id]"
             color="primary"
             dark
             v-bind="attrs"
@@ -42,10 +42,12 @@
             rounded="6"
             small
             class="mt-1"
+            @click="mulaiItem(item.id)"
           >
             <span style="font-size: 12px" class="font-weight-bold">Mulai</span>
           </v-btn>
           <v-btn
+            v-if="btnPause[item.id]"
             color="error"
             dark
             v-bind="attrs"
@@ -54,10 +56,12 @@
             rounded="6"
             small
             class="mt-1"
+            @click="pauseItem(item.id)"
           >
             <span style="font-size: 12px" class="font-weight-bold">Pause</span>
           </v-btn>
           <v-btn
+            v-if="btnSelesai[item.id]"
             :color="currentTheme.colorPrimary"
             dark
             v-bind="attrs"
@@ -119,6 +123,11 @@ export default {
       selected: [],
       dialog: false,
       dialogSelesai: false,
+      btnMulai: [],
+      btnPause: [],
+      btnSelesai: [],
+      countSubtugas: 0,
+      pertama: true,
       breadcrumbItems: [
         {
           text: "Monitoring",
@@ -216,10 +225,27 @@ export default {
     selesaiItem (item) {
       this.editedIndex = item
       this.dialogSelesai = true
+    },
+    mulaiItem (item) {
+      this.btnPause[item] = true
+      this.btnSelesai[item] = true
+      this.btnMulai = false
+    },
+    pauseItem (item) {
+      this.btnMulai = true
     }
   },
   async mounted () {
     this.items = await SubTugasMonitoringMahasiswa.getSubTugasMatkul("1")
+    this.countSubtugas = this.items.length
+    if (this.pertama) {
+      for (var i = 0; i <= this.countSubtugas; i++) {
+        this.btnMulai.push(true)
+        this.btnPause.push(false)
+        this.btnSelesai.push(false)
+      }
+      this.pertama = false
+    }
   }
 }
 </script>
