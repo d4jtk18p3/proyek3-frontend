@@ -1,6 +1,6 @@
-import * as Keycloak from "keycloak-js"
 import Vue from "vue"
 import VueRouter from "vue-router"
+import store from "@/store"
 
 const routes = [
   {
@@ -414,14 +414,21 @@ const getRoutes = () => {
       {
         path: "/",
         meta: { requiresAuth: true },
-        component: () =>
-          import(/* webpackChunkName: "akun" */ "../views/akun/Home"),
+        component: () => import(
+          /* webpackChunkName: "akun" */"../views/akun/Main"
+        ),
         children: [
           {
             path: "login",
             meta: { requiresAuth: false },
-            component: () =>
-              import(/* webpackChunkName: "akun.login" */ "../views/akun/Login")
+            component: () => import(
+              /* webpackChunkName: "akun.login" */"../views/akun/pages/Login"
+            )
+          },
+          {
+            path: "reset-password",
+            meta: { requiresAuth: true },
+            component: () => import(/* webpackChunkName: "akun.reset-password" */ "../views/akun/pages/ResetPassword")
           }
         ]
       }
@@ -443,24 +450,7 @@ router.afterEach(async (to, from) => {
     return
   }
 
-  const keycloak = Keycloak({
-    url: "http://akun.localhost:5000/keycloak-proxy/auth",
-    realm: "development",
-    clientId: "public"
-  })
-  const auth = await keycloak.init({ onLoad: "login-required" })
-
-  if (!auth) {
-    window.location.reload()
-  }
-
-  setInterval(async () => {
-    try {
-      await keycloak.updateToken(70)
-    } catch (err) {
-      console.error(err)
-    }
-  }, 6000)
+  store.dispatch("authenticate")
 })
 
 export default router
