@@ -56,9 +56,9 @@ export default {
   },
   methods: {
     functionEvents (dateString) {
-      if (this.startDate.includes(dateString)) return "yellow" // hari libur nasional
       var date = new Date(dateString)
-      if ([0, 6].includes(date.getDay())) return "red" // hari sabtu dan minggu
+      if (this.startDate.includes(dateString)) return "#0000FF" // hari libur nasional -> hijau/biru
+      if ([0, 6].includes(date.getDay())) return "#FF0000" // hari sabtu dan minggu -> merah
       return false
     },
     disableFutureDates (val) {

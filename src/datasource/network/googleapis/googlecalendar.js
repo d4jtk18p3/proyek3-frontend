@@ -22,8 +22,8 @@ const getEventHoliday = async () => {
       holidayClean[i] = itemHoliday
       i++
     }
-    return holidayClean
     // return array of object itemHoliday
+    return holidayClean
   } catch (err) {
     return await errorHandler(err)
   }
