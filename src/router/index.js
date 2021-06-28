@@ -188,7 +188,7 @@ const routes = [
   },
   {
     path: "/monitoring",
-    component: () => import("../views/monitoring/monitoringmain"),
+    component: () => import("../views/monitoring/MonitoringMain"),
     children: [
       // {
       //   path: "/monitoring/dashboard-tugas",
