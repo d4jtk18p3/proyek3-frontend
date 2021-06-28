@@ -215,6 +215,11 @@ const routes = [
         component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/MonitoringMahasiswaTugasItem")
       },
       {
+        path: "/monitoring/mahasiswa/namaMatkul/namaTugas/monitoringTeman",
+        name: "Monitoring",
+        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/MonitoringMahasiswaBersama")
+      },
+      {
         path: "/monitoring/mahasiswa/matakuliah",
         name: "Monitoring",
         component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/MonitoringMahasiswaDaftarMatKul")

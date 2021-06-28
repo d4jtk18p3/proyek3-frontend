@@ -5,6 +5,17 @@
         <p class="text-h4 font-weight-bold">Monitoring APPL 1 - W1 Polymorphism</p>
         <breadcumbs :breadcrumb-items="breadcrumbItems"/>
       </v-col>
+      <v-col
+            cols="3"
+            class="ml-auto pl-11"
+        >
+            <v-btn
+            :color="currentTheme.colorSecondary"
+            dark
+          >
+            <span style="font-size: 12px">Lihat Monitoring Teman</span>
+          </v-btn>
+        </v-col>
       <v-col class="mt-2">
       <v-data-table
         v-model="selected"
