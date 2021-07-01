@@ -1,6 +1,6 @@
 <template>
   <v-card
-    :style="{background: '#FB8C00'}"
+    :style="{background: bgcolor}"
     class="pa-3"
   >
     <div
@@ -15,7 +15,7 @@ import { mapGetters } from "vuex"
 
 export default {
   name: "KelasItem",
-  props: ["kelas"],
+  props: ["kelas", "bgcolor"],
   computed: {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"

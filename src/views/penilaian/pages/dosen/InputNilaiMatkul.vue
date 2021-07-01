@@ -6,7 +6,7 @@
     <v-col cols="12">
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
     </v-col>
-    <v-col cols="6">
+    <v-col cols="8">
       <p class="text-h4 font-weight-bold">PROYEK 1</p>
     </v-col>
     <v-col cols="2">
@@ -20,13 +20,15 @@
       <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="openFile()">Import From CSV</v-btn>
     </v-col>
     <v-col cols="2">
-      <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="resetTable()">Reset Tabel</v-btn>
+      <v-btn :color="currentTheme.colorPrimary" elevation="2" :style="{width: '100%'}" outlined depressed @click="resetTable()">Reset Tabel</v-btn>
+    </v-col>
+    <v-col cols="10">
+      <p class="text-h4 font-weight-bold">ETS</p>
     </v-col>
     <v-col cols="2">
-      <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed >Tambah Kategori</v-btn>
+      <v-btn v-if="headerParentNilaiETS" :color="currentTheme.colorPrimary" :style="{width: '100%'}" elevation="2" outlined depressed @click="tambahKategori('ETS')">Tambah Kategori</v-btn>
     </v-col>
     <v-col cols="12">
-      <p class="text-h4 font-weight-bold">ETS</p>
       <v-simple-table>
         <thead>
           <tr>
@@ -78,8 +80,13 @@
       <v-btn class="mt-2 mr-2" v-if="dataNilaiMahasiswaETS" :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="submitETS(nilaiakhir=false)">Simpan Nilai ETS</v-btn>
       <v-btn class="mt-2" v-if="dataNilaiMahasiswaETS" :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="submitETS(nilaiakhir=true)">Submit Nilai ETS</v-btn>
     </v-col>
-    <v-col cols="12">
+    <v-col cols="10">
       <p class="text-h4 font-weight-bold">EAS</p>
+    </v-col>
+    <v-col cols="2">
+      <v-btn v-if="headerParentNilaiEAS" :color="currentTheme.colorPrimary" elevation="2" :style="{width: '100%'}" outlined depressed @click="tambahKategori('EAS')">Tambah Kategori</v-btn>
+    </v-col>
+    <v-col cols="12">
       <v-simple-table>
         <thead>
           <tr>
@@ -192,6 +199,65 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-dialog
+        v-model="dialogKategori"
+        max-width="500px"
+        v-if="headerParentNilaiETS"
+      >
+        <v-card>
+          <v-card-title>
+            <span class="headline">Tambah Kategori</span>
+          </v-card-title>
+
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col
+                  cols="12"
+                >
+                  <v-select
+                    :items="headerParentNilaiETS.slice(1, headerParentNilaiETS.length)"
+                    :item-text="'label'"
+                    :item-value="'id_kategori'"
+                    label="Parrent Kategori"
+                    outlined
+                  >
+                  </v-select>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                >
+                  <v-text-field
+                    label="Nama Kategori"
+                    outlined
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="closeKategori"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+              :disabled="!saveButton"
+              color="blue darken-1"
+              text
+              @click="save()"
+            >
+              Save
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-col>
   </v-row>
 </template>
@@ -258,6 +324,7 @@ export default {
       headerETS: { idKategori: null, parent: null, nama_kategori: "ETS", bobot_nilai: 0 },
       headerEAS: { idKategori: null, parent: null, nama_kategori: "ETS", bobot_nilai: 0 },
       dialog: false,
+      dialogKategori: false,
       saveButton: true,
       sisaBobot: 0,
       headerSelected: null,
@@ -484,6 +551,17 @@ export default {
         this.dialog = true
       }
     },
+    tambahKategori (type) {
+      this.dialogKategori = true
+      if (type === "ETS") {
+        console.log("haloo")
+      } else {
+        console.log("halo eas")
+      }
+    },
+    closeKategori (type) {
+      this.dialogKategori = false
+    },
     bobotOnChange () {
       var totalBeban = 0
       for (var i = 0; i < this.headerSelected.length; i++) {
@@ -515,7 +593,7 @@ export default {
       var dataNilaiMahasiswa = {}
 
       // Input Mata Kuliah
-      dataNilaiMahasiswa.idMataKuliah = parseInt(this.$route.params.id) // get id mata kuliah from API
+      dataNilaiMahasiswa.id_perkuliahan = parseInt(this.$route.params.id) // get id mata kuliah from API
 
       // Input Kategori
       var kategoriNilai = []
@@ -572,7 +650,15 @@ export default {
         }
       }
       dataNilaiMahasiswa.dataNilai = dataNilai
-      // console.log(dataNilaiMahasiswa) // submit nilai mhs
+      console.log(dataNilaiMahasiswa) // submit nilai mhs
+
+      /*
+      http
+      .post("http://localhost:5001/dosen/import-nilai/perkuliahan/" + this.$route.params.id, dataNilaiMahasiswa)
+      .then((res) => {
+        console.log(res.data)
+      })
+      */
 
       if (finalize) {
         for (i = 0; i < dataNilaiMahasiswa.dataNilai.length; i++) {
@@ -683,6 +769,7 @@ export default {
             parent: listParent[j].idKategori,
             nama_kategori: this.headerChildNilaiEAS[k + iter].label,
             bobot_nilai: parseFloat(this.headerChildNilaiEAS[k + iter].bobot)
+            // id perkuliahan
           }
           kategoriNilaiChild.push(kategori)
           getLastIdKategori++
@@ -707,7 +794,15 @@ export default {
         }
       }
       dataNilaiMahasiswa.dataNilai = dataNilai
-      // console.log(dataNilaiMahasiswa)
+      console.log(dataNilaiMahasiswa)
+
+      /*
+      http
+      .post("http://localhost:5001/dosen/import-nilai/perkuliahan/" + this.$route.params.id, dataNilaiMahasiswa)
+      .then((res) => {
+        console.log(res.data)
+      })
+      */
 
       if (finalize) {
         for (i = 0; i < dataNilaiMahasiswa.dataNilai.length; i++) {

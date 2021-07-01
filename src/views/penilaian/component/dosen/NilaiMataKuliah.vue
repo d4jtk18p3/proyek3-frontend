@@ -2,7 +2,7 @@
   <v-card
     link
     class="rounded-card mr-3 mb-3"
-    @click="routeNilaiMatkul(idMatkul)"
+    @click="routeNilaiMatkul(idPerkuliahan)"
   >
     <v-row class="pa-3 ma-0" :style="{background :'#2196F3' }">
       <v-col cols="12" align-self="center" class="pa-0 ma-0">
@@ -20,17 +20,13 @@
     </v-row>
     <div class="pa-2">
     <v-row>
-    <v-col cols="6" class="text-center pt-4">
-      Kode
+    <v-col cols="6" class="pt-4" v-text="'Kode'">
     </v-col>
-    <v-col cols="6" class="pt-4">
-      : {{idMatkul}}
+    <v-col cols="6" class="pt-4" v-text="idMatkul">
     </v-col>
-    <v-col cols="6" class="text-center pt-0 pb-4">
-      Semester
+    <v-col cols="6" class="pt-0 pb-4" v-text="'Semester'">
     </v-col>
-    <v-col cols="6" class="pt-0 pb-4">
-      : {{semester}}
+    <v-col cols="6" class="pt-0 pb-4" v-text="semester">
     </v-col>
     </v-row>
     </div>
@@ -42,15 +38,20 @@ import { mapGetters } from "vuex"
 export default {
   name: "MataKuliahItem",
   props: {
+    idPerkuliahan: {
+      type: Number,
+      required: false,
+      default: 0
+    },
     mataKuliah: {
       type: String,
       required: false,
       default: "Model Data Teori"
     },
     idMatkul: {
-      type: Number,
+      type: String,
       required: false,
-      default: 0
+      default: ""
     },
     semester: {
       type: Number,

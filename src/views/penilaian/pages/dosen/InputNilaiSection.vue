@@ -11,9 +11,13 @@
         class="text-left font-weight-bold text-h5"
         :style="{color: currentTheme.onBackground}"
         >Kelas</p>
+        <v-item-group>
         <v-card link class="mb-3" v-for="item in listKelas" :key="item.Kelas">
-          <KelasItem :kelas="item.Kelas"/>
+          <v-item v-slot="{ active, toggle }">
+            <KelasItem :kelas="item.kode_kelas" @click.native="getMatkulbyKelas(item) + toggle()" :bgcolor="active ? '#FB8C00' : currentTheme.surface"/>
+          </v-item>
         </v-card>
+        </v-item-group>
     </v-col>
     <v-divider v-if="!isMobile" vertical class="mx-5"></v-divider>
     <v-col sm="8">
@@ -21,12 +25,12 @@
     class="text-left font-weight-bold text-h5"
     :style="{color: currentTheme.onBackground}"
     >Mata Kuliah</p>
-    <v-row>
+    <v-row v-if="listMatkul">
         <v-col
-          no-gutters v-for="item in listMatkul" :key="item.Matkul"
+          no-gutters v-for="(item, index) in listMatkul" :key="item.Matkul"
           sm="4"
         >
-          <NilaiMataKuliah :mataKuliah="item.Matkul" :idMatkul="item.id_matkul"/>
+          <NilaiMataKuliah :mataKuliah="item.nama_mata_kuliah" :semester="item.semester" :idMatkul="item.id" :idPerkuliahan="id_perkuliahan[index]"/>
         </v-col>
       </v-row>
     </v-col>
@@ -34,6 +38,7 @@
 </template>
 
 <script>
+import http from "axios"
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import NilaiMataKuliah from "@/views/penilaian/component/dosen/NilaiMataKuliah"
@@ -61,19 +66,18 @@ export default {
           href: ""
         }
       ],
+      nip: null,
       listKelas: [
         { id_kelas: 0, Kelas: "1A - D3 Teknik Informatika" },
         { id_kelas: 1, Kelas: "2A - D3 Teknik Informatika" },
         { id_kelas: 2, Kelas: "1A - D4 Teknik Informatika" }
       ],
       listMatkul: [
-        { id_matkul: 0, Matkul: "Proyek 3" },
-        { id_matkul: 1, Matkul: "Aljabar Liner" },
-        { id_matkul: 2, Matkul: "Software Testing" },
-        { id_matkul: 3, Matkul: "Akuntansi" },
-        { id_matkul: 4, Matkul: "Model Data" },
-        { id_matkul: 5, Matkul: "Matematika" }
-      ]
+        // { id_matkul: 0, Matkul: "Proyek 3" },
+        // { id_matkul: 1, Matkul: "APPL 2" },
+        // { id_matkul: 2, Matkul: "Pengantar Angkungtangsi" }
+      ],
+      id_perkuliahan: null
     }
   },
   computed: {
@@ -85,6 +89,23 @@ export default {
     }
   },
   methods: {
+    getMatkulbyKelas (kodeKelas, index) {
+      console.log(kodeKelas)
+      http.get("http://localhost:5001/dosen/matkul/" + this.nip + "/" + kodeKelas.kode_kelas)
+        .then((res) => {
+          console.log(res.data.data)
+          this.id_perkuliahan = res.data.data.id_perkuliahan
+          this.listMatkul = res.data.data.listMatkul
+        })
+    }
+  },
+  mounted () {
+    this.nip = "196610181995121000"
+    http.get("http://localhost:5001/dosen/kelas/" + this.nip)
+      .then((res) => {
+        console.log(res.data.data.uniqueClass)
+        this.listKelas = res.data.data.uniqueClass
+      })
   }
 }
 </script>
