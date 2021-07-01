@@ -7,10 +7,10 @@
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
     </v-col>
     <v-col :cols="isMobile ? 12 : 4" class="mt-2">
-      <DataMahasiswa/>
+      <DataMahasiswa :DataMahasiswa="Mahasiswa"/>
     </v-col>
     <v-col :cols="isMobile ? 12 : 2" class="mt-2">
-      <DataIPMahasiswa/>
+      <DataIPMahasiswa :DataMahasiswa="Mahasiswa"/>
     </v-col>
     <v-col :cols="isMobile ? 12 : 6">
     </v-col>
@@ -122,6 +122,10 @@ export default {
       ],
       NilaiSemesterSelected: null,
       Mahasiswa: {
+        Nama: "Zefan",
+        Prodi: "D4 Teknik Informatika",
+        Nim: "181524032",
+        IPKumulatif: 4,
         Nilai: [
           {
             label: "SEM -1",

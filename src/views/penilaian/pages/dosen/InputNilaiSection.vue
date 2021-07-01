@@ -10,21 +10,6 @@
         <p
         class="text-left font-weight-bold text-h5"
         :style="{color: currentTheme.onBackground}"
-        >Dashboard</p>
-        <v-card
-            :style="{background: '#2196F3'}"
-            class="pa-3"
-            link
-        >
-        <div
-            class="text-center text-h6"
-            :style="{color: currentTheme.surface}"
-            >Lihat Dashboard Nilai
-        </div>
-        </v-card>
-        <p
-        class="text-left font-weight-bold text-h5 mt-5"
-        :style="{color: currentTheme.onBackground}"
         >Kelas</p>
         <v-card link class="mb-3" v-for="item in listKelas" :key="item.Kelas">
           <KelasItem :kelas="item.Kelas"/>
@@ -39,7 +24,7 @@
     <v-row>
         <v-col
           no-gutters v-for="item in listMatkul" :key="item.Matkul"
-          sm="6"
+          sm="4"
         >
           <NilaiMataKuliah :mataKuliah="item.Matkul" :idMatkul="item.id_matkul"/>
         </v-col>
@@ -83,8 +68,11 @@ export default {
       ],
       listMatkul: [
         { id_matkul: 0, Matkul: "Proyek 3" },
-        { id_matkul: 1, Matkul: "APPL 2" },
-        { id_matkul: 2, Matkul: "Pengantar Angkungtangsi" }
+        { id_matkul: 1, Matkul: "Aljabar Liner" },
+        { id_matkul: 2, Matkul: "Software Testing" },
+        { id_matkul: 3, Matkul: "Akuntansi" },
+        { id_matkul: 4, Matkul: "Model Data" },
+        { id_matkul: 5, Matkul: "Matematika" }
       ]
     }
   },

@@ -59,6 +59,12 @@
           Nama
           </th>
           <th class="text-left" :style="{background: currentTheme.onBackground, color: currentTheme.background, 'border': '1px solid' + currentTheme.background}">
+          ETS
+          </th>
+          <th class="text-left" :style="{background: currentTheme.onBackground, color: currentTheme.background, 'border': '1px solid' + currentTheme.background}">
+          EAS
+          </th>
+          <th class="text-left" :style="{background: currentTheme.onBackground, color: currentTheme.background, 'border': '1px solid' + currentTheme.background}">
           Nilai Akhir
           </th>
         </tr>
@@ -70,6 +76,8 @@
                 >
                 <td>{{ nilai.nim }}</td>
                 <td>{{ nilai.nama }}</td>
+                <td>{{ nilai.ets }}</td>
+                <td>{{ nilai.eas }}</td>
                 <td>{{ nilai.nilaiAkhir }}</td>
                 </tr>
             </tbody>
@@ -109,21 +117,29 @@ export default {
           {
             nim: "181524002",
             nama: "Andri",
+            ets: 87.5,
+            eas: 82.5,
             nilaiAkhir: 3.2
           },
           {
             nim: "181524003",
             nama: "Bandri",
+            ets: 87.5,
+            eas: 82.5,
             nilaiAkhir: 2.9
           },
           {
             nim: "181524003",
             nama: "Candri",
+            ets: 86,
+            eas: 84,
             nilaiAkhir: 4.0
           },
           {
             nim: "181524004",
             nama: "Dandri",
+            ets: 90,
+            eas: 70,
             nilaiAkhir: 3.0
           }
         ]
