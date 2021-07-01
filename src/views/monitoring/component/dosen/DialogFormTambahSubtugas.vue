@@ -36,7 +36,6 @@
           <v-col cols="12">
             <vc-date-picker
                 v-model="tenggat"
-                :timezone="timezone"
                 mode="dateTime"
                 is24hr
                 :is-dark="isDark"
@@ -51,7 +50,7 @@
                     :value="inputValue"
                     v-on="inputEvents"
                     :color="currentTheme.colorSecondary"
-                  >{{ formattedDate }}
+                  >
                   </v-text-field>
                 </template>
               </vc-date-picker>
@@ -142,6 +141,7 @@
 <script>
 import { mapGetters } from "vuex"
 import SubtugasMonitoringDosen from "../../../../datasource/network/monitoring/subtugas"
+import TugasMonitoringDosen from "../../../../datasource/network/monitoring/tugas"
 export default {
   name: "FormAddMonitoring",
   props: ["visible"],
@@ -188,6 +188,9 @@ export default {
       this.$emit("close")
     },
     async addSubtugas () {
+      var mhs = await TugasMonitoringDosen.getMahasiswaByTugas(this.$route.params.id_tugas)
+      // var idStudiList = []
+      var i = 0
       var subtugasBaru
       var date = this.tenggat
       var d = new Date(date)
@@ -214,9 +217,12 @@ export default {
       // }
 
       // var dateVal = [year, month, day].join("-")
+      while (i < mhs.listIdStudi.length) {
+        subtugasBaru = await SubtugasMonitoringDosen.postSubtugasBaru(this.namaSubtugas,
+          dateStr, this.$route.params.id_tugas, mhs.listIdStudi[i])
+        i++
+      }
       console.log(this.namaSubtugas, dateStr)
-      subtugasBaru = await SubtugasMonitoringDosen.postSubtugasBaru(this.namaSubtugas,
-        dateStr, this.$route.params.id_tugas, "1")
       console.log(subtugasBaru)
       this.$emit("close")
       location.reload()

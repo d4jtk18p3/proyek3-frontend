@@ -43,8 +43,20 @@ const putSubtugas = async (idSubtugas, namaSubtugas, tenggat) => {
   }
 }
 
+const getSubtugasByMahasiswa = async (idTugas, idMhs) => {
+  try {
+    const monitoringURL = MONITORING_URL + `/common/getSubtugasByMahasiswa/${idTugas}/${idMhs}`
+    const result = await baseHttp.get(monitoringURL)
+    console.log(result.data.data.uniqueSubtugas)
+    return result.data.data.uniqueSubtugas
+  } catch (e) {
+    return await errorHandler(e)
+  }
+}
+
 export default {
   getSubtugasByTugas,
   postSubtugasBaru,
-  putSubtugas
+  putSubtugas,
+  getSubtugasByMahasiswa
 }

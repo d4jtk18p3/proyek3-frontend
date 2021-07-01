@@ -79,14 +79,14 @@
           >No Data Available
           </p>
         </template>
-        <template v-slot:[`item.Detail`]>
+        <template v-slot:[`item.id`]="{item}">
           <v-btn
               text
               color="primary"
-              :to="`/monitoring/dosen/monitoring-tugas/tabel-detail`"
               v-bind="attrs"
               v-on="on"
               class="ma-2"
+              @click="routeLihatDetail(item)"
           >
             <span style="font-size: 12px">Lihat Detail</span>
           </v-btn>
@@ -137,13 +137,13 @@ export default {
         }
       ],
       subtugas: [],
-      items: [
-        {
-          id: "",
-          nama_subtugas: "",
-          tenggat: ""
-        }
-      ],
+      // items: [
+      //   {
+      //     id: "",
+      //     nama_subtugas: "",
+      //     tenggat: ""
+      //   }
+      // ],
       headers: [
         {
           text: "Nama Subtugas",
@@ -198,7 +198,7 @@ export default {
         },
         {
           text: "Detail",
-          value: "Detail",
+          value: "id",
           align: "center",
           sortable: false,
           class: "white--text text-lg-subtitle-1 font-weight-bold"
@@ -293,12 +293,21 @@ export default {
         this.id_subtugas = item.id
       }
       console.log(this.id_subtugas)
+    },
+    routeLihatDetail (item) {
+      console.log(item.Nim)
+      const currentRoute = this.$route.path
+      this.$router.push(currentRoute + "/" + item.Nim).catch(error => {
+        if (error.name !== "NavigationDuplicated") {
+          throw error
+        }
+      })
     }
   },
   async mounted () {
     var sub = await SubtugasMonitoringDosen.getSubtugasByTugas(this.$route.params.id_tugas)
-    var mhs = await TugasMonitoringDosen.getMahasiswaByTugas("2")
-    var kriteria = await TugasMonitoringDosen.getKriteriaByTugas("2")
+    var mhs = await TugasMonitoringDosen.getMahasiswaByTugas(this.$route.params.id_tugas)
+    var kriteria = await TugasMonitoringDosen.getKriteriaByTugas(this.$route.params.id_tugas)
     var i = 0
     var mhsList = []
     while (i < mhs.listNIMMahasiswa.length) {

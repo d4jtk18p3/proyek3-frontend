@@ -13,7 +13,7 @@
       <v-data-table
         dark
         :headers="headers"
-        :items="items"
+        :items="subtugas"
         :loading="isLoading"
         loading-text=""
         :items-per-page="5"
@@ -27,8 +27,13 @@
           >No Data Available
           </p>
         </template>
-        <template  v-slot:[`item.Selesai`]="{ item }">
-          <v-simple-checkbox v-model="item.Selesai" light disabled></v-simple-checkbox>
+        <template  v-slot:[`item.status_subtugas`]="{ item }">
+          <v-simple-checkbox v-model="item.status_subtugas" light disabled></v-simple-checkbox>
+        </template>
+        <template v-slot:[`item.lampiran`]="{ value }">
+            <div class="text-truncate" style="max-width: 130px">
+            {{ value }}
+            </div>
         </template>
       </v-data-table>
     </v-col>
@@ -38,7 +43,8 @@
 <script>
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
-
+import SubtugasMonitoringDosen from "../../../../datasource/network/monitoring/subtugas"
+import TugasMonitoringDosen from "../../../../datasource/network/monitoring/tugas"
 export default {
   name: "DosenViewTable",
   components: { Breadcumbs },
@@ -75,107 +81,116 @@ export default {
         {
           text: "Selesai",
           align: "center",
-          value: "Selesai",
+          value: "status_subtugas",
           sortable: false,
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
           text: "Nama",
-          value: "Nama",
+          value: "nama_subtugas",
+          width: "200",
+          class: "white--text text-lg-subtitle-1 font-weight-bold"
+        },
+        {
+          text: "Progress",
+          value: "progress",
+          sortable: true,
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
           text: "Skala Pemahaman",
           align: "center",
-          value: "SkalaPemahaman",
+          value: "skala_pemahaman",
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
           text: "Durasi",
           align: "center",
-          value: "Durasi",
+          value: "durasi",
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
           text: "Catatan",
-          value: "Catatan",
+          value: "catatan",
           align: "center",
           sortable: false,
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
           text: "Lampiran",
-          value: "Lampiran",
+          value: "lampiran",
           align: "center",
-          sortable: false,
+          width: "100",
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         }
       ],
-      items: [
-        {
-          Selesai: true,
-          Nama: "Another Type of Employee",
-          Target: "50",
-          SkalaPemahaman: "8.5",
-          Durasi: "00:30:00",
-          Catatan: "",
-          Lampiran: "Link Spreadsheet"
-        },
-        {
-          Selesai: true,
-          Nama: "Another Type of Employee",
-          Target: "50",
-          SkalaPemahaman: "8",
-          Durasi: "00:30:00",
-          Catatan: "Dalam kasus ini multi-Thread, ketika program di run hasilnya kata Hello JTK 2018 tidak beraturan,ini dikarenakan thread..",
-          Lampiran: "Link Dokumen"
-        },
-        {
-          Selesai: false,
-          Nama: "Planning Shapes",
-          Target: "50",
-          SkalaPemahaman: "5",
-          Durasi: "00:30:00",
-          Catatan: "",
-          Lampiran: "Link Dokumen"
-        },
-        {
-          Selesai: true,
-          Nama: "Polymorphic Sorting",
-          Target: "50",
-          SkalaPemahaman: "4.5",
-          Durasi: "00:30:00",
-          Catatan: "",
-          Lampiran: "Link Dokumen"
-        },
-        {
-          Selesai: true,
-          Nama: "Timming Searching and Sorting Algorithms",
-          Target: "50",
-          SkalaPemahaman: "5",
-          Durasi: "00:30:00",
-          Catatan: "",
-          Lampiran: "Link Dokumen"
-        },
-        {
-          Selesai: false,
-          Nama: "Coloring a Moveaible Circle",
-          Target: "80",
-          SkalaPemahaman: "4.2",
-          Durasi: "00:50:00",
-          Catatan: "",
-          Lampiran: "Link Spreadsheet"
-        },
-        {
-          Selesai: false,
-          Nama: "Speed Control",
-          Target: "100",
-          SkalaPemahaman: "5",
-          Durasi: "01:02:00",
-          Catatan: "Dalam kasus ini multi-Thread, ketika program di run hasilnya kata Hello JTK 2018 tidak beraturan,ini dikarenakan thread..",
-          Lampiran: "Link Spreadsheet"
-        }
-      ]
+      // items: [
+      //   {
+      //     Selesai: true,
+      //     Nama: "Another Type of Employee",
+      //     Target: "50",
+      //     SkalaPemahaman: "8.5",
+      //     Durasi: "00:30:00",
+      //     Catatan: "",
+      //     Lampiran: "Link Spreadsheet"
+      //   },
+      //   {
+      //     Selesai: true,
+      //     Nama: "Another Type of Employee",
+      //     Target: "50",
+      //     SkalaPemahaman: "8",
+      //     Durasi: "00:30:00",
+      //     Catatan: "Dalam kasus ini multi-Thread, ketika program di run hasilnya kata Hello JTK 2018 tidak beraturan,ini dikarenakan thread..",
+      //     Lampiran: "Link Dokumen"
+      //   },
+      //   {
+      //     Selesai: false,
+      //     Nama: "Planning Shapes",
+      //     Target: "50",
+      //     SkalaPemahaman: "5",
+      //     Durasi: "00:30:00",
+      //     Catatan: "",
+      //     Lampiran: "Link Dokumen"
+      //   },
+      //   {
+      //     Selesai: true,
+      //     Nama: "Polymorphic Sorting",
+      //     Target: "50",
+      //     SkalaPemahaman: "4.5",
+      //     Durasi: "00:30:00",
+      //     Catatan: "",
+      //     Lampiran: "Link Dokumen"
+      //   },
+      //   {
+      //     Selesai: true,
+      //     Nama: "Timming Searching and Sorting Algorithms",
+      //     Target: "50",
+      //     SkalaPemahaman: "5",
+      //     Durasi: "00:30:00",
+      //     Catatan: "",
+      //     Lampiran: "Link Dokumen"
+      //   },
+      //   {
+      //     Selesai: false,
+      //     Nama: "Coloring a Moveaible Circle",
+      //     Target: "80",
+      //     SkalaPemahaman: "4.2",
+      //     Durasi: "00:50:00",
+      //     Catatan: "",
+      //     Lampiran: "Link Spreadsheet"
+      //   },
+      //   {
+      //     Selesai: false,
+      //     Nama: "Speed Control",
+      //     Target: "100",
+      //     SkalaPemahaman: "5",
+      //     Durasi: "01:02:00",
+      //     Catatan: "Dalam kasus ini multi-Thread, ketika program di run hasilnya kata Hello JTK 2018 tidak beraturan,ini dikarenakan thread..",
+      //     Lampiran: "Link Spreadsheet"
+      //   }
+      // ],
+      subtugas: [],
+      kriteriaTugas: ""
     }
   },
   computed: {
@@ -183,6 +198,12 @@ export default {
       currentTheme: "theme/getCurrentColor",
       isDark: "theme/getIsDark"
     })
+  },
+  async mounted () {
+    var sub = await SubtugasMonitoringDosen.getSubtugasByMahasiswa(this.$route.params.id_tugas, this.$route.params.id_mhs)
+    var kriteria = await TugasMonitoringDosen.getKriteriaByTugas(this.$route.params.id_tugas)
+    this.subtugas = sub
+    this.kriteriaTugas = kriteria
   }
 }
 </script>
