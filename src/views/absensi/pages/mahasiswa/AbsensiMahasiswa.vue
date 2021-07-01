@@ -25,14 +25,21 @@
           <LogAktivitas :jadwalMhs="jadwalMhs"></LogAktivitas>
       </v-col>
       <v-col>
-          <SakitIzinAlfaItem/>
+          <SakitIzinAlfaItem
+            :sakit="dashboardMhs.jumlahJamSakit"
+            :izin="dashboardMhs.jumlahJamIzin"
+            :alfa="dashboardMhs.jumlahJamAlfa"/>
           <v-layout row>
 
           <v-flex>
-          <PersentaseKehadiran/>
+          <PersentaseKehadiran
+          :kehadiran="dashboardMhs.persentaseKehadiran"
+          :jmlJam="dashboardMhs.jumlahJamHadir"/>
           </v-flex>
           <v-flex>
-          <TotalJamSP/>
+          <TotalJamSP
+          :jmlTidakHadir="dashboardMhs.totalJamTidakMasuk"
+          :sisaMenujuSP="dashboardMhs.jamTersisaUntukSP"/>
           </v-flex>
           </v-layout>
       </v-col>
@@ -70,6 +77,7 @@ import TotalJamSP from "@/views/absensi/component/mahasiswa/TotalJamSP"
 import Uploadbukti from "@/views/absensi/component/mahasiswa/UploadBuktiMhs"
 import Uploadbukti2 from "@/views/absensi/component/mahasiswa/UploadBuktiMhs2"
 import JadwalMahasiswa from "@/datasource/network/absensi/jadwal"
+import Presensi from "@/datasource/network/absensi/PresensiMahasiswa"
 
 const schedule = require("node-schedule")
 
@@ -89,6 +97,7 @@ export default {
     var current = new Date()
     this.currentDay = current.getDay()
     this.getJadwalMhs()
+    this.getDataDashboardMhs()
     schedule.scheduleJob("0 0 0 * * *", function () {
       this.currentDay = current.getDay()
       this.getJadwalMhs()
@@ -118,7 +127,8 @@ export default {
       menu: false,
       jadwalMhs: [],
       isIzinDialogShown: true,
-      currentDay: null
+      currentDay: null,
+      dashboardMhs: null
     }
   },
   computed: {
@@ -144,6 +154,18 @@ export default {
           })
           this.jadwalMhs = response.data.jadwal
           console.log(this.currentDay + " : " + response.data.jadwal)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    getDataDashboardMhs () {
+      Presensi.getDashboard(181524010)
+        .then(response => {
+          console.log("-DASHBOARD MAHASISWA-")
+          console.log(response.data)
+          this.dashboardMhs = response.data
+          this.dashboardMhs.persentaseKehadiran = Math.round(this.dashboardMhs.persentaseKehadiran)
         })
         .catch(e => {
           console.log(e)

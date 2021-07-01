@@ -72,6 +72,9 @@ export default {
   name: "SakitIzinAlfaItem",
 
   props: {
+    dashboardMhs: {
+      type: Object
+    },
     sakit: {
       type: Number,
       required: false,
