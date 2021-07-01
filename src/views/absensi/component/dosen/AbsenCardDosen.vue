@@ -24,6 +24,7 @@
             <div>
               <v-card-actions class="justify-center">
                 <v-btn
+                  :disabled="statusKehadiranMahasiswa(item.id_jadwal)"
                   elevation="2"
                   rounded
                   class="ma-5"
@@ -53,15 +54,26 @@
 
 <script>
 import { mapGetters } from "vuex"
-import PresensiDosen from "@/datasource/api/absensi/PresensiDosen"
+import PresensiDosen from "@/datasource/network/absensi/PresensiDosen"
 
 // const THIRTY_MINUTES = 1000 * 60 * 30
 
 export default {
   name: "AbsenCardDosen",
+  created () {
+    var current = new Date()
+    this.currentDay = current.getDay()
+  },
   props: {
     jadwalDsn: {
       type: Array,
+      default () {
+        return {}
+      }
+    },
+
+    dosen: {
+      type: Object,
       default () {
         return {}
       }
@@ -74,10 +86,20 @@ export default {
   },
   methods: {
     presensiDosen (index, idStudi, idJadwal) {
-      PresensiDosen.presensiDosen(11113, idStudi, idJadwal)
+      PresensiDosen.presensiDosen(199112182019032000, idStudi, idJadwal)
         .then(response => {
           this.jadwalDsn[index].absen = false
           console.log("Dosen telah absen untuk jadwal " + idStudi)
+          console.log(response)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    statusKehadiranMahasiswa (idJadwal) {
+      PresensiDosen.getStatusKehadiran(199112182019032000, idJadwal, this.currentDate)
+        .then(response => {
+          this.dosen = response.result
           console.log(response)
         })
         .catch(e => {
