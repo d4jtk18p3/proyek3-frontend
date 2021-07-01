@@ -6,6 +6,7 @@
       value="3"
     >
       <v-slide-item
+        style="background: white"
         v-for="(item, index) in jadwalMhs"
         :key="index"
         class="d-flex align-self-center"
@@ -15,12 +16,12 @@
             class="text-center justify-center rounded-xl d-flex flex-column active"
             width="255"
             height="300"
-            :style="!item.active? 'background: white' : 'background: #272343'"
+            :style="item.active? 'background: #272343' : 'background: white'"
           >
             <v-card-text
               class="pb-0"
               :style="!item.active? 'color: #272343' : 'color: white'"
-            > #{{item.id_jadwal}}</v-card-text>
+            > #{{item.id_studi}}</v-card-text>
             <h3
               class="pt-0 pb-5 text-center"
               :style="!item.active? 'color: #272343' : 'color: white'"
@@ -52,7 +53,7 @@
               </v-col>
                 <v-progress-linear
                   background-color="#bfbfbf"
-                  :color="item.active? 'success' : 'white'"
+                  :color="item.active? 'success' : 'error'"
                   :value="item.value"
                   height="5"
                   class="mt-0 pt-0 ml-8 mr-8 mb-8 justify-center"
@@ -104,6 +105,7 @@ export default {
     }
   },
   created () {
+    // this.testProgressBar()
     var current = new Date()
     this.currentHour = current.getHours()
     this.currentMinute = current.getMinutes()
@@ -125,7 +127,10 @@ export default {
       currentDate: "",
       currentJadwal: null,
       currentKehadiran: null,
-      interval: 0
+      interval: 0,
+      //  data test
+      jamAwal: "01:00:00",
+      jamAkhir: "01:20:00"
     }
   },
   computed: {
@@ -162,6 +167,7 @@ export default {
         var format = "HH:mm:ss"
         var currentTime = moment(this.currentTime, format)
         var beforeTime = moment(this.jadwalMhs[currentJadwal].waktu_mulai, format)
+        console.log(this.jadwalMhs[currentJadwal].waktu_mulai)
         beforeTime.subtract(30, "minutes")
         var afterTime = moment(this.jadwalMhs[currentJadwal].waktu_selesai, format)
         var d = moment.duration(afterTime.diff(beforeTime, "seconds"))
@@ -172,23 +178,32 @@ export default {
             console.log(currentJadwal)
             this.jadwalMhs[currentJadwal].absen = true
           }
-          this.jadwalMhs[currentJadwal].value = this.jadwalMhs[currentJadwal].value + ((this.interval._milliseconds / 360) * (15 / 100))
+          console.log(this.jadwalMhs[currentJadwal].value)
+          this.jadwalMhs[currentJadwal].value = this.jadwalMhs[currentJadwal].value + ((d._milliseconds / 360) * (15 / 100))
+          console.log(this.jadwalMhs[currentJadwal].value)
           this.jadwalMhs[currentJadwal].active = true
+          console.log("SEKARANG INI WAKTUNYA ABSEN")
         } else {
           if (currentTime.isAfter(afterTime)) {
             this.jadwalMhs[currentJadwal].absen = false
             this.jadwalMhs[currentJadwal].active = false
             console.log(currentJadwal)
             currentJadwal++
+            console.log("SEKARANG INI WAKTUNYA GANTI JADWAL")
           } else {
             this.jadwalMhs[currentJadwal].active = false
             this.jadwalMhs[currentJadwal].absen = false
+            console.log("SEKARANG BUKAN JADWAL MANA MANA")
           }
         }
       }
     },
     cekAktivasiTombol (idJadwal) {
       this.statusKehadiranMahasiswa(idJadwal)
+    },
+    testProgressBar () {
+      this.jadwalMhs[1].waktu_mulai = this.jamAwal
+      this.jadwalMhs[1].waktu_selesai = this.jamAkhir
     }
   }
 }
