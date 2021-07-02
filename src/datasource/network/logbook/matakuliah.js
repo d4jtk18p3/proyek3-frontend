@@ -14,6 +14,17 @@ const getAllMataKuliahProyekyangDiampuDosen = async (nip) => {
   }
 }
 
+const getLastProyek = async (nim) => {
+  try {
+    const urlGetLastProyek = MATAKULIAH_URL + `/searchLastProyek/${nim}`
+    const mataKuliahProyek = await baseHttp.get(urlGetLastProyek, {}, {})
+    return mataKuliahProyek.data.data
+  } catch (err) {
+    return await errorHandler(err)
+  }
+}
+
 export default {
-  getAllMataKuliahProyekyangDiampuDosen
+  getAllMataKuliahProyekyangDiampuDosen,
+  getLastProyek
 }
