@@ -16,6 +16,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "node-schedule": "^2.0.0",
+    "v-calendar": "^2.3.0",
     "vue": "~2.6.12",
     "vue-apexcharts": "^1.6.1",
     "vue-router": "~3.5.1",

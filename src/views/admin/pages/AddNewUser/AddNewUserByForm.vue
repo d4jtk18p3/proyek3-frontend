@@ -37,7 +37,7 @@
             :rules="[
               rulesNomorInduk.noEmpty,
               rulesNomorInduk.number,
-              rulesNomorInduk.chara
+              rulesNomorInduk.chara,
             ]"
             error-count="3"
             required
@@ -81,7 +81,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import Admin from "@/datasource/network/admin/admin"
+import { createOneAccount } from "@/datasource/network/admin/admin"
 import SubmitSuccessDialog from "@/views/admin/component/AddNewUser/SubmitSuccessDialog"
 
 export default {
@@ -99,23 +99,24 @@ export default {
       dialog: false,
       induks: ["NIM", "NIP"],
       rulesRole: {
-        noEmpty: v => v.length > 0 || "Role tidak boleh kosong."
+        noEmpty: (v) => v.length > 0 || "Role tidak boleh kosong."
       },
       rulesJenisNomor: {
-        noEmpty: v => !!v || "Jenis nomor induk tidak boleh kosong."
+        noEmpty: (v) => !!v || "Jenis nomor induk tidak boleh kosong."
       },
       rulesNomorInduk: {
-        noEmpty: v => !!v || "Nomor induk tidak boleh kosong.",
-        number: v => /(^[0-9]*$)/.test(v) || "Nomor induk hanya berisi angka.",
-        chara: v =>
+        noEmpty: (v) => !!v || "Nomor induk tidak boleh kosong.",
+        number: (v) =>
+          /(^[0-9]*$)/.test(v) || "Nomor induk hanya berisi angka.",
+        chara: (v) =>
           (v && v.length >= 9) || "Nomor induk harus diisi minimal 9 karakter"
       },
       rulesNama: {
-        noEmpty: v => !!v || "Nama tidak boleh kosong."
+        noEmpty: (v) => !!v || "Nama tidak boleh kosong."
       },
       rulesEmail: {
-        noEmpty: v => !!v || "E-mail tidak boleh kosong.",
-        isValid: v => /.+@.+/.test(v) || "E-mail harus valid"
+        noEmpty: (v) => !!v || "E-mail tidak boleh kosong.",
+        isValid: (v) => /.+@.+/.test(v) || "E-mail harus valid"
       }
     }
   },
@@ -143,7 +144,7 @@ export default {
         role = "tata_usaha"
       }
       try {
-        const result = await Admin.createOneAccount(
+        const result = await createOneAccount(
           this.nomor,
           this.induk,
           this.nama,

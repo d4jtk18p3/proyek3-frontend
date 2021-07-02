@@ -1,6 +1,10 @@
 module.exports = {
   devServer: {
-    port: 5002
+    port: 14415,
+    allowedHosts: [
+      "akun.localhost",
+      "frontend.localhost"
+    ]
   },
   transpileDependencies: [
     "vuetify"
