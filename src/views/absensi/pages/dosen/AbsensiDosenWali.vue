@@ -19,7 +19,7 @@
 <script>
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
-import DaftarHadir from "@/views/template/component/ketidakhadiran/DaftarHadir"
+import DaftarHadir from "@/views/absensi/component/ketidakhadiran/DaftarHadir"
 
 export default {
   name: "AbsensiDosenMain",

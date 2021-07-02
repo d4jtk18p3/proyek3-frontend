@@ -31,9 +31,9 @@
 <script>
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import { mapGetters } from "vuex"
-import HeaderPerkuliahan from "@/views/template/component/perkuliahan/HeaderPerkuliahan"
-import UploadBAP from "@/views/template/component/perkuliahan/UploadBAP"
-import TabelAbsensi from "@/views/template/component/perkuliahan/TabelAbsensi"
+import HeaderPerkuliahan from "@/views/absensi/component/perkuliahan/HeaderPerkuliahan"
+import UploadBAP from "@/views/absensi/component/perkuliahan/UploadBAP"
+import TabelAbsensi from "@/views/absensi/component/perkuliahan/TabelAbsensi"
 
 export default {
   name: "PerkuliahanDosen",

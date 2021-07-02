@@ -131,7 +131,7 @@ const routes = [
       {
         path: "/absensi/dosen/dosenwali",
         name: "NilaiMahasiswa",
-        component: () => import(/* webpackChunkName: "absensimahasiswa" */ "../views/template/pages/absensi/dosen/AbsensiDosenWali")
+        component: () => import(/* webpackChunkName: "absensimahasiswa" */ "../views/absensi/pages/dosen/AbsensiDosenWali")
       },
       {
         path: "/absensi/mahasiswa/upload",
@@ -154,7 +154,7 @@ const routes = [
         name: "Perkuliahan",
         component: () =>
           import(
-            /* webpackChunkName: "absensimahasiswadosenview" */ "../views/template/pages/absensi/dosen/PerkuliahanDosen"
+            /* webpackChunkName: "absensimahasiswadosenview" */ "../views/absensi/pages/dosen/PerkuliahanDosen"
           )
       }
     ]
