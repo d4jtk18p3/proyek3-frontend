@@ -9,9 +9,9 @@
           :rotate="-90"
           :size="150"
           :width="15"
-          :value="kehadiran"
+          :value= 30
             color="#4CAF50">
-          {{ kehadiran }}% Kehadiran
+          30% Kehadiran
         </v-progress-circular>
       </v-card-actions>
       <v-row>
@@ -27,7 +27,7 @@
           <v-card-text class="mt-1 ml-3 text-left">Hadir</v-card-text>
         </v-col>
         <v-col>
-          <v-card-text class="mt-1 mr-2 text-right">{{ jmlJam }} Jam</v-card-text>
+          <v-card-text class="mt-1 mr-2 text-right">60 Jam</v-card-text>
         </v-col>
       </v-row>
     </v-card>
@@ -39,16 +39,7 @@ import { mapGetters } from "vuex"
 
 export default {
   name: "PersentasiKehadiran",
-  props: {
-    kehadiran: {
-      type: Number,
-      required: false
-    },
-    jmlJam: {
-      type: Number,
-      required: false
-    }
-  },
+
   computed: {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"

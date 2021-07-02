@@ -9,9 +9,9 @@
           :rotate="-90"
           :size="150"
           :width="15"
-          :value= 90
+          :value="persentase"
             color="#FF5252">
-          5 Jam Tersisa
+          {{ sisaMenujuSP }} Jam Tersisa
         </v-progress-circular>
       </v-card-actions>
       <v-row>
@@ -27,7 +27,7 @@
           <v-card-text class="mt-1 ml-3 text-left">Tidak Masuk</v-card-text>
         </v-col>
         <v-col>
-          <v-card-text class="mt-1 mr-2 text-right">30 Jam</v-card-text>
+          <v-card-text class="mt-1 mr-2 text-right">{{ jmlTidakHadir }} Jam</v-card-text>
         </v-col>
       </v-row>
     </v-card>
@@ -39,7 +39,21 @@ import { mapGetters } from "vuex"
 
 export default {
   name: "TotalJamSP",
-
+  props: {
+    jmlTidakHadir: {
+      type: Number,
+      required: false
+    },
+    sisaMenujuSP: {
+      type: Number,
+      required: false
+    }
+  },
+  data () {
+    return {
+      persentase: Math.round((this.jmlTidakHadir / 35) * 100)
+    }
+  },
   computed: {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"

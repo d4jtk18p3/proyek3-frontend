@@ -25,21 +25,14 @@
           <LogAktivitas :jadwalMhs="jadwalMhs"></LogAktivitas>
       </v-col>
       <v-col>
-          <SakitIzinAlfaItem
-            :sakit="dashboardMhs.jumlahJamSakit"
-            :izin="dashboardMhs.jumlahJamIzin"
-            :alfa="dashboardMhs.jumlahJamAlfa"/>
+          <SakitIzinAlfaItem/>
           <v-layout row>
 
           <v-flex>
-          <PersentaseKehadiran
-          :kehadiran="dashboardMhs.persentaseKehadiran"
-          :jmlJam="dashboardMhs.jumlahJamHadir"/>
+          <PersentaseKehadiran/>
           </v-flex>
           <v-flex>
-          <TotalJamSP
-          :jmlTidakHadir="dashboardMhs.totalJamTidakMasuk"
-          :sisaMenujuSP="dashboardMhs.jamTersisaUntukSP"/>
+          <TotalJamSP/>
           </v-flex>
           </v-layout>
       </v-col>
@@ -69,15 +62,14 @@
 <script>
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
-import AbsenCard from "@/views/absensi/component/mahasiswa/AbsenCard"
-import LogAktivitas from "@/views/absensi/component/mahasiswa/LogAktivitas"
-import SakitIzinAlfaItem from "@/views/absensi/component/mahasiswa/SakitIzinAlfaItem"
-import PersentaseKehadiran from "@/views/absensi/component/mahasiswa/PersentaseKehadiran"
-import TotalJamSP from "@/views/absensi/component/mahasiswa/TotalJamSP"
-import Uploadbukti from "@/views/absensi/component/mahasiswa/UploadBuktiMhs"
-import Uploadbukti2 from "@/views/absensi/component/mahasiswa/UploadBuktiMhs2"
-import JadwalMahasiswa from "@/datasource/network/absensi/jadwal"
-import Presensi from "@/datasource/network/absensi/PresensiMahasiswa"
+import AbsenCard from "@/views/template/component/absensi/AbsenCard"
+import LogAktivitas from "@/views/template/component/absensi/LogAktivitas"
+import SakitIzinAlfaItem from "@/views/template/component/absensi/SakitIzinAlfaItem"
+import PersentaseKehadiran from "@/views/template/component/absensi/PersentaseKehadiran"
+import TotalJamSP from "@/views/template/component/absensi/TotalJamSP"
+import Uploadbukti from "@/views/template/component/absensi/UploadBuktiMhs"
+import Uploadbukti2 from "@/views/template/component/absensi/UploadBuktiMhs2"
+import JadwalMahasiswa from "../../../../../datasource/api/absensi/jadwal"
 
 const schedule = require("node-schedule")
 
@@ -97,7 +89,6 @@ export default {
     var current = new Date()
     this.currentDay = current.getDay()
     this.getJadwalMhs()
-    this.getDataDashboardMhs()
     schedule.scheduleJob("0 0 0 * * *", function () {
       this.currentDay = current.getDay()
       this.getJadwalMhs()
@@ -127,8 +118,7 @@ export default {
       menu: false,
       jadwalMhs: [],
       isIzinDialogShown: true,
-      currentDay: null,
-      dashboardMhs: null
+      currentDay: null
     }
   },
   computed: {
@@ -154,18 +144,6 @@ export default {
           })
           this.jadwalMhs = response.data.jadwal
           console.log(this.currentDay + " : " + response.data.jadwal)
-        })
-        .catch(e => {
-          console.log(e)
-        })
-    },
-    getDataDashboardMhs () {
-      Presensi.getDashboard(181524010)
-        .then(response => {
-          console.log("-DASHBOARD MAHASISWA-")
-          console.log(response.data)
-          this.dashboardMhs = response.data
-          this.dashboardMhs.persentaseKehadiran = Math.round(this.dashboardMhs.persentaseKehadiran)
         })
         .catch(e => {
           console.log(e)

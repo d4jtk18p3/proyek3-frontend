@@ -1,5 +1,5 @@
 import axios from "axios"
-import { PRESENSI_MHS_URL } from "./const"
+import { PRESENSI_MHS_URL } from "../const"
 
 const presensiMahasiswa = async (idStudi, idJadwal, nim) => {
   try {

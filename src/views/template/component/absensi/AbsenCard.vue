@@ -6,7 +6,6 @@
       value="3"
     >
       <v-slide-item
-        style="background: white"
         v-for="(item, index) in jadwalMhs"
         :key="index"
         class="d-flex align-self-center"
@@ -16,7 +15,7 @@
             class="text-center justify-center rounded-xl d-flex flex-column active"
             width="255"
             height="300"
-            :style="item.active? 'background: #272343' : 'background: white'"
+            :style="!item.active? 'background: white' : 'background: #272343'"
           >
             <v-card-text
               class="pb-0"
@@ -53,7 +52,7 @@
               </v-col>
                 <v-progress-linear
                   background-color="#bfbfbf"
-                  :color="item.active? 'success' : 'error'"
+                  color="success"
                   :value="item.value"
                   height="5"
                   class="mt-0 pt-0 ml-8 mr-8 mb-8 justify-center"
@@ -88,7 +87,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import PresensiMahasiswa from "@/datasource/network/absensi/PresensiMahasiswa"
+import PresensiMahasiswa from "../../../../datasource/api/absensi/PresensiMahasiswa"
 
 const INTERVAL = 1000 * 15
 const moment = require("moment")
@@ -105,12 +104,10 @@ export default {
     }
   },
   created () {
-    // this.testProgressBar()
     var current = new Date()
     this.currentHour = current.getHours()
     this.currentMinute = current.getMinutes()
     this.currentDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + current.getDate()
-    this.presensiSchedule()
     setInterval(() => {
       current = new Date()
       this.currentHour = current.getHours()
@@ -127,10 +124,7 @@ export default {
       currentDate: "",
       currentJadwal: null,
       currentKehadiran: null,
-      interval: 0,
-      //  data test
-      jamAwal: "01:00:00",
-      jamAkhir: "01:20:00"
+      interval: 0
     }
   },
   computed: {
@@ -140,11 +134,10 @@ export default {
   },
   methods: {
     presensiMahasiswa (index, idStudi, idJadwal) {
-      console.log(idJadwal)
       PresensiMahasiswa.presensiMahasiswa(idStudi, idJadwal, 181524010)
         .then(response => {
           this.jadwalMhs[index].absen = false
-          this.statusKehadiranMahasiswa()
+          this.statusKehadiranMahasiswa(idJadwal)
           console.log("Mahasiswa telah absen untuk jadwal " + idStudi + "Pada tanggal " + this.currentDate)
           console.log(response)
         })
@@ -164,46 +157,42 @@ export default {
     },
     presensiSchedule () {
       if (currentJadwal < this.jadwalMhs.length) {
+        console.log(this.jadwalMhs[currentJadwal].id_jadwal)
         var format = "HH:mm:ss"
         var currentTime = moment(this.currentTime, format)
         var beforeTime = moment(this.jadwalMhs[currentJadwal].waktu_mulai, format)
-        console.log(this.jadwalMhs[currentJadwal].waktu_mulai)
         beforeTime.subtract(30, "minutes")
         var afterTime = moment(this.jadwalMhs[currentJadwal].waktu_selesai, format)
         var d = moment.duration(afterTime.diff(beforeTime, "seconds"))
-        this.jadwalMhs[currentJadwal].value = d._milliseconds
+        this.jadwalMhs[currentJadwal].value = parseInt(d._milliseconds)
+        console.log(beforeTime)
+        console.log(this.jadwalMhs[currentJadwal].value)
         this.cekAktivasiTombol(this.jadwalMhs[currentJadwal].id_jadwal)
         if (currentTime.isBetween(beforeTime, afterTime)) {
           if (this.currentKehadiran.isHadir === false && this.currentKehadiran.id_keterangan === null) {
             console.log(currentJadwal)
             this.jadwalMhs[currentJadwal].absen = true
           }
-          console.log(this.jadwalMhs[currentJadwal].value)
           this.jadwalMhs[currentJadwal].value = this.jadwalMhs[currentJadwal].value + ((d._milliseconds / 360) * (15 / 100))
           console.log(this.jadwalMhs[currentJadwal].value)
           this.jadwalMhs[currentJadwal].active = true
-          console.log("SEKARANG INI WAKTUNYA ABSEN")
+          console.log("abseeeeennnn")
         } else {
           if (currentTime.isAfter(afterTime)) {
+            console.log("kelar")
             this.jadwalMhs[currentJadwal].absen = false
             this.jadwalMhs[currentJadwal].active = false
             console.log(currentJadwal)
             currentJadwal++
-            console.log("SEKARANG INI WAKTUNYA GANTI JADWAL")
           } else {
-            this.jadwalMhs[currentJadwal].active = false
+            console.log("belum waktunya absen")
             this.jadwalMhs[currentJadwal].absen = false
-            console.log("SEKARANG BUKAN JADWAL MANA MANA")
           }
         }
       }
     },
     cekAktivasiTombol (idJadwal) {
       this.statusKehadiranMahasiswa(idJadwal)
-    },
-    testProgressBar () {
-      this.jadwalMhs[1].waktu_mulai = this.jamAwal
-      this.jadwalMhs[1].waktu_selesai = this.jamAkhir
     }
   }
 }
