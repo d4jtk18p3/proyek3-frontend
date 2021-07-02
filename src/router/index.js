@@ -129,6 +129,11 @@ const routes = [
           )
       },
       {
+        path: "/absensi/dosen/dosenwali",
+        name: "NilaiMahasiswa",
+        component: () => import(/* webpackChunkName: "absensimahasiswa" */ "../views/template/pages/absensi/dosen/AbsensiDosenWali")
+      },
+      {
         path: "/absensi/mahasiswa/upload",
         name: "UploadBukti",
         component: () =>
