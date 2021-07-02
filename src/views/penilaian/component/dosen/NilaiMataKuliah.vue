@@ -2,7 +2,7 @@
   <v-card
     link
     class="rounded-card mr-3 mb-3"
-    @click="routeNilaiMatkul(idPerkuliahan)"
+    @click="onMatkulClicked(idPerkuliahan)"
   >
     <v-row class="pa-3 ma-0" :style="{background :'#2196F3' }">
       <v-col cols="12" align-self="center" class="pa-0 ma-0">

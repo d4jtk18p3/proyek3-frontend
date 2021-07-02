@@ -30,7 +30,7 @@
           no-gutters v-for="(item, index) in listMatkul" :key="item.Matkul"
           sm="4"
         >
-          <NilaiMataKuliah :mataKuliah="item.nama_mata_kuliah" :semester="item.semester" :idMatkul="item.id" :idPerkuliahan="id_perkuliahan[index]" :onMatkulClicked="routeNilaiMatkul"/>
+          <NilaiMataKuliah :mataKuliah="item.nama_mata_kuliah" :semester="item.semester" :idMatkul="item.id" :idPerkuliahan="id_perkuliahan[index]" :onMatkulClicked="routeDashboardNilai"/>
         </v-col>
       </v-row>
     </v-col>
@@ -56,13 +56,8 @@ export default {
           href: ""
         },
         {
-          text: "Link 1",
+          text: "Dashboard Nilai Dosen Pengampu",
           disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 2",
-          disabled: true,
           href: ""
         }
       ],
@@ -98,8 +93,9 @@ export default {
           this.listMatkul = res.data.data.listMatkul
         })
     },
-    routeNilaiMatkul (id) {
-      this.$router.push("input-nilai-matkul/" + id)
+    routeDashboardNilai (id) {
+      // this.$router.push({ URL: "dashboard-nilai-dosen-pengampu/" + this.id_perkuliahan, params: { id: this.id_perkuliahan } })
+      this.$router.push("dashboard-nilai-dosen-pengampu/" + id)
     }
   },
   mounted () {

@@ -25,7 +25,8 @@
       </v-card>
     </v-col>
     <v-col cols="8">
-      <nilai-rata-rata-card :nilai-list="nilaiList"/>
+      <nilai-rata-rata-card/>
+      <!-- <nilai-rata-rata-card :nilai-list="nilaiList"/> -->
     </v-col>
     <v-col cols="6">
       <v-card>
@@ -70,23 +71,24 @@
         </tr>
       </thead>
        <tbody>
-                <tr
-                v-for="nilai in Mahasiswa.Nilai"
-                :key="nilai.nim"
-                >
-                <td>{{ nilai.nim }}</td>
-                <td>{{ nilai.nama }}</td>
-                <td>{{ nilai.ets }}</td>
-                <td>{{ nilai.eas }}</td>
-                <td>{{ nilai.nilaiAkhir }}</td>
-                </tr>
-            </tbody>
+            <tr
+            v-for="nilai in Mahasiswa.Nilai"
+            :key="nilai.nim"
+            >
+            <td>{{ nilai.nim }}</td>
+            <td>{{ nilai.nama }}</td>
+            <td>{{ nilai.ets }}</td>
+            <td>{{ nilai.eas }}</td>
+            <td>{{ nilai.nilaiAkhir }}</td>
+            </tr>
+        </tbody>
     </v-simple-table>
     </v-col>
   </v-row>
 </template>
 
 <script>
+// import http from "axios"
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import NilaiRataRataCard from "@/views/template/component/nilai/NilaiRataRataCard"
@@ -115,14 +117,14 @@ export default {
       Mahasiswa: {
         Nilai: [
           {
-            nim: "181524002",
+            nim: "181524001",
             nama: "Andri",
             ets: 87.5,
             eas: 82.5,
             nilaiAkhir: 3.2
           },
           {
-            nim: "181524003",
+            nim: "181524002",
             nama: "Bandri",
             ets: 87.5,
             eas: 82.5,
@@ -155,6 +157,13 @@ export default {
     }
   },
   mounted () {
+    // this.nip = "196610181995121000"
+    // http.get("http://localhost:5001/dosen/kelas/" + this.nip)
+    //   .then((res) => {
+    //     console.log(res.data.data.uniqueClass)
+    //     this.listKelas = res.data.data.uniqueClass
+    //   })
+    // console.log(this.$route.matkul)
   },
   methods: {
   }

@@ -270,6 +270,7 @@ th:hover {
 
 <script>
 import _ from "lodash"
+import http from "axios"
 import XLSX from "xlsx"
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
@@ -321,8 +322,8 @@ export default {
         ]
       }
       */
-      headerETS: { idKategori: null, parent: null, nama_kategori: "ETS", bobot_nilai: 0 },
-      headerEAS: { idKategori: null, parent: null, nama_kategori: "ETS", bobot_nilai: 0 },
+      headerETS: { kode_kategori: "", parent: null, nama_kategori: "ETS", bobot_nilai: 0 },
+      headerEAS: { kode_kategori: "", parent: null, nama_kategori: "ETS", bobot_nilai: 0 },
       dialog: false,
       dialogKategori: false,
       saveButton: true,
@@ -597,22 +598,25 @@ export default {
 
       // Input Kategori
       var kategoriNilai = []
-      var getLastIdKategori = 1 // get last idKategori
-      getLastIdKategori++
-      this.headerETS.idKategori = getLastIdKategori
-      getLastIdKategori++ // increment last idKategori
+      // var getLastIdKategori = 1 // get last idKategori
+      // getLastIdKategori++
+      this.headerETS.kode_kategori = dataNilaiMahasiswa.id_perkuliahan + "-ETS"
+      this.headerETS.parent = ""
+      this.headerETS.id_perkuliahan = dataNilaiMahasiswa.id_perkuliahan
+      // getLastIdKategori++ // increment last idKategori
 
       kategoriNilai.push(this.headerETS)
       var kategori = {}
       for (var i = 1; i < this.headerParentNilaiETS.length; i++) {
         kategori = {
-          idKategori: getLastIdKategori,
-          parent: this.headerETS.idKategori,
+          kode_kategori: dataNilaiMahasiswa.id_perkuliahan + "-" + this.headerParentNilaiETS[i].label,
+          parent: this.headerETS.kode_kategori,
           nama_kategori: this.headerParentNilaiETS[i].label,
-          bobot_nilai: parseFloat(this.headerParentNilaiETS[i].bobot)
+          bobot_nilai: parseFloat(this.headerParentNilaiETS[i].bobot),
+          id_perkuliahan: dataNilaiMahasiswa.id_perkuliahan
         }
         kategoriNilai.push(kategori)
-        getLastIdKategori++
+        // getLastIdKategori++
       }
 
       var listParent = kategoriNilai
@@ -622,13 +626,14 @@ export default {
       for (var j = 1; j < listParent.length; j++) {
         for (var k = 0; k < this.headerParentNilaiETS[j].colspan; k++) {
           kategori = {
-            idKategori: getLastIdKategori,
-            parent: listParent[j].idKategori,
+            kode_kategori: dataNilaiMahasiswa.id_perkuliahan + "-" + listParent[j].nama_kategori + "-" + this.headerChildNilaiETS[k + iter].label, // getLastIdKategori,
+            parent: listParent[j].kode_kategori,
             nama_kategori: this.headerChildNilaiETS[k + iter].label,
-            bobot_nilai: parseFloat(this.headerChildNilaiETS[k + iter].bobot)
+            bobot_nilai: parseFloat(this.headerChildNilaiETS[k + iter].bobot),
+            id_perkuliahan: dataNilaiMahasiswa.id_perkuliahan
           }
           kategoriNilaiChild.push(kategori)
-          getLastIdKategori++
+          // getLastIdKategori++
         }
         iter += this.headerParentNilaiETS[j].colspan
       }
@@ -642,9 +647,9 @@ export default {
       for (j = 0; j < this.dataNilaiMahasiswaETS.length; j++) {
         for (i = 0; i < kategoriNilaiChild.length; i++) {
           nilai = {
-            id_kategori: kategoriNilaiChild[i].idKategori,
+            kode_kategori: kategoriNilaiChild[i].kode_kategori,
             nilai: parseFloat(this.dataNilaiMahasiswaETS[j]["Nilai" + (i + 1)]),
-            nim: this.dataNilaiMahasiswaETS[j].NIM
+            nim: this.dataNilaiMahasiswaETS[j].NIM.toString()
           }
           dataNilai.push(nilai)
         }
@@ -652,17 +657,15 @@ export default {
       dataNilaiMahasiswa.dataNilai = dataNilai
       console.log(dataNilaiMahasiswa) // submit nilai mhs
 
-      /*
       http
-      .post("http://localhost:5001/dosen/import-nilai/perkuliahan/" + this.$route.params.id, dataNilaiMahasiswa)
-      .then((res) => {
-        console.log(res.data)
-      })
-      */
+        .post("http://localhost:5001/nilai/import-nilai/perkuliahan/" + this.$route.params.id, dataNilaiMahasiswa)
+        .then((res) => {
+          console.log(res.data)
+        })
 
       if (finalize) {
         for (i = 0; i < dataNilaiMahasiswa.dataNilai.length; i++) {
-          var index = dataNilaiMahasiswa.dataKategori.findIndex(obj => obj.idKategori === dataNilaiMahasiswa.dataNilai[i].id_kategori)
+          var index = dataNilaiMahasiswa.dataKategori.findIndex(obj => obj.kode_kategori === dataNilaiMahasiswa.dataNilai[i].kode_kategori)
           dataNilaiMahasiswa.dataNilai[i].parent = dataNilaiMahasiswa.dataKategori[index].parent
           dataNilaiMahasiswa.dataNilai[i].nilai = dataNilaiMahasiswa.dataKategori[index].bobot_nilai / 100 * dataNilaiMahasiswa.dataNilai[i].nilai
         }
@@ -704,14 +707,14 @@ export default {
             if (listMhs[i][j].parent === nilaiMhs[iNilai - 1].parent) {
               nilaiMhs[iNilai - 1].totalNilai += listMhs[i][j].nilai
             } else {
-              nilaiMhs[iNilai - 1].bobot = dataNilaiMahasiswa.dataKategori[dataNilaiMahasiswa.dataKategori.findIndex(obj => obj.idKategori === nilaiMhs[iNilai - 1].parent)].bobot_nilai
+              nilaiMhs[iNilai - 1].bobot = dataNilaiMahasiswa.dataKategori[dataNilaiMahasiswa.dataKategori.findIndex(obj => obj.kode_kategori === nilaiMhs[iNilai - 1].parent)].bobot_nilai
               nilaiMhs[iNilai - 1].totalNilai = nilaiMhs[iNilai - 1].totalNilai * nilaiMhs[iNilai - 1].bobot / 100
 
               nilaiMhs.push({ totalNilai: listMhs[i][j].nilai, nim: listMhs[i][j].nim, parent: listMhs[i][j].parent })
               iNilai++
             }
           }
-          nilaiMhs[iNilai - 1].bobot = dataNilaiMahasiswa.dataKategori[dataNilaiMahasiswa.dataKategori.findIndex(obj => obj.idKategori === nilaiMhs[iNilai - 1].parent)].bobot_nilai
+          nilaiMhs[iNilai - 1].bobot = dataNilaiMahasiswa.dataKategori[dataNilaiMahasiswa.dataKategori.findIndex(obj => obj.kode_kategori === nilaiMhs[iNilai - 1].parent)].bobot_nilai
           nilaiMhs[iNilai - 1].totalNilai = nilaiMhs[iNilai - 1].totalNilai * nilaiMhs[iNilai - 1].bobot / 100
           listNilaiMhs.push(nilaiMhs)
           nilaiMhs = []
