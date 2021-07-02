@@ -24,13 +24,20 @@
             <div>
               <v-card-actions class="justify-center">
                 <v-btn
-                  :disabled="statusKehadiranMahasiswa(item.id_jadwal)"
+                  v-if="item.absen"
                   elevation="2"
                   rounded
                   class="ma-5"
                   color="#4CAF50"
                   width="120"
-                  @click="presensiDosen(index, item.id_studi, item.id_jadwal)"
+                > Hadir</v-btn>
+                <v-btn
+                  v-else
+                  elevation="2"
+                  rounded
+                  class="mt-5 pb-0"
+                  disabled
+                  width="120"
                 > Hadir</v-btn>
               </v-card-actions>
             </div>
@@ -54,26 +61,14 @@
 
 <script>
 import { mapGetters } from "vuex"
-import PresensiDosen from "@/datasource/network/absensi/PresensiDosen"
 
 // const THIRTY_MINUTES = 1000 * 60 * 30
 
 export default {
   name: "AbsenCardDosen",
-  created () {
-    var current = new Date()
-    this.currentDay = current.getDay()
-  },
   props: {
     jadwalDsn: {
       type: Array,
-      default () {
-        return {}
-      }
-    },
-
-    dosen: {
-      type: Object,
       default () {
         return {}
       }
@@ -83,29 +78,6 @@ export default {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
     })
-  },
-  methods: {
-    presensiDosen (index, idStudi, idJadwal) {
-      PresensiDosen.presensiDosen(199112182019032000, idStudi, idJadwal)
-        .then(response => {
-          this.jadwalDsn[index].absen = false
-          console.log("Dosen telah absen untuk jadwal " + idStudi)
-          console.log(response)
-        })
-        .catch(e => {
-          console.log(e)
-        })
-    },
-    statusKehadiranMahasiswa (idJadwal) {
-      PresensiDosen.getStatusKehadiran(199112182019032000, idJadwal, this.currentDate)
-        .then(response => {
-          this.dosen = response.result
-          console.log(response)
-        })
-        .catch(e => {
-          console.log(e)
-        })
-    }
   }
 }
 </script>

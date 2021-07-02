@@ -143,6 +143,14 @@ const routes = [
           import(
             /* webpackChunkName: "absensidosen" */ "../views/absensi/pages/dosen/AbsensiDosen"
           )
+      },
+      {
+        path: "/absensi/dosen/perkuliahan",
+        name: "Perkuliahan",
+        component: () =>
+          import(
+            /* webpackChunkName: "absensimahasiswadosenview" */ "../views/template/pages/absensi/dosen/PerkuliahanDosen"
+          )
       }
     ]
   },

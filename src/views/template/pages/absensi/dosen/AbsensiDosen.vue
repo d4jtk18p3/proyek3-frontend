@@ -25,7 +25,7 @@
           <LogAktivitas :jadwalDsn="jadwalDsn"></LogAktivitas>
       </v-col>
       <v-col cols="5">
-        <PersentaseMengajar :persentaseMengajar="persentaseMengajar"></PersentaseMengajar>
+        <PersentaseMengajar></PersentaseMengajar>
       </v-col>
     </v-row>
     <v-row>
@@ -42,11 +42,10 @@
 <script>
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
-import AbsenCardDosen from "@/views/absensi/component/dosen/AbsenCardDosen"
-import LogAktivitas from "@/views/absensi/component/dosen/LogAktivitasDosen"
-import PersentaseMengajar from "@/views/absensi/component/dosen/PersentaseMengajar"
-import JadwalDosen from "@/datasource/network/absensi/jadwalDosen"
-import DashboardDosen from "@/datasource/network/absensi/dashboardDosen"
+import AbsenCardDosen from "@/views/template/component/absensi/AbsenCardDosen"
+import LogAktivitas from "@/views/template/component/absensi/LogAktivitas"
+import PersentaseMengajar from "@/views/template/component/absensi/PersentaseMengajar"
+import JadwalDosen from "../../../../../datasource/api/absensi/jadwalDosen"
 
 const schedule = require("node-schedule")
 
@@ -62,7 +61,6 @@ export default {
     var current = new Date()
     this.currentDay = current.getDay()
     this.getJadwalDsn()
-    this.getPersentaseMengajar()
     schedule.scheduleJob("0 0 0 * * *", function () {
       this.currentDay = current.getDay()
       this.getJadwalDsn()
@@ -91,7 +89,6 @@ export default {
       date: new Date().toISOString().substr(0, 10),
       menu: false,
       jadwalDsn: [],
-      persentaseMengajar: [],
       currentDay: null
     }
   },
@@ -106,26 +103,13 @@ export default {
   },
   methods: {
     getJadwalDsn () {
-      JadwalDosen.getJadwalDosen(this.currentDay, 199112182019032000)
+      JadwalDosen.getJadwalDosen(this.currentDay, 11113)
         .then(response => {
           // response.data.jadwal.forEach(function (element) {
           //   element.absen = "false"
           // })
           this.jadwalDsn = response.result
           console.log(response.result)
-        })
-        .catch(e => {
-          console.log(e)
-        })
-    },
-    getPersentaseMengajar () {
-      DashboardDosen.persentaseMengajar(199112182019032000)
-        .then(response => {
-          // response.data.jadwal.forEach(function (element) {
-          //   element.absen = "false"
-          // })
-          this.persentaseMengajar = response.data
-          console.log(response)
         })
         .catch(e => {
           console.log(e)

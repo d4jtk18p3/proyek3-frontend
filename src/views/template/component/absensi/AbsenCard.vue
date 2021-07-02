@@ -24,7 +24,7 @@
             <h3
               class="pt-0 pb-5 text-center"
               :style="!item.active? 'color: #272343' : 'color: white'"
-            > {{item.nama_mata_kuliah}}
+            > {{item.mata_kuliah.nama_mata_kuliah}}
               <br/>
               {{item.jenis}}
             </h3>
