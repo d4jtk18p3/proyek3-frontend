@@ -241,8 +241,9 @@ export default {
       if (this.url_gambar) data.append("surat-izin", this.url_gambar)
       data.append("status", "izin")
       data.append("idJadwals", this.idPerkuliahan)
+      console.log("INI ADALAH ID" + this.url_gambar)
       data.append("nim", 181524010)
-      data.append("tglIzin", "2021-06-04")
+      data.append("tglIzin", this.dates)
       Keterangan.uploadKeterangan(data)
         .then(response => {
           console.log(response)
@@ -287,7 +288,6 @@ export default {
       return true
     },
     getJadwalMhs () {
-      console.log("HEELLOOOOOOOOOOOOOOOOOOO")
       JadwalMahasiswa.getJadwalMahasiswa(this.chooseDay, 181524010)
         .then(response => {
           response.data.jadwal.forEach(function (element) {
