@@ -1,14 +1,12 @@
 <template>
-  <v-container>
+<div>
     <v-row :style="{color: currentTheme.onBackground}">
       <v-col cols="12">
-        <p class="text-h4 font-weight-bold">Monitoring APPL 1 - W1 Polymorphism</p>
-      </v-col>
-      <v-col cols="12">
+        <p class="text-h4 font-weight-bold">Monitoring Teman {{this.namaMatkul}} - {{this.namaTugas}}</p>
         <breadcumbs :breadcrumb-items="breadcrumbItems"/>
       </v-col>
       <v-col  class="ml-auto pl-13 py-4" cols="0" xs="6" sm="6" md="3" lg="4" xl="3">
-        <v-select
+      <v-select
         v-model="selectedItem"
         :dark="isDark"
         :items="listMahasiswa"
@@ -37,9 +35,9 @@
           >No Data Available
           </p>
         </template>
-        <template v-slot:[`item.selesai`]="{ item }">
+        <template v-slot:[`item.status_subtugas`]="{ item }">
           <v-simple-checkbox
-            v-model="item.selesai"
+            v-model="item.status_subtugas"
             light
             disabled
             :color="currentTheme.colorPrimary"
@@ -48,19 +46,21 @@
       </v-data-table>
       </v-col>
     </v-row>
-  </v-container>
+</div>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
+import SubTugasMonitoringBersama from "../../../../../datasource/network/monitoring/monitoringbersama"
 
 export default {
   name: "MonitoringBersama",
   components: { Breadcumbs },
   computed: {
     ...mapGetters({
-      currentTheme: "theme/getCurrentColor"
+      currentTheme: "theme/getCurrentColor",
+      isDark: "theme/getIsDark"
     }),
     listMahasiswa () {
       return this.data.map((data, index) => {
@@ -80,23 +80,26 @@ export default {
   data () {
     return {
       selectedItem: -1,
+      namaMatkul: "",
+      namaTugas: "",
+      id: 0,
       singleSelect: false,
       selected: [],
       dialog: false,
       dialogSelesai: false,
       breadcrumbItems: [
         {
-          text: "Monitoring",
+          text: "Dasboard",
           disabled: false,
-          href: ""
+          href: "/monitoring/mahasiswa/dashboard"
         },
         {
-          text: "Link 1",
+          text: "MATA KULIAH " + this.$route.params.namaMatkul,
           disabled: false,
-          href: ""
+          href: "/monitoring/mahasiswa/matakuliah"
         },
         {
-          text: "Link 2",
+          text: "TUGAS " + this.$route.params.namaTugas,
           disabled: true,
           href: ""
         }
@@ -105,13 +108,13 @@ export default {
         {
           text: "Selesai",
           align: "center",
-          value: "selesai",
+          value: "status_subtugas",
           sortable: false,
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
           text: "Sub-task",
-          value: "subTask",
+          value: "nama_subtugas",
           sortable: false,
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
@@ -126,7 +129,7 @@ export default {
           text: "Skala",
           align: "center",
           sortable: false,
-          value: "skala",
+          value: "skala_pemahaman",
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
@@ -152,142 +155,6 @@ export default {
         }
       ],
       data: [
-        {
-          Mahasiswa: "181524002-Alvira Putrina D",
-          items: [
-            {
-              selesai: false,
-              subTask: "Another Type of Employee",
-              progress: "50",
-              skala: "",
-              durasi: "00:00:00",
-              catatan: "",
-              lampiran: ""
-            },
-            {
-              selesai: true,
-              subTask: "Painting Shapes",
-              progress: "100",
-              skala: "5",
-              durasi: "00:11:32",
-              catatan: "Dalam kasus ini multi-Thread, ketika program di run hasil nya kata Hello JTK 2018 tidak beraturan, ini dikarenakan thred . . . ",
-              lampiran: "Link Doc"
-            },
-            {
-              selesai: false,
-              subTask: "Polymorphic Sorting",
-              progress: "",
-              skala: "",
-              durasi: "00:00:00",
-              catatan: "",
-              lampiran: ""
-            },
-            {
-              selesai: false,
-              subTask: "Searching and Sorting an Integer List",
-              progress: "",
-              skala: "",
-              durasi: "00:00:00",
-              catatan: "",
-              lampiran: ""
-            },
-            {
-              selesai: false,
-              subTask: "Timing Searching and Sorting Algorithms",
-              progress: "",
-              skala: "",
-              durasi: "00:00:00",
-              catatan: "",
-              lampiran: ""
-            },
-            {
-              selesai: true,
-              subTask: "Coloring a moveable Cricle",
-              progress: "",
-              skala: "",
-              durasi: "00:00:00",
-              catatan: "",
-              lampiran: ""
-            },
-            {
-              selesai: false,
-              subTask: "Speed Control",
-              progress: "",
-              skala: "",
-              durasi: "00:00:00",
-              catatan: "",
-              lampiran: ""
-            }
-          ]
-        },
-        {
-          Mahasiswa: "18152403-Ananda Bayu A",
-          items: [
-            {
-              selesai: true,
-              subTask: "Another Type of Employee",
-              progress: "50",
-              skala: "4.5",
-              durasi: "01:00:00",
-              catatan: "",
-              lampiran: "Link Doc"
-            },
-            {
-              selesai: true,
-              subTask: "Painting Shapes",
-              progress: "100",
-              skala: "5",
-              durasi: "00:30:32",
-              catatan: "Dalam kasus ini multi-Thread, ketika program di run hasil nya kata Hello JTK 2018 tidak beraturan, ini dikarenakan thred . . . ",
-              lampiran: "Link Doc"
-            },
-            {
-              selesai: true,
-              subTask: "Polymorphic Sorting",
-              progress: "4.5",
-              skala: "4",
-              durasi: "00:40:50",
-              catatan: "",
-              lampiran: ""
-            },
-            {
-              selesai: false,
-              subTask: "Searching and Sorting an Integer List",
-              progress: "",
-              skala: "",
-              durasi: "00:00:00",
-              catatan: "",
-              lampiran: ""
-            },
-            {
-              selesai: false,
-              subTask: "Timing Searching and Sorting Algorithms",
-              progress: "",
-              skala: "",
-              durasi: "00:00:00",
-              catatan: "",
-              lampiran: ""
-            },
-            {
-              selesai: false,
-              subTask: "Coloring a moveable Cricle",
-              progress: "",
-              skala: "",
-              durasi: "00:00:00",
-              catatan: "",
-              lampiran: ""
-            },
-            {
-              selesai: false,
-              subTask: "Speed Control",
-              progress: "",
-              skala: "",
-              durasi: "00:00:00",
-              catatan: "",
-              lampiran: ""
-            }
-          ]
-        }
       ],
       isLoading: false,
       rulesFile: {
@@ -301,6 +168,12 @@ export default {
     selesaiItem () {
       this.dialogSelesai = true
     }
+  },
+  async mounted () {
+    this.namaMatkul = this.$route.params.namaMatkul
+    this.namaTugas = this.$route.params.namaTugas
+    this.id = this.$route.params.id
+    this.data = await SubTugasMonitoringBersama.getAllTugasMahasiswaByidtugas(this.$route.params.id)
   }
 }
 </script>

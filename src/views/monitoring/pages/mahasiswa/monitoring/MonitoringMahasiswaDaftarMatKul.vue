@@ -9,8 +9,8 @@
         class="text-left font-weight-bold text-h5"
         :style="{color: currentTheme.onBackground}"
         >Mata Kuliah</p>
-        <v-card link class="mb-3" v-for="item in listMatkul" :key="item" @click="getIdMatkul(item)">
-          <MatkulItem :mataKuliah="item.idMatkul"></MatkulItem>
+        <v-card link class="mb-3" v-for="item in listMatkul" :key="item.id" @click="getIdMatkul(item.nama, item.id)">
+          <MatkulItem :mataKuliah="item.nama"></MatkulItem>
         </v-card>
     </v-col>
     <v-divider v-if="!isMobile" vertical class="mx-5"></v-divider>
@@ -21,10 +21,10 @@
       >Tugas</p>
       <v-row>
         <v-col
-          no-gutters v-for="item in listTugas" :key="item"
+          no-gutters v-for="item in listTugas" :key="item.id"
           :cols="isMobile? 12 : 6"
         >
-            <TugasItem :tugas="item"></TugasItem>
+          <TugasItem :id="item.id" :tugas="item.nama" :Perkuliahan="idPerkuliahan" :Matkul=nama></TugasItem>
         </v-col>
       </v-row>
     </v-col>
@@ -37,6 +37,7 @@ import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import MatkulItem from "@/views/monitoring/component/mahasiswa/monitoring/MatkulItem"
 import TugasItem from "@/views/monitoring/component/mahasiswa/monitoring/TugasItem"
 import TugasMonitoringMahasiswa from "../../../../../datasource/network/monitoring/tugas"
+import DashboardMonitoringMahasiswa from "../../../../../datasource/network/monitoring/matakuliah"
 export default {
   name: "AbsensiDosenMain",
   components: { MatkulItem, Breadcumbs, TugasItem },
@@ -44,28 +45,22 @@ export default {
     return {
       breadcrumbItems: [
         {
-          text: "Monitoring",
-          disabled: true,
-          href: ""
+          text: "Dasboard",
+          disabled: false,
+          href: "/monitoring/mahasiswa/dashboard"
         },
         {
           text: "Mata Kuliah",
-          disabled: false,
+          disabled: true,
           href: ""
         }
       ],
       listMatkul: [
-        {
-          idMatkul: "16TIN4014",
-          idPerkuliahan: "5"
-        },
-        {
-          idMatkul: "16TIN4024",
-          idPerkuliahan: "6"
-        }
       ],
       listTugas: [
-      ]
+      ],
+      idPerkuliahan: 0,
+      nama: ""
     }
   },
   computed: {
@@ -77,19 +72,35 @@ export default {
     }
   },
   methods: {
-    async getIdMatkul (item) {
-      var idPerkuliahan = item.idPerkuliahan
-      var idMatkul = item.idMatkul
-      this.listTugas = await TugasMonitoringMahasiswa.getTugasMatkul(idMatkul, idPerkuliahan)
-      console.log(this.listTugas)
+    async getIdMatkul (nama, id) {
+      this.nama = nama
+      var Tugas = await TugasMonitoringMahasiswa.getTugasMatkul(id, 5)
+      var i = 0
+      var tugasList = []
+      this.idPerkuliahan = Tugas.perkuliahan[0].id
+      while (i < Tugas.listTugas.length) {
+        tugasList.push({
+          id: Tugas.listidTugas[i],
+          nama: Tugas.listTugas[i]
+        })
+        i++
+      }
+      this.listTugas = tugasList
+      console.log(tugasList)
     }
   },
-  beforeMount () {
-    this.getIdMatkul()
+  async mounted () {
+    var Matkul = await DashboardMonitoringMahasiswa.getMatkulMahasiswa("181524002")
+    var i = 0
+    var matkulList = []
+    while (i < Matkul.length) {
+      matkulList.push({
+        id: Matkul[i].id,
+        nama: Matkul[i].nama_mata_kuliah
+      })
+      i++
+    }
+    this.listMatkul = matkulList
   }
-  // async mounted () {
-  //   this.listKelas = await MonitoringDosen.getListKelas("196610181995121001")
-  //   this.listMatkul = await MonitoringDosen.getMatkulKelas("196610181995121001", "301")
-  // }
 }
 </script>

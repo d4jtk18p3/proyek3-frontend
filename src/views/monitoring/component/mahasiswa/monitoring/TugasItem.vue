@@ -4,7 +4,7 @@
         class="pa-3 rounded-card rounded-lg"
         elevation="2"
         width="700"
-        to="/monitoring/mahasiswa/namaMatkul/namaTugas"
+        @click="routeTugas(Matkul, tugas, id)"
     >
         <v-row>
             <v-col cols="12">
@@ -24,12 +24,17 @@ export default {
       required: false,
       default: "Model Data Teori"
     },
-    onKelasClicked: {
-      type: Function,
-      required: false,
-      default: (index, kelasString) => {
-        console.log(`index : ${index} , kelasString : ${kelasString}`)
-      }
+    id: {
+      type: Number,
+      required: false
+    },
+    Perkuliahan: {
+      type: Number,
+      required: false
+    },
+    Matkul: {
+      type: String,
+      required: false
     }
   },
   computed: {
@@ -37,8 +42,15 @@ export default {
       currentTheme: "theme/getCurrentColor"
     })
   },
-  beforeMount () {
-    console.log(this.mataKuliah)
+  methods: {
+    routeTugas (namaMatkul, namaTugas, idTugas) {
+      const currentRoute = this.$route.path
+      this.$router.push(currentRoute + "/" + namaMatkul + "&" + namaTugas + "&" + idTugas).catch(error => {
+        if (error.name !== "NavigationDuplicated") {
+          throw error
+        }
+      })
+    }
   }
 }
 </script>

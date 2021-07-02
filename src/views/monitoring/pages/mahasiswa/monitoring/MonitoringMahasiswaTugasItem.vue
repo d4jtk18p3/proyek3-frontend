@@ -2,7 +2,7 @@
 <div>
     <v-row :style="{color: currentTheme.onBackground}">
       <v-col cols="12">
-        <p class="text-h4 font-weight-bold">Monitoring APPL 1 - W1 Polymorphism</p>
+        <p class="text-h4 font-weight-bold">Monitoring {{this.namaMatkul}} - {{this.namaTugas}}</p>
         <breadcumbs :breadcrumb-items="breadcrumbItems"/>
       </v-col>
       <v-col
@@ -12,6 +12,7 @@
             <v-btn
             :color="currentTheme.colorSecondary"
             dark
+            @click="lihatMonitoringTeman()"
           >
             <span style="font-size: 12px">Lihat Monitoring Teman</span>
           </v-btn>
@@ -119,7 +120,7 @@ import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import editProgress from "@/views/monitoring/component/mahasiswa/monitoring/DialogFormEditProgress.vue"
 import SerahkanTugas from "@/views/monitoring/component/mahasiswa/monitoring/DialogFormSerahkanTugas.vue"
 import Durasi from "@/views/monitoring/component/mahasiswa/monitoring/Durasi.vue"
-import SubTugasMonitoringMahasiswa from "../../../../../datasource/network/monitoring/subtugas"
+import SubTugasMonitoringBersama from "../../../../../datasource/network/monitoring/monitoringbersama"
 export default {
   name: "KelasItem",
   components: { Breadcumbs, editProgress, SerahkanTugas, Durasi },
@@ -131,6 +132,9 @@ export default {
   data () {
     return {
       singleSelect: false,
+      namaMatkul: "",
+      namaTugas: "",
+      id: 0,
       selected: [],
       dialog: false,
       dialogSelesai: false,
@@ -141,18 +145,18 @@ export default {
       pertama: true,
       breadcrumbItems: [
         {
-          text: "Monitoring",
+          text: "Dasboard",
+          disabled: false,
+          href: "/monitoring/mahasiswa/dashboard"
+        },
+        {
+          text: "MATA KULIAH " + this.$route.params.namaMatkul,
+          disabled: false,
+          href: "/monitoring/mahasiswa/matakuliah"
+        },
+        {
+          text: "TUGAS " + this.$route.params.namaTugas,
           disabled: true,
-          href: ""
-        },
-        {
-          text: "MATA KULIAH APPL 1",
-          disabled: false,
-          href: ""
-        },
-        {
-          text: "TUGAS W1 POLYMORPHISM",
-          disabled: false,
           href: ""
         }
       ],
@@ -244,10 +248,21 @@ export default {
     },
     pauseItem (item) {
       this.btnMulai = true
+    },
+    lihatMonitoringTeman () {
+      this.$router.push("/monitoring/mahasiswa/monitoringTeman/" + this.namaMatkul + "&" + this.namaTugas + "&" + this.id).catch(error => {
+        if (error.name !== "NavigationDuplicated") {
+          throw error
+        }
+      })
     }
   },
   async mounted () {
-    this.items = await SubTugasMonitoringMahasiswa.getSubTugasMatkul("1")
+    this.namaMatkul = this.$route.params.namaMatkul
+    this.namaTugas = this.$route.params.namaTugas
+    this.id = this.$route.params.id
+    this.items = await SubTugasMonitoringBersama.getSubTugasbyMahasiswa(this.id, "181524002")
+    console.log(this.items)
     this.countSubtugas = this.items.length
     if (this.pertama) {
       for (var i = 0; i <= this.countSubtugas; i++) {

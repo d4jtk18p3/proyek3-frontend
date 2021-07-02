@@ -58,13 +58,8 @@ export default {
     return {
       breadcrumbItems: [
         {
-          text: "Monitoring",
-          disabled: true,
-          href: ""
-        },
-        {
           text: "Dashboard",
-          disabled: false,
+          disabled: true,
           href: ""
         }
       ]
