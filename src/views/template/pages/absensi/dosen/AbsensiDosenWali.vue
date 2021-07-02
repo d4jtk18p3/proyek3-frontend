@@ -6,26 +6,12 @@
     <v-col cols="12">
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
     </v-col>
-    <v-col cols="8" class="mt-5" v-if="!isMobile">
-      <p
-        class="text-center font-weight-bold text-h5"
-        :style="{color: currentTheme.onBackground}"
-      >Mata Kuliah</p>
-      <AbsensiDosenMataKuliahItem/>
+    <v-col>
     </v-col>
-    <v-col  :cols="isMobile ? `12` : `3` " :offset="isMobile ? `0` : `1`" class="mt-5">
-      <p
-        class="text-center font-weight-bold text-h5"
-        :style="{color: currentTheme.onBackground}"
-      >Kelas</p>
-      <KelasItem/>
-    </v-col>
-    <v-col cols="12" class="mt-5" v-if="isMobile">
-      <p
-        class="text-center font-weight-bold text-h5"
-        :style="{color: currentTheme.onBackground}"
-      >Mata Kuliah</p>
-      <AbsensiDosenMataKuliahItem/>
+    <v-col>
+    <h2 align="center">Validasi Ketidakhadiran</h2>
+      <DaftarHadir :mahasiswa="mahasiswa">
+      </DaftarHadir>
     </v-col>
   </v-row>
 </template>
@@ -33,12 +19,11 @@
 <script>
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
-import AbsensiDosenMataKuliahItem from "@/views/template/pages/absensi/dosen/AbsensiDosenMataKuliah"
-import KelasItem from "@/views/template/component/absensi/KelasItem"
+import DaftarHadir from "@/views/template/component/ketidakhadiran/DaftarHadir"
 
 export default {
   name: "AbsensiDosenMain",
-  components: { KelasItem, AbsensiDosenMataKuliahItem, Breadcumbs },
+  components: { DaftarHadir, Breadcumbs },
   data () {
     return {
       breadcrumbItems: [
@@ -60,9 +45,16 @@ export default {
       ],
       mahasiswa: [
         {
-          nama: "Alvira",
+          nama: "Alvira Putrina D",
           nim: "181524002",
-          kelas: "D4-A"
+          kelas: "D4-A",
+          keterangan: "Sakit"
+        },
+        {
+          nama: "Nadhilah Nurfajrina",
+          nim: "181524003",
+          kelas: "D4-A",
+          keterangan: "Sakit"
         }
       ]
     }

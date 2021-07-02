@@ -258,6 +258,7 @@ export default {
       if (this.url_gambar) data.append("surat-izin", this.url_gambar)
       data.append("status", "izin")
       data.append("idJadwals", this.idPerkuliahan)
+      console.log("INI ADALAH ID" + this.url_gambar)
       data.append("nim", 181524010)
       data.append("tglIzin", this.dates)
       Keterangan.uploadKeterangan(data)
