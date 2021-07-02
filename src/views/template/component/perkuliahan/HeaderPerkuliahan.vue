@@ -7,18 +7,18 @@
             <h2>Mata Kuliah</h2>
           </v-col>
           <v-col>
-            <h2>  : {{perkuliahan[0]}} </h2>
+            <h2> : {{perkuliahan[0]}} </h2>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row no-gutters :style="{ color: currentTheme.onBackground }">
           <v-col cols="4">
             <h2>Kelas</h2>
           </v-col>
           <v-col>
             <h2>  : {{perkuliahan[1]}} </h2>
           </v-col>
-        </v-row>
-        <v-row>
+        </v-row >
+        <v-row no-gutters :style="{ color: currentTheme.onBackground }">
           <v-col cols="4">
             <h2>Tanggal</h2>
           </v-col>

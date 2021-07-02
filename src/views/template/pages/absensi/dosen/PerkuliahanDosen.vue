@@ -14,7 +14,7 @@
   <v-divider>
     </v-divider>
   <br>
-  <v-row>
+  <v-row :style="{ color: currentTheme.onBackground }">
     <v-col>
       <p class="text-h4 font-weight-bold">Daftar Kehadiran Mahasiswa</p>
     </v-col>
