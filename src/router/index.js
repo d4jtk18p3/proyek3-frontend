@@ -3,18 +3,18 @@ import VueRouter from "vue-router"
 import store from "@/store"
 
 const routes = [
-  {
-    path: "/akun",
-    meta: { requiresAuth: true },
-    component: () => import(/* webpackChunkName: "akun" */"../views/akun/Home"),
-    children: [
-      {
-        path: "masuk",
-        meta: { requiresAuth: false },
-        component: () => import(/* webpackChunkName: "akun.masuk" */"../views/akun/Masuk")
-      }
-    ]
-  },
+  // {
+  //   path: "/akun",
+  //   meta: { requiresAuth: true },
+  //   component: () => import(/* webpackChunkName: "akun" */"../views/akun/Home"),
+  //   children: [
+  //     {
+  //       path: "masuk",
+  //       meta: { requiresAuth: false },
+  //       component: () => import(/* webpackChunkName: "akun.masuk" */"../views/akun/Masuk")
+  //     }
+  //   ]
+  // },
   // {
   //   path: "/template",
   //   component: () => import("../views/template/TemplateMain"),
