@@ -5,7 +5,6 @@
       color="#272343"
       :header-color="currentTheme.colorPrimary"
       locale="id-ID"
-      :event-color="date => date[9] % 2 ? 'red' : 'yellow'"
       :events="functionEvents"
       class="rounded-lg elevation-5"
       v-if="isDark"
@@ -19,7 +18,6 @@
       color="#272343"
       :header-color="currentTheme.colorPrimary"
       locale="id-ID"
-      :event-color="date => date[9] % 2 ? 'red' : 'yellow'"
       :events="functionEvents"
       class="rounded-lg elevation-5"
       v-if="!isDark"
@@ -33,6 +31,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex"
+import BackEndGoogleAPIsCalendar from "../../../../datasource/network/googleapis/googlecalendar"
 export default {
   name: "DatePickerItem",
   props: {
@@ -51,11 +50,17 @@ export default {
       }
     }
   },
+  data () {
+    return {
+      holidayDates: [],
+      startDate: []
+    }
+  },
   methods: {
-    functionEvents (date) {
-      const [,, day] = date.split("-")
-      if ([12, 17, 28].includes(parseInt(day, 10))) return true
-      if ([1, 19, 22].includes(parseInt(day, 10))) return ["red", "#00f"]
+    functionEvents (dateString) {
+      var date = new Date(dateString)
+      if (this.startDate.includes(dateString)) return "#0000FF" // hari libur nasional -> hijau/biru
+      if ([0, 6].includes(date.getDay())) return "#FF0000" // hari sabtu dan minggu -> merah
       return false
     },
     disableFutureDates (val) {
@@ -81,6 +86,12 @@ export default {
       picker: this.picker
     })
     console.log(this.picker)
+    this.holidayDates = await BackEndGoogleAPIsCalendar.getEventHoliday()
+    var i = 0
+    while (i < this.holidayDates.length) {
+      this.startDate[i] = await this.holidayDates[i].startDate
+      i++
+    }
   }
 }
 </script>

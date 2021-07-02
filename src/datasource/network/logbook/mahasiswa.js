@@ -14,6 +14,18 @@ const getAllMahasiswaByKelas = async (kodekelas) => {
   }
 }
 
+const getOneMahasiswaByNim = async (nim) => {
+  try {
+    const urlGetMhsByNim = MAHASISWA_URL + `/getOne/${nim}`
+    const mhs = await baseHttp.get(urlGetMhsByNim, {}, {})
+    console.log(mhs.data.data.mahasiswa)
+    return mhs.data.data.mahasiswa
+  } catch (err) {
+    return await errorHandler(err)
+  }
+}
+
 export default {
-  getAllMahasiswaByKelas
+  getAllMahasiswaByKelas,
+  getOneMahasiswaByNim
 }
