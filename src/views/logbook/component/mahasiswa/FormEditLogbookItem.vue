@@ -145,7 +145,7 @@
             </v-card-title>
 
             <v-card-text>
-              data logbook yang anda ubah tidak dapat disimpan ke dalam sistem karena terjadi masalah. Silakan periksa kembali bahwa data yang dimasukkan benar
+              data logbook yang anda ubah tidak dapat disimpan ke dalam sistem karena <strong>{{this.errormessages}}</strong> Silakan periksa kembali bahwa data yang dimasukkan benar
             </v-card-text>
 
             <v-divider></v-divider>
@@ -254,7 +254,8 @@ export default {
       errordialogsimpan: false,
       put: true,
       confirmdialogbatal: false,
-      loading: false
+      loading: false,
+      errormessages: ""
     }
   },
   computed: {
@@ -324,8 +325,9 @@ export default {
       }
       console.log(newDataLogbook)
       this.put = await BackEndEntri.editEntryLogbookMhs(this.idLogbooks, this.idEntriLogbook, newDataLogbook)
-      console.log(this.put)
-      if (this.put === undefined) {
+      console.log(this.put.error)
+      if (this.put.error === 400) {
+        this.errormessages = this.put.message
         this.openErrorDialogSimpan()
       }
       if (this.put.status === 200) {
