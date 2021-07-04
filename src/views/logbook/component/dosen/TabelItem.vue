@@ -133,8 +133,8 @@ export default {
       required: false,
       default: "D4 - Teknik Informatika"
     },
-    kelas: {
-      type: Number,
+    kelasString: {
+      type: String,
       required: false
     }
   },
@@ -189,14 +189,14 @@ export default {
       alert(tanggal)
       this.$router.push({
         name: "ViewLogbook",
-        path: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.namaMataKuliah + "/" + this.kelas + "/" + this.nim + "/viewlogbook/" + id,
+        path: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.namaMataKuliah + "/" + this.kelasString + "/" + this.nim + "/viewlogbook/" + id,
         params: {
           idEntri: id,
           logbookdate: tanggal,
           nim: this.nim,
           nama: this.nama,
           namaMataKuliah: this.namaMataKuliah,
-          kelas: this.kelas,
+          kelasString: this.kelasString,
           prodi: this.prodi
         }
       })

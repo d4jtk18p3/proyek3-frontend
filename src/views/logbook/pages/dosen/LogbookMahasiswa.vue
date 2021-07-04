@@ -10,10 +10,10 @@
       <v-col :cols="isMobile ? '4' : '2'" class="py-0">
         <div class="text-start">Nama</div>
       </v-col>
-      <v-col :cols="isMobile ? '7' : '2'" class="py-0">
+      <v-col :cols="isMobile ? '7' : '9'" class="py-0">
         <div class="text-start">: {{nama}}</div>
       </v-col>
-      <v-col :cols="isMobile ? '1' : '8'"></v-col>
+      <v-col :cols="isMobile ? '1' : '1'"></v-col>
       <v-col :cols="isMobile ? '4' : '2'" class="py-0">
         <div class="text-start">NIM</div>
       </v-col>
@@ -25,7 +25,7 @@
         <div class="text-start">Kelas</div>
       </v-col>
       <v-col :cols="isMobile ? '7' : '2'" class="py-0">
-        <div class="text-start">: {{kelas}}</div>
+        <div class="text-start">: {{kelasString}}</div>
       </v-col>
         <v-col :cols="isMobile ? '1' : '8'"></v-col>
       <v-col :cols="isMobile ? '4' : '2'" class="py-0">
@@ -48,7 +48,7 @@
       :nama="this.nama"
       :namaMataKuliah="this.namaMataKuliah"
       :prodi="this.prodi"
-      :kelas="this.kelas"
+      :kelasString="this.kelasString"
       :datas="this.dataLogbooks"/>
     </v-col>
   </v-row>
@@ -86,8 +86,8 @@ export default {
       required: false,
       default: "D4 - Teknik Informatika"
     },
-    kelas: {
-      type: Number,
+    kelasString: {
+      type: String,
       required: false
     }
   },
@@ -105,9 +105,9 @@ export default {
           href: "/logbook/logbook-mahasiswa"
         },
         {
-          text: this.prodi.substring(0, 2) + " - " + this.namaMataKuliah + " - " + this.kelas,
+          text: this.prodi.substring(0, 2) + " - " + this.namaMataKuliah + " - " + this.kelasString,
           disabled: false,
-          href: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.namaMataKuliah + "/" + this.kelas
+          href: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.namaMataKuliah + "/" + this.kelasString
         },
         {
           text: this.nim,

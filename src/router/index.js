@@ -174,7 +174,7 @@ const routes = [
         props: true
       },
       {
-        path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelas",
+        path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelasString",
         name: "ListMahasiswa",
         component: () =>
           import(
@@ -183,7 +183,7 @@ const routes = [
         props: true
       },
       {
-        path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelas/:nim",
+        path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelasString/:nim",
         name: "ListLogbook",
         component: () =>
           import(
@@ -193,7 +193,7 @@ const routes = [
       },
       {
         path:
-          "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelas/:nim/viewlogbook/:idEntri",
+          "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelasString/:nim/viewlogbook/:idEntri",
         name: "ViewLogbook",
         component: () =>
           import(
