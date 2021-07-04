@@ -26,6 +26,28 @@
       :readonly="viewOnly"
       @change="onChangePicker"
     ></v-date-picker>
+    <v-col cols="8">
+      <v-card
+        class="rounded-lg elevation-5"
+      >
+        <v-row class="pa-4 ma-0" :style="{background: currentTheme.colorPrimary}">
+          <v-col cols="12" align-self="center" class="pa-0 ma-0">
+            <div
+              class="text-subtitle-1 text-left font-weight-light"
+              :style="{color : currentTheme.colorOnPrimary}"
+            >Event:</div>
+          </v-col>
+          <v-col cols="12" align-self="center" class="pa-0 ma-0">
+            <div
+              class="text-subtitle-1 text-left font-weight-light"
+              :style="{color : currentTheme.colorOnPrimary}"
+              v-for="(item, index) in this.holidayDesc"
+              :key="index"
+            >{{item}}</div>
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-col>
   </v-row>
 </template>
 
@@ -53,7 +75,8 @@ export default {
   data () {
     return {
       holidayDates: [],
-      startDate: []
+      startDate: [],
+      holidayDesc: []
     }
   },
   methods: {
@@ -73,6 +96,21 @@ export default {
       this.changePicker({
         picker: this.picker
       })
+      this.setSummary()
+    },
+    setSummary () {
+      this.holidayDesc = []
+      var i = 0
+      var j = 0
+      for (i = 0; i < this.holidayDates.length; i++) {
+        if (this.holidayDates[i].startDate === this.picker) {
+          this.holidayDesc[j] = "- " + this.holidayDates[i].summary
+          j++
+        }
+        if (i === this.holidayDates.length - 1 && j === 0) {
+          this.holidayDesc[j] = "-"
+        }
+      }
     }
   },
   computed: {
@@ -92,6 +130,7 @@ export default {
       this.startDate[i] = await this.holidayDates[i].startDate
       i++
     }
+    this.setSummary()
   }
 }
 </script>
