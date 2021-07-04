@@ -148,13 +148,13 @@ export default {
         {
           text: "Nama Subtugas",
           align: "left",
-          value: "nama_subtugas",
+          value: "NamaSub",
           sortable: false,
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
           text: "Tenggat",
-          value: "tenggat",
+          value: "Tenggat",
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
@@ -204,83 +204,10 @@ export default {
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         }
       ],
-      listMhs: [
-        // {
-        //   Nim: "181524002",
-        //   Nama: "Alvira Putrina Derajat",
-        //   RataRataProgress: "50%",
-        //   TaksDikerjakan: "3",
-        //   TotalDurasi: "250"
-        // },
-        // {
-        //   Nim: "181524003",
-        //   Nama: "Ananda Bayu Fauzan",
-        //   RataRataProgress: "60%",
-        //   TaksDikerjakan: "5",
-        //   TotalDurasi: "300"
-        // },
-        // {
-        //   Nim: "181524004",
-        //   Nama: "Chofief Al Farroqie Ariestotles",
-        //   RataRataProgress: "60%",
-        //   TaksDikerjakan: "4",
-        //   TotalDurasi: "270"
-        // },
-        // {
-        //   Nim: "181524005",
-        //   Nama: "Dewanto Joyo Pramono",
-        //   RataRataProgress: "50%",
-        //   TaksDikerjakan: "4",
-        //   TotalDurasi: "240"
-        // },
-        // {
-        //   Nim: "181524006",
-        //   Nama: "Dwinanda Alfauzan Suhando",
-        //   RataRataProgress: "50%",
-        //   TaksDikerjakan: "3",
-        //   TotalDurasi: "150"
-        // },
-        // {
-        //   Nim: "181524007",
-        //   Nama: "Evan Lokajaya",
-        //   RataRataProgress: "70%",
-        //   TaksDikerjakan: "5",
-        //   TotalDurasi: "340"
-        // },
-        // {
-        //   Nim: "181524008",
-        //   Nama: "Fajrina Aflaha",
-        //   RataRataProgress: "50%",
-        //   TaksDikerjakan: "4",
-        //   TotalDurasi: "300",
-        //   Detail: "Lihat Detail"
-        // },
-        // {
-        //   Nim: "181524009",
-        //   Nama: "Fatharani",
-        //   RataRataProgress: "60%",
-        //   TaksDikerjakan: "5",
-        //   TotalDurasi: "300"
-        // },
-        // {
-        //   Nim: "181524010",
-        //   Nama: "Hafizh Muhammad F",
-        //   RataRataProgress: "60%",
-        //   TaksDikerjakan: "3",
-        //   TotalDurasi: "300"
-        // },
-        // {
-        //   Nim: "181524012",
-        //   Nama: "Hanifah Sholihat",
-        //   RataRataProgress: "50%",
-        //   TaksDikerjakan: "2",
-        //   TotalDurasi: "200"
-        // }
-      ],
+      listMhs: [],
       isLoading: false,
       rulesFile: {
-      },
-      kriteriaTugas: ""
+      }
     }
   },
   methods: {
@@ -307,22 +234,64 @@ export default {
   async mounted () {
     var sub = await SubtugasMonitoringDosen.getSubtugasByTugas(this.$route.params.id_tugas)
     var mhs = await TugasMonitoringDosen.getMahasiswaByTugas(this.$route.params.id_tugas)
-    var kriteria = await TugasMonitoringDosen.getKriteriaByTugas(this.$route.params.id_tugas)
+    // var kriteria = await TugasMonitoringDosen.getKriteriaByTugas(this.$route.params.id_tugas)
     var i = 0
+    var j = 0
+    var k = 0
+    var progres = 0
     var mhsList = []
-    while (i < mhs.listNIMMahasiswa.length) {
-      mhsList.push({
-        Nim: mhs.listNIMMahasiswa[i],
-        Nama: mhs.listNamaMahasiswa[i]
-        // RataRataProgress: "50%",
-        // TaksDikerjakan: "2",
-        // TotalDurasi: "200"
+    var subList = []
+    var task = 0
+    var durasi = 0
+    while (i < sub.length) {
+      var date = new Date(sub[i].tenggat)
+      var dateStr =
+        ("00" + date.getDate()).slice(-2) + "/" +
+        ("00" + (date.getMonth() + 1)).slice(-2) + "/" +
+        date.getFullYear() + " " +
+        ("00" + date.getHours()).slice(-2) + ":" +
+        ("00" + date.getMinutes()).slice(-2) + ":" +
+        ("00" + date.getSeconds()).slice(-2)
+      subList.push({
+        NamaSub: sub[i].nama_subtugas,
+        Tenggat: dateStr
       })
       i++
     }
-    this.subtugas = sub
+    while (j < mhs.listNIMMahasiswa.length) {
+      var subMhs = await SubtugasMonitoringDosen.getSubtugasByMahasiswa(this.$route.params.id_tugas, mhs.listNIMMahasiswa[j])
+      while (k < subMhs.length) {
+        if (subMhs[k].progress !== null) {
+          progres += subMhs[k].progress
+        }
+        if (subMhs[k].durasi !== null) {
+          task += 1
+        }
+        if (subMhs[k].durasi !== null) {
+          durasi += subMhs[k].durasi
+        }
+        k++
+      }
+      progres = progres / subMhs.length
+      var progresFix = 0
+      if (Number.isInteger(progres) === false) {
+        progresFix = progres.toFixed(2)
+      }
+      mhsList.push({
+        Nim: mhs.listNIMMahasiswa[j],
+        Nama: mhs.listNamaMahasiswa[j],
+        RataRataProgress: progresFix,
+        TaksDikerjakan: task,
+        TotalDurasi: durasi
+      })
+      progres = 0
+      task = 0
+      durasi = 0
+      j++
+    }
+
+    this.subtugas = subList
     this.listMhs = mhsList
-    this.kriteriaTugas = kriteria
   }
 }
 </script>

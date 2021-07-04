@@ -8,7 +8,6 @@ const getSubtugasByTugas = async (idTugas) => {
   try {
     const monitoringURL = MONITORING_URL + `/common/subtugasByTugas/${idTugas}`
     const result = await baseHttp.get(monitoringURL)
-    console.log(result.data.data.uniqueSubtugas)
     return result.data.data.uniqueSubtugas
   } catch (e) {
     return await errorHandler(e)
@@ -47,7 +46,6 @@ const getSubtugasByMahasiswa = async (idTugas, idMhs) => {
   try {
     const monitoringURL = MONITORING_URL + `/common/getSubtugasByMahasiswa/${idTugas}/${idMhs}`
     const result = await baseHttp.get(monitoringURL)
-    console.log(result.data.data.uniqueSubtugas)
     return result.data.data.uniqueSubtugas
   } catch (e) {
     return await errorHandler(e)

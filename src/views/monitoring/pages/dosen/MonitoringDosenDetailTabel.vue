@@ -90,39 +90,39 @@ export default {
           value: "nama_subtugas",
           width: "200",
           class: "white--text text-lg-subtitle-1 font-weight-bold"
-        },
-        {
-          text: "Progress",
-          value: "progress",
-          sortable: true,
-          class: "white--text text-lg-subtitle-1 font-weight-bold"
-        },
-        {
-          text: "Skala Pemahaman",
-          align: "center",
-          value: "skala_pemahaman",
-          class: "white--text text-lg-subtitle-1 font-weight-bold"
-        },
-        {
-          text: "Durasi",
-          align: "center",
-          value: "durasi",
-          class: "white--text text-lg-subtitle-1 font-weight-bold"
-        },
-        {
-          text: "Catatan",
-          value: "catatan",
-          align: "center",
-          sortable: false,
-          class: "white--text text-lg-subtitle-1 font-weight-bold"
-        },
-        {
-          text: "Lampiran",
-          value: "lampiran",
-          align: "center",
-          width: "100",
-          class: "white--text text-lg-subtitle-1 font-weight-bold"
         }
+        // {
+        //   text: "Progress",
+        //   value: "progress",
+        //   sortable: true,
+        //   class: "white--text text-lg-subtitle-1 font-weight-bold"
+        // },
+        // {
+        //   text: "Skala Pemahaman",
+        //   align: "center",
+        //   value: "skala_pemahaman",
+        //   class: "white--text text-lg-subtitle-1 font-weight-bold"
+        // },
+        // {
+        //   text: "Durasi",
+        //   align: "center",
+        //   value: "durasi",
+        //   class: "white--text text-lg-subtitle-1 font-weight-bold"
+        // },
+        // {
+        //   text: "Catatan",
+        //   value: "catatan",
+        //   align: "center",
+        //   sortable: false,
+        //   class: "white--text text-lg-subtitle-1 font-weight-bold"
+        // },
+        // {
+        //   text: "Lampiran",
+        //   value: "lampiran",
+        //   align: "center",
+        //   width: "100",
+        //   class: "white--text text-lg-subtitle-1 font-weight-bold"
+        // }
       ],
       // items: [
       //   {
@@ -189,8 +189,7 @@ export default {
       //     Lampiran: "Link Spreadsheet"
       //   }
       // ],
-      subtugas: [],
-      kriteriaTugas: ""
+      subtugas: []
     }
   },
   computed: {
@@ -203,7 +202,47 @@ export default {
     var sub = await SubtugasMonitoringDosen.getSubtugasByMahasiswa(this.$route.params.id_tugas, this.$route.params.id_mhs)
     var kriteria = await TugasMonitoringDosen.getKriteriaByTugas(this.$route.params.id_tugas)
     this.subtugas = sub
-    this.kriteriaTugas = kriteria
+    if (kriteria.progress === true) {
+      this.headers.push({
+        text: "Progress",
+        value: "progress",
+        sortable: true,
+        class: "white--text text-lg-subtitle-1 font-weight-bold"
+      })
+    }
+    if (kriteria.skala === true) {
+      this.headers.push({
+        text: "Skala Pemahaman",
+        align: "center",
+        value: "skala_pemahaman",
+        class: "white--text text-lg-subtitle-1 font-weight-bold"
+      })
+    }
+    if (kriteria.durasi === true) {
+      this.headers.push({
+        text: "Durasi",
+        align: "center",
+        value: "durasi",
+        class: "white--text text-lg-subtitle-1 font-weight-bold"
+      })
+    }
+    if (kriteria.catatan === true) {
+      this.headers.push({
+        text: "Catatan",
+        value: "catatan",
+        align: "center",
+        sortable: false,
+        class: "white--text text-lg-subtitle-1 font-weight-bold"
+      })
+    }
+    if (kriteria.lampiran === true) {
+      this.headers.push({
+        text: "Lampiran",
+        value: "lampiran",
+        align: "center",
+        class: "white--text text-lg-subtitle-1 font-weight-bold"
+      })
+    }
   }
 }
 </script>
