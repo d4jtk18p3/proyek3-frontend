@@ -105,7 +105,7 @@ export default {
     }
   },
   created () {
-    // this.testProgressBar()
+    this.testProgressBar()
     var current = new Date()
     this.currentHour = current.getHours()
     this.currentMinute = current.getMinutes()
@@ -129,8 +129,8 @@ export default {
       currentKehadiran: null,
       interval: 0,
       //  data test
-      jamAwal: "01:00:00",
-      jamAkhir: "01:20:00"
+      jamAwal: "10:00:00",
+      jamAkhir: "12:20:00"
     }
   },
   computed: {
@@ -177,6 +177,7 @@ export default {
 
         // Perhitungan durasi, dilakukan untuk nilai progressbar
         var d = moment.duration(afterTime.diff(beforeTime, "seconds"))
+        console.log("Duration: " + d)
         this.jadwalMhs[currentJadwal].value = d._milliseconds
 
         // Pengecekan tombol, apakah mahasiswa sudah absen, tidak akan hadir, atau sudah absen
