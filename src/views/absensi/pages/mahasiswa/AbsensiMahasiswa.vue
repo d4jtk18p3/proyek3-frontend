@@ -38,8 +38,9 @@
           </v-flex>
           <v-flex>
           <TotalJamSP
-          :jmlTidakHadir="dashboardMhs.totalJamTidakMasuk"
-          :sisaMenujuSP="dashboardMhs.jamTersisaUntukSP1"/>
+          :jmlTidakHadir="dashboardMhs.keteranganSP.totalJamTidakMasuk"
+          :sisaMenujuSP="dashboardMhs.keteranganSP.jamTersisa"
+          :status="dashboardMhs.keteranganSP.status"/>
           </v-flex>
           </v-layout>
       </v-col>
@@ -151,7 +152,9 @@ export default {
             element.absen = "false"
             element.active = "false"
             element.hadir = "false"
-            element.value = 0
+            element.duration = 0
+            element.currentDuration = 0
+            element.progress = 0
           })
           this.jadwalMhs = response.data.jadwal
           console.log(this.currentDay + " : " + response.data.jadwal)

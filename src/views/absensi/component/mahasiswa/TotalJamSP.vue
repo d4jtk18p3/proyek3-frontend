@@ -38,6 +38,9 @@
 import { mapGetters } from "vuex"
 
 export default {
+  created () {
+    this.cekStatusSP()
+  },
   name: "TotalJamSP",
   props: {
     jmlTidakHadir: {
@@ -55,30 +58,36 @@ export default {
   },
   data () {
     return {
-      sp: 1,
-      persentase: Math.round((this.jmlTidakHadir / this.sp) * 100),
+      sp: 10,
+      persentase: 0,
       keterangan: ""
+    }
+  },
+  methods: {
+    cekStatusSP () {
+      if (this.status === "Tidak ada SP") {
+        this.keterangan = "*Total absen hingga SP 1 ( SP 1 = 10 Jam )"
+        this.sp = 10
+        this.persentase = Math.round((this.jmlTidakHadir / this.sp) * 100)
+      } else if (this.status === "SP 1") {
+        this.keterangan = "*Total absen hingga SP 2 ( SP 2 = 20 Jam )"
+        this.sp = 20
+        this.persentase = Math.round((this.jmlTidakHadir / this.sp) * 100)
+      } else if (this.status === "SP 2") {
+        this.keterangan = "*Total absen hingga SP 3 ( SP 3 = 30 Jam )"
+        this.sp = 30
+        this.persentase = Math.round((this.jmlTidakHadir / this.sp) * 100)
+      } else if (this.status === "SP 3") {
+        this.keterangan = "*Total absen hingga Pemberhentian dari Polban"
+        this.sp = 38
+        this.persentase = Math.round((this.jmlTidakHadir / this.sp) * 100)
+      }
     }
   },
   computed: {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
-    })//  ,
-    // cekStatusSP() {
-    //   if(this.status === "Tidak ada SP") {
-    //     this.keterangan = "*Total absen hingga SP 1 ( SP 1 = 10 Jam )"
-    //     this.sp = 10
-    //   } else if(this.status === "SP 1") {
-    //     this.keterangan = "*Total absen hingga SP 2 ( SP 2 = 20 Jam )"
-    //     this.sp = 20
-    //   } else if(this.status === "SP 2") {
-    //     this.keterangan = "*Total absen hingga SP 3 ( SP 3 = 30 Jam )"
-    //     this.sp = 30
-    //   } else if(this.status === "SP 3") {
-    //     this.keterangan = "*Total absen hingga Pemberhentian dari Polban"
-    //     this.sp = 38
-    //   }
-    // }
+    })
   }
 }
 
