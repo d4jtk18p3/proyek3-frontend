@@ -39,7 +39,7 @@
           <v-flex>
           <TotalJamSP
           :jmlTidakHadir="dashboardMhs.totalJamTidakMasuk"
-          :sisaMenujuSP="dashboardMhs.jamTersisaUntukSP"/>
+          :sisaMenujuSP="dashboardMhs.jamTersisaUntukSP1"/>
           </v-flex>
           </v-layout>
       </v-col>
