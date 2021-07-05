@@ -7,7 +7,7 @@
             <h2>Mata Kuliah</h2>
           </v-col>
           <v-col>
-            <h2> : {{perkuliahan[0]}} </h2>
+            <h2> : {{item}} </h2>
           </v-col>
         </v-row>
         <v-row no-gutters :style="{ color: currentTheme.onBackground }">
@@ -53,6 +53,7 @@
 import { mapGetters } from "vuex"
 
 export default {
+  props: ["item"],
   data () {
     return {
       perkuliahan: ["Sistem Terdistribusi", "3A - D4 Teknik Informatika", "24 Maret 2021"],

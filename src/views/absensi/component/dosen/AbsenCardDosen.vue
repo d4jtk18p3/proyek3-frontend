@@ -37,12 +37,14 @@
             <div>
               <v-card-actions class="justify-center">
                 <v-btn
+                  :to="{ name: 'Perkuliahan', params: { item } }"
                   elevation="2"
                   rounded
                   class="mb-5 pt-0"
                   width="150"
                   color="#FB8C00"
                 > Perkuliahan</v-btn>
+                <p>{{item.id_jadwal}}</p>
               </v-card-actions>
             </div>
           </v-card>
