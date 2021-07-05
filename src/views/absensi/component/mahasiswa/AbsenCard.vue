@@ -53,7 +53,7 @@
               </v-col>
                 <v-progress-linear
                   background-color="#bfbfbf"
-                  :color="item.active? 'success' : 'error'"
+                  :color="item.hadir? 'success' : 'error'"
                   :value="item.value"
                   height="5"
                   class="mt-0 pt-0 ml-8 mr-8 mb-8 justify-center"
@@ -144,7 +144,6 @@ export default {
       PresensiMahasiswa.presensiMahasiswa(idStudi, idJadwal, 181524010)
         .then(response => {
           this.jadwalMhs[index].absen = false
-          this.statusKehadiranMahasiswa()
           console.log("Mahasiswa telah absen untuk jadwal " + idStudi + "Pada tanggal " + this.currentDate)
           console.log(response)
         })
@@ -155,42 +154,63 @@ export default {
     statusKehadiranMahasiswa (idJadwal) {
       PresensiMahasiswa.getStatusKehadiran(181524010, idJadwal, this.currentDate)
         .then(response => {
-          this.currentKehadiran = response
-          console.log(response)
+          this.currentKehadiran = response.data
+          this.jadwalMhs[currentJadwal].hadir = this.currentKehadiran[0].isHadir
+          console.log("Status kehadiran mahasiswa pada jadwal " + idJadwal + " adalah " + this.jadwalMhs[currentJadwal].hadir)
         })
         .catch(e => {
           console.log(e)
         })
     },
     presensiSchedule () {
+      //  Jika Jadwalnya masih ada
       if (currentJadwal < this.jadwalMhs.length) {
+        // Pengubahan Format
         var format = "HH:mm:ss"
         var currentTime = moment(this.currentTime, format)
         var beforeTime = moment(this.jadwalMhs[currentJadwal].waktu_mulai, format)
-        console.log(this.jadwalMhs[currentJadwal].waktu_mulai)
-        beforeTime.subtract(30, "minutes")
         var afterTime = moment(this.jadwalMhs[currentJadwal].waktu_selesai, format)
+        console.log(this.jadwalMhs[currentJadwal].waktu_mulai)
+
+        // Pengurangan waktu mulai (waktu mulai absen adalah 30 menit sebelum jam mulai mata kuliah)
+        beforeTime.subtract(30, "minutes")
+
+        // Perhitungan durasi, dilakukan untuk nilai progressbar
         var d = moment.duration(afterTime.diff(beforeTime, "seconds"))
         this.jadwalMhs[currentJadwal].value = d._milliseconds
+
+        // Pengecekan tombol, apakah mahasiswa sudah absen, tidak akan hadir, atau sudah absen
         this.cekAktivasiTombol(this.jadwalMhs[currentJadwal].id_jadwal)
+        console.log("Id jadwal: " + this.jadwalMhs[currentJadwal].id_jadwal)
+
+        // Pengecekan, apakah saat ini berada pada interval waktu mata kuliah yang sedang berlangsung atau tidak
         if (currentTime.isBetween(beforeTime, afterTime)) {
-          if (this.currentKehadiran.isHadir === false && this.currentKehadiran.id_keterangan === null) {
-            console.log(currentJadwal)
+          // Pengecekan, apakah mahasiswa ybs tidak izin dan belum absen, dilakukan untuk aktivasi tombol
+          if (this.currentKehadiran[0].isHadir === false && this.currentKehadiran[0].id_keterangan === null) {
+            console.log("Mahasiswa sudah absen di jadwal ke- " + this.jadwalMhs[currentJadwal].id_jadwal)
             this.jadwalMhs[currentJadwal].absen = true
           }
+
+          // Perhitungan untuk value dari progressbar dan menyatakan saat ini mata kuliah sedang berlangsung
           console.log(this.jadwalMhs[currentJadwal].value)
           this.jadwalMhs[currentJadwal].value = this.jadwalMhs[currentJadwal].value + ((d._milliseconds / 360) * (15 / 100))
           console.log(this.jadwalMhs[currentJadwal].value)
           this.jadwalMhs[currentJadwal].active = true
           console.log("SEKARANG INI WAKTUNYA ABSEN")
         } else {
+          //  kondisi ketika saat ini bukan dalam interval waktu mata kuliah
+          //  jika saat ini adalah setelah waktu mata kuliah yang telah berlangsung sebelumnya
           if (currentTime.isAfter(afterTime)) {
             this.jadwalMhs[currentJadwal].absen = false
             this.jadwalMhs[currentJadwal].active = false
+            // if (this.currentKehadiran[0].isHadir === true && this.currentKehadiran[0].id_keterangan === null) {
+            //   console.log("Mahasiswa sudah absen di jadwal ke- " + this.jadwalMhs[currentJadwal].id_jadwal)
+            // }
             console.log(currentJadwal)
             currentJadwal++
             console.log("SEKARANG INI WAKTUNYA GANTI JADWAL")
           } else {
+            //  jika sekarang bukan waktu setelah mata kuliah (keknya inisalah dan perlu diperbaiki kondisinya)
             this.jadwalMhs[currentJadwal].active = false
             this.jadwalMhs[currentJadwal].absen = false
             console.log("SEKARANG BUKAN JADWAL MANA MANA")

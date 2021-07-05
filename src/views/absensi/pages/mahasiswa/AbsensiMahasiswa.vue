@@ -150,6 +150,7 @@ export default {
           response.data.jadwal.forEach(function (element) {
             element.absen = "false"
             element.active = "false"
+            element.hadir = "false"
             element.value = 0
           })
           this.jadwalMhs = response.data.jadwal
