@@ -54,7 +54,7 @@
                 <v-progress-linear
                   background-color="#bfbfbf"
                   :color="item.hadir? 'success' : 'error'"
-                  :value="item.value"
+                  :value="item.progress"
                   height="5"
                   class="mt-0 pt-0 ml-8 mr-8 mb-8 justify-center"
                 ></v-progress-linear>
@@ -178,7 +178,11 @@ export default {
         // Perhitungan durasi, dilakukan untuk nilai progressbar
         var d = moment.duration(afterTime.diff(beforeTime, "seconds"))
         console.log("Duration: " + d)
-        this.jadwalMhs[currentJadwal].value = d._milliseconds
+        this.jadwalMhs[currentJadwal].duration = d._milliseconds
+
+        // Lama Matkul sudah berjalan
+        var jadwalDuration = moment.duration(currentTime.diff(beforeTime, "seconds"))
+        this.jadwalMhs[currentJadwal].currentDuration = jadwalDuration._milliseconds
 
         // Pengecekan tombol, apakah mahasiswa sudah absen, tidak akan hadir, atau sudah absen
         this.cekAktivasiTombol(this.jadwalMhs[currentJadwal].id_jadwal)
@@ -193,10 +197,11 @@ export default {
           }
 
           // Perhitungan untuk value dari progressbar dan menyatakan saat ini mata kuliah sedang berlangsung
-          console.log(this.jadwalMhs[currentJadwal].value)
-          this.jadwalMhs[currentJadwal].value = this.jadwalMhs[currentJadwal].value + ((d._milliseconds / 360) * (15 / 100))
-          console.log(this.jadwalMhs[currentJadwal].value)
+          console.log(this.jadwalMhs[currentJadwal].progress)
+          this.jadwalMhs[currentJadwal].progress = this.jadwalMhs[currentJadwal].currentDuration / this.jadwalMhs[currentJadwal].duration * 100
+          console.log(this.jadwalMhs[currentJadwal].progress)
           this.jadwalMhs[currentJadwal].active = true
+          // this.jadwalMhs[currentJadwal].currentDuration = this.jadwalMhs[currentJadwal].currentDuration + 15
           console.log("SEKARANG INI WAKTUNYA ABSEN")
         } else {
           //  kondisi ketika saat ini bukan dalam interval waktu mata kuliah
@@ -204,6 +209,7 @@ export default {
           if (currentTime.isAfter(afterTime)) {
             this.jadwalMhs[currentJadwal].absen = false
             this.jadwalMhs[currentJadwal].active = false
+            this.jadwalMhs[currentJadwal].progress = 100
             // if (this.currentKehadiran[0].isHadir === true && this.currentKehadiran[0].id_keterangan === null) {
             //   console.log("Mahasiswa sudah absen di jadwal ke- " + this.jadwalMhs[currentJadwal].id_jadwal)
             // }
