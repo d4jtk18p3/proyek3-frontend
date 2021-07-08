@@ -2,7 +2,7 @@
 <v-container>
   <v-row :style="{color: currentTheme.onBackground}">
     <v-col cols="12">
-      <p class="text-h4 font-weight-bold">Monitoring APPL 1 - W1 Polymorphism</p>
+      <p class="text-h4 font-weight-bold">Monitoring Tugas</p>
     </v-col>
     <v-col cols="12">
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
@@ -123,15 +123,20 @@ export default {
         {
           text: "Monitoring",
           disabled: false,
-          href: ""
+          href: "/monitoring/dosen/monitoring-tugas"
         },
         {
-          text: "Link 1",
+          text: "Daftar Tugas",
+          disabled: false,
+          href: "/monitoring/dosen/monitoring-tugas/daftar-tugas/" + this.$route.params.id_matkul + "/" + this.$route.params.id_perkuliahan
+        },
+        {
+          text: "Monitoring Subtugas",
           disabled: false,
           href: ""
         },
         {
-          text: "Link 2",
+          text: "Detail Subtugas",
           disabled: true,
           href: ""
         }

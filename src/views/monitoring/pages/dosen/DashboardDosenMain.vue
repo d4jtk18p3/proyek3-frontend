@@ -1,7 +1,7 @@
 <template>
   <v-row :style="{color: currentTheme.onBackground}">
     <v-col cols="12">
-      <p class="text-h4 font-weight-bold">Monitoring Tugas</p>
+      <p class="text-h4 font-weight-bold">Dashboard Tugas</p>
     </v-col>
     <v-col cols="12">
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
@@ -26,7 +26,7 @@
           no-gutters v-for="item in listMatkul" :key="item.id"
           :cols="isMobile? 12 : 6"
         >
-          <MatkulItem :mataKuliah="item.nama" :idMatkul="item.id" :idPerkuliahan="item.id_perkuliahan"></MatkulItem>
+          <MatkulItemDashboard :mataKuliah="item.nama" :idMatkul="item.id" :idPerkuliahan="item.id_perkuliahan"></MatkulItemDashboard>
         </v-col>
       </v-row>
     </v-col>
@@ -36,33 +36,23 @@
 <script>
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
-import MatkulItem from "@/views/monitoring/component/dosen/MatkulItem"
+import MatkulItemDashboard from "@/views/monitoring/component/dosen/MatkulItemDashboard"
 import KelasItem from "@/views/monitoring/component/dosen/KelasItem"
 import KelasMonitoringDosen from "../../../../datasource/network/monitoring/kelas"
 import MatkulMonitoringDosen from "../../../../datasource/network/monitoring/matakuliah"
 export default {
   name: "AbsensiDosenMain",
-  components: { KelasItem, MatkulItem, Breadcumbs },
+  components: { KelasItem, MatkulItemDashboard, Breadcumbs },
   data () {
     return {
       breadcrumbItems: [
         {
-          text: "Monitoring",
+          text: "List Mata Kuliah",
           disabled: false,
-          href: "/monitoring/dosen/monitoring-tugas"
+          href: "/monitoring/dosen/dashboard-tugas"
         },
         {
-          text: "Daftar Tugas",
-          disabled: true,
-          href: ""
-        },
-        {
-          text: "Monitoring Subtugas",
-          disabled: true,
-          href: ""
-        },
-        {
-          text: "Detail Subtugas",
+          text: "Dashboard Tugas",
           disabled: true,
           href: ""
         }
@@ -75,7 +65,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentTheme: "theme/getCurrentColor"
+      currentTheme: "theme/getCurrentColor",
+      isDark: "theme/getIsDark"
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
