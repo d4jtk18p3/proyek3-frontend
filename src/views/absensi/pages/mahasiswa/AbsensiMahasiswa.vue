@@ -149,7 +149,7 @@ export default {
       JadwalMahasiswa.getJadwalMahasiswa(this.currentDay, 181524010)
         .then(response => {
           response.data.jadwal.forEach(function (element) {
-            element.absen = "false"
+            element.absen = "true"
             element.active = "true"
             element.hadir = "false"
             element.duration = 0
