@@ -150,7 +150,7 @@ export default {
         .then(response => {
           response.data.jadwal.forEach(function (element) {
             element.absen = "false"
-            element.active = "false"
+            element.active = "true"
             element.hadir = "false"
             element.duration = 0
             element.currentDuration = 0

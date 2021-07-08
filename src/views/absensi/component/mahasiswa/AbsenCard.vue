@@ -6,7 +6,6 @@
       value="3"
     >
       <v-slide-item
-        style="background: white"
         v-for="(item, index) in jadwalMhs"
         :key="index"
         class="d-flex align-self-center"
@@ -16,15 +15,15 @@
             class="text-center justify-center rounded-xl d-flex flex-column active"
             width="255"
             height="300"
-            :style="item.active? 'background: #272343' : 'background: white'"
+            :style="!item.active? 'background: #272343' : 'background: white'"
           >
             <v-card-text
               class="pb-0"
-              :style="!item.active? 'color: #272343' : 'color: white'"
-            > #{{item.id_studi}}</v-card-text>
+              :style="item.active? 'color: #272343' : 'color: white'"
+            > #{{item.id_studi}} {{item.active}}</v-card-text>
             <h3
               class="pt-0 pb-5 text-center"
-              :style="!item.active? 'color: #272343' : 'color: white'"
+              :style="item.active? 'color: #272343' : 'color: white'"
             > {{item.nama_mata_kuliah}}
               <br/>
               {{item.jenis}}
@@ -33,7 +32,7 @@
                 <v-card-text
                   v-for="(dosen, index) in item.dosens"
                   :key="index" class="pt-0 pb-0"
-                  :style="!item.active? 'color: #272343' : 'color: white'">
+                  :style="item.active? 'color: #272343' : 'color: white'">
                   {{dosen.nama}}
                 </v-card-text>
             </v-row>
@@ -42,12 +41,12 @@
               <v-col class="pb-0 mb-0 ml-4 mt-6 mr-4">
                 <p
                   class="float-left"
-                  :style="!item.active? 'color: #272343' : 'color: white'">
+                  :style="item.active? 'color: #272343' : 'color: white'">
                   {{item.waktu_mulai.slice(0,5)}}
                 </p>
                 <p
                   class="float-right"
-                  :style="!item.active? 'color: #272343' : 'color: white'">
+                  :style="item.active? 'color: #272343' : 'color: white'">
                   {{item.waktu_selesai.slice(0,5)}}
                 </p>
               </v-col>
@@ -129,8 +128,10 @@ export default {
       currentKehadiran: null,
       interval: 0,
       //  data test
-      jamAwal: "10:00:00",
-      jamAkhir: "12:20:00"
+      jamAwal1: "20:00:00",
+      jamAkhir1: "21:40:00",
+      jamAwal2: "22:00:00",
+      jamAkhir2: "22:20:00"
     }
   },
   computed: {
@@ -200,7 +201,7 @@ export default {
           console.log(this.jadwalMhs[currentJadwal].progress)
           this.jadwalMhs[currentJadwal].progress = this.jadwalMhs[currentJadwal].currentDuration / this.jadwalMhs[currentJadwal].duration * 100
           console.log(this.jadwalMhs[currentJadwal].progress)
-          this.jadwalMhs[currentJadwal].active = true
+          this.jadwalMhs[currentJadwal].active = false
           // this.jadwalMhs[currentJadwal].currentDuration = this.jadwalMhs[currentJadwal].currentDuration + 15
           console.log("SEKARANG INI WAKTUNYA ABSEN")
         } else {
@@ -208,7 +209,7 @@ export default {
           //  jika saat ini adalah setelah waktu mata kuliah yang telah berlangsung sebelumnya
           if (currentTime.isAfter(afterTime)) {
             this.jadwalMhs[currentJadwal].absen = false
-            this.jadwalMhs[currentJadwal].active = false
+            this.jadwalMhs[currentJadwal].active = true
             this.jadwalMhs[currentJadwal].progress = 100
             // if (this.currentKehadiran[0].isHadir === true && this.currentKehadiran[0].id_keterangan === null) {
             //   console.log("Mahasiswa sudah absen di jadwal ke- " + this.jadwalMhs[currentJadwal].id_jadwal)
@@ -218,7 +219,7 @@ export default {
             console.log("SEKARANG INI WAKTUNYA GANTI JADWAL")
           } else {
             //  jika sekarang bukan waktu setelah mata kuliah (keknya inisalah dan perlu diperbaiki kondisinya)
-            this.jadwalMhs[currentJadwal].active = false
+            this.jadwalMhs[currentJadwal].active = true
             this.jadwalMhs[currentJadwal].absen = false
             console.log("SEKARANG BUKAN JADWAL MANA MANA")
           }
@@ -229,8 +230,10 @@ export default {
       this.statusKehadiranMahasiswa(idJadwal)
     },
     testProgressBar () {
-      this.jadwalMhs[1].waktu_mulai = this.jamAwal
-      this.jadwalMhs[1].waktu_selesai = this.jamAkhir
+      this.jadwalMhs[0].waktu_mulai = this.jamAwal1
+      this.jadwalMhs[0].waktu_selesai = this.jamAkhir1
+      this.jadwalMhs[1].waktu_mulai = this.jamAwal2
+      this.jadwalMhs[1].waktu_selesai = this.jamAkhir2
     }
   }
 }
