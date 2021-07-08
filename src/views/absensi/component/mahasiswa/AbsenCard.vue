@@ -96,7 +96,7 @@ export default {
     }
   },
   created () {
-    this.testProgressBar()
+    // this.testProgressBar()
     var current = new Date()
     this.currentHour = current.getHours()
     this.currentMinute = current.getMinutes()
