@@ -60,6 +60,7 @@ export default {
   },
   created () {
     var current = new Date()
+    console.log("TANGGAL" + current)
     this.currentDay = current.getDay()
     this.getJadwalDsn()
     this.getPersentaseMengajar()
@@ -112,7 +113,7 @@ export default {
           //   element.absen = "false"
           // })
           this.jadwalDsn = response.result
-          console.log(response.result)
+          console.log(response)
         })
         .catch(e => {
           console.log(e)

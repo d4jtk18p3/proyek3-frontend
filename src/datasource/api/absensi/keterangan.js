@@ -10,7 +10,17 @@ const uploadKeterangan = async (data) => {
     console.error(err)
   }
 }
+const getKeterangan = async (kelas) => {
+  try {
+    const keteranganUrl = KETERANGAN_URL + `/mhs-kelas-izin?KodeKelas=${kelas}`
+    const result = await axios.get(keteranganUrl)
+    return result.data
+  } catch (err) {
+    console.error(err)
+  }
+}
 
 export default {
-  uploadKeterangan
+  uploadKeterangan,
+  getKeterangan
 }

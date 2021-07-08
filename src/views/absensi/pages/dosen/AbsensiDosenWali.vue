@@ -10,7 +10,7 @@
     </v-col>
     <v-col>
     <h2 align="center">Validasi Ketidakhadiran</h2>
-      <DaftarHadir :mahasiswa="mahasiswa">
+      <DaftarHadir :ketidakhadiran="ketidakhadiran">
       </DaftarHadir>
     </v-col>
   </v-row>
@@ -20,6 +20,7 @@
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import DaftarHadir from "@/views/absensi/component/ketidakhadiran/DaftarHadir"
+import Keterangan from "@/datasource/network/absensi/keterangan"
 
 export default {
   name: "AbsensiDosenMain",
@@ -43,20 +44,8 @@ export default {
           href: ""
         }
       ],
-      mahasiswa: [
-        {
-          nama: "Alvira Putrina D",
-          nim: "181524002",
-          kelas: "D4-A",
-          keterangan: "Sakit"
-        },
-        {
-          nama: "Nadhilah Nurfajrina",
-          nim: "181524003",
-          kelas: "D4-A",
-          keterangan: "Sakit"
-        }
-      ]
+      ketidakhadiran: [],
+      kelas: 1803
     }
   },
   computed: {
@@ -66,6 +55,21 @@ export default {
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
+  },
+  methods: {
+    getKeterangan () {
+      Keterangan.getKeterangan(this.kelas)
+        .then(response => {
+          this.ketidakhadiran = response.data
+          console.log(this.ketidakhadiran)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }
+  },
+  beforeMount () {
+    this.getKeterangan()
   }
 }
 </script>

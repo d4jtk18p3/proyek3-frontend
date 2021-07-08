@@ -1,10 +1,11 @@
 <template>
 <v-container>
   <v-row
-   v-for="(mhs, index) in mahasiswa"
+   v-for="(mhs, index) in ketidakhadiran.mhs_izin"
    :key="index"
    >
-   <v-col>
+   <v-col
+   v-if="mhs.keterangans[0].isAccepted==-1">
     <v-card
       max-height="1000"
       max-width="350"
@@ -30,7 +31,7 @@
     </v-card>
    </v-col>
   </v-row>
-  <Dialog :dialogs="dialogs" :dataMhs="dataMhs"></Dialog>
+  <Dialog :dialogs="dialogs" :dataMhs="dataMhs" :kelas="ketidakhadiran.kode_kelas"></Dialog>
 </v-container>
 </template>
 
@@ -43,11 +44,13 @@ export default ({
       dialogs: {
         dialog: false
       },
-      dataMhs: []
+      dataMhs: [],
+      mahasiswa: [],
+      kelas: ""
     }
   },
   props: {
-    mahasiswa: {
+    ketidakhadiran: {
       type: Array,
       default () {
         return {}

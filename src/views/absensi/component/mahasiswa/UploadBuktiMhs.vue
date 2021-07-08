@@ -279,6 +279,9 @@ export default {
       this.isSuccess = false
       this.error.isError = false
       var data = new FormData()
+      console.log("INI status" + this.keterangan)
+      console.log("INI idjadwal" + this.idPerkuliahan)
+      console.log("INI tgl izin" + this.dates)
       if (this.url_gambar) data.append("surat-izin", this.url_gambar)
       data.append("status", this.keterangan)
       data.append("idJadwals", this.idPerkuliahan)
