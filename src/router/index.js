@@ -155,7 +155,8 @@ const routes = [
         component: () =>
           import(
             /* webpackChunkName: "absensimahasiswadosenview" */ "../views/absensi/pages/dosen/PerkuliahanDosen"
-          )
+          ),
+        props: true
       }
     ]
   },

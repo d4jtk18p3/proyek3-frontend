@@ -59,8 +59,7 @@ export default {
     PersentaseMengajar
   },
   created () {
-    var current = new Date()
-    console.log("TANGGAL" + current)
+    var current = new Date(2021, 6, 9)
     this.currentDay = current.getDay()
     this.getJadwalDsn()
     this.getPersentaseMengajar()
