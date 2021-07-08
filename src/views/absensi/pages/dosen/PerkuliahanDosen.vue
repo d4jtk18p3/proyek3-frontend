@@ -9,7 +9,7 @@
   </v-col>
  </v-row>
  <v-row>
-    <HeaderPerkuliahan></HeaderPerkuliahan>
+    <HeaderPerkuliahan :item="item"></HeaderPerkuliahan>
  </v-row>
   <v-divider>
     </v-divider>
@@ -37,6 +37,14 @@ import TabelAbsensi from "@/views/absensi/component/perkuliahan/TabelAbsensi"
 
 export default {
   name: "PerkuliahanDosen",
+  props: {
+    item: {
+      type: Array,
+      default () {
+        return {}
+      }
+    }
+  },
   components: { Breadcumbs, HeaderPerkuliahan, UploadBAP, TabelAbsensi },
   data () {
     return {
@@ -63,6 +71,9 @@ export default {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
     })
+  },
+  beforeMount () {
+    console.log("ini adalah" + this.item.id_jadwal)
   }
 }
 </script>
