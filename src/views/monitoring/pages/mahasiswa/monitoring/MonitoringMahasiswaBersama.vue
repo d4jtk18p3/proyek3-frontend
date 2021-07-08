@@ -5,7 +5,7 @@
         <p class="text-h4 font-weight-bold">Monitoring Teman {{this.namaMatkul}} - {{this.namaTugas}}</p>
         <breadcumbs :breadcrumb-items="breadcrumbItems"/>
       </v-col>
-      <v-col  class="ml-auto pl-13 py-4" cols="0" xs="6" sm="6" md="3" lg="4" xl="3">
+      <v-col  class="ml-auto pl-13" lg="3">
       <v-select
         v-model="selectedItem"
         :dark="isDark"
@@ -16,7 +16,9 @@
       >
       </v-select>
       </v-col>
-      <v-col cols="12">
+    </v-row>
+    <v-row>
+      <v-col class="mt-n6">
       <v-data-table
         v-model="selected"
         dark
@@ -79,7 +81,7 @@ export default {
   },
   data () {
     return {
-      selectedItem: -1,
+      selectedItem: 0,
       namaMatkul: "",
       namaTugas: "",
       id: 0,

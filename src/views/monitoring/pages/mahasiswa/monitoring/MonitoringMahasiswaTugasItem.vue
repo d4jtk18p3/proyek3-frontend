@@ -1,22 +1,23 @@
 <template>
 <div>
-    <v-row :style="{color: currentTheme.onBackground}">
+  <v-row>
       <v-col cols="12">
         <p class="text-h4 font-weight-bold">Monitoring {{this.namaMatkul}} - {{this.namaTugas}}</p>
         <breadcumbs :breadcrumb-items="breadcrumbItems"/>
       </v-col>
       <v-col
-            cols="3"
-            class="ml-auto pl-11"
+        class="text-right"
+      >
+        <v-btn
+          :color="currentTheme.colorSecondary"
+          dark
+          @click="lihatMonitoringTeman()"
         >
-            <v-btn
-            :color="currentTheme.colorSecondary"
-            dark
-            @click="lihatMonitoringTeman()"
-          >
-            <span style="font-size: 12px">Lihat Monitoring Teman</span>
-          </v-btn>
-        </v-col>
+          <span style="font-size: 12px">Lihat Monitoring Teman</span>
+        </v-btn>
+      </v-col>
+  </v-row>
+  <v-row>
       <v-col class="mt-2">
       <v-data-table
         v-model="selected"
@@ -24,7 +25,7 @@
         :items="items"
         :loading="isLoading"
         loading-text=""
-        :items-per-page="5"
+        :items-per-page="7"
         class="elevation-3 white--text"
         :style="{backgroundColor: currentTheme.onBackground}"
       >
@@ -108,9 +109,9 @@
         </template>
       </v-data-table>
       </v-col>
-    </v-row>
+  </v-row>
   <editProgress :index="editedIndex" :visible="dialog" @close="dialog=false" />
-  <SerahkanTugas :index="editedIndex" :visible="dialogSelesai" @close="dialogSelesai=false" />
+  <SerahkanTugas :index="editedIndex" :visible="dialogSelesai" @close="dialogSelesai=false" />s
   </div>
 </template>
 
@@ -142,7 +143,6 @@ export default {
       btnPause: [],
       btnSelesai: [],
       countSubtugas: 0,
-      pertama: true,
       breadcrumbItems: [
         {
           text: "Dasboard",
@@ -174,7 +174,7 @@ export default {
         {
           text: "Sub-task",
           value: "nama_subtugas",
-          sortable: false,
+          sortable: true,
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
@@ -261,16 +261,25 @@ export default {
     this.namaMatkul = this.$route.params.namaMatkul
     this.namaTugas = this.$route.params.namaTugas
     this.id = this.$route.params.id
-    this.items = await SubTugasMonitoringBersama.getSubTugasbyMahasiswa(this.id, "181524002")
-    console.log(this.items)
-    this.countSubtugas = this.items.length
-    if (this.pertama) {
-      for (var i = 0; i <= this.countSubtugas; i++) {
-        this.btnMulai.push(true)
-        this.btnPause.push(false)
-        this.btnSelesai.push(false)
+    var items = await SubTugasMonitoringBersama.getSubTugasbyMahasiswa(this.id, "181524002")
+    this.items = items
+    console.log(items[0].nama_subtugas)
+    this.countSubtugas = items.length
+    var x = items[0].id - 2
+    console.log("WOY" + x)
+    for (var i = 1; i <= items.length; i++) {
+      x = x + 1
+      console.log(i)
+      console.log(items[i - 1].nama_subtugas)
+      console.log("item" + items[i - 1].id)
+      console.log(items[i - 1].status_subtugas)
+      if (items[i - 1].status_subtugas === true) {
+        this.btnMulai[i] = false
+      } else {
+        this.btnMulai[i] = true
       }
-      this.pertama = false
+      this.btnPause[i] = false
+      this.btnSelesai[i] = false
     }
   }
 }

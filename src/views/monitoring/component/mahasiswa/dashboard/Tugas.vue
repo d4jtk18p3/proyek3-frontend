@@ -1,16 +1,14 @@
 <template>
     <v-col>
-    <div v-for="Tugas in TugasList"
-        :key="Tugas.matkul">
     <v-card
-        class="pa-3 mb-1 rounded-card rounded-lg"
+        class="pa-3 rounded-card rounded-lg"
         elevation="2"
     >
         <v-row>
             <v-col>
-                <div class="caption font-weight-medium" :style="{color : gray}">{{Tugas.tenggat}}</div>
-                <div class="text-h7 font-weight-bold ml-2" :style="{color : isDark ? currentTheme.surface : currentTheme.onSurface}">{{Tugas.matkul}}</div>
-                <div class="caption font-weight-medium font-italic ml-2" :style="{color : isDark ? currentTheme.surface : currentTheme.onSurface}">{{Tugas.subtask}}</div>
+                <div class="caption font-weight-medium" :style="{color : gray}">{{this.tenggat}}</div>
+                <div class="text-h7 font-weight-bold ml-2" :style="{color : isDark ? currentTheme.surface : currentTheme.onSurface}">{{ tugas }}</div>
+                <div class="caption font-weight-medium font-italic ml-2" :style="{color : isDark ? currentTheme.surface : currentTheme.onSurface}">{{this.jumlahSubTask}} Sub-Task</div>
             </v-col>
             <v-col
                 cols="auto"
@@ -21,50 +19,41 @@
                     :rotate="90"
                     :size="50"
                     :width="5"
-                    :value="Tugas.progress"
+                    :value="this.progress"
                     color="red"
                 >
-                    <div class="text-h7 font-weight-bold" :style="{color : currentTheme.onSurface}">{{Tugas.progress}}</div>
+                    <div class="text-h7 font-weight-bold" :style="{color : currentTheme.onSurface}">{{progress}}</div>
                 </v-progress-circular>
             </v-col>
         </v-row>
     </v-card>
-    </div>
     </v-col>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
+import SubTugasMonitoringBersama from "../../../../../datasource/network/monitoring/monitoringbersama"
 
 export default {
   name: "Tugas",
   components: {},
   props: {
-    TugasList: {
-      type: Array,
+    tugas: {
+      type: String,
       required: false,
-      default: () => {
-        return [
-          {
-            matkul: "APPL 1",
-            jumlahSubTask: "7",
-            subtask: "W1 Polymorphism",
-            tenggat: "17 April 2021",
-            progress: "20"
-          },
-          {
-            matkul: "Akuntansi",
-            jumlahSubTask: "7",
-            subtask: "Latihan Buku Besar",
-            tenggat: "29 April 2021",
-            progress: "0"
-          }
-        ]
-      }
+      default: "Model Data Teori"
+    },
+    id: {
+      type: Number,
+      required: false,
+      default: 1
     }
   },
   data () {
     return {
+      jumlahSubTask: 0,
+      progress: 0,
+      tenggat: ""
     }
   },
   computed: {
@@ -74,6 +63,40 @@ export default {
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
+  },
+  async mounted () {
+    var items = await SubTugasMonitoringBersama.getSubTugasbyMahasiswa(this.id, "181524002")
+    var i = 0
+    var progress = 0
+    var tenggat = []
+    while (i < items.length) {
+      if (items[i].progress !== null) {
+        progress = progress + items[i].progress
+      }
+      i++
+    }
+    i = 0
+    var sebelum = new Date()
+    while (i < items.length) {
+      if (items[i].status_subtugas !== false) {
+        if (items[i].tenggat !== null) {
+          var temp = new Date(items[i].tenggat)
+          console.log(temp)
+          if (tenggat[0] == null) {
+            tenggat[0] = new Date(temp)
+            sebelum = new Date(items[i].tenggat)
+          } else if (sebelum > temp) {
+            tenggat[0] = new Date(temp)
+          }
+        }
+      }
+      i++
+    }
+    this.jumlahSubTask = items.length
+    this.progress = progress
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    var hasil = (tenggat[0].getDate()) + (" " + (monthNames[tenggat[0].getMonth()])) + (" " + (tenggat[0].getFullYear()))
+    this.tenggat = hasil
   }
 }
 </script>
