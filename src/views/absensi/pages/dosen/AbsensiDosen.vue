@@ -111,8 +111,8 @@ export default {
           // response.data.jadwal.forEach(function (element) {
           //   element.absen = "false"
           // })
-          this.jadwalDsn = response.result
-          console.log(response.result)
+          this.jadwalDsn = response.data.jadwal
+          console.log(response.data.jadwal)
         })
         .catch(e => {
           console.log(e)
