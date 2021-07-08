@@ -165,9 +165,6 @@ export default {
         var afterTime = moment(this.jadwalMhs[currentJadwal].waktu_selesai, format)
         console.log(this.jadwalMhs[currentJadwal].waktu_mulai)
 
-        // Pengurangan waktu mulai (waktu mulai absen adalah 30 menit sebelum jam mulai mata kuliah)
-        beforeTime.subtract(30, "minutes")
-
         // Perhitungan durasi, dilakukan untuk nilai progressbar
         var d = moment.duration(afterTime.diff(beforeTime, "seconds"))
         console.log("Duration: " + d)
@@ -176,6 +173,9 @@ export default {
         // Lama Matkul sudah berjalan
         var jadwalDuration = moment.duration(currentTime.diff(beforeTime, "seconds"))
         this.jadwalMhs[currentJadwal].currentDuration = jadwalDuration._milliseconds
+
+        // Pengurangan waktu mulai (waktu mulai absen adalah 30 menit sebelum jam mulai mata kuliah)
+        beforeTime.subtract(30, "minutes")
 
         // Pengecekan tombol, apakah mahasiswa sudah absen, tidak akan hadir, atau sudah absen
         this.cekAktivasiTombol(this.jadwalMhs[currentJadwal].id_jadwal)
@@ -187,6 +187,8 @@ export default {
           if (this.currentKehadiran[0].isHadir === false && this.currentKehadiran[0].id_keterangan === null) {
             console.log("Mahasiswa sudah absen di jadwal ke- " + this.jadwalMhs[currentJadwal].id_jadwal)
             this.jadwalMhs[currentJadwal].absen = false
+          } else if (this.currentKehadiran[0].isHadir === true || this.currentKehadiran[0].id_keterangan === "sakit" || this.currentKehadiran[0].id_keterangan === "izin") {
+            this.jadwalMhs[currentJadwal].absen = true
           }
 
           // Perhitungan untuk value dari progressbar dan menyatakan saat ini mata kuliah sedang berlangsung
