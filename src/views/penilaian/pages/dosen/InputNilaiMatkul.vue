@@ -202,7 +202,7 @@
       <v-dialog
         v-model="dialogKategori"
         max-width="500px"
-        v-if="headerParentNilaiETS"
+        v-if="parentKategori"
       >
         <v-card>
           <v-card-title>
@@ -216,9 +216,10 @@
                   cols="12"
                 >
                   <v-select
-                    :items="headerParentNilaiETS.slice(1, headerParentNilaiETS.length)"
+                    v-model="newKategori.parent"
+                    :items="parentKategori.slice(1, parentKategori.length)"
                     :item-text="'label'"
-                    :item-value="'id_kategori'"
+                    :item-value="'key'"
                     label="Parrent Kategori"
                     outlined
                   >
@@ -230,6 +231,7 @@
                   cols="12"
                 >
                   <v-text-field
+                    v-model="newKategori.nama_kategori"
                     label="Nama Kategori"
                     outlined
                   ></v-text-field>
@@ -251,7 +253,7 @@
               :disabled="!saveButton"
               color="blue darken-1"
               text
-              @click="save()"
+              @click="saveKategori()"
             >
               Save
             </v-btn>
@@ -325,6 +327,11 @@ export default {
       headerETS: { kode_kategori: "", parent: null, nama_kategori: "ETS", bobot_nilai: 0 },
       headerEAS: { kode_kategori: "", parent: null, nama_kategori: "ETS", bobot_nilai: 0 },
       dialog: false,
+      newKategori: {
+        parent: "",
+        nama_kategori: "",
+        type: ""
+      },
       dialogKategori: false,
       saveButton: true,
       sisaBobot: 0,
@@ -350,6 +357,7 @@ export default {
           href: ""
         }
       ],
+      parentKategori: null,
       dataNilaiMahasiswaETS: null,
       dataNilaiMahasiswaEAS: null,
       headerParentNilaiETS: null,
@@ -555,12 +563,67 @@ export default {
     tambahKategori (type) {
       this.dialogKategori = true
       if (type === "ETS") {
-        console.log("haloo")
+        // this.headerParentNilaiETS.push({ bobot: 0, colspan: 1, key: "didnot", label: "Test kategori" })
+        this.parentKategori = this.headerParentNilaiETS
+        this.newKategori.type = "ETS"
+        // console.log("haloo")
+        // console.log(this.headerParentNilaiETS)
       } else {
-        console.log("halo eas")
+        this.parentKategori = this.headerParentNilaiEAS
+        this.newKategori.type = "EAS"
+        // console.log("halo eas")
       }
     },
+    saveKategori () {
+      if (this.newKategori.parent === "") {
+        if (this.newKategori.type === "ETS") {
+          this.headerParentNilaiETS.push({ label: this.newKategori.nama_kategori, colspan: 1, key: "ETS-newKategori", bobot: 0 })
+          this.headerChildNilaiETS.push({ label: "Tugas 1", colspan: 1, key: "ETS-newKategori-newChild" + this.newKategori.nama_kategori, bobot: 0 })
+        } else {
+          this.headerParentNilaiEAS.push({ label: this.newKategori.nama_kategori, colspan: 1, key: "EAS-newKategori", bobot: 0 })
+          this.headerChildNilaiEAS.push({ label: "Tugas 1", colspan: 1, key: "EAS-newKategori-newChild" + this.newKategori.nama_kategori, bobot: 0 })
+        }
+      } else {
+        var totalColspan = 0
+        var i, index
+        if (this.newKategori.type === "ETS") {
+          // console.log(this.headerParentNilaiETS[this.headerParentNilaiETS.findIndex(obj => obj.key === this.newKategori.parent)])
+          // console.log(this.headerParentNilaiETS)
+          index = this.headerParentNilaiETS.findIndex(obj => obj.key === this.newKategori.parent)
+          for (i = 0; i <= index; i++) {
+            totalColspan += this.headerParentNilaiETS[i].colspan
+          }
+          this.headerChildNilaiETS.splice(totalColspan, 0, { label: this.newKategori.nama_kategori, colspan: 1, key: "ETS-newKategori-newChild" + this.newKategori.nama_kategori, bobot: 0 })
+          this.headerParentNilaiETS[this.headerParentNilaiETS.findIndex(obj => obj.key === this.newKategori.parent)].colspan += 1
+          // console.log(totalColspan)
+          // this.headerParentNilaiETS[this.headerParentNilaiETS.findIndex(obj => obj.key === this.newKategori.parent)].colspan += 1
+          // tambah kolom child
+          console.log(this.dataNilaiMahasiswaETS)
+        } else {
+          index = this.headerParentNilaiEAS.findIndex(obj => obj.key === this.newKategori.parent)
+          for (i = 0; i <= index; i++) {
+            totalColspan += this.headerParentNilaiEAS[i].colspan
+          }
+          this.headerChildNilaiEAS.splice(totalColspan, 0, { label: this.newKategori.nama_kategori, colspan: 1, key: "ETS-newKategori-newChild" + this.newKategori.nama_kategori, bobot: 0 })
+          this.headerParentNilaiEAS[this.headerParentNilaiEAS.findIndex(obj => obj.key === this.newKategori.parent)].colspan += 1
+          // console.log(this.headerParentNilaiEAS)
+          // totalColspan = 0
+          // for (i = 0; i < this.headerParentNilaiEAS.length - 1; i++) {
+          //   totalColspan += this.headerParentNilaiEAS[i].colspan
+          // }
+          // console.log(totalColspan)
+          // this.headerParentNilaiEAS[this.headerParentNilaiEAS.findIndex(obj => obj.key === this.newKategori.parent)].colspan += 1
+        }
+        console.log(this.newKategori.parent)
+      }
+      // console.log(this.newKategori)
+      this.closeKategori()
+    },
     closeKategori (type) {
+      this.newKategori.parent = ""
+      this.newKategori.nama_kategori = ""
+      this.newKategori.type = ""
+      this.parentKategori = null
       this.dialogKategori = false
     },
     bobotOnChange () {
@@ -799,13 +862,11 @@ export default {
       dataNilaiMahasiswa.dataNilai = dataNilai
       console.log(dataNilaiMahasiswa)
 
-      /*
       http
-      .post("http://localhost:5001/dosen/import-nilai/perkuliahan/" + this.$route.params.id, dataNilaiMahasiswa)
-      .then((res) => {
-        console.log(res.data)
-      })
-      */
+        .post("http://localhost:5001/dosen/import-nilai/perkuliahan/" + this.$route.params.id, dataNilaiMahasiswa)
+        .then((res) => {
+          console.log(res.data)
+        })
 
       if (finalize) {
         for (i = 0; i < dataNilaiMahasiswa.dataNilai.length; i++) {

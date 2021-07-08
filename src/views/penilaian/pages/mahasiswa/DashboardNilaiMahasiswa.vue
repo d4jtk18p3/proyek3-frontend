@@ -86,7 +86,7 @@
     <v-col cols="9">
     </v-col>
     <v-col cols="3">
-    <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="TranskripNilai(idMahasiswa)">Transkrip Nilai</v-btn>
+    <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="TranskripNilai(Mahasiswa.Nim)">Transkrip Nilai</v-btn>
     </v-col>
   </v-row>
 </template>
@@ -356,7 +356,13 @@ export default {
       console.log(mhsNilai)
     },
     TranskripNilai (id) {
-      this.$router.push("transkripsi-nilai/" + id)
+      this.$router.push({
+        name: "Transkripsi Nilai",
+        path: "transkripsi-nilai/" + id,
+        params: {
+          Mahasiswa: this.Mahasiswa
+        }
+      })
     }
   }
 }

@@ -26,7 +26,7 @@
         :key="nilai.id"
         :style="{pointerEvents: 'none' }"
       >
-        <td class="text-capitalize text-caption font-weight-light test" v-if="!isMobile" :style="{color: currentTheme.onSurface}">{{ nilai.kodeDosen }}</td>
+        <td class="text-capitalize text-caption font-weight-light" v-if="!isMobile" :style="{color: currentTheme.onSurface}">{{ nilai.kodeDosen }}</td>
         <td class="text-capitalize text-caption font-weight-light" v-if="!isMobile" :style="{color: currentTheme.onSurface}">{{ nilai.kodeMataKuliah }}</td>
         <td class="text-capitalize text-caption font-weight-light" :style="{color: currentTheme.onSurface}">{{ nilai.namaMataKuliah }}</td>
         <td class="text-capitalize text-caption font-weight-light" :style="{color: currentTheme.onSurface}">{{ nilai.sksMataKuliah }}</td>
@@ -82,6 +82,22 @@ export default {
           },
           {
             id: "5",
+            kodeDosen: "KO007N",
+            kodeMataKuliah: "16TIN10003",
+            namaMataKuliah: "Komputer Grafik",
+            sksMataKuliah: 3,
+            nilai: "A"
+          },
+          {
+            id: "6",
+            kodeDosen: "KO007N",
+            kodeMataKuliah: "16TIN10003",
+            namaMataKuliah: "Komputer Grafik",
+            sksMataKuliah: 3,
+            nilai: "A"
+          },
+          {
+            id: "7",
             kodeDosen: "KO007N",
             kodeMataKuliah: "16TIN10003",
             namaMataKuliah: "Komputer Grafik",
