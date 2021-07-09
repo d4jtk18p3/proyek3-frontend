@@ -278,7 +278,7 @@ export default {
         k++
       }
       progres = progres / subMhs.length
-      var progresFix = 0
+      var progresFix = progres
       if (Number.isInteger(progres) === false) {
         progresFix = progres.toFixed(2)
       }

@@ -10,7 +10,7 @@
         <div class="text-h6 font-weight-bold ml-3" :style="{color: currentTheme.onSurface}"> Grafik {{namaSub}}</div>
         </v-col>
         <v-col cols="12">
-        <apexchart type="area" height="300" width="100%"  :options="data.chartOptions" :series="data.series" :rataRata-mahasiswa="valList"/>
+        <apexchart type="radialBar" height="300" width="100%"  :options="data.chartOptions" :series="data.series" :rataRata-mahasiswa="valList"/>
         </v-col>
       </v-row>
     </v-card>
@@ -29,7 +29,7 @@ import { mapGetters } from "vuex"
 // import CardRataRata from "@/views/monitoring/component/dosen/CardRataRata"
 // import CardAllMahasiswa from "@/views/monitoring/component/dosen/CardAllMahasiswa"
 export default {
-  name: "GraphDosen",
+  name: "GraphProgress",
   components: {
     // CardRataRata,
     // CardAllMahasiswa
@@ -55,6 +55,13 @@ export default {
       default: () => {
         return ["a", "b", "c", "d", "e", "f", "g"]
       }
+    },
+    average: {
+      type: String,
+      required: false,
+      default: () => {
+        return "0"
+      }
     }
   },
   computed: {
@@ -63,48 +70,80 @@ export default {
     }),
     data () {
       return {
-        series: [{
-          name: "Nilai",
-          data: this.valList
-        }],
+        series: this.valList,
+        // series: [{
+        //   name: "Nilai",
+        //   data: this.valList
+        // }],
+        // chartOptions: {
+        //   chart: {
+        //     height: 300,
+        //     type: "line",
+        //     background: this.currentTheme.surface
+        //   },
+        //   dataLabels: {
+        //     enabled: false
+        //   },
+        //   stroke: {
+        //     curve: "smooth"
+        //   },
+        //   yaxis: {
+        //     labels: {
+        //       style: {
+        //         colors: this.currentTheme.onSurface
+        //       }
+        //     }
+        //     // min: 0,
+        //     // max: 4
+        //   },
+        //   xaxis: {
+        //     type: "category",
+        //     labels: {
+        //       show: true,
+        //       style: {
+        //         colors: this.currentTheme.onSurface
+        //       }
+        //     },
+        //     title: {
+        //       text: "Subugas",
+        //       style: {
+        //         color: this.currentTheme.onSurface,
+        //         fontSize: "15px"
+        //       }
+        //     },
+        //     categories: this.subTugas
+        //   }
+        // },
         chartOptions: {
           chart: {
-            height: 300,
-            type: "line",
-            background: this.currentTheme.surface
+            height: 350,
+            type: "radialBar"
           },
-          dataLabels: {
-            enabled: false
-          },
-          stroke: {
-            curve: "smooth"
-          },
-          yaxis: {
-            labels: {
-              style: {
-                colors: this.currentTheme.onSurface
+          plotOptions: {
+            radialBar: {
+              dataLabels: {
+                name: {
+                  fontSize: "22px"
+                },
+                value: {
+                  fontSize: "16px"
+                },
+                total: {
+                  show: true,
+                  label: "Rata-rata",
+                  formatter: function (w) {
+                    // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
+                    var average = w.globals.seriesTotals.reduce((a, b) => (a + b)) / w.globals.seriesTotals.length
+                    // return w.globals.seriesTotals.reduce((a, b) => {
+                    //   return a + b
+                    // }, 0)
+                    return average.toFixed(2) + "%"
+                  }
+                }
               }
             }
-            // min: 0,
-            // max: 4
           },
-          xaxis: {
-            type: "category",
-            labels: {
-              show: true,
-              style: {
-                colors: this.currentTheme.onSurface
-              }
-            },
-            title: {
-              text: "Subugas",
-              style: {
-                color: this.currentTheme.onSurface,
-                fontSize: "15px"
-              }
-            },
-            categories: this.subTugas
-          }
+          labels: this.subTugas
         }
       }
     }

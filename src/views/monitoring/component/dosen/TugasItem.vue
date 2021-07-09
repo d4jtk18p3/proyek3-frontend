@@ -13,8 +13,8 @@
         <div
         v-if="isMobile"
           class="caption text-capitalize font-weight-thin"
-          :style="{color : currentTheme.colorOnSecondary}"
-        >{{tenggat}}</div>
+          :style="{color : currentTheme.colorOnPrimary}"
+        >Jumlah Subtugas : {{jumlahSubtugas}}</div>
       </v-col>
       <!-- <v-col cols="2" class="pa-0 ma-0" v-if="isMobile">
         <v-avatar color="#C4C4C4">
@@ -26,15 +26,19 @@
         <div
           class="text-subtitle-1 text-capitalize font-weight-medium"
           :style="{color : currentTheme.colorOnSecondary}"
-        >{{tenggat}}</div>
+        >Jumlah Subtugas : {{jumlahSubtugas}}</div>
       </v-col> -->
     </v-row>
-    <div class="pa-4" :style="{background : currentTheme.surface}" v-if="!isMobile">
+    <div class="pa-2" :style="{background : currentTheme.surface}" v-if="!isMobile">
       <v-row>
-        <v-col offset="9">
-          <v-avatar color="white">
+        <v-col>
+          <div
+            class="pl-1 py-5 text-subtitle-2 font-weight-medium"
+            :style="{color : currentTheme.colorOnSecondary}"
+          >Jumlah Subtugas : {{jumlahSubtugas}}</div>
+          <!-- <v-avatar color="white">
             <span class="white--text headline font-weight-bold">{{jumlahSubtugas}}</span>
-          </v-avatar>
+          </v-avatar> -->
         </v-col>
       </v-row>
     </div>
@@ -43,6 +47,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import SubtugasMonitoringDosen from "../../../../datasource/network/monitoring/subtugas"
 export default {
   name: "TugasItem",
   props: {
@@ -56,15 +61,10 @@ export default {
       required: false,
       default: "PThread Create"
     },
-    tenggat: {
-      type: String,
-      required: false,
-      default: "Tenggat: Kamis, 17 April 2021 17.00"
-    },
     jumlahSubtugas: {
-      type: String,
+      type: Number,
       required: false,
-      default: "3"
+      default: 1
     }
   },
   computed: {
@@ -84,6 +84,11 @@ export default {
         }
       })
     }
+  },
+  async mounted () {
+    var sub = await SubtugasMonitoringDosen.getSubtugasByTugas(this.idTugas)
+    this.jumlahSubtugas = sub.length
+    console.log(this.jumlahSubtugas)
   }
 }
 </script>
