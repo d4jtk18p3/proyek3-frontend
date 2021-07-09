@@ -69,7 +69,7 @@
 <script>
 import { mapGetters } from "vuex"
 // import DialogValidasi from "@/views/template/component/perkuliahan/DialogValidasi"
-import kehadiran from "../../../../datasource/api/absensi/perkuliahan"
+import kehadiran from "../../../../datasource/network/absensi/perkuliahan"
 
 export default {
   name: "NilaiTable",
