@@ -106,7 +106,7 @@ export default {
   },
   methods: {
     getJadwalDsn () {
-      JadwalDosen.getJadwalDosen(this.currentDay, 199112182019032000)
+      JadwalDosen.getJadwalDosen(this.currentDay, 196610181995121000)
         .then(response => {
           // response.data.jadwal.forEach(function (element) {
           //   element.absen = "false"
@@ -119,7 +119,7 @@ export default {
         })
     },
     getPersentaseMengajar () {
-      DashboardDosen.persentaseMengajar(199112182019032000)
+      DashboardDosen.persentaseMengajar(196610181995121000)
         .then(response => {
           // response.data.jadwal.forEach(function (element) {
           //   element.absen = "false"
