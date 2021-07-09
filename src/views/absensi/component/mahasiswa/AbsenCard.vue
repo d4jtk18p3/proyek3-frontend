@@ -20,7 +20,7 @@
             <v-card-text
               class="pb-0"
               :style="item.active? 'color: #272343' : 'color: white'"
-            > #{{item.id_studi}} {{item.active}}</v-card-text>
+            > #{{item.id_studi}}</v-card-text>
             <h3
               class="pt-0 pb-5 text-center"
               :style="item.active? 'color: #272343' : 'color: white'"
