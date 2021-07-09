@@ -23,7 +23,7 @@
       <UploadBAP></UploadBAP>
     </v-col>
   </v-row>
-    <TabelAbsensi>
+    <TabelAbsensi :perkuliahan="item">
     </TabelAbsensi>
 </v-container>
 </template>
@@ -72,8 +72,13 @@ export default {
       currentTheme: "theme/getCurrentColor"
     })
   },
-  beforeMount () {
-    console.log("ini adalah" + this.item.id_jadwal)
+  methods: {
+    getData () {
+      console.log(this.item)
+    }
+  },
+  mounted () {
+    this.getData()
   }
 }
 </script>

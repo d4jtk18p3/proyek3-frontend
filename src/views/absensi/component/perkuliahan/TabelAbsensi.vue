@@ -73,16 +73,18 @@ import kehadiran from "../../../../datasource/api/absensi/perkuliahan"
 
 export default {
   name: "NilaiTable",
-  //  components: { DialogValidasi },
+  props: {
+    perkuliahan: {
+      type: Array,
+      default () {
+        return {}
+      }
+    }
+  },
   data () {
     return {
       dialog: [false],
-      perkuliahan: {
-        kelas: "123",
-        idJadwal: "14",
-        //  currentDate: new Date().toISOString().substr(0, 10)
-        currentDate: "2021-06-19"
-      },
+      currentDate: new Date().toISOString().substr(0, 10),
       data: [],
       mahasiswa: [],
       radios: true
@@ -90,8 +92,7 @@ export default {
   },
   methods: {
     getKehadiran () {
-      console.log(this.kelas, this.idJadwal, this.currentDate)
-      kehadiran.getKehadiranMhs(this.perkuliahan.kelas, this.perkuliahan.idJadwal, this.perkuliahan.currentDate)
+      kehadiran.getKehadiranMhs(this.perkuliahan.kelas.kode_kelas, this.perkuliahan.id_jadwal, this.currentDate)
         .then(response => {
           this.data = response.data
           this.mahasiswa = this.data.mahasiswa
@@ -102,7 +103,7 @@ export default {
         })
     },
     updateMahasiswa (mhs) {
-      kehadiran.updateKehadiranMhs(mhs.id_studi, this.perkuliahan.idJadwal, this.perkuliahan.currentDate, mhs.isHadir)
+      kehadiran.updateKehadiranMhs(mhs.id_studi, this.perkuliahan.id_jadwal, this.currentDate, mhs.isHadir)
         .then(response => {
           console.log(response.data)
         })
@@ -125,6 +126,7 @@ export default {
     }
   },
   mounted () {
+    console.log(this.perkuliahan)
     this.getKehadiran()
   }
 }

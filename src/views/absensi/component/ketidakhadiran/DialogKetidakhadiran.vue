@@ -28,7 +28,7 @@
                     <p class="font-weight-bold">Kelas</p>
                     </v-col>
                     <v-col cols="6">
-                    <p>: {{dataMhs.kelas}}</p>
+                    <p>: {{kelas}}</p>
                     </v-col>
                  </v-row>
                  <v-row>
@@ -36,7 +36,7 @@
                     <p class="font-weight-bold">Keterangan</p>
                     </v-col>
                     <v-col cols="6">
-                    <p>: {{dataMhs.keterangan}}</p>
+                    <p>: {{dataMhs.keterangans[0].status}}</p>
                     </v-col>
                  </v-row>
             <div class="photo" max-width="85vw">
@@ -46,10 +46,10 @@
               <v-col align="center">
                 <v-btn
                 class="btn"
-                color="success">TERIMA IZIN</v-btn>
+                color="success" @click="updateKeterangan(1)">TERIMA IZIN</v-btn>
                 <v-btn
                 class="btn"
-                color="error">TOLAK IZIN</v-btn>
+                color="error" @click="updateKeterangan(0)">TOLAK IZIN</v-btn>
               </v-col>
             </v-row>
             </v-form>
@@ -59,8 +59,10 @@
 </template>
 
 <script>
+import Keterangan from "@/datasource/network/absensi/keterangan"
+
 export default {
-  props: ["dialogs", "dataMhs"],
+  props: ["dialogs", "dataMhs", "kelas"],
   data () {
     return {
       selectedImage: null,
@@ -71,6 +73,16 @@ export default {
     zoom (url) {
       console.log("Zoom", url)
       this.selectedImage = url
+    },
+    updateKeterangan (status) {
+      Keterangan.updateKeterangan(this.dataMhs.keterangans[0].id_keterangan, status)
+        .then(response => {
+          console.log(response)
+          this.dialogs.dialog = false
+        })
+        .catch(e => {
+          console.log(e)
+        })
     }
   }
 }

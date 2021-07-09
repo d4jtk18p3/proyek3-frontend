@@ -59,7 +59,7 @@ export default {
     PersentaseMengajar
   },
   created () {
-    var current = new Date()
+    var current = new Date(2021, 6, 9)
     this.currentDay = current.getDay()
     this.getJadwalDsn()
     this.getPersentaseMengajar()
@@ -108,16 +108,11 @@ export default {
     getJadwalDsn () {
       JadwalDosen.getJadwalDosen(this.currentDay, 196610181995121000)
         .then(response => {
-          response.data.jadwal.forEach(function (element) {
-            element.absen = "false"
-            element.active = "true"
-            element.hadir = "false"
-            element.duration = 0
-            element.currentDuration = 0
-            element.progress = 0
-          })
-          this.jadwalDsn = response.data.jadwal
-          console.log(response.data.jadwal)
+          // response.data.jadwal.forEach(function (element) {
+          //   element.absen = "false"
+          // })
+          this.jadwalDsn = response.result
+          console.log(response)
         })
         .catch(e => {
           console.log(e)
