@@ -56,8 +56,8 @@ export default {
       required: false,
       default: "D4 - Teknik Informatika"
     },
-    kelas: {
-      type: Number,
+    kelasString: {
+      type: String,
       required: false
     }
   },
@@ -78,13 +78,13 @@ export default {
       var mahasiswa = {
         nama: this.dataMahasiswa.nama,
         nim: this.dataMahasiswa.nim,
-        kelas: this.kelas,
+        kelasString: this.kelasString,
         prodi: this.prodi,
         matakuliah: this.namaMataKuliah
       }
       this.$router.push({
         name: "ListLogbook",
-        path: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.mataKuliah + "/" + this.kelas + "/" + this.dataMahasiswa.nim,
+        path: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.mataKuliah + "/" + this.kelasString + "/" + this.dataMahasiswa.nim,
         params: {
           nim: this.dataMahasiswa.nim,
           identitas: mahasiswa

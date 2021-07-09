@@ -13,10 +13,10 @@
             <v-col :cols="isMobile ? '4' : '3'" class="py-0">
               <div class="text-start">Nama</div>
             </v-col>
-            <v-col :cols="isMobile ? '7' : '5'" class="py-0">
+            <v-col :cols="isMobile ? '7' : '8'" class="py-0">
               <div class="text-start">: {{nama}}</div>
             </v-col>
-            <v-col :cols="isMobile ? '1' : '4'"></v-col>
+            <v-col :cols="isMobile ? '1' : '1'"></v-col>
             <v-col :cols="isMobile ? '4' : '3'" class="py-0">
               <div class="text-start">NIM</div>
             </v-col>
@@ -28,7 +28,7 @@
               <div class="text-start">Kelas</div>
             </v-col>
             <v-col :cols="isMobile ? '7' : '5'" class="py-0">
-              <div class="text-start">: {{kelas}}</div>
+              <div class="text-start">: {{kelasString}}</div>
             </v-col>
               <v-col :cols="isMobile ? '1' : '4'"></v-col>
             <v-col :cols="isMobile ? '4' : '3'" class="py-0">
@@ -62,7 +62,7 @@
       :kesan="this.kesan"
       :nim="this.nim"
       :nama="this.nama"
-      :kelas="this.kelas"
+      :kelasString="this.kelasString"
       :namaMataKuliah="this.namaMataKuliah"
       :prodi="this.prodi"/>
     </v-col>
@@ -91,38 +91,27 @@ export default {
     },
     namaMataKuliah: {
       type: String,
-      required: false,
-      default: "Proyek 1"
+      required: false
     },
     prodi: {
       type: String,
-      required: false,
-      default: "D4 - Teknik Informatika"
+      required: false
     },
-    kelas: {
-      type: Number,
+    kelasString: {
+      type: String,
       required: false
     },
     kegiatan: {
       type: String,
-      required: false,
-      default: () => {
-        return ""
-      }
+      required: false
     },
     hasil: {
       type: String,
-      required: false,
-      default: () => {
-        return ""
-      }
+      required: false
     },
     kesan: {
       type: String,
-      required: false,
-      default: () => {
-        return ""
-      }
+      required: false
     },
     logbookdate: {
       type: Date,
@@ -150,14 +139,14 @@ export default {
           href: "/logbook/logbook-mahasiswa"
         },
         {
-          text: this.prodi.substring(0, 2) + " - " + this.namaMataKuliah + " - " + this.kelas,
+          text: this.prodi.substring(0, 2) + " - " + this.namaMataKuliah + " - " + this.kelasString,
           disabled: false,
-          href: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.namaMataKuliah + "/" + this.kelas
+          href: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.namaMataKuliah + "/" + this.kelasString
         },
         {
           text: this.nim,
           disabled: false,
-          href: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.namaMataKuliah + "/" + this.kelas + "/" + this.nim
+          href: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.namaMataKuliah + "/" + this.kelasString + "/" + this.nim
         },
         {
           text: "Lihat Detail Logbook",

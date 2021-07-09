@@ -13,10 +13,10 @@
             <v-col :cols="isMobile ? '4' : '3'" class="py-0">
               <div class="text-start">Nama</div>
             </v-col>
-            <v-col :cols="isMobile ? '7' : '5'" class="py-0">
+            <v-col :cols="isMobile ? '7' : '7'" class="py-0">
               <div class="text-start">: {{identitas.nama}}</div>
             </v-col>
-            <v-col :cols="isMobile ? '1' : '4'"></v-col>
+            <v-col :cols="isMobile ? '1' : '2'"></v-col>
             <v-col :cols="isMobile ? '4' : '3'" class="py-0">
               <div class="text-start">NIM</div>
             </v-col>
@@ -28,21 +28,21 @@
               <div class="text-start">Kelas</div>
             </v-col>
             <v-col :cols="isMobile ? '7' : '5'" class="py-0">
-              <div class="text-start">: {{identitas.kelas}}</div>
+              <div class="text-start">: {{kodeKelasToStringKelas(this.identitas.kode_kelas)}}</div>
             </v-col>
               <v-col :cols="isMobile ? '1' : '4'"></v-col>
             <v-col :cols="isMobile ? '4' : '3'" class="py-0">
               <div class="text-start">Prodi</div>
             </v-col>
             <v-col :cols="isMobile ? '7' : '7'" class="py-0">
-              <div class="text-start">: {{identitas.prodi}}</div>
+              <div class="text-start">: {{kodeProdiToStringProdi(this.matkul.kode_program_studi)}}</div>
             </v-col>
             <v-col :cols="isMobile ? '1' : '2'"></v-col>
             <v-col :cols="isMobile ? '4' : '3'" class="py-0">
               <div class="text-start">Mata Kuliah</div>
             </v-col>
             <v-col :cols="isMobile ? '7' : '5'" class="py-0">
-              <div class="text-start">: {{identitas.matakuliah}}</div>
+              <div class="text-start">: {{this.matkul.nama_mata_kuliah}}</div>
             </v-col>
             <v-col :cols="isMobile ? '1' : '4'"></v-col>
           </v-row>
@@ -74,6 +74,8 @@ import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import DatePickerItem from "@/views/logbook/component/mahasiswa/DatePickerItem"
 import FormEditLogbookItem from "@/views/logbook/component/mahasiswa/FormEditLogbookItem"
 import BackEndEntri from "../../../../datasource/network/logbook/entri"
+import BackEndMahasiswa from "../../../../datasource/network/logbook/mahasiswa"
+import BackEndMatkul from "../../../../datasource/network/logbook/matakuliah"
 
 export default {
   name: "EditLogbook",
@@ -81,16 +83,7 @@ export default {
   props: {
     identitas: {
       type: Object,
-      required: false,
-      default: () => {
-        return {
-          nama: "Khoirunnisa Putri",
-          nim: "191524034",
-          kelas: "3A",
-          prodi: "D4 - Teknik Informatika",
-          matakuliah: "Proyek 3"
-        }
-      }
+      required: false
     },
     kegiatan: {
       type: String,
@@ -152,7 +145,8 @@ export default {
           disabled: true,
           href: ""
         }
-      ]
+      ],
+      matkul: null
     }
   },
   computed: {
@@ -163,7 +157,36 @@ export default {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
   },
+  methods: {
+    kodeKelasToStringKelas (kodekelas) {
+      var date = new Date()
+      var year = date.getFullYear()
+
+      var kelasAngkaString = year.toString().substr(2, 4) // 2021 -> 21
+      var kelasAngkaStringInput = kodekelas.toString().substr(0, 2) // 1803 -> 18
+
+      var kelasAngka = parseInt(kelasAngkaString) - parseInt(kelasAngkaStringInput) // 21 - 18 = 3
+      kelasAngkaString = kelasAngka.toString()
+
+      var kelasHurufString = kodekelas.toString().substr(2, 4) // 1803 -> 03
+
+      if (kelasHurufString === "01" || kelasHurufString === "03") {
+        return kelasAngkaString + "A"
+      } else {
+        return kelasAngkaString + "B"
+      }
+    },
+    kodeProdiToStringProdi (kodeprodi) {
+      if (kodeprodi === "24") {
+        return "D4 - Teknik Informatika"
+      } else if (kodeprodi === "11") {
+        return "D3 - Teknik Informatika"
+      }
+    }
+  },
   async mounted () {
+    this.identitas = await BackEndMahasiswa.getOneMahasiswaByNim("181524014")
+    this.matkul = await BackEndMatkul.getLastProyek("181524014")
     var data = await BackEndEntri.getOneEntryLogbookMhsByid(this.idEntriLogbook)
     this.logbookdate = data.tanggal
     var parts = data.tanggal.split("-")
