@@ -20,7 +20,7 @@
             <v-card-text
               class="pb-0"
               :style="item.active? 'color: #272343' : 'color: white'"
-            > #{{item.id_studi}} {{item.active}}</v-card-text>
+            > #{{item.id_studi}}</v-card-text>
             <h3
               class="pt-0 pb-5 text-center"
               :style="item.active? 'color: #272343' : 'color: white'"
@@ -47,21 +47,30 @@
                   :color="item.hadir? 'success' : 'error'"
                   :value="item.progress"
                   height="5"
-                  class="mt-0 pt-0 ml-8 mr-8 mb-8 justify-center"
+                  class="mt-0 pt-0 ml-8 mr-8 justify-center"
                 ></v-progress-linear>
             </v-row>
-            <v-spacer></v-spacer>
-            <v-card-actions class="justify-center">
-              <v-btn
-                :disabled="item.absen"
-                elevation="2"
-                rounded
-                class="ma-5"
-                color="#4CAF50"
-                width="120"
-                @click="presensiDosen(index, item.id_studi, item.id_jadwal)"
-              > Hadir</v-btn>
-            </v-card-actions>
+              <v-card-actions class="justify-center">
+                <v-btn
+                  :disabled="item.absen"
+                  elevation="2"
+                  rounded
+                  class="mt-5 ml-5 mr-5"
+                  color="#4CAF50"
+                  width="120"
+                  @click="presensiDosen(index, item.id_studi, item.id_jadwal)"
+                > Hadir</v-btn>
+              </v-card-actions>
+              <v-card-actions class="justify-center">
+                <v-btn
+                  :to="{ name: 'Perkuliahan', params: { item } }"
+                  elevation="2"
+                  rounded
+                  class="pt-0 ml-8 mr-8 justify-center"
+                  width="150"
+                  color="#FB8C00"
+                > Perkuliahan</v-btn>
+              </v-card-actions>
           </v-card>
         </v-col>
       </v-slide-item>
