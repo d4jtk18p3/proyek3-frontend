@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <button @click="start">Start</button>
-    <button @click="stop">Stop</button>
-    <button @click="reset">Reset</button>
-    <p>{{formattedElapsedTime}}</p>
+    <p
+    class="pa-4 text-center font-weight-bold text-h6"
+    style="color: red"
+    >{{formattedElapsedTime}}</p>
   </div>
 </template>
 
@@ -29,9 +29,11 @@ export default {
       this.timer = setInterval(() => {
         this.elapsedTime += 1000
       }, 1000)
+      console.log(this.elapsedTime)
     },
     stop () {
-      clearInterval(this.timer)
+      this.$emit("clicked", this.timer)
+      clearInterval(this.elapsedTime)
     },
     reset () {
       this.elapsedTime = 0

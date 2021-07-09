@@ -5,6 +5,19 @@
         <p class="text-h4 font-weight-bold">Monitoring {{this.namaMatkul}} - {{this.namaTugas}}</p>
         <breadcumbs :breadcrumb-items="breadcrumbItems"/>
       </v-col>
+      <v-col cols="2">
+        <v-card
+        class="rounded-card rounded-lg"
+        :style="{color: currentTheme.onSurface}">
+          <Durasi
+              :timer="formattedTime"
+              :state="timerState"
+              :visible="dialog"
+              ref="durasi"
+              @clicked="onClickChild"
+          />
+        </v-card>
+      </v-col>
       <v-col
         class="text-right"
       >
@@ -104,14 +117,14 @@
         <!-- <template v-slot:[`item.lampiran`]>
           <td><a v-bind:href="items.lampiran" :key="items.lampiran"> link </a></td>
         </template> -->
-        <template v-slot:[`item.Durasi`]>
-          <Durasi/>
+        <template  v-slot:item.durasi="{ item }">
+          <p v-if="!btnMulai[item.id]">{{item.durasi}}</p>
         </template>
       </v-data-table>
       </v-col>
   </v-row>
   <editProgress :index="editedIndex" :visible="dialog" @close="dialog=false" />
-  <SerahkanTugas :index="editedIndex" :visible="dialogSelesai" @close="dialogSelesai=false" />s
+  <SerahkanTugas :index="editedIndex" :visible="dialogSelesai" @close="dialogSelesai=false" />
   </div>
 </template>
 
@@ -132,6 +145,11 @@ export default {
   },
   data () {
     return {
+      timerState: "stopped",
+      currentTimer: 0,
+      formattedTime: "00:00:00",
+      ticker: undefined,
+      snackbar: false,
       singleSelect: false,
       namaMatkul: "",
       namaTugas: "",
@@ -195,7 +213,7 @@ export default {
           text: "Durasi",
           align: "center",
           sortable: false,
-          value: "waktu_selesai",
+          value: "durasi",
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
@@ -233,6 +251,9 @@ export default {
     }
   },
   methods: {
+    onClickChild (value) {
+      console.log(value) // someValue
+    },
     editItem (item) {
       this.editedIndex = item
       this.dialog = true
@@ -245,9 +266,12 @@ export default {
       this.btnPause[item] = true
       this.btnSelesai[item] = true
       this.btnMulai = false
+      this.$refs.durasi.start()
     },
     pauseItem (item) {
       this.btnMulai = true
+      this.btnPause[item] = false
+      this.$refs.durasi.stop()
     },
     lihatMonitoringTeman () {
       this.$router.push("/monitoring/mahasiswa/monitoringTeman/" + this.namaMatkul + "&" + this.namaTugas + "&" + this.id).catch(error => {
