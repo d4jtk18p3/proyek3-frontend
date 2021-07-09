@@ -108,11 +108,16 @@ export default {
     getJadwalDsn () {
       JadwalDosen.getJadwalDosen(this.currentDay, 196610181995121000)
         .then(response => {
-          // response.data.jadwal.forEach(function (element) {
-          //   element.absen = "false"
-          // })
-          this.jadwalDsn = response.result
-          console.log(response)
+          response.data.jadwal.forEach(function (element) {
+            element.absen = "false"
+            element.active = "true"
+            element.hadir = "false"
+            element.duration = 0
+            element.currentDuration = 0
+            element.progress = 0
+          })
+          this.jadwalDsn = response.data.jadwal
+          console.log(response.data.jadwal)
         })
         .catch(e => {
           console.log(e)
@@ -121,9 +126,6 @@ export default {
     getPersentaseMengajar () {
       DashboardDosen.persentaseMengajar(196610181995121000)
         .then(response => {
-          // response.data.jadwal.forEach(function (element) {
-          //   element.absen = "false"
-          // })
           this.persentaseMengajar = response.data
           console.log(response)
         })
