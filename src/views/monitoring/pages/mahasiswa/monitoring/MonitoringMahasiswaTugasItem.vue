@@ -49,7 +49,7 @@
           >No Data Available
           </p>
         </template>
-        <template v-slot:item.status_subtugas="{ item }">
+        <template v-slot:[`item.status_subtugas`]="{ item }">
           <v-simple-checkbox
             v-model="item.status_subtugas"
             light
@@ -57,15 +57,13 @@
             :color="currentTheme.colorPrimary"
           ></v-simple-checkbox>
         </template>
-        <template v-slot:item.Detail="{ item }">
+        <template v-slot:[`item.Detail`]="{ item }">
           <v-btn
             v-if="btnMulai[item.id]"
             color="primary"
             dark
-            v-bind="attrs"
-            v-on="on"
             width="70"
-            rounded="6"
+            rounded
             small
             class="mt-1"
             @click="mulaiItem(item.id)"
@@ -76,10 +74,8 @@
             v-if="btnPause[item.id]"
             color="error"
             dark
-            v-bind="attrs"
-            v-on="on"
             width="70"
-            rounded="6"
+            rounded
             small
             class="mt-1"
             @click="pauseItem(item.id)"
@@ -90,10 +86,8 @@
             v-if="btnSelesai[item.id]"
             :color="currentTheme.colorPrimary"
             dark
-            v-bind="attrs"
-            v-on="on"
             width="70"
-            rounded="6"
+            rounded
             small
             class="mt-1 mb-1"
             @click="selesaiItem(item.id)"
@@ -101,11 +95,9 @@
             <span style="font-size: 12px" class="font-weight-bold">Selesai</span>
           </v-btn>
         </template>
-        <template v-slot:item.Edit="{ item }">
+        <template v-slot:[`item.Edit`]="{ item }">
           <v-btn
             class="mr-5"
-            v-bind="attrs"
-            v-on="on"
             icon :style="{color: currentTheme.onBackground}"
           >
             <v-icon
@@ -117,14 +109,14 @@
         <!-- <template v-slot:[`item.lampiran`]>
           <td><a v-bind:href="items.lampiran" :key="items.lampiran"> link </a></td>
         </template> -->
-        <template  v-slot:item.durasi="{ item }">
+        <template  v-slot:[`item.durasi`]="{ item }">
           <p v-if="!btnMulai[item.id]">{{item.durasi}}</p>
         </template>
       </v-data-table>
       </v-col>
   </v-row>
-  <editProgress :index="editedIndex" :visible="dialog" @close="dialog=false" />
-  <SerahkanTugas :index="editedIndex" :visible="dialogSelesai" @close="dialogSelesai=false" />
+  <editProgress :index="editedIndex" :subTask="namaSubtugas" :visible="dialog" @close="dialog=false" />
+  <SerahkanTugas :index="editedIndex" :subTask="namaSubtugas" :visible="dialogSelesai" @close="dialogSelesai=false" />
   </div>
 </template>
 
@@ -153,6 +145,7 @@ export default {
       singleSelect: false,
       namaMatkul: "",
       namaTugas: "",
+      namaSubtugas: "",
       id: 0,
       selected: [],
       dialog: false,
@@ -255,6 +248,7 @@ export default {
       console.log(value) // someValue
     },
     editItem (item) {
+      this.namaSubtugas = this.items[item - 1].nama_subtugas
       this.editedIndex = item
       this.dialog = true
     },

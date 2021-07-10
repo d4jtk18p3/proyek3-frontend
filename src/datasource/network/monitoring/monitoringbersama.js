@@ -30,7 +30,7 @@ const getSubTugasbyMahasiswa = async (idTugas, nim) => {
   try {
     const monitoringURL = MONITORING_URL + `/common/getSubtugasbyMahasiswa/${idTugas}/${nim}`
     const result = await baseHttp.get(monitoringURL)
-    console.log(result.data.data.uniqueSubtugas)
+    // console.log(result.data.data.uniqueSubtugas)
     return result.data.data.uniqueSubtugas
   } catch (e) {
     return await errorHandler(e)

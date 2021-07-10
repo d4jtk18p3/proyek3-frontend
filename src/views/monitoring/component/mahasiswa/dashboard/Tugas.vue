@@ -6,7 +6,7 @@
     >
         <v-row>
             <v-col>
-                <div class="caption font-weight-medium" :style="{color : gray}">{{this.tenggat}}</div>
+                <div class="caption font-weight-medium" :style="{color : isDark ? currentTheme.surface : currentTheme.onSurface}">{{this.tenggat}}</div>
                 <div class="text-h7 font-weight-bold ml-2" :style="{color : isDark ? currentTheme.surface : currentTheme.onSurface}">{{ tugas }}</div>
                 <div class="caption font-weight-medium font-italic ml-2" :style="{color : isDark ? currentTheme.surface : currentTheme.onSurface}">{{this.jumlahSubTask}} Sub-Task</div>
             </v-col>
@@ -22,7 +22,7 @@
                     :value="this.progress"
                     color="red"
                 >
-                    <div class="text-h7 font-weight-bold" :style="{color : currentTheme.onSurface}">{{progress}}</div>
+                    <div class="text-h7 font-weight-bold" :style="{color : isDark ? currentTheme.surface : currentTheme.onSurface}">{{progress}}</div>
                 </v-progress-circular>
             </v-col>
         </v-row>
@@ -58,7 +58,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentTheme: "theme/getCurrentColor"
+      currentTheme: "theme/getCurrentColor",
+      isDark: "theme/getIsDark"
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
@@ -68,7 +69,7 @@ export default {
     var items = await SubTugasMonitoringBersama.getSubTugasbyMahasiswa(this.id, "181524002")
     var i = 0
     var progress = 0
-    var tenggat = []
+    var tenggat = new Date()
     while (i < items.length) {
       if (items[i].progress !== null) {
         progress = progress + items[i].progress
@@ -81,12 +82,12 @@ export default {
       if (items[i].status_subtugas !== false) {
         if (items[i].tenggat !== null) {
           var temp = new Date(items[i].tenggat)
-          console.log(temp)
-          if (tenggat[0] == null) {
-            tenggat[0] = new Date(temp)
+          // console.log(temp)
+          if (tenggat == null) {
+            tenggat = new Date(temp)
             sebelum = new Date(items[i].tenggat)
           } else if (sebelum > temp) {
-            tenggat[0] = new Date(temp)
+            tenggat = new Date(temp)
           }
         }
       }
@@ -95,7 +96,7 @@ export default {
     this.jumlahSubTask = items.length
     this.progress = progress
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    var hasil = (tenggat[0].getDate()) + (" " + (monthNames[tenggat[0].getMonth()])) + (" " + (tenggat[0].getFullYear()))
+    var hasil = (tenggat.getDate()) + (" " + (monthNames[tenggat.getMonth()])) + (" " + (tenggat.getFullYear()))
     this.tenggat = hasil
   }
 }

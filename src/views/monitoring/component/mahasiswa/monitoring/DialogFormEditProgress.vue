@@ -47,8 +47,6 @@
               <v-btn
                 :color="currentTheme.colorPrimary"
                 dark
-                v-bind="attrs"
-                v-on="on"
                 width="100"
                 @click="edit"
               >
@@ -67,14 +65,7 @@ import { mapGetters } from "vuex"
 import SubtugasMonitoringDosen from "../../../../../datasource/network/monitoring/subtugas"
 export default {
   name: "subTask",
-  props: ["visible", "index"],
-  // props: {
-  //   subTask: {
-  //     type: String,
-  //     required: false,
-  //     default: "Another Type of Employee"
-  //   }
-  // },
+  props: ["visible", "index", "subTask"],
   data () {
     return {
       target: 0,

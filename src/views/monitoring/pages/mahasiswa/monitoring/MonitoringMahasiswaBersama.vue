@@ -81,7 +81,7 @@ export default {
   },
   data () {
     return {
-      selectedItem: 0,
+      selectedItem: 1,
       namaMatkul: "",
       namaTugas: "",
       id: 0,

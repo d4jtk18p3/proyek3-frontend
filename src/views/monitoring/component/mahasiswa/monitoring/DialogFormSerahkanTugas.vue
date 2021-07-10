@@ -31,8 +31,6 @@
               <v-btn
                 :color="currentTheme.colorPrimary"
                 dark
-                v-bind="attrs"
-                v-on="on"
                 width="100"
                 @click="serahkan"
               >
@@ -51,7 +49,7 @@ import { mapGetters } from "vuex"
 import SubtugasMonitoringDosen from "../../../../../datasource/network/monitoring/subtugas"
 export default {
   name: "subTask",
-  props: ["visible", "index"],
+  props: ["visible", "index", "subTask"],
   data () {
     return {
       lampiran: ""

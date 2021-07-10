@@ -76,7 +76,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentTheme: "theme/getCurrentColor"
+      currentTheme: "theme/getCurrentColor",
+      isDark: "theme/getIsDark"
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
