@@ -125,6 +125,7 @@
           </v-col>
           <v-col cols="6" align="left">
             <v-btn
+            :disabled="!this.namaSubtugas"
             class=" white--text"
             :color="isDark? currentTheme.colorSecondary : currentTheme.colorOnSecondary"
             @click="addSubtugas"

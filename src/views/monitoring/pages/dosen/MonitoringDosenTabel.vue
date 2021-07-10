@@ -142,13 +142,6 @@ export default {
         }
       ],
       subtugas: [],
-      // items: [
-      //   {
-      //     id: "",
-      //     nama_subtugas: "",
-      //     tenggat: ""
-      //   }
-      // ],
       headers: [
         {
           text: "Nama Subtugas",
@@ -182,31 +175,6 @@ export default {
           text: "Nama",
           value: "Nama",
           class: "white--text text-lg-subtitle-1 font-weight-bold"
-        },
-        {
-          text: "Rata-Rata Progress",
-          align: "center",
-          value: "RataRataProgress",
-          class: "white--text text-lg-subtitle-1 font-weight-bold"
-        },
-        {
-          text: "Taks Dikerjakan",
-          align: "center",
-          value: "TaksDikerjakan",
-          class: "white--text text-lg-subtitle-1 font-weight-bold"
-        },
-        {
-          text: "Total Durasi",
-          align: "center",
-          value: "TotalDurasi",
-          class: "white--text text-lg-subtitle-1 font-weight-bold"
-        },
-        {
-          text: "Detail",
-          value: "id",
-          align: "center",
-          sortable: false,
-          class: "white--text text-lg-subtitle-1 font-weight-bold"
         }
       ],
       listMhs: [],
@@ -239,7 +207,7 @@ export default {
   async mounted () {
     var sub = await SubtugasMonitoringDosen.getSubtugasByTugas(this.$route.params.id_tugas)
     var mhs = await TugasMonitoringDosen.getMahasiswaByTugas(this.$route.params.id_tugas)
-    // var kriteria = await TugasMonitoringDosen.getKriteriaByTugas(this.$route.params.id_tugas)
+    var kriteria = await TugasMonitoringDosen.getKriteriaByTugas(this.$route.params.id_tugas)
     var i = 0
     var j = 0
     var k = 0
@@ -263,15 +231,53 @@ export default {
       })
       i++
     }
+    if (kriteria.progress === true) {
+      this.headersMhs.push({
+        text: "Rata-Rata Progress",
+        align: "center",
+        value: "RataRataProgress",
+        class: "white--text text-lg-subtitle-1 font-weight-bold"
+      })
+      this.headersMhs.push({
+        text: "Taks Dikerjakan",
+        align: "center",
+        value: "TaksDikerjakan",
+        class: "white--text text-lg-subtitle-1 font-weight-bold"
+      })
+    } else if (kriteria.durasi === true) {
+      this.headersMhs.push({
+        text: "Taks Dikerjakan",
+        align: "center",
+        value: "TaksDikerjakan",
+        class: "white--text text-lg-subtitle-1 font-weight-bold"
+      })
+    }
+
+    if (kriteria.durasi === true) {
+      this.headersMhs.push({
+        text: "Total Durasi",
+        align: "center",
+        value: "TotalDurasi",
+        class: "white--text text-lg-subtitle-1 font-weight-bold"
+      })
+    }
+    this.headersMhs.push({
+      text: "Detail",
+      value: "id",
+      align: "center",
+      sortable: false,
+      class: "white--text text-lg-subtitle-1 font-weight-bold"
+    })
     while (j < mhs.listNIMMahasiswa.length) {
       var subMhs = await SubtugasMonitoringDosen.getSubtugasByMahasiswa(this.$route.params.id_tugas, mhs.listNIMMahasiswa[j])
       while (k < subMhs.length) {
         if (subMhs[k].progress !== null) {
           progres += subMhs[k].progress
-        }
-        if (subMhs[k].durasi !== null) {
+          task += 1
+        } else if (subMhs[k].durasi !== null) {
           task += 1
         }
+
         if (subMhs[k].durasi !== null) {
           durasi += subMhs[k].durasi
         }

@@ -34,7 +34,7 @@
         <v-col>
           <div
             class="pl-1 py-5 text-subtitle-2 font-weight-medium"
-            :style="{color : currentTheme.colorOnSecondary}"
+            :style="{color : currentTheme.onSurface}"
           >Jumlah Subtugas : {{jumlahSubtugas}}</div>
           <!-- <v-avatar color="white">
             <span class="white--text headline font-weight-bold">{{jumlahSubtugas}}</span>

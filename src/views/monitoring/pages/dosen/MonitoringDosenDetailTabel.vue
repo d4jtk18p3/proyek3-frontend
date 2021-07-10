@@ -7,7 +7,20 @@
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
     </v-col>
     <v-col  class="ml-auto pl-13 py-4" cols="0" xs="6" sm="6" md="5" lg="4" xl="3">
-      <v-combobox solo  v-model="select" :items="choices" :dark="isDark"></v-combobox>
+      <!-- <v-combobox solo  v-model="select" :items="choices" :dark="isDark"></v-combobox> -->
+      <v-select
+        v-model="mahasiswa"
+        :dark="isDark"
+        :items="listMhs"
+        item-text="Nama"
+        item-value="Nim"
+        item-color="#C4C4C4"
+        solo
+        dense
+        return-object
+        v-on:input="setMhs(mahasiswa.Nim)"
+      >
+      </v-select>
     </v-col>
     <v-col cols="12">
       <v-data-table
@@ -53,12 +66,8 @@ export default {
       isLoading: false,
       rulesFile: {
       },
-      select: [
-        "Alvira Putrina D"
-      ],
-      choices: [
-        "Alvira Putrina D",
-        "Ananda Bayu"
+      mahasiswa: "",
+      listMhs: [
       ],
       breadcrumbItems: [
         {
@@ -96,104 +105,7 @@ export default {
           width: "200",
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         }
-        // {
-        //   text: "Progress",
-        //   value: "progress",
-        //   sortable: true,
-        //   class: "white--text text-lg-subtitle-1 font-weight-bold"
-        // },
-        // {
-        //   text: "Skala Pemahaman",
-        //   align: "center",
-        //   value: "skala_pemahaman",
-        //   class: "white--text text-lg-subtitle-1 font-weight-bold"
-        // },
-        // {
-        //   text: "Durasi",
-        //   align: "center",
-        //   value: "durasi",
-        //   class: "white--text text-lg-subtitle-1 font-weight-bold"
-        // },
-        // {
-        //   text: "Catatan",
-        //   value: "catatan",
-        //   align: "center",
-        //   sortable: false,
-        //   class: "white--text text-lg-subtitle-1 font-weight-bold"
-        // },
-        // {
-        //   text: "Lampiran",
-        //   value: "lampiran",
-        //   align: "center",
-        //   width: "100",
-        //   class: "white--text text-lg-subtitle-1 font-weight-bold"
-        // }
       ],
-      // items: [
-      //   {
-      //     Selesai: true,
-      //     Nama: "Another Type of Employee",
-      //     Target: "50",
-      //     SkalaPemahaman: "8.5",
-      //     Durasi: "00:30:00",
-      //     Catatan: "",
-      //     Lampiran: "Link Spreadsheet"
-      //   },
-      //   {
-      //     Selesai: true,
-      //     Nama: "Another Type of Employee",
-      //     Target: "50",
-      //     SkalaPemahaman: "8",
-      //     Durasi: "00:30:00",
-      //     Catatan: "Dalam kasus ini multi-Thread, ketika program di run hasilnya kata Hello JTK 2018 tidak beraturan,ini dikarenakan thread..",
-      //     Lampiran: "Link Dokumen"
-      //   },
-      //   {
-      //     Selesai: false,
-      //     Nama: "Planning Shapes",
-      //     Target: "50",
-      //     SkalaPemahaman: "5",
-      //     Durasi: "00:30:00",
-      //     Catatan: "",
-      //     Lampiran: "Link Dokumen"
-      //   },
-      //   {
-      //     Selesai: true,
-      //     Nama: "Polymorphic Sorting",
-      //     Target: "50",
-      //     SkalaPemahaman: "4.5",
-      //     Durasi: "00:30:00",
-      //     Catatan: "",
-      //     Lampiran: "Link Dokumen"
-      //   },
-      //   {
-      //     Selesai: true,
-      //     Nama: "Timming Searching and Sorting Algorithms",
-      //     Target: "50",
-      //     SkalaPemahaman: "5",
-      //     Durasi: "00:30:00",
-      //     Catatan: "",
-      //     Lampiran: "Link Dokumen"
-      //   },
-      //   {
-      //     Selesai: false,
-      //     Nama: "Coloring a Moveaible Circle",
-      //     Target: "80",
-      //     SkalaPemahaman: "4.2",
-      //     Durasi: "00:50:00",
-      //     Catatan: "",
-      //     Lampiran: "Link Spreadsheet"
-      //   },
-      //   {
-      //     Selesai: false,
-      //     Nama: "Speed Control",
-      //     Target: "100",
-      //     SkalaPemahaman: "5",
-      //     Durasi: "01:02:00",
-      //     Catatan: "Dalam kasus ini multi-Thread, ketika program di run hasilnya kata Hello JTK 2018 tidak beraturan,ini dikarenakan thread..",
-      //     Lampiran: "Link Spreadsheet"
-      //   }
-      // ],
       subtugas: []
     }
   },
@@ -203,10 +115,34 @@ export default {
       isDark: "theme/getIsDark"
     })
   },
+  methods: {
+    async setMhs (a) {
+      // const currentRoute = this.$route.params({ id_mhs: a })
+      // console.log(currentRoute)
+      this.$router.push("/monitoring/dosen/monitoring-tugas/daftar-tugas/" + this.$route.params.id_tugas + "/" + this.$route.params.id_perkuliahan + "/tugas/" + this.$route.params.id_tugas + "/" + a).catch(error => {
+        if (error.name !== "NavigationDuplicated") {
+          throw error
+        }
+      })
+      location.reload()
+    }
+  },
   async mounted () {
     var sub = await SubtugasMonitoringDosen.getSubtugasByMahasiswa(this.$route.params.id_tugas, this.$route.params.id_mhs)
+    var mhs = await TugasMonitoringDosen.getMahasiswaByTugas(this.$route.params.id_tugas)
     var kriteria = await TugasMonitoringDosen.getKriteriaByTugas(this.$route.params.id_tugas)
+    var i = 0
+    var mhsList = []
     this.subtugas = sub
+    this.mahasiswa = this.$route.params.id_mhs
+    while (i < mhs.listNIMMahasiswa.length) {
+      mhsList.push({
+        Nim: mhs.listNIMMahasiswa[i],
+        Nama: mhs.listNamaMahasiswa[i]
+      })
+      i++
+    }
+    this.listMhs = mhsList
     if (kriteria.progress === true) {
       this.headers.push({
         text: "Progress",
