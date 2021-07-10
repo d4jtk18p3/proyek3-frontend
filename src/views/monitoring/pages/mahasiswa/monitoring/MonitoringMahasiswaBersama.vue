@@ -28,7 +28,7 @@
         loading-text=""
         :items-per-page="5"
         class="elevation-3"
-        :style="{backgroundColor: currentTheme.onBackground}"
+        :style="{backgroundColor: currentTheme.colorPrimary}"
       >
         <template v-slot:no-data>
           <p

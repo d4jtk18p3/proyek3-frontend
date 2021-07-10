@@ -21,7 +21,7 @@
             :style="{background: '#FB8C00'}"
             elevation="0"
           >
-            <div class="text-h7 font-weight-medium ml-2 " :style="{color : isDark ? currentTheme.onSurface : currentTheme.surface}">Tugas</div>
+            <div class="text-h7 font-weight-medium ml-2 " :style="{color : currentTheme.colorOnPrimary}">Tugas</div>
           </v-card>
           <div v-for="item in listTugas" :key="item.id">
             <Tugas :tugas="item.nama_tugas" :id="item.id"/>

@@ -1,6 +1,6 @@
 <template>
 <div>
-  <v-row>
+  <v-row :style="{color: currentTheme.onBackground}">
       <v-col cols="12">
         <p class="text-h4 font-weight-bold">Monitoring {{this.namaMatkul}} - {{this.namaTugas}}</p>
         <breadcumbs :breadcrumb-items="breadcrumbItems"/>
@@ -26,7 +26,7 @@
           dark
           @click="lihatMonitoringTeman()"
         >
-          <span style="font-size: 12px">Lihat Monitoring Teman</span>
+          <span style="font-size: 12px" :style="{color : isDark ? currentTheme.colorPrimary : currentTheme.surface}">Lihat Monitoring Teman</span>
         </v-btn>
       </v-col>
   </v-row>
@@ -40,11 +40,11 @@
         loading-text=""
         :items-per-page="7"
         class="elevation-3 white--text"
-        :style="{backgroundColor: currentTheme.onBackground}"
+        :style="{backgroundColor: currentTheme.colorPrimary}"
       >
         <template v-slot:no-data>
           <p
-            :style="{color: currentTheme.colorPrimary}"
+            :style="{color: currentTheme.surface}"
             class="text-lg-subtitle-1 font-weight-bold"
           >No Data Available
           </p>
@@ -54,7 +54,7 @@
             v-model="item.status_subtugas"
             light
             disabled
-            :color="currentTheme.colorPrimary"
+            :color="currentTheme.colorOnPrimary"
           ></v-simple-checkbox>
         </template>
         <template v-slot:[`item.Detail`]="{ item }">
@@ -98,7 +98,7 @@
         <template v-slot:[`item.Edit`]="{ item }">
           <v-btn
             class="mr-5"
-            icon :style="{color: currentTheme.onBackground}"
+            icon :style="{color: currentTheme.colorPrimary}"
           >
             <v-icon
             @click="editItem(item.id)">

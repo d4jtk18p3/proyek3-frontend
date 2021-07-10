@@ -1,14 +1,14 @@
 <template>
-    <v-col>
+    <v-col >
     <v-card
         class="pa-3 rounded-card rounded-lg"
         elevation="2"
     >
-        <v-row>
+        <v-row :style="{background: isDark ? currentTheme.surface: currentTheme.colorOnPrimary}">
             <v-col>
-                <div class="caption font-weight-medium" :style="{color : isDark ? currentTheme.surface : currentTheme.onSurface}">{{this.tenggat}}</div>
-                <div class="text-h7 font-weight-bold ml-2" :style="{color : isDark ? currentTheme.surface : currentTheme.onSurface}">{{ tugas }}</div>
-                <div class="caption font-weight-medium font-italic ml-2" :style="{color : isDark ? currentTheme.surface : currentTheme.onSurface}">{{this.jumlahSubTask}} Sub-Task</div>
+                <div class="caption font-weight-medium" :style="{color : isDark ? currentTheme.colorOnPrimary : currentTheme.onSurface}">{{this.tenggat}}</div>
+                <div class="text-h7 font-weight-bold ml-2" :style="{color : isDark ? currentTheme.colorOnPrimary : currentTheme.onSurface}">{{ tugas }}</div>
+                <div class="caption font-weight-medium font-italic ml-2" :style="{color : isDark ? currentTheme.colorOnPrimary : currentTheme.onSurface}">{{this.jumlahSubTask}} Sub-Task</div>
             </v-col>
             <v-col
                 cols="auto"
@@ -22,7 +22,7 @@
                     :value="this.progress"
                     color="red"
                 >
-                    <div class="text-h7 font-weight-bold" :style="{color : isDark ? currentTheme.surface : currentTheme.onSurface}">{{progress}}</div>
+                    <div class="text-h7 font-weight-bold" :style="{color : isDark ? currentTheme.colorOnPrimary : currentTheme.onSurface}">{{progress}}</div>
                 </v-progress-circular>
             </v-col>
         </v-row>

@@ -39,8 +39,8 @@
           ></v-textarea>
           <v-row justify="center">
             <v-col sm="5" class="mt-1">
-              <v-btn color="currentTheme.colorPrimary" elevation="2" width="100" outlined @click="closeDialog()">
-                <span style="font-size: 12px" class="font-weight-bold">Batal</span>
+              <v-btn :color="currentTheme.onError" elevation="2" width="100" @click="closeDialog()">
+                <span :style="{color: currentTheme.onSurface}" style="font-size: 12px" class="font-weight-bold">Batal</span>
               </v-btn>
             </v-col>
             <v-col sm="5" class="mt-1">
@@ -50,7 +50,7 @@
                 width="100"
                 @click="edit"
               >
-                Simpan
+                <span :style="{color: currentTheme.onSurface}" style="font-size: 12px" class="font-weight-bold">Simpan</span>
               </v-btn>
             </v-col>
           </v-row>

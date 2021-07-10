@@ -8,7 +8,7 @@
     >
         <v-row>
             <v-col cols="12">
-                <div class="text-h7 font-weight-bold ml-2 mt-1" :style="{color : isDark ? currentTheme.onSurface : currentTheme.surface}">{{ tugas }}</div>
+                <div class="text-h7 font-weight-bold ml-2 mt-1" :style="{color : isDark ? currentTheme.colorPrimary : currentTheme.surface}">{{ tugas }}</div>
             </v-col>
         </v-row>
     </v-card>
