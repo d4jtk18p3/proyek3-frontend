@@ -50,7 +50,7 @@
                 width="100"
                 @click="edit"
               >
-                <span :style="{color: currentTheme.onSurface}" style="font-size: 12px" class="font-weight-bold">Simpan</span>
+                <span style="font-size: 12px" class="font-weight-bold">Simpan</span>
               </v-btn>
             </v-col>
           </v-row>

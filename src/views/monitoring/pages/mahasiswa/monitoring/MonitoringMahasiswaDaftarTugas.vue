@@ -5,23 +5,25 @@
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
     </v-col>
     <v-col cols="9">
-    <div v-for="Tugas in TugasList"
-        :key="Tugas.matkul">
+    <div v-for="Tugas in listTugas"
+        :key="Tugas.id">
       <v-card
           class="pa-3 mt-2 ml-3 rounded-card rounded-lg"
           elevation="2"
           width="700"
+          v-if="show"
+          :style="{background: isDark ? currentTheme.surface: currentTheme.colorOnPrimary}"
       >
           <v-row>
               <v-col cols="4">
-                  <div class="text-h7 font-weight-bold ml-2 mt-1" :style="{color : isDark ? currentTheme.surface : currentTheme.onSurface}">{{Tugas.matkul}}</div>
-                  <div class="caption font-weight-medium font-italic ml-2" :style="{color : isDark ? currentTheme.surface : currentTheme.onSurface}">{{Tugas.jumlahSubTask}} Sub Task</div>
+                  <div class="text-h7 font-weight-bold ml-2 mt-1" :style="{color : isDark ? currentTheme.colorOnPrimary : currentTheme.onSurface}">{{Tugas.namaTugas}}</div>
+                  <div class="caption font-weight-medium font-italic ml-2" :style="{color : isDark ? currentTheme.colorOnPrimary : currentTheme.onSurface}">{{Tugas.jumlahSubTask}} Sub Task</div>
               </v-col>
               <v-col cols="3">
-                <div class="caption font-weight-medium font-italic ml-2 mt-4" :style="{color : isDark ? currentTheme.surface : currentTheme.onSurface}">{{Tugas.subtask}}</div>
+                <div class="caption font-weight-medium font-italic ml-2 mt-4" :style="{color : isDark ? currentTheme.colorOnPrimary : currentTheme.onSurface}">{{Tugas.subtask}}</div>
               </v-col>
               <v-col cols="2">
-                <div class="caption font-weight-medium mt-4" :style="{color : gray}">{{Tugas.tenggat}}</div>
+                <div class="caption font-weight-medium mt-4" :style="{color : isDark ? currentTheme.colorOnPrimary : currentTheme.onSurface}" v-if="adaTenggat">{{Tugas.tenggat}}</div>
               </v-col>
               <v-col
                   md="2"
@@ -50,7 +52,7 @@
           height="160"
       >
         <p class="text-h5 font-weight-bold text-center">Progress Tugas</p>
-        <p class="text-h3 font-weight-bold text-center">30%</p>
+        <p class="text-h3 font-weight-bold text-center">{{progressTugas}}%</p>
       </v-card>
     </v-col>
   </v-row>
@@ -59,41 +61,12 @@
 <script>
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
+import Dashboard from "../../../../../datasource/network/monitoring/dashboard"
+import SubTugasMonitoringBersama from "../../../../../datasource/network/monitoring/monitoringbersama"
 
 export default {
   name: "Dashboard",
   components: { Breadcumbs },
-  props: {
-    TugasList: {
-      type: Array,
-      required: false,
-      default: () => {
-        return [
-          {
-            matkul: "APPL 1",
-            jumlahSubTask: "7",
-            subtask: "W1 Polymorphism",
-            tenggat: "17 April 2021",
-            progress: "20"
-          },
-          {
-            matkul: "APPL 1",
-            jumlahSubTask: "2",
-            subtask: "W2 Design Pattern",
-            tenggat: "17 Mei 2021",
-            progress: "10"
-          },
-          {
-            matkul: "Akuntansi",
-            jumlahSubTask: "7",
-            subtask: "Latihan Buku Besar",
-            tenggat: "29 April 2021",
-            progress: "0"
-          }
-        ]
-      }
-    }
-  },
   data () {
     return {
       breadcrumbItems: [
@@ -107,16 +80,77 @@ export default {
           disabled: false,
           href: ""
         }
-      ]
+      ],
+      listTugas: [
+      ],
+      listProgress: [],
+      progress: 0,
+      show: true,
+      adaTenggat: false,
+      progressTugas: 0
     }
   },
   computed: {
     ...mapGetters({
-      currentTheme: "theme/getCurrentColor"
+      currentTheme: "theme/getCurrentColor",
+      isDark: "theme/getIsDark"
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
+  },
+  async mounted () {
+    var tugas = await Dashboard.getAllTugas("181524002")
+    var x = 0
+    var totalProgress = 0
+    while (x < tugas.length) {
+      var items = await SubTugasMonitoringBersama.getSubTugasbyMahasiswa(tugas[x].id, "181524002")
+      var i = 0
+      var progress = 0
+      var tenggat = new Date()
+      var sebelum = new Date()
+      let countTidakAdaTenggat = 0
+      var hariIni = new Date()
+      while (i < items.length) {
+        if (items[i].status_subtugas === false) { // ===
+          if (items[i].tenggat !== null) {
+            var temp = new Date(items[i].tenggat)
+            if (temp >= hariIni) {
+              console.log(temp)
+              this.show = true
+              this.adaTenggat = true
+              if (tenggat == null) {
+                tenggat = new Date(temp)
+                sebelum = new Date(items[i].tenggat)
+              } else if (sebelum > temp) {
+                tenggat = new Date(temp)
+              }
+            }
+          } else {
+            countTidakAdaTenggat += 1
+          }
+          if (countTidakAdaTenggat === 0 && this.adaTenggat === false) {
+            this.show = false
+          }
+        }
+        if (items[i].progress !== null) {
+          progress = progress + items[i].progress // menjumlahkan jumlah progress setiap sub tugas
+        }
+        i++
+      }
+      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+      var hasil = (tenggat.getDate()) + (" " + (monthNames[tenggat.getMonth()])) + (" " + (tenggat.getFullYear()))
+      this.listTugas.push({
+        namaTugas: tugas[x].nama_tugas,
+        progress: Math.ceil(progress / items.length),
+        jumlahSubTask: items.length,
+        tenggat: hasil
+      })
+      totalProgress += Math.ceil(progress / items.length)
+      x++
+    }
+    this.progressTugas = Math.ceil(totalProgress / tugas.length)
+    console.log(this.progressTugas)
   }
 }
 </script>

@@ -40,7 +40,7 @@
                 width="100"
                 @click="serahkan"
               >
-                Simpan
+                <span style="font-size: 12px" class="font-weight-bold">Simpan</span>
               </v-btn>
             </v-col>
           </v-row>

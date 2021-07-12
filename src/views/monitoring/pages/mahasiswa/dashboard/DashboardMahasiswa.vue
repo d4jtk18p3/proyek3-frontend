@@ -23,9 +23,20 @@
           >
             <div class="text-h7 font-weight-medium ml-2 " :style="{color : currentTheme.colorOnPrimary}">Tugas</div>
           </v-card>
-          <div v-for="item in listTugas" :key="item.id">
+          <div v-for="item in listTugas.slice(0, 5)" :key="item.id">
             <Tugas :tugas="item.nama_tugas" :id="item.id"/>
           </div>
+          <v-col
+            class="text-right">
+            <v-btn
+              :style="{background: isDark ? currentTheme.surface: currentTheme.colorOnPrimary}"
+            small>
+            <router-link to="/monitoring/mahasiswa/daftar-tugas" custom v-slot="{ navigate }">
+              <span @click="navigate" @keypress.enter="navigate" role="link" :style="{color : isDark ? currentTheme.colorSecondary : currentTheme.onSurface}"
+              >Lihat Semua</span>
+            </router-link>
+            </v-btn>
+          </v-col>
         </v-col>
         <v-col
           :cols="12"
@@ -85,22 +96,7 @@ export default {
   },
   async mounted () {
     var tugas = await Dashboard.getAllTugas("181524002")
-    // console.log(tugas)
     this.listTugas = tugas
-    // var Matkul = await DashboardMonitoringMahasiswa.getMatkulMahasiswa("181524002")
-    // var i = 0
-    // var matkulList = []
-    // while (i < Matkul.length) {
-    //   matkulList.push({
-    //     id: Matkul[i].id,
-    //     nama: Matkul[i].nama_mata_kuliah
-    //   })
-    //   i++
-    // }
-    // this.listMatkul = matkulList
-    // // var Tugas = await TugasMonitoringMahasiswa.getTugasMatkul(id, 5)
-    // console.log(matkulList)
-    // // console.log(Tugas)
   }
 }
 </script>
