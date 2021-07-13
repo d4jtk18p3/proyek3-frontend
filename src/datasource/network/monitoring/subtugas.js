@@ -67,9 +67,22 @@ const putSubTugas = async (id, progress, skalaPemahaman, catatan) => {
   }
 }
 
+const putSubTugasDurasi = async (id, durasi) => {
+  try {
+    const monitoringURL = MONITORING_URL + `/updateSubtugasDurasi-mahasiswa/${id}`
+    const result = await baseHttp.put(monitoringURL, {
+      durasi: durasi
+    })
+    return result.data
+  } catch (e) {
+    return await errorHandler(e)
+  }
+}
+
 export default {
   getSubTugasMatkul,
   postTugasBaru,
   putSubTugasSerahkan,
-  putSubTugas
+  putSubTugas,
+  putSubTugasDurasi
 }

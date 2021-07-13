@@ -63,8 +63,6 @@ import Pintasan from "@/views/monitoring/component/mahasiswa/dashboard/Pintasan"
 import TambahPintasan from "@/views/monitoring/component/mahasiswa/dashboard/TambahPintasan"
 import Kalender from "@/views/monitoring/component/mahasiswa/dashboard/Kalender"
 import Tugas from "@/views/monitoring/component/mahasiswa/dashboard/Tugas"
-// import DashboardMonitoringMahasiswa from "../../../../../datasource/network/monitoring/matakuliah"
-// import TugasMonitoringMahasiswa from "../../../../../datasource/network/monitoring/tugas"
 import Dashboard from "../../../../../datasource/network/monitoring/dashboard"
 
 export default {

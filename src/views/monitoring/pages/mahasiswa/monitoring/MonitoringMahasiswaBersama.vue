@@ -5,12 +5,11 @@
         <p class="text-h4 font-weight-bold">Monitoring Teman {{this.namaMatkul}} - {{this.namaTugas}}</p>
         <breadcumbs :breadcrumb-items="breadcrumbItems"/>
       </v-col>
-      <v-col  class="ml-auto pl-13" lg="3">
+      <v-col  class="ml-auto pl-13" :style="{color : isDark ? currentTheme.colorSecondary : currentTheme.colorSecondary}" lg="3">
       <v-select
         v-model="selectedItem"
         :dark="isDark"
         :items="listMahasiswa"
-        item-color="#C4C4C4"
         solo
         dense
       >

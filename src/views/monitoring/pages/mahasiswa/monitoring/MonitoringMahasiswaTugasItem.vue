@@ -5,17 +5,15 @@
         <p class="text-h4 font-weight-bold">Monitoring {{this.namaMatkul}} - {{this.namaTugas}}</p>
         <breadcumbs :breadcrumb-items="breadcrumbItems"/>
       </v-col>
-      <v-col cols="2">
+      <v-col :cols="isMobile? 2 : 1">
         <v-card
-        class="rounded-card rounded-lg"
+        class="rounded-card rounded-lg pa-3"
         :style="{color: currentTheme.onSurface}">
-          <Durasi
-              :timer="formattedTime"
-              :state="timerState"
-              :visible="dialog"
-              ref="durasi"
-              @clicked="onClickChild"
-          />
+          <div class="timer text-center" >
+            <span class="minute font-weight-medium text-h7" style="color: red">{{ minutes }}</span>
+            <span>:</span>
+            <span class="seconds font-weight-medium text-h7" style="color: red">{{ seconds }}</span>
+          </div>
         </v-card>
       </v-col>
       <v-col
@@ -58,20 +56,20 @@
           ></v-simple-checkbox>
         </template>
         <template v-slot:[`item.Detail`]="{ item }">
+          <div class="start" v-show="btnMulai[item.id]" @click="mulaiItem(item.id)">
+            <v-btn
+              color="primary"
+              dark
+              width="70"
+              rounded
+              small
+              class="mt-1"
+            >
+              <span style="font-size: 12px" class="font-weight-bold">Mulai</span>
+            </v-btn>
+          </div>
           <v-btn
-            v-if="btnMulai[item.id]"
-            color="primary"
-            dark
-            width="70"
-            rounded
-            small
-            class="mt-1"
-            @click="mulaiItem(item.id)"
-          >
-            <span style="font-size: 12px" class="font-weight-bold">Mulai</span>
-          </v-btn>
-          <v-btn
-            v-if="btnPause[item.id]"
+            v-show="btnPause[item.id]"
             color="error"
             dark
             width="70"
@@ -83,7 +81,7 @@
             <span style="font-size: 12px" class="font-weight-bold">Pause</span>
           </v-btn>
           <v-btn
-            v-if="btnSelesai[item.id]"
+            v-show="btnSelesai[item.id]"
             :color="currentTheme.colorPrimary"
             dark
             width="70"
@@ -106,12 +104,6 @@
             </v-icon>
           </v-btn>
         </template>
-        <!-- <template v-slot:[`item.lampiran`]>
-          <td><a v-bind:href="items.lampiran" :key="items.lampiran"> link </a></td>
-        </template> -->
-        <template  v-slot:[`item.durasi`]="{ item }">
-          <p v-if="!btnMulai[item.id]">{{item.durasi}}</p>
-        </template>
       </v-data-table>
       </v-col>
   </v-row>
@@ -125,18 +117,32 @@ import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import editProgress from "@/views/monitoring/component/mahasiswa/monitoring/DialogFormEditProgress.vue"
 import SerahkanTugas from "@/views/monitoring/component/mahasiswa/monitoring/DialogFormSerahkanTugas.vue"
-import Durasi from "@/views/monitoring/component/mahasiswa/monitoring/Durasi.vue"
 import SubTugasMonitoringBersama from "../../../../../datasource/network/monitoring/monitoringbersama"
+import SubtugasMonitoringDosen from "../../../../../datasource/network/monitoring/subtugas"
 export default {
   name: "KelasItem",
-  components: { Breadcumbs, editProgress, SerahkanTugas, Durasi },
+  components: { Breadcumbs, editProgress, SerahkanTugas },
   computed: {
     ...mapGetters({
-      currentTheme: "theme/getCurrentColor"
-    })
+      currentTheme: "theme/getCurrentColor",
+      isDark: "theme/getIsDark"
+    }),
+    isMobile () {
+      return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    },
+    minutes: function () {
+      const minutes = Math.floor(this.totalTime / 60)
+      return this.padTime(minutes)
+    },
+    seconds: function () {
+      const seconds = this.totalTime - (this.minutes * 60)
+      return this.padTime(seconds)
+    }
   },
   data () {
     return {
+      timer: null,
+      totalTime: (0 * 60),
       timerState: "stopped",
       currentTimer: 0,
       formattedTime: "00:00:00",
@@ -153,7 +159,6 @@ export default {
       btnMulai: [],
       btnPause: [],
       btnSelesai: [],
-      countSubtugas: 0,
       breadcrumbItems: [
         {
           text: "Dasboard",
@@ -173,6 +178,7 @@ export default {
       ],
       items: [
       ],
+      pertama: 0,
       editedIndex: -1,
       headers: [
         {
@@ -257,15 +263,32 @@ export default {
       this.dialogSelesai = true
     },
     mulaiItem (item) {
+      this.timer = setInterval(() => this.countdown(), 1000)
+      this.btnMulai = true
       this.btnPause[item] = true
       this.btnSelesai[item] = true
-      this.btnMulai = false
-      this.$refs.durasi.start()
+      // this.$refs.durasi.start()
+      console.log(item)
     },
-    pauseItem (item) {
-      this.btnMulai = true
-      this.btnPause[item] = false
-      this.$refs.durasi.stop()
+    countdown: function () {
+      this.totalTime++
+    },
+    padTime: function (time) {
+      return (time < 10 ? "0" : " ") + time
+    },
+    async pauseItem (item) {
+      clearInterval(this.timer)
+      var Index = item
+      var i = this.pertama
+      var count = 0
+      while (i < Index) {
+        count += 1
+        i++
+      }
+      var durasi = Math.ceil(this.totalTime / 60) + this.items[count].durasi
+      var updateSubTugas = await SubtugasMonitoringDosen.putSubTugasDurasi(Index, durasi)
+      console.log(updateSubTugas)
+      window.location.reload()
     },
     lihatMonitoringTeman () {
       this.$router.push("/monitoring/mahasiswa/monitoringTeman/" + this.namaMatkul + "&" + this.namaTugas + "&" + this.id).catch(error => {
@@ -280,24 +303,36 @@ export default {
     this.namaTugas = this.$route.params.namaTugas
     this.id = this.$route.params.id
     var items = await SubTugasMonitoringBersama.getSubTugasbyMahasiswa(this.id, "181524002")
-    this.items = items
-    console.log(items[0].nama_subtugas)
-    this.countSubtugas = items.length
-    var x = items[0].id - 2
-    console.log("WOY" + x)
-    for (var i = 1; i <= items.length; i++) {
-      x = x + 1
-      console.log(i)
-      console.log(items[i - 1].nama_subtugas)
-      console.log("item" + items[i - 1].id)
-      console.log(items[i - 1].status_subtugas)
-      if (items[i - 1].status_subtugas === true) {
-        this.btnMulai[i] = false
-      } else {
-        this.btnMulai[i] = true
+    console.log(items)
+    var i = 0
+    while (i < items.length) {
+      if (i === 0) {
+        this.pertama = items[i].id
       }
-      this.btnPause[i] = false
-      this.btnSelesai[i] = false
+      this.items.push({
+        id: items[i].id,
+        index: i,
+        nama_subtugas: items[i].nama_subtugas,
+        status_subtugas: items[i].status_subtugas,
+        progress: items[i].progress,
+        skala_pemahaman: items[i].skala_pemahaman,
+        catatan: items[i].catatan,
+        durasi: items[i].durasi,
+        lampiran: items[i].lampiran,
+        tenggat: items[i].tenggat,
+        waktu_selesai: items[i].waktu_selesai
+      })
+      i++
+    }
+    console.log(this.items)
+    i = 0
+    while (i < items.length) {
+      if (items[i].status_subtugas !== true) {
+        this.btnMulai[this.items[i].id] = true
+      }
+      this.btnPause[this.items[i].id] = false
+      this.btnSelesai[this.items[i].id] = false
+      i++
     }
   }
 }

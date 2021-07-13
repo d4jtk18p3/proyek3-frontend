@@ -83,7 +83,6 @@ export default {
     i = 0
     var sebelum = new Date()
     let countTidakAdaTenggat = 0
-    // var deadlineAkhir = new Date()
     var hariIni = new Date()
     while (i < items.length) {
       if (items[i].status_subtugas === false) { // ===
