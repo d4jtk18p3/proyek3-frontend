@@ -69,7 +69,7 @@
                         <v-checkbox
                           small color="#59DCDC"
                           class="ma-0 pa-0"
-                          :label="`${jadwal.nama_mata_kuliah}`"
+                          :label="`${jadwal.nama_mata_kuliah}` + ` (${jadwal.jenis})`"
                           :v-model="jadwal.checked"
                           @change='selectedPerkuliahan(jadwal.id_jadwal, jadwal.nama_mata_kuliah)'
                           :disabled="isSelected(jadwal.id_jadwal) && isIzin"
@@ -128,6 +128,7 @@
                             :type="show1 ? 'text' : 'password'"
                             name="input-10-1"
                             width="100px"
+                            @click:append="show1 = !show1"
                         ></v-text-field>
                         <v-row
                           align="center"
