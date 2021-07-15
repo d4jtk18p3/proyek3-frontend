@@ -8,5 +8,5 @@ RUN npm ci \
 
 FROM nginx:1-alpine
 
-COPY --from=build /usr/src/frontend /usr/src/frontend
+COPY --from=build /usr/src/frontend/dist /usr/src/frontend
 COPY src/nginx.conf /etc/nginx/nginx.conf
