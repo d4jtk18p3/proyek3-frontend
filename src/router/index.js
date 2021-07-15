@@ -226,16 +226,6 @@ const routes = [
         component: () => import(/* webpackChunkName: "monitoringDosenDetailTabel" */ "../views/monitoring/pages/dosen/MonitoringDosenDetailTabel")
       },
       {
-        path: "/monitoring/dosen/monitoring-tugas/daftar-tugas/tugas",
-        name: "MonitoringDosenTugas",
-        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenTabel")
-      },
-      {
-        path: "/monitoring/dosen/monitoring-tugas/tabel-detail",
-        name: "MonitoringDosenDetailTabel",
-        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenDetailTabel")
-      },
-      {
         path: "/monitoring/mahasiswa/dashboard",
         name: "DashboardMonitoringMhs",
         component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/dashboard/DashboardMahasiswa")
