@@ -6,7 +6,7 @@
     <v-col cols="12">
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
     </v-col>
-    <v-col cols="8">
+    <v-col cols="6">
       <p class="text-h4 font-weight-bold">PROYEK 1</p>
     </v-col>
     <v-col cols="2">
@@ -17,10 +17,13 @@
           @click:clear="clearItems"
           class="d-none"
         ></v-file-input>
-      <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="openFile()">Import From CSV</v-btn>
+      <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="openFile()">Import From XLSX</v-btn>
     </v-col>
     <v-col cols="2">
-      <v-btn :color="currentTheme.colorPrimary" elevation="2" :style="{width: '100%'}" outlined depressed @click="resetTable()">Reset Tabel</v-btn>
+      <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="downloadTemplate()">Download Template Excel</v-btn>
+    </v-col>
+    <v-col cols="2">
+      <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="resetTable()">Reset Tabel</v-btn>
     </v-col>
     <v-col cols="10">
       <p class="text-h4 font-weight-bold">ETS</p>
@@ -131,12 +134,17 @@
         </thead>
         <tbody>
           <tr v-for="(item,indexNilai) in dataNilaiMahasiswaEAS" :key="item.id">
-            <td v-for="(value,name,index) in item" :key="index" :style="{'min-width': '150px'}">
-              <template v-if="headerChildNilaiEAS[index].readOnly" >
-                {{ dataNilaiMahasiswaEAS[indexNilai][name] }}
-              </template>
-              <input v-else v-model="dataNilaiMahasiswaEAS[indexNilai][name]" placeholder="Enter nilai" @change="dataNilaiMahasiswaEAS[indexNilai][name] = Math.max(Math.min(dataNilaiMahasiswaEAS[indexNilai][name], 100), 0)" :style="{'width': '100px', 'text-align': 'center'}"/>
+            <td :style="{'min-width': '150px'}">
+              {{ dataNilaiMahasiswaEAS[indexNilai].NIM }}
             </td>
+            <td :style="{'min-width': '150px'}">
+              {{ dataNilaiMahasiswaEAS[indexNilai].Nama }}
+            </td>
+            <template v-for="(itemNilai, indexItemNilai) in item.Nilai" :style="{'min-width': '150px'}">
+                <td :key="toString(indexNilai) + indexItemNilai">
+                  <input v-model="dataNilaiMahasiswaEAS[indexNilai].Nilai[indexItemNilai]" placeholder="Enter nilai" @change="dataNilaiMahasiswaEAS[indexNilai][name] = Math.max(Math.min(dataNilaiMahasiswaEAS[indexNilai][name], 100), 0)" :style="{'width': '100px', 'text-align': 'center'}"/>
+                </td>
+            </template>
           </tr>
         </tbody>
       </v-simple-table>
@@ -544,13 +552,20 @@ export default {
       }
     },
     saveKategori () {
+      var mahasiswa
       if (this.newKategori.parent === "") {
         if (this.newKategori.type === "ETS") {
           this.headerParentNilaiETS.push({ label: this.newKategori.nama_kategori, colspan: 1, key: "ETS-newKategori", bobot: 0 })
           this.headerChildNilaiETS.push({ label: "Tugas 1", colspan: 1, key: "ETS-" + this.newKategori.nama_kategori + "-Tugas 1", bobot: 0 })
+          for (mahasiswa = 0; mahasiswa < this.dataNilaiMahasiswaETS.length; mahasiswa++) {
+            this.dataNilaiMahasiswaETS[mahasiswa].Nilai.push(0)
+          }
         } else {
           this.headerParentNilaiEAS.push({ label: this.newKategori.nama_kategori, colspan: 1, key: "EAS-newKategori", bobot: 0 })
           this.headerChildNilaiEAS.push({ label: "Tugas 1", colspan: 1, key: "ETS-" + this.newKategori.nama_kategori + "-Tugas 1", bobot: 0 })
+          for (mahasiswa = 0; mahasiswa < this.dataNilaiMahasiswaEAS.length; mahasiswa++) {
+            this.dataNilaiMahasiswaEAS[mahasiswa].Nilai.push(0)
+          }
         }
       } else {
         var totalColspan = 0
@@ -564,6 +579,10 @@ export default {
           }
           this.headerChildNilaiETS.splice(totalColspan, 0, { label: this.newKategori.nama_kategori, colspan: 1, key: "ETS-newKategori-newChild" + this.newKategori.nama_kategori, bobot: 0 })
           this.headerParentNilaiETS[this.headerParentNilaiETS.findIndex(obj => obj.key === this.newKategori.parent)].colspan += 1
+
+          for (mahasiswa = 0; mahasiswa < this.dataNilaiMahasiswaETS.length; mahasiswa++) {
+            this.dataNilaiMahasiswaETS[mahasiswa].Nilai.splice(totalColspan - 2, 0, 0)
+          }
           // console.log(totalColspan)
           // this.headerParentNilaiETS[this.headerParentNilaiETS.findIndex(obj => obj.key === this.newKategori.parent)].colspan += 1
           // tambah kolom child
@@ -575,6 +594,10 @@ export default {
           }
           this.headerChildNilaiEAS.splice(totalColspan, 0, { label: this.newKategori.nama_kategori, colspan: 1, key: "ETS-newKategori-newChild" + this.newKategori.nama_kategori, bobot: 0 })
           this.headerParentNilaiEAS[this.headerParentNilaiEAS.findIndex(obj => obj.key === this.newKategori.parent)].colspan += 1
+
+          for (mahasiswa = 0; mahasiswa < this.dataNilaiMahasiswaEAS.length; mahasiswa++) {
+            this.dataNilaiMahasiswaEAS[mahasiswa].Nilai.splice(totalColspan - 2, 0, 0)
+          }
           // console.log(this.headerParentNilaiEAS)
           // totalColspan = 0
           // for (i = 0; i < this.headerParentNilaiEAS.length - 1; i++) {
@@ -918,6 +941,9 @@ export default {
       this.headerParentNilaiEAS = null
       this.headerChildNilaiEAS = null
       window.location.reload()
+    },
+    downloadTemplate () {
+      window.open("https://drive.google.com/u/4/uc?id=1sfZ4sP-17ng8FKYUQbV8JzkfpNPCH1aQ&export=download")
     }
   },
   mounted () {
