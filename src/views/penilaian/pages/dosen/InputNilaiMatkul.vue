@@ -68,12 +68,17 @@
         </thead>
         <tbody>
           <tr v-for="(item,indexNilai) in dataNilaiMahasiswaETS" :key="item.id">
-            <td v-for="(value,name,index) in item" :key="index" :style="{'min-width': '150px'}">
-              <template v-if="headerChildNilaiETS[index].readOnly" >
-                {{ dataNilaiMahasiswaETS[indexNilai][name] }}
-              </template>
-              <input v-else v-model="dataNilaiMahasiswaETS[indexNilai][name]" placeholder="Enter nilai" @change="dataNilaiMahasiswaETS[indexNilai][name] = Math.max(Math.min(dataNilaiMahasiswaETS[indexNilai][name], 100), 0)" :style="{'width': '100px', 'text-align': 'center'}"/>
+            <td :style="{'min-width': '150px'}">
+              {{ dataNilaiMahasiswaETS[indexNilai].NIM }}
             </td>
+            <td :style="{'min-width': '150px'}">
+              {{ dataNilaiMahasiswaETS[indexNilai].Nama }}
+            </td>
+            <template v-for="(itemNilai, indexItemNilai) in item.Nilai" :style="{'min-width': '150px'}">
+                <td :key="toString(indexNilai) + indexItemNilai">
+                  <input v-model="dataNilaiMahasiswaETS[indexNilai].Nilai[indexItemNilai]" placeholder="Enter nilai" @change="dataNilaiMahasiswaETS[indexNilai][name] = Math.max(Math.min(dataNilaiMahasiswaETS[indexNilai][name], 100), 0)" :style="{'width': '100px', 'text-align': 'center'}"/>
+                </td>
+            </template>
           </tr>
         </tbody>
       </v-simple-table>
@@ -272,7 +277,7 @@ th:hover {
 
 <script>
 import _ from "lodash"
-import http from "axios"
+// import http from "axios"
 import XLSX from "xlsx"
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
@@ -282,48 +287,7 @@ export default {
   components: { Breadcumbs },
   data () {
     return {
-      /* Data Nilai
-        dataNilaiMahasiswa: {
-        idMataKuliah: 1,
-        kategori: [
-          { idKategori: 1, parent: null, nama_kategori: "ETS", bobot_nilai: 0 },
-          { idKategori: 2, parent: null, nama_kategori: "EAS", bobot_nilai: 0 },
-          { idKategori: 3, parent: 1, nama_kategori: "teori", bobot_nilai: 0 },
-          { idKategori: 4, parent: 1, nama_kategori: "praktek", bobot_nilai: 0 },
-          { idKategori: 5, parent: 3, nama_kategori: "Tugas 1", bobot_nilai: 0 },
-          { idKategori: 6, parent: 3, nama_kategori: "Tugas 2", bobot_nilai: 0 },
-          { idKategori: 7, parent: 4, nama_kategori: "Tugas 1", bobot_nilai: 0 }
-        ],
-        dataNilai: [
-          {
-            NIM: "181524000",
-            dataNilai: [
-              {
-                idKategori: 3,
-                nilai: 50
-              },
-              {
-                idKategori: 4,
-                nilai: 50
-              }
-            ]
-          },
-          {
-            NIM: "181524001",
-            dataNilai: [
-              {
-                idKategori: 3,
-                nilai: 50
-              },
-              {
-                idKategori: 4,
-                nilai: 50
-              }
-            ]
-          }
-        ]
-      }
-      */
+      idMatkul: null,
       headerETS: { kode_kategori: "", parent: null, nama_kategori: "ETS", bobot_nilai: 0 },
       headerEAS: { kode_kategori: "", parent: null, nama_kategori: "ETS", bobot_nilai: 0 },
       dialog: false,
@@ -402,7 +366,7 @@ export default {
           }
 
           this.headerParentNilaiETS = headers
-          // console.log(headers)
+          console.log(headers)
 
           var fieldNilai = [{ label: "NIM", colspan: 1, key: "NIM", readOnly: true }, { label: "Nama", colspan: 1, key: "Nama", readOnly: true }]
           R = range.s.r + 1/* start in the first row */
@@ -423,10 +387,11 @@ export default {
           }
 
           this.headerChildNilaiETS = fieldNilai
-          // console.log(fieldNilai)
+          console.log(fieldNilai)
 
           // console.log(this.parse(worksheetETS, this.headerChildNilaiETS))
           this.dataNilaiMahasiswaETS = this.parse(worksheetETS, this.headerChildNilaiETS)
+          console.log(this.dataNilaiMahasiswaETS)
 
           // Data Nilai EAS
           headers = [{ label: "Detail Mahasiswa", colspan: 2, key: "parrent1", readOnly: true }]
@@ -494,11 +459,15 @@ export default {
           ], "v", null)
         }
 
+        var arrayOfNilai = []
         for (var j = 2; j < header.length; j++) {
-          data[header[j].key] = _.get(worksheet[
+          var nilai = _.get(worksheet[
             XLSX.utils.encode_cell({ r: i, c: range.s.c + j })
           ], "v", null)
+          arrayOfNilai.push(nilai)
         }
+
+        data.Nilai = arrayOfNilai
 
         return data
       })
@@ -578,10 +547,10 @@ export default {
       if (this.newKategori.parent === "") {
         if (this.newKategori.type === "ETS") {
           this.headerParentNilaiETS.push({ label: this.newKategori.nama_kategori, colspan: 1, key: "ETS-newKategori", bobot: 0 })
-          this.headerChildNilaiETS.push({ label: "Tugas 1", colspan: 1, key: "ETS-newKategori-newChild" + this.newKategori.nama_kategori, bobot: 0 })
+          this.headerChildNilaiETS.push({ label: "Tugas 1", colspan: 1, key: "ETS-" + this.newKategori.nama_kategori + "-Tugas 1", bobot: 0 })
         } else {
           this.headerParentNilaiEAS.push({ label: this.newKategori.nama_kategori, colspan: 1, key: "EAS-newKategori", bobot: 0 })
-          this.headerChildNilaiEAS.push({ label: "Tugas 1", colspan: 1, key: "EAS-newKategori-newChild" + this.newKategori.nama_kategori, bobot: 0 })
+          this.headerChildNilaiEAS.push({ label: "Tugas 1", colspan: 1, key: "ETS-" + this.newKategori.nama_kategori + "-Tugas 1", bobot: 0 })
         }
       } else {
         var totalColspan = 0
@@ -711,20 +680,21 @@ export default {
         for (i = 0; i < kategoriNilaiChild.length; i++) {
           nilai = {
             kode_kategori: kategoriNilaiChild[i].kode_kategori,
-            nilai: parseFloat(this.dataNilaiMahasiswaETS[j]["Nilai" + (i + 1)]),
+            nilai: parseFloat(this.dataNilaiMahasiswaETS[j].Nilai[i]), // ganti jadi array
             nim: this.dataNilaiMahasiswaETS[j].NIM.toString()
           }
+          // console.log(this.dataNilaiMahasiswaETS[j].Nilai[i])
           dataNilai.push(nilai)
         }
       }
       dataNilaiMahasiswa.dataNilai = dataNilai
       console.log(dataNilaiMahasiswa) // submit nilai mhs
 
-      http
-        .post("http://localhost:5001/nilai/import-nilai/perkuliahan/" + this.$route.params.id, dataNilaiMahasiswa)
-        .then((res) => {
-          console.log(res.data)
-        })
+      // http
+      //   .post("http://localhost:5001/nilai/import-nilai/perkuliahan/" + this.$route.params.id, dataNilaiMahasiswa)
+      //   .then((res) => {
+      //     console.log(res.data)
+      //   })
 
       if (finalize) {
         for (i = 0; i < dataNilaiMahasiswa.dataNilai.length; i++) {
@@ -862,11 +832,11 @@ export default {
       dataNilaiMahasiswa.dataNilai = dataNilai
       console.log(dataNilaiMahasiswa)
 
-      http
-        .post("http://localhost:5001/dosen/import-nilai/perkuliahan/" + this.$route.params.id, dataNilaiMahasiswa)
-        .then((res) => {
-          console.log(res.data)
-        })
+      // http
+      //   .post("http://localhost:5001/dosen/import-nilai/perkuliahan/" + this.$route.params.id, dataNilaiMahasiswa)
+      //   .then((res) => {
+      //     console.log(res.data)
+      //   })
 
       if (finalize) {
         for (i = 0; i < dataNilaiMahasiswa.dataNilai.length; i++) {
@@ -951,6 +921,7 @@ export default {
     }
   },
   mounted () {
+    this.idMatkul = parseInt(this.$route.params.id)
   }
 }
 </script>
