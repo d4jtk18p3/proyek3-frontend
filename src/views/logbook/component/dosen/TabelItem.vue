@@ -9,6 +9,7 @@
         v-if="isDark"
         dark
         mobile-breakpoint="100"
+        :style="{backgroundColor: currentTheme.colorPrimary}"
     >
       <template v-slot:[`item.kegiatan`]="{ item }">
         <div
@@ -57,8 +58,9 @@
         :items-per-page="10"
         class="elevation-5"
         v-if="!isDark"
-        light
+        dark
         mobile-breakpoint="100"
+        :style="{backgroundColor: currentTheme.onBackground}"
     >
       <template v-slot:[`item.kegiatan`]="{ item }">
         <div
@@ -90,7 +92,7 @@
             <v-btn
               icon
               color="#272343"
-              @click="onViewClick(item.id)"
+              @click="onViewClick(item.id, item.tanggal)"
               v-bind="attrs"
               v-on="on"
             >
@@ -131,8 +133,8 @@ export default {
       required: false,
       default: "D4 - Teknik Informatika"
     },
-    kelas: {
-      type: Number,
+    kelasString: {
+      type: String,
       required: false
     }
   },
@@ -183,16 +185,18 @@ export default {
     }
   },
   methods: {
-    onViewClick (id) {
+    onViewClick (id, tanggal) {
+      alert(tanggal)
       this.$router.push({
         name: "ViewLogbook",
-        path: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.namaMataKuliah + "/" + this.kelas + "/" + this.nim + "/viewlogbook/" + id,
+        path: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.namaMataKuliah + "/" + this.kelasString + "/" + this.nim + "/viewlogbook/" + id,
         params: {
           idEntri: id,
+          logbookdate: tanggal,
           nim: this.nim,
           nama: this.nama,
           namaMataKuliah: this.namaMataKuliah,
-          kelas: this.kelas,
+          kelasString: this.kelasString,
           prodi: this.prodi
         }
       })
@@ -213,5 +217,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+tbody {
+  tr {
+    color: black;
+    background-color: #FFFFFF !important;
+  }
+}
 </style>

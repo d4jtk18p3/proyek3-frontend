@@ -4,7 +4,7 @@
       <v-card class="rounded-0" elevation="10">
         <v-row style="background:#ECEBEE" class="px-0 py-1 ma-0" >
           <v-col cols="12" class="top d-flex justify-center align-center">
-            <img src="../../assets/polban.png" alt="Logo Polban"/>
+            <img src="../../../assets/polban.png" alt="Logo Polban"/>
             <div class="ml-2 text-subtitle-2" style="color:#272343">Politeknik Negeri Bandung</div>
           </v-col>
         </v-row>
@@ -123,7 +123,7 @@ export default {
 
     this.method = this.$route.query.method || queryString.method
 
-    this.token = this.$route.query.token
+    this.token = this.$route.query.value
 
     const keycloak = Keycloak({
       url: "http://akun.localhost:5000/keycloak-proxy/auth",

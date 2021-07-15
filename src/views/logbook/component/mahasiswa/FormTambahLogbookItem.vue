@@ -136,7 +136,7 @@
             </v-card-title>
 
             <v-card-text>
-              data logbook yang anda isi tidak dapat ditambahkan ke dalam sistem karena terjadi masalah. Silakan periksa kembali bahwa data yang dimasukkan benar
+              data logbook yang anda isi tidak dapat ditambahkan ke dalam sistem karena <strong>{{this.errorMessages}}</strong> Silakan periksa kembali bahwa data yang dimasukkan benar
             </v-card-text>
 
             <v-divider></v-divider>
@@ -160,7 +160,6 @@
 <script>
 import { mapGetters } from "vuex"
 import { VueEditor } from "vue2-editor"
-import BackEndLogbook from "../../../../datasource/network/logbook/logbook"
 import BackEndEntri from "../../../../datasource/network/logbook/entri"
 export default {
   name: "FormTambahLogbookItem",
@@ -196,16 +195,7 @@ export default {
     },
     identitas: {
       type: Object,
-      required: false,
-      default: () => {
-        return {
-          nama: "Khoirunnisa Putri",
-          nim: "191524034",
-          kelas: "3A",
-          prodi: "D4 - Teknik Informatika",
-          matakuliah: "Proyek 3"
-        }
-      }
+      required: false
     }
   },
   data () {
@@ -220,7 +210,8 @@ export default {
       successdialog: false,
       errordialog: false,
       post: null,
-      loading: false
+      loading: false,
+      errorMessages: ""
     }
   },
   computed: {
@@ -278,47 +269,8 @@ export default {
     },
     async openDialog () {
       // disini tambahin connect backend untuk add logbook
-      // validasi ada ga logbook punya nya @nim
-      // kalau ga ada bikin baru logbook nya
-      // kalau ada, get _id collections logbooks dan tambah entri
 
-      // ini validasi
       this.loading = true
-      var idLogbook = await BackEndLogbook.getIdLogbooksMhsByNIM(this.identitas.nim)
-      console.log(idLogbook)
-      if (idLogbook === undefined) {
-        // disini bikin baru dulu logbook nya
-        var kelas = this.identitas.kelas.subStr(1, 2)
-        var prodi = this.identitas.prodi.subStr(0, 2)
-        var nomorKelas
-        switch (kelas) {
-          case "A": {
-            if (prodi === "D4") {
-              nomorKelas = "03"
-            } else {
-              nomorKelas = "01"
-            }
-            break
-          }
-          case "B": {
-            if (prodi === "D4") {
-              nomorKelas = "04"
-            } else {
-              nomorKelas = "02"
-            }
-            break
-          }
-        }
-        var dataMhs = {
-          nama: this.identitas.nama,
-          nim: this.identitas.nim,
-          kode_kelas: this.identitas.nim.subStr(0, 2) + nomorKelas, // format : [tahun angkatan][nomor kelas]
-          kelas_proyek: this.identitas.matakuliah.subStr(7, 8) // Proyek 3 -> 3
-        }
-        console.log(dataMhs)
-        await BackEndLogbook.addLogbooksMhs(dataMhs)
-        idLogbook = await BackEndLogbook.getIdLogbooksMhsByNIM(this.identitas.nim)
-      }
       console.log(this.pickerValue.picker)
       var stringDate = this.pickerValue.picker.split("-")
       var date = stringDate[0] + "/" + stringDate[1] + "/" + stringDate[2]
@@ -330,9 +282,10 @@ export default {
         kesan: this.kesan
       }
       console.log(dataLogbook)
-      this.post = await BackEndEntri.addEntryLogbookMhs(idLogbook, dataLogbook)
+      this.post = await BackEndEntri.addEntryLogbookMhs(this.identitas.nim, dataLogbook)
       console.log(this.post)
-      if (this.post === undefined) {
+      if (this.post.error === 400) {
+        this.errorMessages = this.post.message
         this.openErrorDialog()
       }
       if (this.post.status === 200) {
