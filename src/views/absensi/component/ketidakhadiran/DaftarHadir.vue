@@ -1,11 +1,10 @@
 <template>
 <v-container>
   <v-row
-   v-for="(mhs, index) in ketidakhadiran.mhs_izin"
+   v-for="(mhs, index) in mahasiswa"
    :key="index"
    >
-   <v-col
-   v-if="mhs.keterangans[0].isAccepted==-1">
+   <v-col>
     <v-card
       max-height="1000"
       max-width="350"
@@ -31,12 +30,14 @@
     </v-card>
    </v-col>
   </v-row>
-  <Dialog :dialogs="dialogs" :dataMhs="dataMhs" :kelas="ketidakhadiran.kode_kelas"></Dialog>
+  <Dialog @clicked="onClickChild" :dialogs="dialogs" :dataMhs="dataMhs" :kelas="ketidakhadiran.kode_kelas"></Dialog>
 </v-container>
 </template>
 
 <script>
 import Dialog from "./DialogKetidakhadiran.vue"
+import Keterangan from "@/datasource/network/absensi/keterangan"
+
 export default ({
   components: { Dialog },
   data () {
@@ -46,22 +47,48 @@ export default ({
       },
       dataMhs: [],
       mahasiswa: [],
-      kelas: ""
-    }
-  },
-  props: {
-    ketidakhadiran: {
-      type: Array,
-      default () {
-        return {}
-      }
+      kelas: 1803,
+      ketidakhadiran: [],
+      page: 1,
+      perPage: 3,
+      pages: []
     }
   },
   methods: {
     openDialog (mhs) {
       this.dataMhs = mhs
       this.dialogs.dialog = true
+    },
+    onClickChild (value) {
+      console.log(value) // someValue
+      this.getKeterangan()
+    },
+    getKeterangan () {
+      Keterangan.getKeterangan(this.kelas)
+        .then(response => {
+          this.ketidakhadiran = response.data
+          this.getMhsIzin()
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    getMhsIzin () {
+      this.mahasiswa = []
+      for (var i = 0; i < this.ketidakhadiran.mhs_izin.length; i++) {
+        if (this.ketidakhadiran.mhs_izin[i].keterangans[0].isAccepted === -1) {
+          this.mahasiswa.push(this.ketidakhadiran.mhs_izin[i])
+          console.log(this.mahasiswa[i])
+        }
+      }
+    },
+    nextPage () {
+      console.log("HELLO")
     }
+  },
+  beforeMount () {
+    this.getKeterangan()
+    this.getMhsIzin()
   }
 })
 </script>

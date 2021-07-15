@@ -38,7 +38,7 @@
           <v-radio-group
           column
           v-model="item.isHadir"
-          :disabled="item.status == 'Izin diterima'"
+          :disabled="item.status === 'Izin yang diajukan sedang diperiksa waldos' || item.status === 'sakit' ||  item.status === 'izin'"
           @change="updateMahasiswa(item)"
           >
             <v-row>
@@ -84,7 +84,7 @@ export default {
   data () {
     return {
       dialog: [false],
-      currentDate: new Date().toISOString().substr(0, 10),
+      currentDate: new Date(2021, 6, 10).toISOString().substr(0, 10),
       data: [],
       mahasiswa: [],
       radios: true
@@ -92,10 +92,12 @@ export default {
   },
   methods: {
     getKehadiran () {
+      console.log("HELLO1")
       kehadiran.getKehadiranMhs(this.perkuliahan.kelas.kode_kelas, this.perkuliahan.id_jadwal, this.currentDate)
         .then(response => {
           this.data = response.data
           this.mahasiswa = this.data.mahasiswa
+          console.log("HELLO")
           console.log(this.data.mahasiswa)
         })
         .catch(e => {
