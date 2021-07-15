@@ -188,7 +188,7 @@ const routes = [
   },
   {
     path: "/monitoring",
-    component: () => import("../views/monitoring/MonitoringMain"),
+    component: () => import("../views/monitoring/monitoringmain"),
     children: [
       {
         path: "/monitoring/dosen/dashboard-tugas",
@@ -226,19 +226,39 @@ const routes = [
         component: () => import(/* webpackChunkName: "monitoringDosenDetailTabel" */ "../views/monitoring/pages/dosen/MonitoringDosenDetailTabel")
       },
       {
+        path: "/monitoring/dosen/monitoring-tugas/daftar-tugas/tugas",
+        name: "MonitoringDosenTugas",
+        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenTabel")
+      },
+      {
+        path: "/monitoring/dosen/monitoring-tugas/tabel-detail",
+        name: "MonitoringDosenDetailTabel",
+        component: () => import(/* webpackChunkName: "absensimahasiswadosenview" */ "../views/monitoring/pages/dosen/MonitoringDosenDetailTabel")
+      },
+      {
         path: "/monitoring/mahasiswa/dashboard",
-        name: "Dashboard",
-        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/dashboard/Dashboard")
+        name: "DashboardMonitoringMhs",
+        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/dashboard/DashboardMahasiswa")
       },
       {
         path: "/monitoring/mahasiswa/daftar-tugas",
         name: "MonitoringMenu",
-        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/Monitoring")
+        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/MonitoringMahasiswaDaftarTugas")
       },
       {
-        path: "/monitoring/mahasiswa/namaMatkul/namaTugas",
-        name: "Monitoring",
-        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/MonitoringTugas")
+        path: "/monitoring/mahasiswa/matakuliah/:namaMatkul&:namaTugas&:id",
+        name: "MonitoringTugas",
+        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/MonitoringMahasiswaTugasItem")
+      },
+      {
+        path: "/monitoring/mahasiswa/monitoringTeman/:namaMatkul&:namaTugas&:id",
+        name: "MonitoringTeman",
+        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/MonitoringMahasiswaBersama")
+      },
+      {
+        path: "/monitoring/mahasiswa/matakuliah",
+        name: "MonitoringDaftarMatkul",
+        component: () => import(/* webpackChunkName: "dashboard" */"../views/monitoring/pages/mahasiswa/monitoring/MonitoringMahasiswaDaftarMatKul")
       }
     ]
   },

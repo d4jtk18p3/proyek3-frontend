@@ -46,8 +46,7 @@ export default {
         { text: "Dashboard Tugas", icon: "mdi-school-outline", to: "/monitoring/dosen/dashboard-tugas" },
         { text: "Monitoring Tugas", icon: "mdi-file-document-outline", to: "/monitoring/dosen/monitoring-tugas" },
         { text: "Dashboard Mahasiswa", icon: "mdi-school-outline", to: "/monitoring/mahasiswa/dashboard" },
-        { text: "Daftar Tugas Mahasiswa", icon: "mdi-monitor-multiple", to: "/monitoring/mahasiswa/daftar-tugas" },
-        { text: "Monitoring Mahasiswa", icon: "mdi-monitor-multiple", to: "/monitoring/mahasiswa/namaMatkul/namaTugas" }
+        { text: "Monitoring Tugas Mahasiswa", icon: "mdi-monitor-multiple", to: "/monitoring/mahasiswa/matakuliah" }
       ]
     }
   },

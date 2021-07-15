@@ -21,6 +21,16 @@ const getMatkulKelas = async (nip, kodeKelas) => {
   }
 }
 
+const getMatkulMahasiswa = async (nim) => {
+  try {
+    const monitoringURL = MONITORING_URL + `/commom/getAllMatkulLearnedByMahasiswa/${nim}`
+    const result = await baseHttp.get(monitoringURL)
+    return result.data.data.matkul
+  } catch (e) {
+    return await errorHandler(e)
+  }
+}
 export default {
-  getMatkulKelas
+  getMatkulKelas,
+  getMatkulMahasiswa
 }

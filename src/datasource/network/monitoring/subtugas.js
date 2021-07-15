@@ -42,11 +42,37 @@ const putSubtugas = async (idSubtugas, namaSubtugas, tenggat) => {
   }
 }
 
+const putSubTugasSerahkan = async (id, lampiran) => {
+  try {
+    const monitoringURL = MONITORING_URL + `/updateSubtugasLampiran-mahasiswa/${id}`
+    const result = await baseHttp.put(monitoringURL, {
+      Lampiran: lampiran
+    })
+    return result.data
+  } catch (e) {
+    return await errorHandler(e)
+  }
+}
+
 const getSubtugasByMahasiswa = async (idTugas, idMhs) => {
   try {
     const monitoringURL = MONITORING_URL + `/common/getSubtugasByMahasiswa/${idTugas}/${idMhs}`
     const result = await baseHttp.get(monitoringURL)
     return result.data.data.uniqueSubtugas
+  } catch (e) {
+    return await errorHandler(e)
+  }
+}
+
+const putSubTugasMahasiswa = async (id, progress, skalaPemahaman, catatan) => {
+  try {
+    const monitoringURL = MONITORING_URL + `/updateSubtugas-mahasiswa/${id}`
+    const result = await baseHttp.put(monitoringURL, {
+      progress: progress,
+      skala_pemahaman: skalaPemahaman,
+      catatan: catatan
+    })
+    return result.data
   } catch (e) {
     return await errorHandler(e)
   }
@@ -62,10 +88,25 @@ const getAllSubtugasByTugas = async (idTugas) => {
   }
 }
 
+const putSubTugasDurasi = async (id, durasi) => {
+  try {
+    const monitoringURL = MONITORING_URL + `/updateSubtugasDurasi-mahasiswa/${id}`
+    const result = await baseHttp.put(monitoringURL, {
+      durasi: durasi
+    })
+    return result.data
+  } catch (e) {
+    return await errorHandler(e)
+  }
+}
+
 export default {
   getSubtugasByTugas,
   postSubtugasBaru,
   putSubtugas,
   getSubtugasByMahasiswa,
-  getAllSubtugasByTugas
+  getAllSubtugasByTugas,
+  putSubTugasSerahkan,
+  putSubTugasMahasiswa,
+  putSubTugasDurasi
 }

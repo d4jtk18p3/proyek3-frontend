@@ -2,16 +2,14 @@
   <v-row :style="{color: currentTheme.onBackground}">
     <v-col cols="12">
       <p class="text-h4 font-weight-bold">Monitoring Tugas</p>
-    </v-col>
-    <v-col cols="12">
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
     </v-col>
     <v-col :cols="isMobile ? `12` : `3` " :offset="isMobile ? `0` : `0`">
         <p
-        class="text-left font-weight-bold text-h5 mt-5"
+        class="text-left font-weight-bold text-h5"
         :style="{color: currentTheme.onBackground}"
         >Kelas</p>
-        <v-card link class="mb-3" v-for="item in listKelas" :key="item" @click="getIdKelas(item)">
+        <v-card link class="mb-3" v-for="item in listKelas" :key="item">
           <KelasItem :kelas="item"/>
         </v-card>
     </v-col>

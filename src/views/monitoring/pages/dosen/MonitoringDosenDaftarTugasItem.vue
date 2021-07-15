@@ -43,5 +43,8 @@ export default {
     }
     this.listTugas = tugasList
   }
+  // async mounted () {
+  //   this.listTugas = await MonitoringDosen.getTugasMatkul("401", "101")
+  // }
 }
 </script>
