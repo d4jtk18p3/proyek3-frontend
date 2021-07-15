@@ -2,14 +2,16 @@
   <v-row :style="{color: currentTheme.onBackground}">
     <v-col cols="12">
       <p class="text-h4 font-weight-bold">Monitoring Tugas</p>
+    </v-col>
+    <v-col cols="12">
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
     </v-col>
     <v-col :cols="isMobile ? `12` : `3` " :offset="isMobile ? `0` : `0`">
         <p
-        class="text-left font-weight-bold text-h5"
+        class="text-left font-weight-bold text-h5 mt-5"
         :style="{color: currentTheme.onBackground}"
         >Kelas</p>
-        <v-card link class="mb-3" v-for="item in listKelas" :key="item">
+        <v-card link class="mb-3" v-for="item in listKelas" :key="item" @click="getIdKelas(item)">
           <KelasItem :kelas="item"/>
         </v-card>
     </v-col>
@@ -84,7 +86,6 @@ export default {
       if (item != null) {
         var temp = item.substr(0, 4)
       }
-
       var matkul = await MatkulMonitoringDosen.getMatkulKelas("196610181995121000", temp)
       var matkulList = []
       var j = 0
@@ -114,7 +115,6 @@ export default {
       i++
     }
     this.listKelas = kelasList
-
     // var matkul = await MatkulMonitoringDosen.getMatkulKelas("1011", "1803")
     // var matkulList = []
     // var j = 0
