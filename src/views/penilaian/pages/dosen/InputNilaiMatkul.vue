@@ -285,7 +285,7 @@ th:hover {
 
 <script>
 import _ from "lodash"
-// import http from "axios"
+import http from "axios"
 import XLSX from "xlsx"
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
@@ -713,11 +713,11 @@ export default {
       dataNilaiMahasiswa.dataNilai = dataNilai
       console.log(dataNilaiMahasiswa) // submit nilai mhs
 
-      // http
-      //   .post("http://localhost:5001/nilai/import-nilai/perkuliahan/" + this.$route.params.id, dataNilaiMahasiswa)
-      //   .then((res) => {
-      //     console.log(res.data)
-      //   })
+      http
+        .post("http://localhost:5001/nilai/import-nilai/perkuliahan/" + this.$route.params.id, dataNilaiMahasiswa)
+        .then((res) => {
+          console.log(res.data)
+        })
 
       if (finalize) {
         for (i = 0; i < dataNilaiMahasiswa.dataNilai.length; i++) {
@@ -785,13 +785,18 @@ export default {
           for (j = 0; j < listNilaiMhs[i].length; j++) {
             totalNilaiAkhir += listNilaiMhs[i][j].totalNilai
           }
-          listNilaiFinal.push({ nim: listNilaiMhs[i][0].nim, nilaiAkhir: totalNilaiAkhir })
+          listNilaiFinal.push({ nim: listNilaiMhs[i][0].nim, nilai_ets: totalNilaiAkhir })
         }
 
+        http
+          .put("http://localhost:5001/nilai-akhir/update-nilai-akhir/" + this.$route.params.id, { dataNilaiAkhir: listNilaiFinal })
+          .then((res) => {
+            console.log(res.data)
+          })
         console.log(listNilaiFinal) // total nilai level ets/eas
       }
     },
-    submitEAS (finalize) {
+    submitEAS (finalize) { // --------------------------masih perlu diperbaiki
       var dataNilaiMahasiswa = {}
 
       // Input Mata Kuliah
@@ -855,11 +860,11 @@ export default {
       dataNilaiMahasiswa.dataNilai = dataNilai
       console.log(dataNilaiMahasiswa)
 
-      // http
-      //   .post("http://localhost:5001/dosen/import-nilai/perkuliahan/" + this.$route.params.id, dataNilaiMahasiswa)
-      //   .then((res) => {
-      //     console.log(res.data)
-      //   })
+      http
+        .post("http://localhost:5001/nilai/import-nilai/perkuliahan/" + this.$route.params.id, dataNilaiMahasiswa)
+        .then((res) => {
+          console.log(res.data)
+        })
 
       if (finalize) {
         for (i = 0; i < dataNilaiMahasiswa.dataNilai.length; i++) {
@@ -927,9 +932,14 @@ export default {
           for (j = 0; j < listNilaiMhs[i].length; j++) {
             totalNilaiAkhir += listNilaiMhs[i][j].totalNilai
           }
-          listNilaiFinal.push({ nim: listNilaiMhs[i][0].nim, nilaiAkhir: totalNilaiAkhir })
+          listNilaiFinal.push({ nim: listNilaiMhs[i][0].nim, nilai_eas: totalNilaiAkhir })
         }
 
+        http
+          .put("http://localhost:5001/nilai-akhir/update-nilai-akhir/" + this.$route.params.id, { dataNilaiAkhir: listNilaiFinal })
+          .then((res) => {
+            console.log(res.data)
+          })
         console.log(listNilaiFinal) // total nilai level ets/eas
       }
     },

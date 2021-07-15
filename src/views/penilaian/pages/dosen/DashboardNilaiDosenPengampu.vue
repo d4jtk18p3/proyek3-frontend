@@ -19,31 +19,32 @@
       <v-card :color="currentTheme.colorSecondaryVariant">
        <v-card-title class="mt-5">Perolehan Nilai</v-card-title>
        <v-card-text >
-         <p class="text-h7 font-weight-bold">Tertinggi : 4.0</p>
-         <p class="text-h7 font-weight-bold">Terendah : 2.9</p>
+         <p class="text-h7 font-weight-bold" >Tertinggi : {{ tertinggi() }}</p>
+         <p class="text-h7 font-weight-bold">Terendah : {{ terendah() }}</p>
        </v-card-text>
       </v-card>
     </v-col>
     <v-col cols="8">
-      <nilai-rata-rata-card/>
-      <!-- <nilai-rata-rata-card :nilai-list="nilaiList"/> -->
+      <nilai-rata-rata-card :nilai-list="getNilaiList()"/>
     </v-col>
     <v-col cols="6">
       <v-card>
        <v-card-title class="mt-5">Mahasiswa dengan nilai total rendah</v-card-title>
-       <v-card-text >
-         <p class="text-h7 font-weight-bold">Bandri (181524002)</p>
-         <p class="text-h7 font-weight-bold">Dandri (181524004)</p>
-       </v-card-text>
+       <template v-for="(mhs, index) in Mahasiswa.Nilai">
+        <v-card-text v-if="mhs.nilaiAkhir < 2"  :key="index">
+          <p class="text-h7 font-weight-bold">{{ mhs.nama }} ({{ mhs.nim }})</p>
+        </v-card-text>
+       </template>
       </v-card>
     </v-col>
     <v-col cols="6">
       <v-card>
        <v-card-title class="mt-5">Mahasiswa dengan nilai ETS rendah</v-card-title>
-       <v-card-text >
-         <p class="text-h7 font-weight-bold">Bandri (181524002)</p>
-         <p class="text-h7 font-weight-bold">Dandri (181524004)</p>
-       </v-card-text>
+       <template v-for="(mhs, index) in Mahasiswa.Nilai">
+        <v-card-text v-if="mhs.ets < 60"  :key="index">
+          <p class="text-h7 font-weight-bold">{{ mhs.nama }} ({{ mhs.nim }})</p>
+        </v-card-text>
+       </template>
       </v-card>
     </v-col>
     <v-col cols="12">
@@ -91,7 +92,7 @@
 // import http from "axios"
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
-import NilaiRataRataCard from "@/views/template/component/nilai/NilaiRataRataCard"
+import NilaiRataRataCard from "@/views/penilaian/component/dosen/NilaiRataRataCard"
 export default {
   name: "DashboardMain",
   components: { Breadcumbs, NilaiRataRataCard },
@@ -142,10 +143,18 @@ export default {
             nama: "Dandri",
             ets: 90,
             eas: 70,
-            nilaiAkhir: 3.0
+            nilaiAkhir: 1.9
+          },
+          {
+            nim: "181524005",
+            nama: "Endri",
+            ets: 50,
+            eas: 50,
+            nilaiAkhir: 2.0
           }
         ]
-      }
+      },
+      nilaiList: [0, 0, 0, 0, 0]
     }
   },
   computed: {
@@ -166,6 +175,32 @@ export default {
     // console.log(this.$route.matkul)
   },
   methods: {
+    tertinggi () {
+      return Math.max.apply(Math, this.Mahasiswa.Nilai.map(function (o) { return o.nilaiAkhir })).toFixed(2)
+    },
+    terendah () {
+      return Math.min.apply(Math, this.Mahasiswa.Nilai.map(function (o) { return o.nilaiAkhir })).toFixed(2)
+    },
+    getNilaiList () {
+      for (var i = 0; i < this.Mahasiswa.Nilai.length; i++) {
+        if (this.Mahasiswa.Nilai[i].nilaiAkhir >= 3) {
+          this.nilaiList[0]++
+        }
+        if (this.Mahasiswa.Nilai[i].nilaiAkhir < 3 && this.Mahasiswa.Nilai[i].nilaiAkhir >= 2.5) {
+          this.nilaiList[1]++
+        }
+        if (this.Mahasiswa.Nilai[i].nilaiAkhir < 2.5 && this.Mahasiswa.Nilai[i].nilaiAkhir >= 2.0) {
+          this.nilaiList[2]++
+        }
+        if (this.Mahasiswa.Nilai[i].nilaiAkhir < 2 && this.Mahasiswa.Nilai[i].nilaiAkhir >= 1.0) {
+          this.nilaiList[3]++
+        }
+        if (this.Mahasiswa.Nilai[i].nilaiAkhir < 1) {
+          this.nilaiList[4]++
+        }
+      }
+      return this.nilaiList
+    }
   }
 }
 </script>
