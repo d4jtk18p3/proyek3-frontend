@@ -44,6 +44,11 @@
             :color="currentTheme.colorPrimary"
           ></v-simple-checkbox>
         </template>
+        <template v-slot:[`item.lampiran`]="{ item }">
+          <div align="center">
+            <td><a v-bind:href="item.lampiran"> {{item.lampiran}} </a></td>
+          </div>
+        </template>
       </v-data-table>
       </v-col>
     </v-row>

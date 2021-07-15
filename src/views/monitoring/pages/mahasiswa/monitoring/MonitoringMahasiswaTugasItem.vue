@@ -98,6 +98,7 @@
         <template v-slot:[`item.Edit`]="{ item }">
           <v-btn
             class="mr-5"
+            v-show="btnMulai[item.id]"
             icon :style="{color: currentTheme.colorPrimary}"
           >
             <v-icon
@@ -105,6 +106,11 @@
             mdi-pencil
             </v-icon>
           </v-btn>
+        </template>
+        <template v-slot:[`item.lampiran`]="{ item }">
+          <div align="center">
+            <td><a v-bind:href="item.lampiran"> {{item.lampiran}} </a></td>
+          </div>
         </template>
       </v-data-table>
       </v-col>
