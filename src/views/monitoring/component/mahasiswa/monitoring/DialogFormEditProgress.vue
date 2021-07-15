@@ -16,10 +16,10 @@
           <div class="text-h7 font-weight-bold" :style="{color: currentTheme.onSurface}">Progress</div>
           <div class="text-caption font-weight-medium font-italic" :style="{color: currentTheme.onSurface}">*isi dengan rentang 1-100</div>
           <v-slider
-            v-model="target"
+            v-model="progress"
             :thumb-size="24"
             :color="currentTheme.colorSecondary"
-            thumb-label
+            thumb-label="always"
           ></v-slider>
           <div class="text-h7 font-weight-bold" :style="{color: currentTheme.onSurface}">Skala Pemahaman</div>
           <div class="text-caption font-weight-medium font-italic" :style="{color: currentTheme.onSurface}">*isi dengan rentang 1-5</div>
@@ -27,7 +27,7 @@
             v-model="skalaPemahaman"
             :thumb-size="24"
             :color="currentTheme.colorSecondary"
-            thumb-label
+            thumb-label="always"
             max="5"
             step="0.1"
           ></v-slider>
@@ -68,7 +68,7 @@ export default {
   props: ["visible", "index", "subTask"],
   data () {
     return {
-      target: 0,
+      progress: 0,
       skalaPemahaman: 0,
       catatan: "-"
     }
@@ -95,7 +95,7 @@ export default {
     async edit () {
       var updateSubTugas
       console.log(this.index)
-      updateSubTugas = await SubtugasMonitoringDosen.putSubTugas(this.index, this.target, this.skalaPemahaman, this.catatan)
+      updateSubTugas = await SubtugasMonitoringDosen.putSubTugas(this.index, this.progress, this.skalaPemahaman, this.catatan)
       console.log(updateSubTugas)
       this.$emit("close")
       window.location.reload()

@@ -5,11 +5,13 @@
         <p class="text-h4 font-weight-bold">Monitoring {{this.namaMatkul}} - {{this.namaTugas}}</p>
         <breadcumbs :breadcrumb-items="breadcrumbItems"/>
       </v-col>
-      <v-col :cols="isMobile? 2 : 1">
+      <v-col :cols="isMobile? 2 : 2">
         <v-card
         class="rounded-card rounded-lg pa-3"
         :style="{color: currentTheme.onSurface}">
           <div class="timer text-center" >
+            <span class="minute font-weight-medium text-h7" style="color: red">{{ hours }}</span>
+            <span>:</span>
             <span class="minute font-weight-medium text-h7" style="color: red">{{ minutes }}</span>
             <span>:</span>
             <span class="seconds font-weight-medium text-h7" style="color: red">{{ seconds }}</span>
@@ -130,12 +132,16 @@ export default {
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     },
+    hours: function () {
+      const hours = Math.floor(this.totalTime / 3600)
+      return this.padTime(hours)
+    },
     minutes: function () {
-      const minutes = Math.floor(this.totalTime / 60)
+      const minutes = Math.floor((this.totalTime - (this.hours * 3600)) / 60)
       return this.padTime(minutes)
     },
     seconds: function () {
-      const seconds = this.totalTime - (this.minutes * 60)
+      const seconds = Math.floor((this.totalTime - (this.minutes * 60) - (this.hours * 3600)))
       return this.padTime(seconds)
     }
   },
@@ -143,12 +149,6 @@ export default {
     return {
       timer: null,
       totalTime: (0 * 60),
-      timerState: "stopped",
-      currentTimer: 0,
-      formattedTime: "00:00:00",
-      ticker: undefined,
-      snackbar: false,
-      singleSelect: false,
       namaMatkul: "",
       namaTugas: "",
       namaSubtugas: "",
@@ -180,6 +180,9 @@ export default {
       ],
       pertama: 0,
       editedIndex: -1,
+      editedProgress: 0,
+      editedSkalaPemahaman: 0,
+      editedCatatan: "",
       headers: [
         {
           text: "Selesai",
@@ -254,11 +257,21 @@ export default {
       console.log(value) // someValue
     },
     editItem (item) {
-      this.namaSubtugas = this.items[item - 1].nama_subtugas
       this.editedIndex = item
+      var i = this.pertama
+      var count = 0
+      while (i < this.editedIndex) {
+        count += 1
+        i++
+      }
+      this.namaSubtugas = this.items[count].nama_subtugas
+      this.editProgress = this.items[count].progress
+      this.editedSkalaPemahaman = this.items[count].skala_pemahaman
+      this.editedCatatan = this.items[count].catatan
       this.dialog = true
     },
     selesaiItem (item) {
+      this.editDurasi(item)
       this.editedIndex = item
       this.dialogSelesai = true
     },
@@ -267,7 +280,6 @@ export default {
       this.btnMulai = true
       this.btnPause[item] = true
       this.btnSelesai[item] = true
-      // this.$refs.durasi.start()
       console.log(item)
     },
     countdown: function () {
@@ -275,6 +287,19 @@ export default {
     },
     padTime: function (time) {
       return (time < 10 ? "0" : " ") + time
+    },
+    async editDurasi (item) {
+      clearInterval(this.timer)
+      var Index = item
+      var i = this.pertama
+      var count = 0
+      while (i < Index) {
+        count += 1
+        i++
+      }
+      var durasi = Math.ceil(this.totalTime / 60) + this.items[count].durasi
+      var updateSubTugas = await SubtugasMonitoringDosen.putSubTugasDurasi(Index, durasi)
+      console.log(updateSubTugas)
     },
     async pauseItem (item) {
       clearInterval(this.timer)
