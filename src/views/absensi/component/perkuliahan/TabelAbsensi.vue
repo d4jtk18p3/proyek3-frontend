@@ -33,12 +33,12 @@
         <td class="text-capitalize text-caption font-weight-light" v-if="!isMobile" :style="{color: currentTheme.onSurface}">{{ item.nim }}</td>
         <td class="text-capitalize text-caption font-weight-light" :style="{color: currentTheme.onSurface}">{{ item.nama }}</td>
         <td class="text-capitalize text-caption font-weight-light" :style="{color: currentTheme.onSurface}">{{ item.status }}</td>
-        <td class="text-capitalize text-caption font-weight-light" :style="{color: currentTheme.onSurface}">{{ item.keterlambatan }}</td>
+        <td class="text-capitalize text-caption font-weight-light" :style="{color: currentTheme.onSurface}">{{ item.keterlambatan }} menit</td>
         <td>
           <v-radio-group
           column
           v-model="item.isHadir"
-          :disabled="item.status === 'Izin yang diajukan sedang diperiksa waldos' || item.status === 'sakit' ||  item.status === 'izin'"
+          :disabled="item.status === 'Izin yang diajukan sedang diperiksa waldos' || item.status === 'sakit' ||  item.status === 'izin' ||  item.status === 'Tidak Hadir'"
           @change="updateMahasiswa(item)"
           >
             <v-row>
@@ -92,12 +92,10 @@ export default {
   },
   methods: {
     getKehadiran () {
-      console.log("HELLO1")
       kehadiran.getKehadiranMhs(this.perkuliahan.kelas.kode_kelas, this.perkuliahan.id_jadwal, this.currentDate)
         .then(response => {
           this.data = response.data
           this.mahasiswa = this.data.mahasiswa
-          console.log("HELLO")
           console.log(this.data.mahasiswa)
         })
         .catch(e => {
