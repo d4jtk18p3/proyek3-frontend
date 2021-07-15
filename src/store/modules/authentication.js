@@ -1,9 +1,9 @@
 import * as Keycloak from "keycloak-js"
 
 const keycloak = Keycloak({
-  url: "http://akun.localhost:5000/keycloak-proxy/auth",
-  realm: "development",
-  clientId: "public"
+  url: process.env.VUE_APP_KEYCLOAK_BASE_URL,
+  realm: process.env.VUE_APP_KEYCLOAK_REALM,
+  clientId: process.env.VUE_APP_KEYCLOAK_CLIENT_ID
 })
 
 const authentication = {
