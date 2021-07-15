@@ -24,9 +24,23 @@
             border-radius: 8px;
             width: 120px;
         }
+
+        #header, #content, #footer {
+            background-color: #FFFFFF;
+        }
+
+        #paragraph {
+            font-size: 16px;
+        }
+
+        @media only screen and (max-width: 400px) {
+            #paragraph {
+                font-size: 10px;
+            }
+        }
     </style>
 </head>
-<body>
+<body style="background-color: #e4e4e4; margin: 0;">
     <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
         <!-- <tbody style="background-color: #000000;"> -->
             <!-- START HEADER -->
@@ -42,27 +56,27 @@
             </table>
             <!-- END HEADER -->
 
-            <table id="content" width="652" border="0" align="center" cellpadding="0" cellspacing="0">
+            <table id="content" width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="max-width: 800px;">
                 <tr>
                     <td height="50"></td>
                 </tr>
                 
                 <tr>
                     <td align="center" valign="top">
-                        <table bgcolor="#FFFFFF" class="col-652" width="652" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <table bgcolor="#FFFFFF" class="col-652" width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
                             <tbody>
                             <tr>
                                 <td align="center" valign="top"
                                     style="background-size:cover; background-position:top;">
-                                <table class="col-652" width="652" border="0" align="center"
+                                <table class="col-652" width="100%" border="0" align="center"
                                     cellpadding="0" cellspacing="0">
                                     <tbody>
 
                                     <tr id="content">
-                                        <table class="col-652" width="100%" order="0" cellpadding="0" cellspacing="0">
+                                        <table class="col-652" width="80%" order="0" cellpadding="0" cellspacing="0">
                                             <tr>
                                                 <td align="center"
-                                                    style="font-family: 'Montserrat', sans-serif; font-size:37px; color:#242424; line-height:24px; font-weight: bold;">
+                                                    style="font-family: 'Montserrat', sans-serif; font-size:32px; color:#242424; line-height:24px; font-weight: bold;">
                                                     Judul Informasi
                                                 </td>
                                             </tr>
@@ -72,7 +86,7 @@
                                             </tr>
             
                                             <tr>
-                                                <td style="font-family: 'Lato', sans-serif; font-size:15px; color:#242424; line-height:24px; font-weight: 300; padding:0 50px;">
+                                                <td id="paragraph" style="font-family: 'Montserrat', sans-serif; color:#242424; line-height:24px; font-weight: 400; padding:0 50px;">
                                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales, dolor in sollicitudin tristique, purus metus venenatis quam, eget varius ligula nibh vel odio. Etiam pretium sagittis nisi, vel pretium dolor tristique ultrices. Vivamus egestas lacus ut est malesuada pretium in quis tortor.
                                                     
                                                     <br>
@@ -112,12 +126,12 @@
                 </tr>
             </table>
 
-            <hr>
-
-            <table id="footer" width="652" height="100" border="0" align="center" cellpadding="0" cellspacing="0">
+            <table id="footer" width="100%" height="100" border="0" align="center" cellpadding="0" cellspacing="0" style="max-width: 800px;">
                 <tr align="center">
                     <td>
                         <p>
+                            <hr>
+
                             <div style="font-family: 'Montserrat', sans-serif; font-size:12px; color:#272343; line-height:24px; font-weight: 600;">
                                 Copyright Politeknik Negeri Bandung. All right reserved.
                             </div>
