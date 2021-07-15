@@ -125,8 +125,8 @@ import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import editProgress from "@/views/monitoring/component/mahasiswa/monitoring/DialogFormEditProgress.vue"
 import SerahkanTugas from "@/views/monitoring/component/mahasiswa/monitoring/DialogFormSerahkanTugas.vue"
-import SubTugasMonitoringBersama from "../../../../../datasource/network/monitoring/monitoringbersama"
-import SubtugasMonitoringDosen from "../../../../../datasource/network/monitoring/subtugas"
+import MonitoringBersama from "../../../../../datasource/network/monitoring/monitoringbersama"
+import SubtugasMonitoringMahasiswa from "../../../../../datasource/network/monitoring/subtugas"
 export default {
   name: "KelasItem",
   components: { Breadcumbs, editProgress, SerahkanTugas },
@@ -201,6 +201,11 @@ export default {
           text: "Sub-task",
           value: "nama_subtugas",
           sortable: true,
+          class: "white--text text-lg-subtitle-1 font-weight-bold"
+        },
+        {
+          text: "Tenggat",
+          value: "tenggat",
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         },
         {
@@ -304,7 +309,7 @@ export default {
         i++
       }
       var durasi = Math.ceil(this.totalTime / 60) + this.items[count].durasi
-      var updateSubTugas = await SubtugasMonitoringDosen.putSubTugasDurasi(Index, durasi)
+      var updateSubTugas = await SubtugasMonitoringMahasiswa.putSubTugasDurasi(Index, durasi)
       console.log(updateSubTugas)
     },
     async pauseItem (item) {
@@ -317,7 +322,7 @@ export default {
         i++
       }
       var durasi = Math.ceil(this.totalTime / 60) + this.items[count].durasi
-      var updateSubTugas = await SubtugasMonitoringDosen.putSubTugasDurasi(Index, durasi)
+      var updateSubTugas = await SubtugasMonitoringMahasiswa.putSubTugasDurasi(Index, durasi)
       console.log(updateSubTugas)
       window.location.reload()
     },
@@ -333,12 +338,23 @@ export default {
     this.namaMatkul = this.$route.params.namaMatkul
     this.namaTugas = this.$route.params.namaTugas
     this.id = this.$route.params.id
-    var items = await SubTugasMonitoringBersama.getSubTugasbyMahasiswa(this.id, "181524002")
+    var items = await MonitoringBersama.getSubTugasbyMahasiswa(this.id, "181524002")
     console.log(items)
     var i = 0
     while (i < items.length) {
       if (i === 0) {
         this.pertama = items[i].id
+      }
+      var dateStr = items[i].tenggat
+      if (items[i].tenggat !== null) {
+        var date = new Date(items[i].tenggat)
+        dateStr =
+          ("00" + date.getDate()).slice(-2) + "/" +
+          ("00" + (date.getMonth() + 1)).slice(-2) + "/" +
+          date.getFullYear() + " " +
+          ("00" + date.getHours()).slice(-2) + ":" +
+          ("00" + date.getMinutes()).slice(-2) + ":" +
+          ("00" + date.getSeconds()).slice(-2)
       }
       this.items.push({
         id: items[i].id,
@@ -350,7 +366,7 @@ export default {
         catatan: items[i].catatan,
         durasi: items[i].durasi,
         lampiran: items[i].lampiran,
-        tenggat: items[i].tenggat,
+        tenggat: dateStr,
         waktu_selesai: items[i].waktu_selesai
       })
       i++

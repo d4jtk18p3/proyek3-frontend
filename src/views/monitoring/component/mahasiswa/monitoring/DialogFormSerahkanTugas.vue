@@ -52,7 +52,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import SubtugasMonitoringDosen from "../../../../../datasource/network/monitoring/subtugas"
+import SubtugasMonitoringMahasiswa from "../../../../../datasource/network/monitoring/subtugas"
 export default {
   name: "subTask",
   props: ["visible", "index", "subTask"],
@@ -83,7 +83,7 @@ export default {
     async serahkan () {
       var updateSubTugas
       console.log(this.lampiran)
-      updateSubTugas = await SubtugasMonitoringDosen.putSubTugasSerahkan(this.index, this.lampiran)
+      updateSubTugas = await SubtugasMonitoringMahasiswa.putSubTugasSerahkan(this.index, this.lampiran)
       console.log(updateSubTugas)
       this.$emit("close")
       window.location.reload()

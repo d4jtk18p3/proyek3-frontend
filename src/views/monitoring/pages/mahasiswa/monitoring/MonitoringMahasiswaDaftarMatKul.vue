@@ -37,7 +37,9 @@ import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import MatkulItem from "@/views/monitoring/component/mahasiswa/monitoring/MatkulItem"
 import TugasItem from "@/views/monitoring/component/mahasiswa/monitoring/TugasItem"
 import TugasMonitoringMahasiswa from "../../../../../datasource/network/monitoring/tugas"
-import DashboardMonitoringMahasiswa from "../../../../../datasource/network/monitoring/matakuliah"
+import MatkulMonitoringMahasiswa from "../../../../../datasource/network/monitoring/matakuliah"
+import PerkuliahanMonitoringMahasiswa from "../../../../../datasource/network/monitoring/monitoringbersama"
+
 export default {
   name: "AbsensiDosenMain",
   components: { MatkulItem, Breadcumbs, TugasItem },
@@ -74,8 +76,9 @@ export default {
   },
   methods: {
     async getIdMatkul (nama, id) {
+      var coba = await PerkuliahanMonitoringMahasiswa.getidperkuliahan("181524002", id)
       this.nama = nama
-      var Tugas = await TugasMonitoringMahasiswa.getTugasMatkul(id, 5)
+      var Tugas = await TugasMonitoringMahasiswa.getTugasMatkul(id, coba)
       var i = 0
       var tugasList = []
       this.idPerkuliahan = Tugas.perkuliahan[0].id
@@ -91,7 +94,7 @@ export default {
     }
   },
   async mounted () {
-    var Matkul = await DashboardMonitoringMahasiswa.getMatkulMahasiswa("181524002")
+    var Matkul = await MatkulMonitoringMahasiswa.getMatkulMahasiswa("181524002")
     var i = 0
     var matkulList = []
     while (i < Matkul.length) {

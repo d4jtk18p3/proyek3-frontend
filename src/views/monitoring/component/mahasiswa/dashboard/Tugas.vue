@@ -34,7 +34,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import SubTugasMonitoringBersama from "../../../../../datasource/network/monitoring/monitoringbersama"
+import MonitoringBersama from "../../../../../datasource/network/monitoring/monitoringbersama"
 
 export default {
   name: "Tugas",
@@ -70,7 +70,7 @@ export default {
     }
   },
   async mounted () {
-    var items = await SubTugasMonitoringBersama.getSubTugasbyMahasiswa(this.id, "181524002")
+    var items = await MonitoringBersama.getSubTugasbyMahasiswa(this.id, "181524002")
     var i = 0
     var progress = 0
     var tenggat = new Date()

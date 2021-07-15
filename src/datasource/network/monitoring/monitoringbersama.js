@@ -1,8 +1,18 @@
 import baseHttp from "./http"
 import errorHandler
   from "@/datasource/network/errorHandler"
-
 const MONITORING_URL = "/monitoring"
+
+const getidperkuliahan = async (nim, id) => {
+  try {
+    const monitoringURL = MONITORING_URL + `/common/getPerkuliahanBynimByIdMatkul?nim=${nim}&id_mata_kuliah=${id}`
+    const result = await baseHttp.get(monitoringURL)
+    console.log(result.data.data.perkuliahan[0].id)
+    return result.data.data.perkuliahan[0].id
+  } catch (e) {
+    return await errorHandler(e)
+  }
+}
 
 const getAllTugasMahasiswaByidtugas = async (idTugas) => {
   try {
@@ -39,5 +49,6 @@ const getSubTugasbyMahasiswa = async (idTugas, nim) => {
 
 export default {
   getAllTugasMahasiswaByidtugas,
-  getSubTugasbyMahasiswa
+  getSubTugasbyMahasiswa,
+  getidperkuliahan
 }

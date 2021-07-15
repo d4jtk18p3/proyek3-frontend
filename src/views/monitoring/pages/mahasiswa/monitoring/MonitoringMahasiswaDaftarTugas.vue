@@ -62,7 +62,7 @@
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import Dashboard from "../../../../../datasource/network/monitoring/dashboard"
-import SubTugasMonitoringBersama from "../../../../../datasource/network/monitoring/monitoringbersama"
+import MonitoringBersama from "../../../../../datasource/network/monitoring/monitoringbersama"
 
 export default {
   name: "Dashboard",
@@ -104,7 +104,7 @@ export default {
     var x = 0
     var totalProgress = 0
     while (x < tugas.length) {
-      var items = await SubTugasMonitoringBersama.getSubTugasbyMahasiswa(tugas[x].id, "181524002")
+      var items = await MonitoringBersama.getSubTugasbyMahasiswa(tugas[x].id, "181524002")
       var i = 0
       var progress = 0
       var tenggat = new Date()

@@ -38,13 +38,6 @@
             </v-btn>
           </v-col>
         </v-col>
-        <v-col
-          :cols="12"
-          md="3"
-        >
-          <Pintasan/>
-          <TambahPintasan/>
-        </v-col>
         <v-col v-if="!isMobile"
           cols="6"
           md="3"
@@ -59,15 +52,13 @@
 <script>
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
-import Pintasan from "@/views/monitoring/component/mahasiswa/dashboard/Pintasan"
-import TambahPintasan from "@/views/monitoring/component/mahasiswa/dashboard/TambahPintasan"
 import Kalender from "@/views/monitoring/component/mahasiswa/dashboard/Kalender"
 import Tugas from "@/views/monitoring/component/mahasiswa/dashboard/Tugas"
 import Dashboard from "../../../../../datasource/network/monitoring/dashboard"
 
 export default {
   name: "Dashboard",
-  components: { Pintasan, Kalender, TambahPintasan, Tugas, Breadcumbs },
+  components: { Kalender, Tugas, Breadcumbs },
   data () {
     return {
       breadcrumbItems: [

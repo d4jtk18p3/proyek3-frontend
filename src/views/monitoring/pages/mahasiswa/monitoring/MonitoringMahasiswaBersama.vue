@@ -58,7 +58,7 @@
 <script>
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
-import SubTugasMonitoringBersama from "../../../../../datasource/network/monitoring/monitoringbersama"
+import monitoringBersama from "../../../../../datasource/network/monitoring/monitoringbersama"
 
 export default {
   name: "MonitoringBersama",
@@ -179,7 +179,7 @@ export default {
     this.namaMatkul = this.$route.params.namaMatkul
     this.namaTugas = this.$route.params.namaTugas
     this.id = this.$route.params.id
-    this.data = await SubTugasMonitoringBersama.getAllTugasMahasiswaByidtugas(this.$route.params.id)
+    this.data = await monitoringBersama.getAllTugasMahasiswaByidtugas(this.$route.params.id)
   }
 }
 </script>
