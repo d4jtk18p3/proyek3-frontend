@@ -1,18 +1,38 @@
 <template>
   <v-card
     link
-    class="rounded-card mr-3 mb-3"
+    class="rounded-lg mr-3 mb-3"
     @click="routeDaftarTugas(idMatkul, idPerkuliahan)"
   >
-    <v-row class="pa-4 ma-0" :style="{background : currentTheme.colorSecondary}">
+    <v-row class="pa-3 ma-0" :style="{background :'#2196F3' }">
       <v-col cols="12" align-self="center" class="pa-0 ma-0">
         <div
-          class="text-h5 text-center text-uppercase font-weight-bold"
-          :style="{color : currentTheme.colorOnSecondary}"
+          class="text-center text-uppercase font-weight-bold"
+          :style="{color: currentTheme.surface}"
         >{{ mataKuliah }}</div>
       </v-col>
+      <v-col cols="12" align-self="center" class="pa-0 ma-0">
+        <div
+          class="text-h8 text-center"
+          :style="{color: currentTheme.surface}"
+        >{{ kelas }}</div>
+      </v-col>
     </v-row>
-    <div class="pa-6" :style="{backgroundImage:'url(https://library.polban.ac.id/wp-content/uploads/2017/03/Gedung-baru-1.jpg)','background-size': '100% 100%', height:'150px'}">
+    <div class="pa-2 pl-4">
+      <v-row>
+        <v-col cols="4" class="pt-4" v-text="'Kode'">
+        </v-col>
+        <v-col cols="2" class="pt-4" v-text="':'">
+        </v-col>
+        <v-col cols="6" class="pt-4" v-text="idMatkul">
+        </v-col>
+        <v-col cols="4" class="pt-0 pb-4" v-text="'Semester'">
+        </v-col>
+        <v-col cols="2" class="pt-0" v-text="':'">
+        </v-col>
+        <v-col cols="6" class="pt-0 pb-4" v-text="semester">
+        </v-col>
+      </v-row>
     </div>
   </v-card>
 </template>
@@ -20,7 +40,7 @@
 <script>
 import { mapGetters } from "vuex"
 export default {
-  name: "MatkulItem",
+  name: "MatkulItemDashboard",
   props: {
     mataKuliah: {
       type: String,
@@ -37,12 +57,15 @@ export default {
       required: false,
       default: 1
     },
-    onKelasClicked: {
-      type: Function,
+    semester: {
+      type: Number,
       required: false,
-      default: (index, kelasString) => {
-        console.log(`index : ${index} , kelasString : ${kelasString}`)
-      }
+      default: 0
+    },
+    kelas: {
+      type: String,
+      required: false,
+      default: "1803 - 24"
     }
   },
   computed: {
@@ -50,9 +73,6 @@ export default {
       currentTheme: "theme/getCurrentColor"
     })
   },
-  // beforeMount () {
-
-  // },
   methods: {
     routeDaftarTugas (idMatkul, idPerkuliahan) {
       this.$router.push("dashboard-tugas/daftar-tugas/" + idMatkul + "/" + idPerkuliahan)
@@ -62,7 +82,4 @@ export default {
 </script>
 
 <style scoped>
-.rounded-card{
-  border-radius:1000px;
-}
 </style>

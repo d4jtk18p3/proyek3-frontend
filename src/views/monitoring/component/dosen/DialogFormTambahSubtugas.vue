@@ -57,62 +57,6 @@
           </v-col>
         </v-row>
 
-        <!-- <div v-for="(sub, i) in subtugas" :key="i">
-          <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
-            <v-col cols="12">
-              <div class="text-h7 font-weight-bold">Subtugas {{i+1}}</div>
-            </v-col>
-          </v-row>
-          <v-row class="mt-n4 mb-0 pt-0 pb-0" :style="{color: currentTheme.onBackground}">
-            <v-col cols="12">
-              <v-text-field
-                v-model="sub.value1"
-                :label="sub.label1"
-                outlined
-                clearable
-                :dark="isDark"
-                :color="currentTheme.colorSecondary"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row class="mt-n10 mb-n6 pt-0 pb-0" :style="{color: currentTheme.onBackground}">
-            <v-col cols="12">
-              <vc-date-picker
-                v-model="sub.date"
-                mode="dateTime"
-                is24hr
-                :timezone="timezone"
-                :is-dark="isDark"
-                color="teal">
-                <template v-slot="{ inputValue, inputEvents }">
-                  <v-text-field
-                    v-model="sub.date"
-                    :label="sub.label2"
-                    outlined
-                    clearable
-                    :dark="isDark"
-                    :value="inputValue"
-                    v-on="inputEvents"
-                    :color="currentTheme.colorSecondary"
-                  >
-                  </v-text-field>
-                </template>
-              </vc-date-picker>
-            </v-col>
-          </v-row>
-        </div>
-        <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
-          <v-col cols="12" align="right">
-            <v-btn
-            outlined
-            :color="currentTheme.colorSecondary"
-            @click="add"
-            >
-              Tambah
-            </v-btn>
-          </v-col>
-        </v-row> -->
-
         <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
           <v-col cols="6" align="right">
             <v-btn
@@ -175,49 +119,16 @@ export default {
     }
   },
   methods: {
-    // add () {
-    //   this.subtugas.push({
-    //     label1: "Nama Subtugas",
-    //     value1: "",
-    //     label2: "Tenggat",
-    //     date: new Date()
-    //     // date: ("0" + new Date().getDate()).slice(-2) + "-" + ("0" + (new Date().getMonth() + 1)).slice(-2) + "-" +
-    //     //             new Date().getFullYear() + " " + ("0" + new Date().getHours()).slice(-2) + ":" + ("0" + new Date().getMinutes()).slice(-2)
-    //   })
-    // },
     closeDialog () {
       this.$emit("close")
     },
     async addSubtugas () {
       var mhs = await TugasMonitoringDosen.getMahasiswaByTugas(this.$route.params.id_tugas)
-      // var idStudiList = []
       var i = 0
       var subtugasBaru
       var date = this.tenggat
       var d = new Date(date)
       var dateStr = d.toISOString()
-      // d.getFullYear() + "-" +
-      // ("00" + (d.getMonth() + 1)).slice(-2) + "-" +
-      // ("00" + d.getDate()).slice(-2)
-      // ("00" + d.getDate()).slice(-2) + " " +
-      // ("00" + d.getHours()).slice(-2) + ":" +
-      // ("00" + d.getMinutes()).slice(-2) + ":" +
-      // ("00" + d.getSeconds()).slice(-2) + "+07"
-      // var d = new Date(date)
-      // var month = "" + (d.getMonth() + 1)
-      // var day = "" + d.getDate()
-      // var year = d.getFullYear()
-      // var hour = d.getHours()
-      // var min = d.getMinutes()
-
-      // if (month.length < 2) {
-      //   month = "0" + month
-      // }
-      // if (day.length < 2) {
-      //   day = "0" + day
-      // }
-
-      // var dateVal = [year, month, day].join("-")
       while (i < mhs.listIdStudi.length) {
         subtugasBaru = await SubtugasMonitoringDosen.postSubtugasBaru(this.namaSubtugas,
           dateStr, this.$route.params.id_tugas, mhs.listIdStudi[i])

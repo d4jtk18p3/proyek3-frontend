@@ -54,9 +54,9 @@ export default {
 
   // },
   methods: {
-    routeDaftarTugas (idMatkul, idPerkuliahan) {
-      this.$router.push("monitoring-tugas/daftar-tugas/" + idMatkul + "/" + idPerkuliahan)
-    }
+    // routeDaftarTugas (idMatkul, idPerkuliahan) {
+    //   this.$router.push("monitoring-tugas/daftar-tugas/" + idMatkul + "/" + idPerkuliahan)
+    // }
   }
 }
 </script>
