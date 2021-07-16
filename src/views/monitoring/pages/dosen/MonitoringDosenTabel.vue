@@ -12,8 +12,6 @@
         :color="currentTheme.colorSecondary"
         outlined
         class="ma-2"
-        v-bind="attrs"
-        v-on="on"
         @click="addSubtugas"
       >
         + Tambah Subtugas
@@ -45,8 +43,6 @@
           <v-btn
               text
               color="primary"
-              v-bind="attrs"
-              v-on="on"
               class="ma-2"
               @click="editSubtugas(item)"
           >
@@ -83,8 +79,6 @@
           <v-btn
               text
               color="primary"
-              v-bind="attrs"
-              v-on="on"
               class="ma-2"
               @click="routeLihatDetail(item)"
           >
@@ -116,7 +110,7 @@ export default {
   },
   data () {
     return {
-      id_subtugas: "",
+      id_subtugas: 0,
       showDialogForm: false,
       showDialogFormEdit: false,
       breadcrumbItems: [
@@ -226,6 +220,7 @@ export default {
         ("00" + date.getMinutes()).slice(-2) + ":" +
         ("00" + date.getSeconds()).slice(-2)
       subList.push({
+        id: sub[i].id,
         NamaSub: sub[i].nama_subtugas,
         Tenggat: dateStr
       })

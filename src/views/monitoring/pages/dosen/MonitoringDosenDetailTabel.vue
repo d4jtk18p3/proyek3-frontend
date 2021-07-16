@@ -1,4 +1,5 @@
 <template>
+<v-container>
   <v-row :style="{color: currentTheme.onBackground}">
     <v-col cols="12">
       <p class="text-h4 font-weight-bold">Monitoring Tugas</p>
@@ -7,7 +8,6 @@
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
     </v-col>
     <v-col  class="ml-auto pl-13 py-4" cols="0" xs="6" sm="6" md="5" lg="4" xl="3">
-      <!-- <v-combobox solo  v-model="select" :items="choices" :dark="isDark"></v-combobox> -->
       <v-select
         v-model="mahasiswa"
         :dark="isDark"
@@ -32,6 +32,7 @@
         :items-per-page="5"
         class="elevation-1"
         :style="{backgroundColor: currentTheme.colorPrimary}"
+        @click:row="rowClicked"
       >
         <template v-slot:no-data>
           <p
@@ -43,27 +44,37 @@
         <template  v-slot:[`item.status_subtugas`]="{ item }">
           <v-simple-checkbox v-model="item.status_subtugas" light disabled></v-simple-checkbox>
         </template>
+        <template v-slot:[`item.catatan`]="{ catatan }">
+            <div class="text-truncate" style="max-width: 130px">
+              {{ catatan }}
+            </div>
+        </template>
         <template v-slot:[`item.lampiran`]="{ value }">
             <div class="text-truncate" style="max-width: 130px">
-            {{ value }}
+              <a :href="value" target="_blank">{{ value }}</a>
             </div>
         </template>
       </v-data-table>
     </v-col>
   </v-row>
+  <DialogDetailSubtugas :visible="showDialogDetail" :subtugas="subValue" :kriteria="kriteria" @close="showDialogDetail=false" />
+</v-container>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
+import DialogDetailSubtugas from "@/views/monitoring/component/dosen/DialogDetailSubtugas"
 import SubtugasMonitoringDosen from "../../../../datasource/network/monitoring/subtugas"
 import TugasMonitoringDosen from "../../../../datasource/network/monitoring/tugas"
 export default {
   name: "DosenViewTable",
-  components: { Breadcumbs },
+  components: { Breadcumbs, DialogDetailSubtugas },
   data () {
     return {
       isLoading: false,
+      showDialogDetail: false,
+      subValue: {},
       rulesFile: {
       },
       mahasiswa: "",
@@ -106,7 +117,8 @@ export default {
           class: "white--text text-lg-subtitle-1 font-weight-bold"
         }
       ],
-      subtugas: []
+      subtugas: [],
+      kriteria: {}
     }
   },
   computed: {
@@ -117,14 +129,17 @@ export default {
   },
   methods: {
     async setMhs (a) {
-      // const currentRoute = this.$route.params({ id_mhs: a })
-      // console.log(currentRoute)
       this.$router.push("/monitoring/dosen/monitoring-tugas/daftar-tugas/" + this.$route.params.id_tugas + "/" + this.$route.params.id_perkuliahan + "/tugas/" + this.$route.params.id_tugas + "/" + a).catch(error => {
         if (error.name !== "NavigationDuplicated") {
           throw error
         }
       })
       location.reload()
+    },
+    rowClicked (value) {
+      this.showDialogDetail = true
+      this.subValue = value
+      console.log(this.subValue)
     }
   },
   async mounted () {
@@ -143,9 +158,11 @@ export default {
       i++
     }
     this.listMhs = mhsList
+    this.kriteria = kriteria
     if (kriteria.progress === true) {
       this.headers.push({
         text: "Progress",
+        align: "center",
         value: "progress",
         sortable: true,
         class: "white--text text-lg-subtitle-1 font-weight-bold"

@@ -57,20 +57,20 @@
       >
         </v-select>
     </v-col>
-    <!-- <v-col cols="5" v-if="!isMobile"></v-col> -->
-    <v-col xs="12" sm="12" md="12" lg="6" xl="6" class="mt-0 mt-5" v-if="grafik=='Progress Pengerjaan'">
-      <GraphProgress :valList="valueList" :subTugas="listSubtugas" :namaSub="grafik" :average="rataRata"/>
+    <v-col :cols="isMobile? 12 : 8" class="mt-0 mt-5" v-if="grafik=='Progress Pengerjaan'">
+      <GraphProgress :valList="valueList" :subTugas="listSubtugas" :namaSub="grafik" :average="rataRata"  :namaMhs="mahasiswa.Nama"/>
     </v-col>
-    <v-col :cols="isMobile? 12 : 6" class="mt-0 mt-5" v-if="grafik=='Waktu Pengerjaan'">
-      <GraphPemahamanDurasi :valList="valueList" :subTugas="listSubtugas" :namaSub="grafik" :titleGraf="title"/>
+    <v-col :cols="isMobile? 12 : 8" class="mt-0 mt-5" v-if="grafik=='Waktu Pengerjaan'">
+      <GraphPemahamanDurasi :valList="valueList" :subTugas="listSubtugas" :namaSub="grafik" :titleGraf="title" :namaMhs="mahasiswa.Nama"/>
     </v-col>
-    <v-col :cols="isMobile? 12 : 6" class="mt-0 mt-5" v-if="grafik=='Level Pemahaman'">
-      <GraphPemahamanDurasi :valList="valueList" :subTugas="listSubtugas" :namaSub="grafik"/>
+    <v-col :cols="isMobile? 12 : 8" class="mt-0 mt-5" v-if="grafik=='Level Pemahaman'">
+      <GraphPemahamanDurasi :valList="valueList" :subTugas="listSubtugas" :namaSub="grafik" :namaMhs="mahasiswa.Nama"/>
     </v-col>
-    <v-col :cols="isMobile? 6 : 3.5" class="mt-5" v-if="grafik == 'Waktu Pengerjaan' || grafik == 'Level Pemahaman'">
+    <v-col :cols="isMobile? 6 : 3" class="mt-5" v-if="grafik == 'Waktu Pengerjaan' || grafik == 'Level Pemahaman'">
       <CardRataRata :RataRata="rataRata" :titleCard="grafik"/>
+      <CardAllMahasiswa :RataRata="ratarataAll" :titleCard="grafik"/>
     </v-col>
-    <v-col :cols="isMobile? 6 : 3" class="mt-5"  v-if="grafik!==''">
+    <v-col :cols="isMobile? 6 : 3" class="mt-5"  v-if="grafik == 'Progress Pengerjaan'">
       <CardAllMahasiswa :RataRata="ratarataAll" :titleCard="grafik"/>
     </v-col>
   </v-row>
@@ -262,10 +262,10 @@ export default {
     var tugas = await TugasMonitoringDosen.getTugasMatkul(this.$route.params.id_matkul, this.$route.params.id_perkuliahan)
     var tugasList = []
     var i = 0
-    while (i < tugas.length) {
+    while (i < tugas.listTugas.length) {
       tugasList.push({
-        id_tugas: tugas[i].id_tugas,
-        nama_tugas: tugas[i].nama_tugas
+        id_tugas: tugas.listidTugas[i],
+        nama_tugas: tugas.listTugas[i]
       })
       i++
     }

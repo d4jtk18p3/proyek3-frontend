@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="rounded-lg"
+    class="rounded-lg mb-4"
   >
     <v-row class="pa-4 ma-0" :style="{background : currentTheme.colorSecondary}">
       <v-col cols="12" class="pa-0 ma-0">

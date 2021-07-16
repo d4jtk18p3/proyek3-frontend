@@ -159,7 +159,7 @@ export default {
       this.statusSkala = this.selectedKriteria.includes("Skala Pemahaman")
       this.statusCatatan = this.selectedKriteria.includes("Catatan")
       this.statusLampiran = this.selectedKriteria.includes("Lampiran")
-      console.log(this.statusProgress)
+
       tugasBaru = await TugasMonitoringDosen.postTugasBaru(this.namaTugas,
         this.statusProgress, this.statusDurasi, this.statusSkala,
         this.statusCatatan, this.statusLampiran, "5", "196610181995121000")

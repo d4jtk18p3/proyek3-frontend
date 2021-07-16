@@ -6,6 +6,7 @@
     <v-row>
       <v-col cols="12">
         <div class="text-h6 font-weight-bold ml-3" :style="{color: currentTheme.onSurface}">Grafik {{namaSub}}</div>
+        <div class="text-subtitle-1 font-weight-medium ml-3" :style="{color: currentTheme.onSurface}">{{namaMhs}}</div>
       </v-col>
       <v-col cols="12">
         <apexchart type="bar" height="300" width="100%" :options="data.chartOptions" :series="data.series"/>
@@ -23,6 +24,10 @@ export default {
   name: "GraphPemahamanDurasi",
   props: {
     namaSub: {
+      type: String,
+      required: false
+    },
+    namaMhs: {
       type: String,
       required: false
     },
@@ -56,7 +61,7 @@ export default {
           data: this.valList
         }],
         chartOptions: {
-          colors: [this.currentTheme.colorSecondary, "#FB8C00", "#4CAF50", this.currentTheme.colorSecondaryVariant, "#2196F3"],
+          colors: [this.currentTheme.colorSecondary, "#FB8C00", "#4CAF50", "#FF5252", "#2196F3", this.currentTheme.colorSecondaryVariant],
           chart: {
             height: 300,
             type: "bar",
@@ -105,7 +110,7 @@ export default {
               enabled: true
             },
             labels: {
-              show: true,
+              show: false,
               style: {
                 colors: this.currentTheme.onSurface
               }
@@ -124,9 +129,10 @@ export default {
             opacity: 1
           },
           legend: {
-            position: "right",
+            position: "bottom",
             offsetX: 0,
-            offsetY: 50,
+            offsetY: 0,
+            horizontalAlign: "left",
             labels: {
               colors: this.currentTheme.onSurface
             }

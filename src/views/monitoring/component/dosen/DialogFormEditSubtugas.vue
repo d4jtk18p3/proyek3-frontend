@@ -69,6 +69,7 @@
           </v-col>
           <v-col cols="6" align="left">
             <v-btn
+            :disabled="!this.namaSubtugas"
             class=" white--text"
             :color="isDark? currentTheme.colorSecondary : currentTheme.colorOnSecondary"
             @click="editSubtugas(idSubtugas)"
@@ -92,8 +93,6 @@ export default {
       dialogSubTask: false,
       namaSubtugas: "",
       tenggat: new Date()
-      // subtugas: []
-      // date: new Date()
     }
   },
   props: {
@@ -134,29 +133,6 @@ export default {
       var date = this.tenggat
       var d = new Date(date)
       var dateStr = d.toISOString()
-      // d.getFullYear() + "-" +
-      // ("00" + (d.getMonth() + 1)).slice(-2) + "-" +
-      // ("00" + d.getDate()).slice(-2)
-      // ("00" + d.getDate()).slice(-2) + " " +
-      // ("00" + d.getHours()).slice(-2) + ":" +
-      // ("00" + d.getMinutes()).slice(-2) + ":" +
-      // ("00" + d.getSeconds()).slice(-2) + "+07"
-      // var d = new Date(date)
-      // var month = "" + (d.getMonth() + 1)
-      // var day = "" + d.getDate()
-      // var year = d.getFullYear()
-      // var hour = d.getHours()
-      // var min = d.getMinutes()
-
-      // if (month.length < 2) {
-      //   month = "0" + month
-      // }
-      // if (day.length < 2) {
-      //   day = "0" + day
-      // }
-
-      // var dateVal = [year, month, day].join("-")
-      console.log(this.namaSubtugas, dateStr)
       subtugasBaru = await SubtugasMonitoringDosen.putSubtugas(idSubtugas, this.namaSubtugas,
         dateStr)
       console.log(subtugasBaru)

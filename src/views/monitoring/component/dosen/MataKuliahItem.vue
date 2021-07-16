@@ -1,38 +1,38 @@
 <template>
   <v-card
-    class="rounded-xl"
+    link
+    class="rounded-lg mr-3 mb-3"
+    @click="routeDaftarTugas(idMatkul, idPerkuliahan)"
   >
-    <v-row class="pa-4 ma-0" :style="{background : currentTheme.colorSecondary}">
+    <v-row class="pa-3 ma-0" :style="{background :'#2196F3' }">
       <v-col cols="12" align-self="center" class="pa-0 ma-0">
         <div
-          class="text-h5 text-center text-uppercase font-weight-bold"
-          :style="{color : currentTheme.colorOnSecondary}"
+          class="text-center text-uppercase font-weight-bold"
+          :style="{color: currentTheme.surface}"
         >{{ mataKuliah }}</div>
       </v-col>
-      <v-col cols="12" class="pa-0 ma-0">
+      <v-col cols="12" align-self="center" class="pa-0 ma-0">
         <div
-          class="text-subtitle-1 text-center text-capitalize font-weight-medium"
-          :style="{color : currentTheme.colorOnSecondary}"
-        >{{kodeMatkul}}</div>
+          class="text-h8 text-center"
+          :style="{color: currentTheme.surface}"
+        >{{ kelas }}</div>
       </v-col>
     </v-row>
-    <div class="pa-6" :style="{background : currentTheme.surface}">
-      <v-row class="pa-0 ma-0">
-        <v-col
-          class="pa-0 ma-0"
-          @click="onKelasClicked(index,kelas)"
-          v-for="(kelas, index ) in listKelas"
-          :key="kelas"
-          cols="12">
-          <v-btn
-            text
-            class="text-caption  text-capitalize font-weight-medium"
-            :style="{color : currentTheme.onSurface}"
-            to="/monitoring/dosen/monitoring-tugas/daftar-tugas"
-          >{{kelas}}</v-btn>
+    <div class="pa-2 pl-4">
+      <v-row>
+        <v-col cols="4" class="pt-4" v-text="'Kode'">
+        </v-col>
+        <v-col cols="2" class="pt-4" v-text="':'">
+        </v-col>
+        <v-col cols="6" class="pt-4" v-text="idMatkul">
+        </v-col>
+        <v-col cols="4" class="pt-0 pb-4" v-text="'Semester'">
+        </v-col>
+        <v-col cols="2" class="pt-0" v-text="':'">
+        </v-col>
+        <v-col cols="6" class="pt-0 pb-4" v-text="semester">
         </v-col>
       </v-row>
-
     </div>
   </v-card>
 </template>
@@ -47,30 +47,36 @@ export default {
       required: false,
       default: "Model Data Teori"
     },
-    kodeMatkul: {
+    idMatkul: {
       type: String,
       required: false,
-      default: "16TIN4024"
+      default: "16TIN4014"
     },
-    listKelas: {
-      type: Array,
+    idPerkuliahan: {
+      type: Number,
       required: false,
-      default: () => {
-        return ["Kelas 3A", "Kelas 3B", "Kelas 3C"]
-      }
+      default: 1
     },
-    onKelasClicked: {
-      type: Function,
+    semester: {
+      type: Number,
       required: false,
-      default: (index, kelasString) => {
-        console.log(`index : ${index} , kelasString : ${kelasString}`)
-      }
+      default: 0
+    },
+    kelas: {
+      type: String,
+      required: false,
+      default: "1803 - 24"
     }
   },
   computed: {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
     })
+  },
+  methods: {
+    routeDaftarTugas (idMatkul, idPerkuliahan) {
+      this.$router.push("monitoring-tugas/daftar-tugas/" + idMatkul + "/" + idPerkuliahan)
+    }
   }
 }
 </script>

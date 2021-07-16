@@ -37,8 +37,11 @@ export default {
     var tugas = await TugasMonitoringDosen.getTugasMatkul(this.$route.params.id_matkul, this.$route.params.id_perkuliahan)
     var tugasList = []
     var i = 0
-    while (i < tugas.length) {
-      tugasList[i] = tugas[i]
+    while (i < tugas.listTugas.length) {
+      tugasList.push({
+        id_tugas: tugas.listidTugas[i],
+        nama_tugas: tugas.listTugas[i]
+      })
       i++
     }
     this.listTugas = tugasList

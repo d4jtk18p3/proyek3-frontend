@@ -26,7 +26,7 @@
           no-gutters v-for="item in listMatkul" :key="item.id"
           :cols="isMobile? 12 : 6"
         >
-          <MatkulItemDashboard :mataKuliah="item.nama" :idMatkul="item.id" :idPerkuliahan="item.id_perkuliahan"></MatkulItemDashboard>
+          <MatkulItemDashboard :mataKuliah="item.nama" :idMatkul="item.id" :idPerkuliahan="item.id_perkuliahan" :semester="item.semester" :kelas="kelas"></MatkulItemDashboard>
         </v-col>
       </v-row>
     </v-col>
@@ -57,10 +57,9 @@ export default {
           href: ""
         }
       ],
-      listKelas: [
-      ],
-      listMatkul: [
-      ]
+      listKelas: [],
+      listMatkul: [],
+      kelas: ""
     }
   },
   computed: {
@@ -75,6 +74,7 @@ export default {
   methods: {
     async getIdKelas (item) {
       if (item != null) {
+        this.kelas = item
         var temp = item.substr(0, 4)
       }
 
@@ -85,19 +85,14 @@ export default {
         matkulList.push({
           id: matkul.listMatkul[j].id,
           nama: matkul.listMatkul[j].nama_mata_kuliah,
+          semester: matkul.listMatkul[j].semester,
           id_perkuliahan: matkul.id_perkuliahan[j]
         })
         j++
       }
       this.listMatkul = matkulList
-      // console.log(temp)
-      // console.log(matkulList)
-      // console.log(this.listMatkul)
     }
   },
-  // beforeMount () {
-  //   this.getIdKelas()
-  // },
   async mounted () {
     var kelas = await KelasMonitoringDosen.getListKelas("196610181995121000")
     var i = 0
@@ -107,15 +102,6 @@ export default {
       i++
     }
     this.listKelas = kelasList
-
-    // var matkul = await MatkulMonitoringDosen.getMatkulKelas("1011", "1803")
-    // var matkulList = []
-    // var j = 0
-    // while (j < matkul.length) {
-    //   matkulList[j] = matkul[j].nama_mata_kuliah
-    //   j++
-    // }
-    // this.listMatkul = matkulList
   }
 }
 </script>
