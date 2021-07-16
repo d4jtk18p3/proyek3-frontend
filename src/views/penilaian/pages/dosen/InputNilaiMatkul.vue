@@ -703,7 +703,7 @@ export default {
         for (i = 0; i < kategoriNilaiChild.length; i++) {
           nilai = {
             kode_kategori: kategoriNilaiChild[i].kode_kategori,
-            nilai: parseFloat(this.dataNilaiMahasiswaETS[j].Nilai[i]), // ganti jadi array
+            nilai: parseFloat(this.dataNilaiMahasiswaETS[j].Nilai[i]),
             nim: this.dataNilaiMahasiswaETS[j].NIM.toString()
           }
           // console.log(this.dataNilaiMahasiswaETS[j].Nilai[i])
@@ -800,7 +800,7 @@ export default {
       var dataNilaiMahasiswa = {}
 
       // Input Mata Kuliah
-      dataNilaiMahasiswa.idMataKuliah = parseInt(this.$route.params.id) // get id mata kuliah from API
+      dataNilaiMahasiswa.id_perkuliahan = parseInt(this.$route.params.id) // get id mata kuliah from API
 
       // Input Kategori
       var kategoriNilai = []
@@ -854,7 +854,7 @@ export default {
         for (i = 0; i < kategoriNilaiChild.length; i++) {
           nilai = {
             kode_kategori: kategoriNilaiChild[i].kode_kategori,
-            nilai: parseFloat(this.dataNilaiMahasiswaEAS[j].Nilai[i]), // ganti jadi array
+            nilai: parseFloat(this.dataNilaiMahasiswaEAS[j].Nilai[i]),
             nim: this.dataNilaiMahasiswaEAS[j].NIM.toString()
           }
           dataNilai.push(nilai)
@@ -871,7 +871,7 @@ export default {
 
       if (finalize) {
         for (i = 0; i < dataNilaiMahasiswa.dataNilai.length; i++) {
-          var index = dataNilaiMahasiswa.dataKategori.findIndex(obj => obj.idKategori === dataNilaiMahasiswa.dataNilai[i].id_kategori)
+          var index = dataNilaiMahasiswa.dataKategori.findIndex(obj => obj.kode_kategori === dataNilaiMahasiswa.dataNilai[i].kode_kategori)
           dataNilaiMahasiswa.dataNilai[i].parent = dataNilaiMahasiswa.dataKategori[index].parent
           dataNilaiMahasiswa.dataNilai[i].nilai = dataNilaiMahasiswa.dataKategori[index].bobot_nilai / 100 * dataNilaiMahasiswa.dataNilai[i].nilai
         }
@@ -913,14 +913,14 @@ export default {
             if (listMhs[i][j].parent === nilaiMhs[iNilai - 1].parent) {
               nilaiMhs[iNilai - 1].totalNilai += listMhs[i][j].nilai
             } else {
-              nilaiMhs[iNilai - 1].bobot = dataNilaiMahasiswa.dataKategori[dataNilaiMahasiswa.dataKategori.findIndex(obj => obj.idKategori === nilaiMhs[iNilai - 1].parent)].bobot_nilai
+              nilaiMhs[iNilai - 1].bobot = dataNilaiMahasiswa.dataKategori[dataNilaiMahasiswa.dataKategori.findIndex(obj => obj.kode_kategori === nilaiMhs[iNilai - 1].parent)].bobot_nilai
               nilaiMhs[iNilai - 1].totalNilai = nilaiMhs[iNilai - 1].totalNilai * nilaiMhs[iNilai - 1].bobot / 100
 
               nilaiMhs.push({ totalNilai: listMhs[i][j].nilai, nim: listMhs[i][j].nim, parent: listMhs[i][j].parent })
               iNilai++
             }
           }
-          nilaiMhs[iNilai - 1].bobot = dataNilaiMahasiswa.dataKategori[dataNilaiMahasiswa.dataKategori.findIndex(obj => obj.idKategori === nilaiMhs[iNilai - 1].parent)].bobot_nilai
+          nilaiMhs[iNilai - 1].bobot = dataNilaiMahasiswa.dataKategori[dataNilaiMahasiswa.dataKategori.findIndex(obj => obj.kode_kategori === nilaiMhs[iNilai - 1].parent)].bobot_nilai
           nilaiMhs[iNilai - 1].totalNilai = nilaiMhs[iNilai - 1].totalNilai * nilaiMhs[iNilai - 1].bobot / 100
           listNilaiMhs.push(nilaiMhs)
           nilaiMhs = []
