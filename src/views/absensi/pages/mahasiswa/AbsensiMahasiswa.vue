@@ -80,7 +80,7 @@ import Uploadbukti2 from "@/views/absensi/component/mahasiswa/UploadBuktiMhs2"
 import JadwalMahasiswa from "@/datasource/network/absensi/jadwal"
 import Presensi from "@/datasource/network/absensi/PresensiMahasiswa"
 
-const schedule = require("node-schedule")
+// const schedule = require("node-schedule")
 
 export default {
   name: "AbsensiMahasiswa",
@@ -97,13 +97,18 @@ export default {
   created () {
     var current = new Date()
     this.currentDay = current.getDay()
+    this.currentDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + current.getDate()
+    // this.currentDay = 5
+    this.statusKehadiranMahasiswa()
     this.getJadwalMhs()
     this.getDataDashboardMhs()
-    schedule.scheduleJob("0 0 0 * * *", function () {
+    setInterval(() => {
       this.currentDay = current.getDay()
+      // this.currentDay = 5
+      this.statusKehadiranMahasiswa()
       this.getJadwalMhs()
       console.log(this.jadwalMhs)
-    })
+    }, 360000)
   },
   data () {
     return {
@@ -129,7 +134,8 @@ export default {
       jadwalMhs: [],
       isIzinDialogShown: true,
       currentDay: null,
-      dashboardMhs: null
+      dashboardMhs: null,
+      kehadiran: []
     }
   },
   computed: {
@@ -155,9 +161,12 @@ export default {
             element.duration = 0
             element.currentDuration = 0
             element.progress = 0
+            element.id_jadwal_kedua = 0
+            element.id_studi_kedua = 0
           })
           this.jadwalMhs = response.data.jadwal
           console.log(this.currentDay + " : " + response.data.jadwal)
+          this.cekMatkulSama()
         })
         .catch(e => {
           console.log(e)
@@ -166,10 +175,60 @@ export default {
     getDataDashboardMhs () {
       Presensi.getDashboard(181524010)
         .then(response => {
-          console.log("-DASHBOARD MAHASISWA-")
-          console.log(response.data)
           this.dashboardMhs = response.data
           this.dashboardMhs.persentaseKehadiran = Math.round(this.dashboardMhs.persentaseKehadiran)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    cekMatkulSama () {
+      var i = 0
+      var j = 0
+      var equal = false
+
+      while (i < this.jadwalMhs.length - 1) {
+        if (this.jadwalMhs[i].nama_mata_kuliah === this.jadwalMhs[i + 1].nama_mata_kuliah) {
+          if (this.kehadiran[i].id_keterangan == null && this.kehadiran[i + 1].id_keterangan == null) {
+            var max = 0
+            var min = 0
+            if (this.jadwalMhs[i].dosens.length >= this.jadwalMhs[i + 1].dosens.length) {
+              max = i
+              min = i + 1
+            } else {
+              max = i + 1
+              min = i
+            }
+            while (j < this.jadwalMhs[min].dosens.length && !equal) {
+              var index = this.jadwalMhs[max].dosens.map(function (e) {
+                return e.nip
+              }).indexOf(this.jadwalMhs[min].dosens[j].nip)
+              console.log(index)
+              if (index !== -1) {
+                equal = true
+              }
+              console.log(this.jadwalMhs[i + 1].dosens[j])
+              j++
+            }
+            if (equal) {
+              this.jadwalMhs[i].id_jadwal_kedua = this.jadwalMhs[i + 1].id_jadwal
+              this.jadwalMhs[i].id_studi_kedua = this.jadwalMhs[i + 1].id_studi
+              this.jadwalMhs[i].waktu_selesai = this.jadwalMhs[i + 1].waktu_selesai
+              this.jadwalMhs.splice((i + 1), 1)
+              this.kehadiran.splice((i + 1), 1)
+            }
+            equal = false
+            j = 0
+          }
+        }
+        i++
+      }
+    },
+    statusKehadiranMahasiswa () {
+      Presensi.getKehadiran(181524010, this.currentDate)
+        .then(response => {
+          this.kehadiran = response.data
+          console.log(this.kehadiran)
         })
         .catch(e => {
           console.log(e)
