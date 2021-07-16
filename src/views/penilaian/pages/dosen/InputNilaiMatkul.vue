@@ -6,7 +6,7 @@
     <v-col cols="12">
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
     </v-col>
-    <v-col cols="6">
+    <v-col cols="5">
       <p class="text-h4 font-weight-bold">PROYEK 1</p>
     </v-col>
     <v-col cols="2">
@@ -19,8 +19,8 @@
         ></v-file-input>
       <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="openFile()">Import From XLSX</v-btn>
     </v-col>
-    <v-col cols="2">
-      <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="downloadTemplate()">Download Template Excel</v-btn>
+    <v-col cols="3">
+      <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="downloadTemplate()">Download Template</v-btn>
     </v-col>
     <v-col cols="2">
       <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="resetTable()">Reset Tabel</v-btn>
@@ -804,22 +804,25 @@ export default {
 
       // Input Kategori
       var kategoriNilai = []
-      var getLastIdKategori = 1 // get last idKategori
-      getLastIdKategori++
-      this.headerEAS.idKategori = getLastIdKategori
-      getLastIdKategori++ // increment last idKategori
+      // var getLastIdKategori = 1 // get last idKategori
+      // getLastIdKategori++
+      this.headerEAS.kode_kategori = dataNilaiMahasiswa.id_perkuliahan + "-EAS"
+      this.headerEAS.parent = ""
+      this.headerEAS.id_perkuliahan = dataNilaiMahasiswa.id_perkuliahan
+      // getLastIdKategori++ // increment last idKategori
 
       kategoriNilai.push(this.headerEAS)
       var kategori = {}
       for (var i = 1; i < this.headerParentNilaiEAS.length; i++) {
         kategori = {
-          idKategori: getLastIdKategori,
-          parent: this.headerEAS.idKategori,
+          kode_kategori: dataNilaiMahasiswa.id_perkuliahan + "-" + this.headerParentNilaiEAS[i].label,
+          parent: this.headerEAS.kode_kategori,
           nama_kategori: this.headerParentNilaiEAS[i].label,
-          bobot_nilai: parseFloat(this.headerParentNilaiEAS[i].bobot)
+          bobot_nilai: parseFloat(this.headerParentNilaiEAS[i].bobot),
+          id_perkuliahan: dataNilaiMahasiswa.id_perkuliahan
         }
         kategoriNilai.push(kategori)
-        getLastIdKategori++
+        // getLastIdKategori++
       }
 
       var listParent = kategoriNilai
@@ -829,16 +832,16 @@ export default {
       for (var j = 1; j < listParent.length; j++) {
         for (var k = 0; k < this.headerParentNilaiEAS[j].colspan; k++) {
           kategori = {
-            idKategori: getLastIdKategori,
-            parent: listParent[j].idKategori,
+            kode_kategori: dataNilaiMahasiswa.id_perkuliahan + "-" + listParent[j].nama_kategori + "-" + this.headerChildNilaiEAS[k + iter].label, // getLastIdKategori,
+            parent: listParent[j].kode_kategori,
             nama_kategori: this.headerChildNilaiEAS[k + iter].label,
-            bobot_nilai: parseFloat(this.headerChildNilaiEAS[k + iter].bobot)
-            // id perkuliahan
+            bobot_nilai: parseFloat(this.headerChildNilaiEAS[k + iter].bobot),
+            id_perkuliahan: dataNilaiMahasiswa.id_perkuliahan
           }
           kategoriNilaiChild.push(kategori)
-          getLastIdKategori++
+          // getLastIdKategori++
         }
-        // iter += this.headerParentNilaiEAS[j].colspan
+        iter += this.headerParentNilaiEAS[j].colspan
       }
       kategoriNilai = kategoriNilai.concat(kategoriNilaiChild)
 
@@ -850,9 +853,9 @@ export default {
       for (j = 0; j < this.dataNilaiMahasiswaEAS.length; j++) {
         for (i = 0; i < kategoriNilaiChild.length; i++) {
           nilai = {
-            id_kategori: kategoriNilaiChild[i].idKategori,
-            nilai: parseFloat(this.dataNilaiMahasiswaEAS[j]["Nilai" + (i + 1)]),
-            nim: this.dataNilaiMahasiswaEAS[j].NIM
+            kode_kategori: kategoriNilaiChild[i].kode_kategori,
+            nilai: parseFloat(this.dataNilaiMahasiswaEAS[j].Nilai[i]), // ganti jadi array
+            nim: this.dataNilaiMahasiswaEAS[j].NIM.toString()
           }
           dataNilai.push(nilai)
         }
