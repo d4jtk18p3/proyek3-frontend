@@ -23,14 +23,15 @@
           :key="i"
           link
           :to="item.to"
+          active-class="itemOnActive"
           dark
         >
           <v-list-item-icon v-if="item.icon">
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon color="white">{{ item.icon }}</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title v-text="item.text"></v-list-item-title>
+            <v-list-item-title v-text="item.text" style="color:white"></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -50,7 +51,7 @@
               class="pa-0 pt-2"
             >
               <v-list-item-icon v-if="item.icon">
-                <v-icon>{{ item.icon }}</v-icon>
+                <v-icon> {{ item.icon }}</v-icon>
               </v-list-item-icon>
 
               <v-list-item-content>
@@ -60,18 +61,18 @@
           </template>
 
           <template v-slot:appendIcon>
-            <v-icon dark>$expand</v-icon>
+            <v-icon dark color="white">$expand</v-icon>
           </template>
 
           <v-list-item
             v-for="sublink in item.subLinks"
-            :to="sublink.to"
             :key="sublink.text"
-            dark
             class="pl-12"
+            @click="onSubLinkClicked(sublink.to)"
+            :style="{background : sublink.isActive ? '#1A1925' : ''}"
           >
             <v-list-item-content>
-              <v-list-item-title v-text="sublink.text" />
+              <v-list-item-title v-text="sublink.text"  style="color:white"/>
             </v-list-item-content>
           </v-list-item>
 
@@ -92,11 +93,11 @@
 }
 .v-list-item{
   margin-bottom: 10px;
-  color: #4E4B63;
 }
 .v-list-item:hover{
   background-color: #4E4B63;
 }
+
 </style>
 <script>
 import { mapGetters } from "vuex"
@@ -141,7 +142,8 @@ export default {
     }
   },
   data: () => ({
-    isActive: false
+    isActive: false,
+    refreshTrigger: false
   }),
   computed: {
     ...mapGetters({
@@ -149,7 +151,11 @@ export default {
     }),
     navItem () {
       return this.items.map((item) => {
+        console.log(this.refreshTrigger)
         if (item.subLinks) {
+          item.subLinks = item.subLinks.map((sublink) => {
+            return { ...sublink, ...{ isActive: this.$route.path === sublink.to } }
+          })
           return { ...item, ...{ isActive: this.isActive } }
         }
         return item
@@ -159,7 +165,18 @@ export default {
   methods: {
     collapseSubItems () {
       this.isActive = false
+    },
+    async onSubLinkClicked (to) {
+      if (this.$router.currentRoute.path !== to) {
+        await this.$router.push({ path: to })
+      }
     }
   }
 }
 </script>
+
+<style scoped>
+  .itemOnActive{
+    background: #1A1925;
+  }
+</style>
