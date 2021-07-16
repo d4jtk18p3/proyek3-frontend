@@ -47,11 +47,6 @@ export default {
           text: "Theme"
         },
         {
-          to: "/",
-          icon: "mdi-opacity",
-          text: "Colors"
-        },
-        {
           to: "/component-template/Typography",
           icon: "mdi-pencil",
           text: "Typography"
