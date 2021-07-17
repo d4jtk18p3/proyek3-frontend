@@ -177,7 +177,7 @@ export default {
       this.isSubmitting = true
       const identity = this.$store.getters.identity
       console.log(`reseting ${identity.sub}`)
-      await axios.post(`http://localhost:14418/user/${identity.sub}/reset-password`, {
+      await axios.post(`http://${process.env.VUE_APP_AKUN_HOSTNAME}/api/user/${identity.sub}/reset-password`, {
         password: this.newPassword,
         hint: this.hint
       })
