@@ -2,6 +2,8 @@
   <v-row :style="{color: currentTheme.onBackground}">
     <v-col cols="12">
       <p class="text-h4 font-weight-bold">Monitoring Tugas</p>
+    </v-col>
+    <v-col cols="12">
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
     </v-col>
     <v-col cols="9">
@@ -71,12 +73,12 @@ export default {
     return {
       breadcrumbItems: [
         {
-          text: "Monitoring",
-          disabled: true,
-          href: ""
+          text: "Dashboard",
+          disabled: false,
+          href: "/monitoring/mahasiswa/dashboard"
         },
         {
-          text: "Tugas",
+          text: "Daftar Tugas",
           disabled: false,
           href: ""
         }
@@ -107,7 +109,7 @@ export default {
       var items = await MonitoringBersama.getSubTugasbyMahasiswa(tugas[x].id, "181524002")
       var i = 0
       var progress = 0
-      var tenggat = new Date()
+      var tenggat
       var sebelum = new Date()
       let countTidakAdaTenggat = 0
       var hariIni = new Date()
@@ -116,7 +118,6 @@ export default {
           if (items[i].tenggat !== null) {
             var temp = new Date(items[i].tenggat)
             if (temp >= hariIni) {
-              console.log(temp)
               this.show = true
               this.adaTenggat = true
               if (tenggat == null) {
@@ -142,15 +143,15 @@ export default {
       var hasil = (tenggat.getDate()) + (" " + (monthNames[tenggat.getMonth()])) + (" " + (tenggat.getFullYear()))
       this.listTugas.push({
         namaTugas: tugas[x].nama_tugas,
-        progress: Math.ceil(progress / items.length),
+        progress: Math.floor(progress / items.length),
         jumlahSubTask: items.length,
         tenggat: hasil
       })
-      totalProgress += Math.ceil(progress / items.length)
+      tenggat = null
+      totalProgress += progress / items.length
       x++
     }
-    this.progressTugas = Math.ceil(totalProgress / tugas.length)
-    console.log(this.progressTugas)
+    this.progressTugas = Math.floor(totalProgress / tugas.length)
   }
 }
 </script>

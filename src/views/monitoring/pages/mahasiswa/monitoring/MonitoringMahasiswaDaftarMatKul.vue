@@ -2,6 +2,8 @@
   <v-row :style="{color: currentTheme.onBackground}">
     <v-col cols="12">
       <p class="text-h4 font-weight-bold">Monitoring Tugas</p>
+    </v-col>
+    <v-col cols="12">
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
     </v-col>
     <v-col :cols="isMobile ? `12` : `3` " :offset="isMobile ? `0` : `0`">
@@ -47,12 +49,17 @@ export default {
     return {
       breadcrumbItems: [
         {
-          text: "Dasboard",
+          text: "Monitoring",
           disabled: false,
-          href: "/monitoring/mahasiswa/dashboard"
+          href: ""
         },
         {
-          text: "Mata Kuliah",
+          text: "Tugas",
+          disabled: true,
+          href: ""
+        },
+        {
+          text: "Lihat Monitoring Teman",
           disabled: true,
           href: ""
         }
@@ -90,7 +97,6 @@ export default {
         i++
       }
       this.listTugas = tugasList
-      // console.log(tugasList)
     }
   },
   async mounted () {

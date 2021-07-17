@@ -3,6 +3,8 @@
   <v-row :style="{color: currentTheme.onBackground}">
       <v-col cols="12">
         <p class="text-h4 font-weight-bold">Monitoring {{this.namaMatkul}} - {{this.namaTugas}}</p>
+      </v-col>
+      <v-col cols="12">
         <breadcumbs :breadcrumb-items="breadcrumbItems"/>
       </v-col>
       <v-col :cols="isMobile? 2 : 2">
@@ -40,6 +42,7 @@
         loading-text=""
         :items-per-page="7"
         class="elevation-3 white--text"
+        show-expand
         :style="{backgroundColor: currentTheme.colorPrimary}"
       >
         <template v-slot:no-data>
@@ -107,10 +110,22 @@
             </v-icon>
           </v-btn>
         </template>
+        <template v-slot:[`item.catatan`]="{ item }">
+            <div class="text-truncate" style="max-width: 130px">
+              {{ item.catatan }}
+            </div>
+        </template>
         <template v-slot:[`item.lampiran`]="{ item }">
-          <div align="center">
-            <td><a v-bind:href="item.lampiran"> {{item.lampiran}} </a></td>
+          <div class="text-truncate" style="max-width: 130px">
+            <a :href="item.lampiran" target="_blank">{{item.lampiran}}</a>
           </div>
+        </template>
+        <template v-slot:expanded-item="{ item }">
+          <td :colspan="12">
+            Catatan &nbsp &nbsp: {{ item.catatan }}
+            <br />
+            Lampiran : {{ item.lampiran }}
+          </td>
         </template>
       </v-data-table>
       </v-col>
@@ -167,17 +182,17 @@ export default {
       btnSelesai: [],
       breadcrumbItems: [
         {
-          text: "Dasboard",
-          disabled: false,
-          href: "/monitoring/mahasiswa/dashboard"
-        },
-        {
-          text: "MATA KULIAH " + this.$route.params.namaMatkul,
+          text: "Monitoring",
           disabled: false,
           href: "/monitoring/mahasiswa/matakuliah"
         },
         {
-          text: "TUGAS " + this.$route.params.namaTugas,
+          text: "Tugas",
+          disabled: false,
+          href: ""
+        },
+        {
+          text: "Lihat Monitoring Teman",
           disabled: true,
           href: ""
         }
@@ -264,9 +279,6 @@ export default {
     }
   },
   methods: {
-    onClickChild (value) {
-      console.log(value) // someValue
-    },
     editItem (item) {
       this.editedIndex = item
       var i = this.pertama
@@ -291,7 +303,6 @@ export default {
       this.btnMulai = true
       this.btnPause[item] = true
       this.btnSelesai[item] = true
-      console.log(item)
     },
     countdown: function () {
       this.totalTime++
@@ -308,9 +319,8 @@ export default {
         count += 1
         i++
       }
-      var durasi = Math.ceil(this.totalTime / 60) + this.items[count].durasi
-      var updateSubTugas = await SubtugasMonitoringMahasiswa.putSubTugasDurasi(Index, durasi)
-      console.log(updateSubTugas)
+      var durasi = Math.floor(this.totalTime / 60) + this.items[count].durasi
+      await SubtugasMonitoringMahasiswa.putSubTugasDurasi(Index, durasi)
     },
     async pauseItem (item) {
       clearInterval(this.timer)
@@ -321,9 +331,8 @@ export default {
         count += 1
         i++
       }
-      var durasi = Math.ceil(this.totalTime / 60) + this.items[count].durasi
-      var updateSubTugas = await SubtugasMonitoringMahasiswa.putSubTugasDurasi(Index, durasi)
-      console.log(updateSubTugas)
+      var durasi = Math.floor(this.totalTime / 60) + this.items[count].durasi
+      await SubtugasMonitoringMahasiswa.putSubTugasDurasi(Index, durasi)
       window.location.reload()
     },
     lihatMonitoringTeman () {
@@ -339,7 +348,6 @@ export default {
     this.namaTugas = this.$route.params.namaTugas
     this.id = this.$route.params.id
     var items = await MonitoringBersama.getSubTugasbyMahasiswa(this.id, "181524002")
-    console.log(items)
     var i = 0
     while (i < items.length) {
       if (i === 0) {
@@ -371,7 +379,6 @@ export default {
       })
       i++
     }
-    console.log(this.items)
     i = 0
     while (i < items.length) {
       if (items[i].status_subtugas !== true) {

@@ -73,7 +73,7 @@ export default {
     var items = await MonitoringBersama.getSubTugasbyMahasiswa(this.id, "181524002")
     var i = 0
     var progress = 0
-    var tenggat = new Date()
+    var tenggat
     while (i < items.length) {
       if (items[i].progress !== null) {
         progress = progress + items[i].progress // menjumlahkan jumlah progress setiap sub tugas
@@ -89,7 +89,6 @@ export default {
         if (items[i].tenggat !== null) {
           var temp = new Date(items[i].tenggat)
           if (temp >= hariIni) {
-            console.log(temp)
             this.show = true
             this.adaTenggat = true
             if (tenggat == null) {
@@ -109,7 +108,7 @@ export default {
       i++
     }
     this.jumlahSubTask = items.length
-    this.progress = Math.ceil(progress / items.length)
+    this.progress = Math.floor(progress / items.length)
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     var hasil = (tenggat.getDate()) + (" " + (monthNames[tenggat.getMonth()])) + (" " + (tenggat.getFullYear()))
     this.tenggat = hasil
