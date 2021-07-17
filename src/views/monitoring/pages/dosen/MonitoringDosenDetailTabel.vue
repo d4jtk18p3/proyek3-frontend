@@ -44,9 +44,9 @@
         <template  v-slot:[`item.status_subtugas`]="{ item }">
           <v-simple-checkbox v-model="item.status_subtugas" light disabled></v-simple-checkbox>
         </template>
-        <template v-slot:[`item.catatan`]="{ catatan }">
+        <template v-slot:[`item.catatan`]="{ value }">
             <div class="text-truncate" style="max-width: 130px">
-              {{ catatan }}
+              {{ value }}
             </div>
         </template>
         <template v-slot:[`item.lampiran`]="{ value }">

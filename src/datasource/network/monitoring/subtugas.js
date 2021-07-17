@@ -46,7 +46,7 @@ const putSubTugasSerahkan = async (id, lampiran) => {
   try {
     const monitoringURL = MONITORING_URL + `/updateSubtugasLampiran-mahasiswa/${id}`
     const result = await baseHttp.put(monitoringURL, {
-      Lampiran: lampiran
+      lampiran: lampiran
     })
     return result.data
   } catch (e) {
