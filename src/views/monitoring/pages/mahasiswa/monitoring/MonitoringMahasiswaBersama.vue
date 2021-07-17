@@ -3,6 +3,8 @@
     <v-row :style="{color: currentTheme.onBackground}">
       <v-col cols="12">
         <p class="text-h4 font-weight-bold">Monitoring Teman {{this.namaMatkul}} - {{this.namaTugas}}</p>
+      </v-col>
+      <v-col cols="12">
         <breadcumbs :breadcrumb-items="breadcrumbItems"/>
       </v-col>
       <v-col  class="ml-auto pl-13" :style="{color : isDark ? currentTheme.colorSecondary : currentTheme.colorSecondary}" lg="3">
@@ -20,13 +22,14 @@
       <v-col class="mt-n6">
       <v-data-table
         v-model="selected"
-        dark
+        :expanded.sync="items"
         :headers="headers"
         :items="selectedData.items"
         :loading="isLoading"
         loading-text=""
         :items-per-page="5"
         class="elevation-3"
+        show-expand
         :style="{backgroundColor: currentTheme.colorPrimary}"
       >
         <template v-slot:no-data>
@@ -44,10 +47,22 @@
             :color="currentTheme.colorPrimary"
           ></v-simple-checkbox>
         </template>
+        <template v-slot:[`item.catatan`]="{ item }">
+            <div class="text-truncate" style="max-width: 130px">
+              {{ item.catatan }}
+            </div>
+        </template>
         <template v-slot:[`item.lampiran`]="{ item }">
-          <div align="center">
-            <td><a v-bind:href="item.lampiran"> {{item.lampiran}} </a></td>
+          <div class="text-truncate" style="max-width: 130px">
+            <a :href="item.lampiran" target="_blank">{{item.lampiran}}</a>
           </div>
+        </template>
+        <template v-slot:expanded-item="{ item }">
+          <td :colspan="12">
+            Catatan &nbsp &nbsp: {{ item.catatan }}
+            <br />
+            Lampiran : {{ item.lampiran }}
+          </td>
         </template>
       </v-data-table>
       </v-col>
@@ -95,18 +110,18 @@ export default {
       dialogSelesai: false,
       breadcrumbItems: [
         {
-          text: "Dasboard",
-          disabled: false,
-          href: "/monitoring/mahasiswa/dashboard"
-        },
-        {
-          text: "MATA KULIAH " + this.$route.params.namaMatkul,
+          text: "Monitoring",
           disabled: false,
           href: "/monitoring/mahasiswa/matakuliah"
         },
         {
-          text: "TUGAS " + this.$route.params.namaTugas,
-          disabled: true,
+          text: "Tugas",
+          disabled: false,
+          href: "/monitoring/mahasiswa/matakuliah/" + this.$route.params.namaMatkul + "&" + this.$route.params.namaTugas + "&" + this.$route.params.id
+        },
+        {
+          text: "Lihat Monitoring Teman",
+          disabled: false,
           href: ""
         }
       ],

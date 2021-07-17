@@ -7,7 +7,6 @@ const getidperkuliahan = async (nim, id) => {
   try {
     const monitoringURL = MONITORING_URL + `/common/getPerkuliahanBynimByIdMatkul?nim=${nim}&id_mata_kuliah=${id}`
     const result = await baseHttp.get(monitoringURL)
-    console.log(result.data.data.perkuliahan[0].id)
     return result.data.data.perkuliahan[0].id
   } catch (e) {
     return await errorHandler(e)
@@ -21,7 +20,6 @@ const getAllTugasMahasiswaByidtugas = async (idTugas) => {
     var tugas = []
     var i = 0
     while (i < result.data.data.mahasiswa.length) {
-      // console.log(result.data.data.mahasiswa[i].nim)
       var data = await getSubTugasbyMahasiswa(idTugas, result.data.data.mahasiswa[i].nim)
       tugas.push({
         Mahasiswa: result.data.data.mahasiswa[i].nim,
@@ -29,7 +27,6 @@ const getAllTugasMahasiswaByidtugas = async (idTugas) => {
       })
       i++
     }
-    // console.log(tugas)
     return tugas
   } catch (e) {
     return await errorHandler(e)
@@ -40,7 +37,6 @@ const getSubTugasbyMahasiswa = async (idTugas, nim) => {
   try {
     const monitoringURL = MONITORING_URL + `/common/getSubtugasbyMahasiswa/${idTugas}/${nim}`
     const result = await baseHttp.get(monitoringURL)
-    // console.log(result.data.data.uniqueSubtugas)
     return result.data.data.uniqueSubtugas
   } catch (e) {
     return await errorHandler(e)
