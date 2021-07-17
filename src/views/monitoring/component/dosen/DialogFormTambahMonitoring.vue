@@ -162,7 +162,7 @@ export default {
 
       tugasBaru = await TugasMonitoringDosen.postTugasBaru(this.namaTugas,
         this.statusProgress, this.statusDurasi, this.statusSkala,
-        this.statusCatatan, this.statusLampiran, "5", "196610181995121000")
+        this.statusCatatan, this.statusLampiran, this.$route.params.id_perkuliahan, "196610181995121000")
       console.log(tugasBaru)
       this.$emit("close")
       location.reload()
