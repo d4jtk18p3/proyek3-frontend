@@ -40,7 +40,7 @@
                     </v-col>
                  </v-row>
             <div class="photo" max-width="85vw">
-             <v-img :src="require(`../../../../../.././proyek3/service-absensi/public/uploads/surat-izin-1625816935769.jpg`)"></v-img>
+             <!-- <v-img :src="require(`../../../../../.././proyek3/service-absensi/public/uploads/surat-izin-1625816935769.jpg`)"></v-img> -->
             </div>
             <v-row>
               <v-col align="center">
