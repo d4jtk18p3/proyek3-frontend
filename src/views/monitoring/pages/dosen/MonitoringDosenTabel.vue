@@ -293,6 +293,7 @@ export default {
       progres = 0
       task = 0
       durasi = 0
+      k = 0
       j++
     }
 

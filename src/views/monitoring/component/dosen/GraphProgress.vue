@@ -11,7 +11,7 @@
         <div class="text-subtitle-1 font-weight-medium ml-3" :style="{color: currentTheme.onSurface}">{{namaMhs}}</div>
         </v-col>
         <v-col cols="12">
-        <apexchart type="radialBar" height="300" width="100%"  :options="data.chartOptions" :series="data.series" :rataRata-mahasiswa="valList"/>
+        <apexchart type="radialBar" height="600" width="100%"  :options="data.chartOptions" :series="data.series" :rataRata-mahasiswa="valList"/>
         </v-col>
       </v-row>
     </v-card>
@@ -66,7 +66,6 @@ export default {
         series: this.valList,
         chartOptions: {
           chart: {
-            height: 350,
             type: "radialBar"
           },
           plotOptions: {

@@ -185,7 +185,7 @@ export default {
           durasi[k] = 0
         }
         if (sub[k].skala_pemahaman !== null) {
-          skala[k] = parseInt(sub[k].skala_pemahaman)
+          skala[k] = parseFloat(sub[k].skala_pemahaman)
           totalSkala += skala[k]
         } else {
           skala[k] = 0
@@ -205,7 +205,7 @@ export default {
           totalAllDurasi += allSub[l].durasi
         }
         if (allSub[l].skala_pemahaman !== null) {
-          totalAllSkala += parseInt(allSub[l].skala_pemahaman)
+          totalAllSkala += parseFloat(allSub[l].skala_pemahaman)
         }
         l++
       }
