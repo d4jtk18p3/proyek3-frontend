@@ -33,12 +33,12 @@
         <td class="text-capitalize text-caption font-weight-light" v-if="!isMobile" :style="{color: currentTheme.onSurface}">{{ item.nim }}</td>
         <td class="text-capitalize text-caption font-weight-light" :style="{color: currentTheme.onSurface}">{{ item.nama }}</td>
         <td class="text-capitalize text-caption font-weight-light" :style="{color: currentTheme.onSurface}">{{ item.status }}</td>
-        <td class="text-capitalize text-caption font-weight-light" :style="{color: currentTheme.onSurface}">{{ item.keterlambatan }}</td>
+        <td class="text-capitalize text-caption font-weight-light" :style="{color: currentTheme.onSurface}">{{ item.keterlambatan }} menit</td>
         <td>
           <v-radio-group
           column
           v-model="item.isHadir"
-          :disabled="item.status == 'Izin diterima'"
+          :disabled="item.status === 'Izin yang diajukan sedang diperiksa waldos' || item.status === 'sakit' ||  item.status === 'izin' ||  item.status === 'Tidak Hadir'"
           @change="updateMahasiswa(item)"
           >
             <v-row>
@@ -84,7 +84,7 @@ export default {
   data () {
     return {
       dialog: [false],
-      currentDate: new Date().toISOString().substr(0, 10),
+      currentDate: new Date(2021, 6, 10).toISOString().substr(0, 10),
       data: [],
       mahasiswa: [],
       radios: true

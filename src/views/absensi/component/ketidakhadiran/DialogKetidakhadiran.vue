@@ -81,12 +81,30 @@ export default {
       Keterangan.updateKeterangan(this.dataMhs.keterangans[0].id_keterangan, status)
         .then(response => {
           console.log(response)
+          this.onClickButton()
           this.dialogs.dialog = false
         })
         .catch(e => {
           console.log(e)
         })
+    },
+    splitUrl () {
+      console.log("HELLLLLLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO2")
+      this.url = this.dataMhs.keterangans[0].url
+      console.log(this.url)
+      // var url = this.url.split("\\")
+      // this.url = url[url.length - 1]
+      // console.log(this.url)
+    },
+    onClickButton (event) {
+      this.$emit("clicked", "someValue")
     }
+  },
+  mounted () {
+    console.log("HELLLLLLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+    this.url = this.dataMhs.keterangans[0].url
+    // console.log(this.url2)
+    // this.splitUrl()
   }
 }
 </script>

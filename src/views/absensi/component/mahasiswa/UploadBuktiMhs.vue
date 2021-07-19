@@ -69,7 +69,7 @@
                         <v-checkbox
                           small color="#59DCDC"
                           class="ma-0 pa-0"
-                          :label="`${jadwal.nama_mata_kuliah}`"
+                          :label="`${jadwal.nama_mata_kuliah}` + ` (${jadwal.jenis})`"
                           :v-model="jadwal.checked"
                           @change='selectedPerkuliahan(jadwal.id_jadwal, jadwal.nama_mata_kuliah)'
                           :disabled="isSelected(jadwal.id_jadwal) && isIzin"
@@ -128,6 +128,7 @@
                             :type="show1 ? 'text' : 'password'"
                             name="input-10-1"
                             width="100px"
+                            @click:append="show1 = !show1"
                         ></v-text-field>
                         <v-row
                           align="center"
@@ -279,9 +280,6 @@ export default {
       this.isSuccess = false
       this.error.isError = false
       var data = new FormData()
-      console.log("INI status" + this.keterangan)
-      console.log("INI idjadwal" + this.idPerkuliahan)
-      console.log("INI tgl izin" + this.dates)
       if (this.url_gambar) data.append("surat-izin", this.url_gambar)
       data.append("status", this.keterangan)
       data.append("idJadwals", this.idPerkuliahan)
