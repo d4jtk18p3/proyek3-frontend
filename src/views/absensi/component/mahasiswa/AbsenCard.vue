@@ -139,13 +139,15 @@ export default {
         this.presensiMahasiswa(index, idStudi, idJadwal)
         this.presensiMahasiswa(index, this.jadwalMhs[currentJadwal].id_studi_kedua, this.jadwalMhs[currentJadwal].id_jadwal_kedua)
       } else {
-        this.presensiMahasiswa(idStudi, idJadwal)
+        this.presensiMahasiswa(index, idStudi, idJadwal)
       }
     },
     presensiMahasiswa (index, idStudi, idJadwal) {
       PresensiMahasiswa.presensiMahasiswa(idStudi, idJadwal, 181524010)
         .then(response => {
+          console.log(response)
           this.jadwalMhs[index].absen = true
+          this.jadwalMhs[index].hadir = true
         })
         .catch(e => {
           console.log(e)
@@ -190,6 +192,7 @@ export default {
             this.jadwalMhs[currentJadwal].absen = false
           } else if (this.currentKehadiran[0].isHadir === true || this.currentKehadiran[0].id_keterangan === "sakit" || this.currentKehadiran[0].id_keterangan === "izin") {
             this.jadwalMhs[currentJadwal].absen = true
+            this.jadwalMhs[currentJadwal].hadir = true
           }
 
           // Perhitungan untuk value dari progressbar dan menyatakan saat ini mata kuliah sedang berlangsung

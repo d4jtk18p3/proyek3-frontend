@@ -40,7 +40,7 @@
                     </v-col>
                  </v-row>
             <div class="photo" max-width="85vw">
-             <img :src="url" alt="" width="100%" @click.stop="selectedImage = null">
+             <!-- <v-img :src="require(`../../../../../.././proyek3/service-absensi/public/uploads/surat-izin-1625816935769.jpg`)"></v-img> -->
             </div>
             <v-row>
               <v-col align="center">
@@ -66,7 +66,10 @@ export default {
   data () {
     return {
       selectedImage: null,
-      url: "http://via.placeholder.com/400x300?text=image%201"
+      //  url: "C://Users/Alvira P. D/Documents/GitHub/proyek3/service-absensi/public/uploads/surat-izin-1625816935769.jpg"
+      // url: "../../../../../.././proyek3/service-absensi/public/uploads/surat-izin-1625816935769.jpg"
+      // url: "surat-izin-1625816935769.jpg",
+      url2: this.dataMhs.keterangans[0].url
     }
   },
   methods: {
