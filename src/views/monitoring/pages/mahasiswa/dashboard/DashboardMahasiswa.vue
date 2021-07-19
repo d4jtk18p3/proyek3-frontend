@@ -8,9 +8,7 @@
     </v-col>
     <v-row>
       <v-col v-if="isMobile"
-          cols="6"
-          md="3"
-          class="ml-16"
+          cols="12"
         >
           <Kalender/>
         </v-col>
@@ -42,7 +40,6 @@
         </v-col>
         <v-col v-if="!isMobile"
           cols="6"
-          md="3"
           class="ml-16"
         >
           <Kalender/>
