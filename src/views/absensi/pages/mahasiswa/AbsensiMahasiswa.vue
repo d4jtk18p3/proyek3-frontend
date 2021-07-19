@@ -81,6 +81,7 @@ import JadwalMahasiswa from "@/datasource/network/absensi/jadwal"
 import Presensi from "@/datasource/network/absensi/PresensiMahasiswa"
 
 // const schedule = require("node-schedule")
+const INTERVAL = 1000 * 60 * 60 * 10
 
 export default {
   name: "AbsensiMahasiswa",
@@ -108,7 +109,7 @@ export default {
       this.statusKehadiranMahasiswa()
       this.getJadwalMhs()
       console.log(this.jadwalMhs)
-    }, 360000)
+    }, INTERVAL)
   },
   data () {
     return {
@@ -116,16 +117,6 @@ export default {
         {
           text: "Dashboard",
           disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 1",
-          disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 2",
-          disabled: true,
           href: ""
         }
       ],

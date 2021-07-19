@@ -63,7 +63,7 @@ export default {
   },
   props: {
     persentaseMengajar: {
-      type: Array,
+      type: Object,
       default () {
         return {}
       }

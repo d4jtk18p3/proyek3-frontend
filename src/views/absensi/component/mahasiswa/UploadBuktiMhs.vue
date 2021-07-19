@@ -72,7 +72,7 @@
                           :label="`${jadwal.nama_mata_kuliah}` + ` (${jadwal.jenis})`"
                           :v-model="jadwal.checked"
                           @change='selectedPerkuliahan(jadwal.id_jadwal, jadwal.nama_mata_kuliah)'
-                          :disabled="isSelected(jadwal.id_jadwal) && isIzin"
+                          :disabled="!isSelected(jadwal.id_jadwal) && isIzin"
                         ></v-checkbox>
                       </div>
                     </v-col>

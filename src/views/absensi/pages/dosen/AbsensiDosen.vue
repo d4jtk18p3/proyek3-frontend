@@ -76,16 +76,6 @@ export default {
           text: "Dashboard",
           disabled: false,
           href: ""
-        },
-        {
-          text: "Link 1",
-          disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 2",
-          disabled: true,
-          href: ""
         }
       ],
       date: new Date().toISOString().substr(0, 10),
@@ -109,9 +99,9 @@ export default {
       JadwalDosen.getJadwalDosen(this.currentDay, 196610181995121000)
         .then(response => {
           response.data.jadwal.forEach(function (element) {
-            element.absen = "false"
-            element.active = "true"
-            element.hadir = "false"
+            element.absen = false
+            element.active = true
+            element.hadir = false
             element.duration = 0
             element.currentDuration = 0
             element.progress = 0
