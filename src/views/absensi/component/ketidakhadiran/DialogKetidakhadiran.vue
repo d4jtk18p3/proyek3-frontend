@@ -89,7 +89,6 @@ export default {
         })
     },
     splitUrl () {
-      console.log("HELLLLLLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO2")
       this.url = this.dataMhs.keterangans[0].url
       console.log(this.url)
       // var url = this.url.split("\\")
@@ -101,7 +100,6 @@ export default {
     }
   },
   mounted () {
-    console.log("HELLLLLLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
     this.url = this.dataMhs.keterangans[0].url
     // console.log(this.url2)
     // this.splitUrl()
