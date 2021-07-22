@@ -122,7 +122,7 @@
         </template>
         <template v-slot:expanded-item="{ item }">
           <td :colspan="12">
-            Catatan &nbsp &nbsp: {{ item.catatan }}
+            Catatan &nbsp; &nbsp;: {{ item.catatan }}
             <br />
             Lampiran : {{ item.lampiran }}
           </td>
