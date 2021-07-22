@@ -89,14 +89,6 @@ const routes = [
           import(
             /* webpackChunkName: "add-new-user-by-form" */ "../views/admin/pages/AddNewUser/AddNewUserByForm"
           )
-      },
-      {
-        path: "/admin/add-user/excel",
-        name: "AddNewUserByExcel",
-        component: () =>
-          import(
-            /* webpackChunkName: "add-new-user-by-excel" */ "../views/admin/pages/AddNewUser/AddNewUserByExcel"
-          )
       }
     ]
   },
@@ -466,7 +458,7 @@ const routes = [
 const getRoutes = () => {
   const hostname = window.location.hostname
 
-  if (hostname === "akun.localhost") {
+  if (hostname === process.env.VUE_APP_AKUN_HOSTNAME) {
     return [
       {
         path: "/",
