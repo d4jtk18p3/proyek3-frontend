@@ -84,7 +84,7 @@ export default {
   data () {
     return {
       dialog: [false],
-      currentDate: new Date(2021, 6, 10).toISOString().substr(0, 10),
+      currentDate: new Date().toISOString().substr(0, 10),
       data: [],
       mahasiswa: [],
       radios: true

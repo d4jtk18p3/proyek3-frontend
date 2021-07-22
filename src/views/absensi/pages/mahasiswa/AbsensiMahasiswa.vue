@@ -81,6 +81,7 @@ import JadwalMahasiswa from "@/datasource/network/absensi/jadwal"
 import Presensi from "@/datasource/network/absensi/PresensiMahasiswa"
 
 // const schedule = require("node-schedule")
+const INTERVAL = 1000 * 60 * 60 * 10
 
 export default {
   name: "AbsensiMahasiswa",
@@ -108,7 +109,7 @@ export default {
       this.statusKehadiranMahasiswa()
       this.getJadwalMhs()
       console.log(this.jadwalMhs)
-    }, 360000)
+    }, INTERVAL)
   },
   data () {
     return {
@@ -116,16 +117,6 @@ export default {
         {
           text: "Dashboard",
           disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 1",
-          disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 2",
-          disabled: true,
           href: ""
         }
       ],
@@ -152,7 +143,7 @@ export default {
   //     return isDark ? "white" : "black"
   //   }
     getJadwalMhs () {
-      JadwalMahasiswa.getJadwalMahasiswa(this.currentDay, 181524010)
+      JadwalMahasiswa.getJadwalMahasiswa(this.currentDay, 181524023)
         .then(response => {
           response.data.jadwal.forEach(function (element) {
             element.absen = true
@@ -214,8 +205,11 @@ export default {
               this.jadwalMhs[i].id_jadwal_kedua = this.jadwalMhs[i + 1].id_jadwal
               this.jadwalMhs[i].id_studi_kedua = this.jadwalMhs[i + 1].id_studi
               this.jadwalMhs[i].waktu_selesai = this.jadwalMhs[i + 1].waktu_selesai
+              this.jadwalMhs[i].jenis = "TE-PR"
+              this.jadwalMhs[i].dosens = this.jadwalMhs[max].dosens
               this.jadwalMhs.splice((i + 1), 1)
               this.kehadiran.splice((i + 1), 1)
+              console.log(this.jadwalMhs)
             }
             equal = false
             j = 0
@@ -225,7 +219,7 @@ export default {
       }
     },
     statusKehadiranMahasiswa () {
-      Presensi.getKehadiran(181524010, this.currentDate)
+      Presensi.getKehadiran(181524023, this.currentDate)
         .then(response => {
           this.kehadiran = response.data
           console.log(this.kehadiran)

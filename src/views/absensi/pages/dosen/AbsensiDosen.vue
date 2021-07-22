@@ -48,7 +48,8 @@ import PersentaseMengajar from "@/views/absensi/component/dosen/PersentaseMengaj
 import JadwalDosen from "@/datasource/network/absensi/jadwalDosen"
 import DashboardDosen from "@/datasource/network/absensi/dashboardDosen"
 
-const schedule = require("node-schedule")
+// const schedule = require("node-schedule")
+const INTERVAL = 1000 * 60 * 60 * 10
 
 export default {
   name: "AbsensiDosen",
@@ -63,11 +64,13 @@ export default {
     this.currentDay = current.getDay()
     this.getJadwalDsn()
     this.getPersentaseMengajar()
-    schedule.scheduleJob("0 0 0 * * *", function () {
+    setInterval(() => {
+      this.currentDay = current.getDay()
+      // this.currentDay = 5
       this.currentDay = current.getDay()
       this.getJadwalDsn()
       console.log(this.jadwalDsn)
-    })
+    }, INTERVAL)
   },
   data () {
     return {
@@ -75,16 +78,6 @@ export default {
         {
           text: "Dashboard",
           disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 1",
-          disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 2",
-          disabled: true,
           href: ""
         }
       ],
@@ -106,12 +99,12 @@ export default {
   },
   methods: {
     getJadwalDsn () {
-      JadwalDosen.getJadwalDosen(this.currentDay, 196610181995121000)
+      JadwalDosen.getJadwalDosen(this.currentDay, 196810141993032000)
         .then(response => {
           response.data.jadwal.forEach(function (element) {
-            element.absen = "false"
-            element.active = "true"
-            element.hadir = "false"
+            element.absen = false
+            element.active = true
+            element.hadir = false
             element.duration = 0
             element.currentDuration = 0
             element.progress = 0
@@ -124,7 +117,7 @@ export default {
         })
     },
     getPersentaseMengajar () {
-      DashboardDosen.persentaseMengajar(196610181995121000)
+      DashboardDosen.persentaseMengajar(196810141993032000)
         .then(response => {
           this.persentaseMengajar = response.data
           console.log(response)

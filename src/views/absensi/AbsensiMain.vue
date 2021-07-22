@@ -43,8 +43,8 @@ export default {
       isAuthenticated: "",
       isLoading: false,
       sideBarItems: [
-        { text: "Absensi Mahasiswa", icon: "mdi-email-outline", to: "/absensi/mahasiswa/absensi" },
-        { text: "Absensi Dosen", icon: "mdi-school-outline", to: "/absensi/dosen/absensi" }
+        { text: "Absensi", icon: "mdi-email-outline", to: "/absensi/mahasiswa/absensi" }
+        // { text: "Absensi Dosen", icon: "mdi-school-outline", to: "/absensi/dosen/absensi" }
       ]
     }
   },

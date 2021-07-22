@@ -122,10 +122,10 @@ export default {
       interval: 0,
       matkulSama: [],
       //  data test
-      jamAwal1: "20:00:00",
-      jamAkhir1: "22:20:00",
-      jamAwal2: "23:30:00",
-      jamAkhir2: "23:50:00"
+      jamAwal1: "13:00:00",
+      jamAkhir1: "14:40:00",
+      jamAwal2: "14:40:00",
+      jamAkhir2: "15:30:00"
     }
   },
   computed: {
@@ -139,22 +139,25 @@ export default {
         this.presensiMahasiswa(index, idStudi, idJadwal)
         this.presensiMahasiswa(index, this.jadwalMhs[currentJadwal].id_studi_kedua, this.jadwalMhs[currentJadwal].id_jadwal_kedua)
       } else {
-        this.presensiMahasiswa(idStudi, idJadwal)
+        this.presensiMahasiswa(index, idStudi, idJadwal)
       }
     },
     presensiMahasiswa (index, idStudi, idJadwal) {
-      PresensiMahasiswa.presensiMahasiswa(idStudi, idJadwal, 181524010)
+      PresensiMahasiswa.presensiMahasiswa(idStudi, idJadwal, 181524023)
         .then(response => {
+          console.log(response)
           this.jadwalMhs[index].absen = true
+          this.jadwalMhs[currentJadwal].hadir = true
         })
         .catch(e => {
           console.log(e)
         })
     },
     statusKehadiranMahasiswa (idJadwal) {
-      PresensiMahasiswa.getStatusKehadiran(181524010, idJadwal, this.currentDate)
+      PresensiMahasiswa.getStatusKehadiran(181524023, idJadwal, this.currentDate)
         .then(response => {
           this.currentKehadiran = response.data
+          console.log(this.currentKehadiran)
         })
         .catch(e => {
           console.log(e)
@@ -190,6 +193,7 @@ export default {
             this.jadwalMhs[currentJadwal].absen = false
           } else if (this.currentKehadiran[0].isHadir === true || this.currentKehadiran[0].id_keterangan === "sakit" || this.currentKehadiran[0].id_keterangan === "izin") {
             this.jadwalMhs[currentJadwal].absen = true
+            this.jadwalMhs[currentJadwal].hadir = true
           }
 
           // Perhitungan untuk value dari progressbar dan menyatakan saat ini mata kuliah sedang berlangsung
@@ -200,6 +204,10 @@ export default {
           //  kondisi ketika saat ini bukan dalam interval waktu mata kuliah
           //  jika saat ini adalah setelah waktu mata kuliah yang telah berlangsung sebelumnya
           if (currentTime.isAfter(afterTime)) {
+            if (this.currentKehadiran[0].isHadir === true || this.currentKehadiran[0].id_keterangan === "sakit" || this.currentKehadiran[0].id_keterangan === "izin") {
+              this.jadwalMhs[currentJadwal].absen = true
+              this.jadwalMhs[currentJadwal].hadir = true
+            }
             this.jadwalMhs[currentJadwal].absen = true
             this.jadwalMhs[currentJadwal].active = true
             this.jadwalMhs[currentJadwal].progress = 100
