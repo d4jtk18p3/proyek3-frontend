@@ -48,7 +48,8 @@ import PersentaseMengajar from "@/views/absensi/component/dosen/PersentaseMengaj
 import JadwalDosen from "@/datasource/network/absensi/jadwalDosen"
 import DashboardDosen from "@/datasource/network/absensi/dashboardDosen"
 
-const schedule = require("node-schedule")
+// const schedule = require("node-schedule")
+const INTERVAL = 1000 * 60 * 60 * 10
 
 export default {
   name: "AbsensiDosen",
@@ -63,11 +64,13 @@ export default {
     this.currentDay = current.getDay()
     this.getJadwalDsn()
     this.getPersentaseMengajar()
-    schedule.scheduleJob("0 0 0 * * *", function () {
+    setInterval(() => {
+      this.currentDay = current.getDay()
+      // this.currentDay = 5
       this.currentDay = current.getDay()
       this.getJadwalDsn()
       console.log(this.jadwalDsn)
-    })
+    }, INTERVAL)
   },
   data () {
     return {
