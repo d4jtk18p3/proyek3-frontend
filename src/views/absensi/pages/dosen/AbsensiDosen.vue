@@ -91,9 +91,12 @@ export default {
             element.duration = 0
             element.currentDuration = 0
             element.progress = 0
+            element.id_jadwal_kedua = 0
+            element.id_studi_kedua = 0
           })
           this.jadwalDsn = response.data.jadwal
           console.log(response.data.jadwal)
+          this.cekMatkulSama()
         })
         .catch(e => {
           console.log(e)
@@ -108,6 +111,21 @@ export default {
         .catch(e => {
           console.log(e)
         })
+    },
+    cekMatkulSama () {
+      var i = 0
+
+      while (i < this.jadwalDsn.length - 1) {
+        if (this.jadwalDsn[i].mata_kuliah.nama_mata_kuliah === this.jadwalDsn[i + 1].mata_kuliah.nama_mata_kuliah) {
+          this.jadwalDsn[i].id_jadwal_kedua = this.jadwalDsn[i + 1].id_jadwal
+          this.jadwalDsn[i].id_studi_kedua = this.jadwalDsn[i + 1].id_studi
+          this.jadwalDsn[i].waktu_selesai = this.jadwalDsn[i + 1].waktu_selesai
+          this.jadwalDsn[i].jenis = "TE-PR"
+          this.jadwalDsn.splice((i + 1), 1)
+          // this.kehadiran.splice((i + 1), 1)
+        }
+        i++
+      }
     }
   }
 }

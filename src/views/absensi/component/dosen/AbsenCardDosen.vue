@@ -58,7 +58,7 @@
                   class="mt-5 ml-5 mr-5"
                   color="#4CAF50"
                   width="120"
-                  @click="presensiDosen(index, item.id_studi, item.id_jadwal)"
+                  @click="presensi(index, item.id_studi, item.id_jadwal)"
                 > Hadir</v-btn>
               </v-card-actions>
               <v-card-actions class="justify-center">
@@ -133,6 +133,14 @@ export default {
     })
   },
   methods: {
+    presensi (index, idStudi, idJadwal) {
+      if (this.jadwalDsn[currentJadwal].id_jadwal_kedua !== 0) {
+        this.presensiMahasiswa(index, idStudi, idJadwal)
+        this.presensiMahasiswa(index, this.jadwalDsn[currentJadwal].id_studi_kedua, this.jadwalDsn[currentJadwal].id_jadwal_kedua)
+      } else {
+        this.presensiMahasiswa(idStudi, idJadwal)
+      }
+    },
     presensiDosen (index, idStudi, idJadwal) {
       console.log(idJadwal)
       PresensiDosen.presensiDosen(196610181995121000, idStudi, idJadwal)
