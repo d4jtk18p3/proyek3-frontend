@@ -54,7 +54,11 @@
       </v-col>
     </v-row>
     <v-col cols="2">
-        <v-btn color="#2196F3" elevation="2" class="white--text" depressed @click="SavePDF()">Simpan Sebagai PDF</v-btn>
+        <v-btn color="#2196F3" elevation="2" class="white--text" depressed @click="SavePDF()">
+          <v-icon left>
+            mdi-file-download-outline
+        </v-icon>
+        Simpan Sebagai PDF</v-btn>
     </v-col>
   </v-row>
 </template>

@@ -29,9 +29,9 @@
     </v-col>
     <v-col cols="6">
       <v-card>
-       <v-card-title class="mt-5">Mahasiswa dengan nilai total rendah</v-card-title>
+       <v-card-title class="mt-5">Mahasiswa dengan nilai total dibawah 60</v-card-title>
        <template v-for="(mhs, index) in Mahasiswa.Nilai">
-        <v-card-text v-if="mhs.nilaiAkhir < 2"  :key="index">
+        <v-card-text v-if="mhs.nilaiAkhir < 60"  :key="index" class="pt-0">
           <p class="text-h7 font-weight-bold">{{ mhs.nama }} ({{ mhs.nim }})</p>
         </v-card-text>
        </template>
@@ -39,7 +39,7 @@
     </v-col>
     <v-col cols="6">
       <v-card>
-       <v-card-title class="mt-5">Mahasiswa dengan nilai ETS rendah</v-card-title>
+       <v-card-title class="mt-5">Mahasiswa dengan nilai ETS dibawah 60</v-card-title>
        <template v-for="(mhs, index) in Mahasiswa.Nilai">
         <v-card-text v-if="mhs.ets < 60"  :key="index">
           <p class="text-h7 font-weight-bold">{{ mhs.nama }} ({{ mhs.nim }})</p>
@@ -122,35 +122,35 @@ export default {
             nama: "Andri",
             ets: 87.5,
             eas: 82.5,
-            nilaiAkhir: 3.2
+            nilaiAkhir: 65
           },
           {
             nim: "181524002",
             nama: "Bandri",
             ets: 87.5,
             eas: 82.5,
-            nilaiAkhir: 2.9
+            nilaiAkhir: 90
           },
           {
             nim: "181524003",
             nama: "Candri",
             ets: 86,
             eas: 84,
-            nilaiAkhir: 4.0
+            nilaiAkhir: 50
           },
           {
             nim: "181524004",
             nama: "Dandri",
             ets: 90,
             eas: 70,
-            nilaiAkhir: 1.9
+            nilaiAkhir: 70
           },
           {
             nim: "181524005",
             nama: "Endri",
             ets: 50,
             eas: 50,
-            nilaiAkhir: 2.0
+            nilaiAkhir: 50
           }
         ]
       },
@@ -183,19 +183,19 @@ export default {
     },
     getNilaiList () {
       for (var i = 0; i < this.Mahasiswa.Nilai.length; i++) {
-        if (this.Mahasiswa.Nilai[i].nilaiAkhir >= 3) {
+        if (this.Mahasiswa.Nilai[i].nilaiAkhir >= 80) {
           this.nilaiList[0]++
         }
-        if (this.Mahasiswa.Nilai[i].nilaiAkhir < 3 && this.Mahasiswa.Nilai[i].nilaiAkhir >= 2.5) {
+        if (this.Mahasiswa.Nilai[i].nilaiAkhir < 80 && this.Mahasiswa.Nilai[i].nilaiAkhir >= 60) {
           this.nilaiList[1]++
         }
-        if (this.Mahasiswa.Nilai[i].nilaiAkhir < 2.5 && this.Mahasiswa.Nilai[i].nilaiAkhir >= 2.0) {
+        if (this.Mahasiswa.Nilai[i].nilaiAkhir < 60 && this.Mahasiswa.Nilai[i].nilaiAkhir >= 40) {
           this.nilaiList[2]++
         }
-        if (this.Mahasiswa.Nilai[i].nilaiAkhir < 2 && this.Mahasiswa.Nilai[i].nilaiAkhir >= 1.0) {
+        if (this.Mahasiswa.Nilai[i].nilaiAkhir < 40 && this.Mahasiswa.Nilai[i].nilaiAkhir >= 30) {
           this.nilaiList[3]++
         }
-        if (this.Mahasiswa.Nilai[i].nilaiAkhir < 1) {
+        if (this.Mahasiswa.Nilai[i].nilaiAkhir < 30) {
           this.nilaiList[4]++
         }
       }

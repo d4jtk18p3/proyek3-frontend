@@ -6,7 +6,7 @@
     <v-col cols="12">
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
     </v-col>
-    <v-col cols="5">
+    <v-col cols="12">
       <p class="text-h4 font-weight-bold">PROYEK 1</p>
     </v-col>
     <v-col cols="2">
@@ -17,19 +17,36 @@
           @click:clear="clearItems"
           class="d-none"
         ></v-file-input>
-      <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="openFile()">Import From XLSX</v-btn>
+      <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="openFile()">
+        <v-icon left
+                :color="currentTheme.onBackground"
+              >
+              mdi-file-upload
+        </v-icon>
+        Import From XLSX</v-btn>
     </v-col>
-    <v-col cols="3">
-      <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="downloadTemplate()">Download Template</v-btn>
+    <v-col cols="3" class="pl-10">
+      <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="downloadTemplate()">
+        <v-icon left
+                :color="currentTheme.onBackground"
+              >
+              mdi-download
+        </v-icon>
+        Download Template
+        </v-btn>
     </v-col>
-    <v-col cols="2">
-      <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="resetTable()">Reset Tabel</v-btn>
+    <v-col cols="6">
+    </v-col>
+    <v-col cols="3" class="pt-0">
+      <v-btn :coloxr="currentTheme.colorPrimary" elevation="2" outlined depressed @click="resetTable()">Reset Tabel</v-btn>
     </v-col>
     <v-col cols="10">
       <p class="text-h4 font-weight-bold">ETS</p>
     </v-col>
-    <v-col cols="2">
-      <v-btn v-if="headerParentNilaiETS" :color="currentTheme.colorPrimary" :style="{width: '100%'}" elevation="2" outlined depressed @click="tambahKategori('ETS')">Tambah Kategori</v-btn>
+    <v-col cols="2" class="pt-10">
+      <v-btn v-if="headerParentNilaiETS" :color="currentTheme.colorPrimary" :style="{width: '100%'}" elevation="2" outlined depressed @click="tambahKategori('ETS')">
+        Tambah Kategori
+        </v-btn>
     </v-col>
     <v-col cols="12">
       <v-simple-table>
@@ -85,13 +102,12 @@
           </tr>
         </tbody>
       </v-simple-table>
-      <v-btn class="mt-2 mr-2" v-if="dataNilaiMahasiswaETS" :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="submitETS(nilaiakhir=false)">Simpan Nilai ETS</v-btn>
       <v-btn class="mt-2" v-if="dataNilaiMahasiswaETS" :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="submitETS(nilaiakhir=true)">Submit Nilai ETS</v-btn>
     </v-col>
     <v-col cols="10">
       <p class="text-h4 font-weight-bold">EAS</p>
     </v-col>
-    <v-col cols="2">
+    <v-col cols="2" class="pt-10">
       <v-btn v-if="headerParentNilaiEAS" :color="currentTheme.colorPrimary" elevation="2" :style="{width: '100%'}" outlined depressed @click="tambahKategori('EAS')">Tambah Kategori</v-btn>
     </v-col>
     <v-col cols="12">
@@ -148,7 +164,6 @@
           </tr>
         </tbody>
       </v-simple-table>
-      <v-btn class="mt-2 mr-2" v-if="dataNilaiMahasiswaEAS" :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="submitEAS(nilaiakhir=false)">Simpan Nilai EAS</v-btn>
       <v-btn class="mt-2" v-if="dataNilaiMahasiswaEAS" :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="submitEAS(nilaiakhir=true)">Submit Nilai EAS</v-btn>
       <v-dialog
         v-model="dialog"

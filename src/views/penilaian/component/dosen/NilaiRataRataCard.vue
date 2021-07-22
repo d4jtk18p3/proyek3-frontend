@@ -5,7 +5,7 @@
   >
     <v-row>
       <v-col cols="12">
-        <div class="text-h6 font-weight-bold ml-3" :style="{color: currentTheme.onSurface}">Rata-Rata Perolehan Nilai</div>
+        <div class="text-h6 font-weight-bold ml-3" :style="{color: currentTheme.onSurface}">Rata-Rata Perolehan Nilai Mahasiswa</div>
       </v-col>
       <v-col cols="12">
         <apexchart type="bar" height="300" width="100%" :options="data.chartOptions" :series="data.series"/>
@@ -95,7 +95,7 @@ export default {
                 colors: this.currentTheme.onSurface
               }
             },
-            categories: ["IP > 3.0", "3.0 > IP > 2.5", "2.5 > IP > 2.0", "2.0 > IP > 1.0", "IP < 1"]
+            categories: ["A-AB", "B-BC", "C-CD", "D", "E"]
           },
           title: {
             text: "Range Nilai",
