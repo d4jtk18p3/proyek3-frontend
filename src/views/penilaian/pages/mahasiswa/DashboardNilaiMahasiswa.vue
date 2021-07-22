@@ -15,12 +15,12 @@
     <v-col :cols="isMobile ? 12 : 6">
     </v-col>
     <v-col :cols="isMobile ? 12 : 12">
-      <GraphSection :ipList="getIPSemester(Mahasiswa)" :nilaiList="getNilaiList (Mahasiswa)" />
+      <GraphSection :ipList="listIP" :nilaiList="listNilai" />
     </v-col>
     <v-col :cols="isMobile ? 3 : 1" class="mt-2 mr-2" v-for="(mhs) in Mahasiswa.Nilai" :key="mhs.label">
       <v-btn rounded :color="currentTheme.colorPrimary" :style="{'color': currentTheme.surface}" @click="NilaiSemesterSelected = mhs"> {{ mhs.label }} </v-btn>
     </v-col>
-    <v-col :cols="isMobile ? 0 : 4">
+    <v-col :cols="isMobile ? 0 : 2">
     </v-col>
     <v-col :cols="isMobile ? 6 : 2" class="mt-2">
     <v-card
@@ -53,9 +53,6 @@
             <thead>
                 <tr>
                   <th class="text-left" :style="{background: currentTheme.onBackground, color: currentTheme.background, 'border': '1px solid' + currentTheme.background}">
-                      Kode Dosen
-                  </th>
-                  <th class="text-left" :style="{background: currentTheme.onBackground, color: currentTheme.background, 'border': '1px solid' + currentTheme.background}">
                       Kode Mata Kuliah
                   </th>
                   <th class="text-left" :style="{background: currentTheme.onBackground, color: currentTheme.background, 'border': '1px solid' + currentTheme.background}">
@@ -74,7 +71,6 @@
                 v-for="nilai in NilaiSemesterSelected.NilaiSemester"
                 :key="nilai.KodeMK"
                 >
-                <td>{{ nilai.KodeDosen }}</td>
                 <td>{{ nilai.KodeMK }}</td>
                 <td>{{ nilai.MataKuliah }}</td>
                 <td>{{ nilai.SKS }}</td>
@@ -92,6 +88,7 @@
 </template>
 
 <script>
+import http from "axios"
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import DataMahasiswa from "@/views/penilaian/component/mahasiswa/DataMahasiswa"
@@ -121,11 +118,14 @@ export default {
         }
       ],
       NilaiSemesterSelected: null,
+      listIP: [],
+      listNilai: [],
       Mahasiswa: {
         Nama: "Zefan",
+        Kelas: null,
         Prodi: "D4 Teknik Informatika",
         Nim: "181524032",
-        IPKumulatif: 4,
+        IPKumulatif: 0,
         Nilai: [
           {
             label: "SEM -1",
@@ -308,7 +308,21 @@ export default {
     }
   },
   mounted () {
-    this.NilaiSemesterSelected = this.Mahasiswa.Nilai[0]
+    this.Mahasiswa.Nim = "181524032"
+    http.get("http://localhost:5001/penilaian/get-all-nilai-akhir/mahasiswa/" + this.Mahasiswa.Nim)
+      .then((res) => {
+        this.Mahasiswa.Nama = res.data.data.Mahasiswa.nama
+        this.Mahasiswa.Kelas = res.data.data.Mahasiswa.kode_kelas
+        this.Mahasiswa.Nilai = res.data.data.Nilai
+        this.listIP = this.getIPSemester(res.data.data)
+        this.listNilai = this.getNilaiList(res.data.data)
+        this.NilaiSemesterSelected = res.data.data.Nilai[0]
+        console.log(res.data.data.Nilai)
+        for (var i = 0; i < res.data.data.Nilai.length; i++) {
+          this.Mahasiswa.IPKumulatif += res.data.data.Nilai[i].IPSemester
+        }
+        this.Mahasiswa.IPKumulatif = (Math.round((this.Mahasiswa.IPKumulatif / 8) * 100) / 100).toFixed(2)
+      })
   },
   methods: {
     getIPSemester (data) {
