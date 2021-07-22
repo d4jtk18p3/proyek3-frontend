@@ -147,6 +147,7 @@ export default {
         .then(response => {
           console.log(response)
           this.jadwalMhs[index].absen = true
+          this.jadwalMhs[currentJadwal].hadir = true
         })
         .catch(e => {
           console.log(e)
@@ -156,6 +157,7 @@ export default {
       PresensiMahasiswa.getStatusKehadiran(181524023, idJadwal, this.currentDate)
         .then(response => {
           this.currentKehadiran = response.data
+          console.log(this.currentKehadiran)
         })
         .catch(e => {
           console.log(e)
@@ -191,6 +193,7 @@ export default {
             this.jadwalMhs[currentJadwal].absen = false
           } else if (this.currentKehadiran[0].isHadir === true || this.currentKehadiran[0].id_keterangan === "sakit" || this.currentKehadiran[0].id_keterangan === "izin") {
             this.jadwalMhs[currentJadwal].absen = true
+            this.jadwalMhs[currentJadwal].hadir = true
           }
 
           // Perhitungan untuk value dari progressbar dan menyatakan saat ini mata kuliah sedang berlangsung
@@ -201,6 +204,10 @@ export default {
           //  kondisi ketika saat ini bukan dalam interval waktu mata kuliah
           //  jika saat ini adalah setelah waktu mata kuliah yang telah berlangsung sebelumnya
           if (currentTime.isAfter(afterTime)) {
+            if (this.currentKehadiran[0].isHadir === true || this.currentKehadiran[0].id_keterangan === "sakit" || this.currentKehadiran[0].id_keterangan === "izin") {
+              this.jadwalMhs[currentJadwal].absen = true
+              this.jadwalMhs[currentJadwal].hadir = true
+            }
             this.jadwalMhs[currentJadwal].absen = true
             this.jadwalMhs[currentJadwal].active = true
             this.jadwalMhs[currentJadwal].progress = 100

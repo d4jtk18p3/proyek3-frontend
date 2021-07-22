@@ -219,7 +219,7 @@ export default {
       }
     },
     statusKehadiranMahasiswa () {
-      Presensi.getKehadiran(181524010, this.currentDate)
+      Presensi.getKehadiran(181524023, this.currentDate)
         .then(response => {
           this.kehadiran = response.data
           console.log(this.kehadiran)

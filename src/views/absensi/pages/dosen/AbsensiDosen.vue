@@ -117,8 +117,6 @@ export default {
       DashboardDosen.persentaseMengajar(196810141993032000)
         .then(response => {
           this.persentaseMengajar = response.data
-          this.persentaseMengajar.persentaseJamMengajarDosen = 80
-          this.persentaseMengajar.totalJamMengajar= 40
           console.log(response)
         })
         .catch(e => {
