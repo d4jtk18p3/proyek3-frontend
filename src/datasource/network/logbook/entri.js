@@ -49,9 +49,9 @@ const getOneEntryLogbookMhsByid = async (idEntriLogbook) => {
   }
 }
 
-const addEntryLogbookMhs = async (idLogbook, dataLogbook) => {
+const addEntryLogbookMhs = async (nim, dataLogbook) => {
   try {
-    var urlAddLogbook = LOGBOOKENTRI_URL + `/create/${idLogbook}`
+    var urlAddLogbook = LOGBOOKENTRI_URL + `/create/${nim}`
     var result = await baseHttp.post(urlAddLogbook, {
       tanggal: dataLogbook.tanggal,
       kegiatan: dataLogbook.kegiatan,
@@ -60,7 +60,7 @@ const addEntryLogbookMhs = async (idLogbook, dataLogbook) => {
     }, {})
     return result
   } catch (err) {
-    return await errorHandler(err)
+    return err.response.data
   }
 }
 
@@ -76,7 +76,7 @@ const editEntryLogbookMhs = async (idLogbooks, idEntriLogbook, newDataLogbook) =
 
     return result
   } catch (err) {
-    return await errorHandler(err)
+    return err.response.data
   }
 }
 

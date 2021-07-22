@@ -97,6 +97,7 @@
 .v-list-item:hover{
   background-color: #4E4B63;
 }
+
 </style>
 <script>
 import { mapGetters } from "vuex"
