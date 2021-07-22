@@ -143,7 +143,7 @@ export default {
   //     return isDark ? "white" : "black"
   //   }
     getJadwalMhs () {
-      JadwalMahasiswa.getJadwalMahasiswa(this.currentDay, 181524010)
+      JadwalMahasiswa.getJadwalMahasiswa(this.currentDay, 181524023)
         .then(response => {
           response.data.jadwal.forEach(function (element) {
             element.absen = true
@@ -205,8 +205,11 @@ export default {
               this.jadwalMhs[i].id_jadwal_kedua = this.jadwalMhs[i + 1].id_jadwal
               this.jadwalMhs[i].id_studi_kedua = this.jadwalMhs[i + 1].id_studi
               this.jadwalMhs[i].waktu_selesai = this.jadwalMhs[i + 1].waktu_selesai
+              this.jadwalMhs[i].jenis = "TE-PR"
+              this.jadwalMhs[i].dosens = this.jadwalMhs[max].dosens
               this.jadwalMhs.splice((i + 1), 1)
               this.kehadiran.splice((i + 1), 1)
+              console.log(this.jadwalMhs)
             }
             equal = false
             j = 0
