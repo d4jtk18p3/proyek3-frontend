@@ -1,5 +1,10 @@
 <template>
 <v-container>
+  <v-row v-if="length == 0">
+    <v-col>
+      <p align="center">Tidak ada data.</p>
+    </v-col>
+  </v-row>
   <v-row
    v-for="(mhs, index) in mahasiswa"
    :key="index"
@@ -51,7 +56,8 @@ export default ({
       ketidakhadiran: [],
       page: 1,
       perPage: 3,
-      pages: []
+      pages: [],
+      length: 0
     }
   },
   methods: {
@@ -81,6 +87,7 @@ export default ({
           console.log(this.mahasiswa[i])
         }
       }
+      this.length = this.mahasiswa.length
     },
     nextPage () {
       console.log("HELLO")
