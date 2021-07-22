@@ -22,7 +22,7 @@
               :style="item.active? 'color: #272343' : 'color: white'"
             > #{{item.id_studi}}</v-card-text>
             <h3
-              class="pt-0 pb-5 text-center"
+              class="pt-0 text-center"
               :style="item.active? 'color: #272343' : 'color: white'"
             > {{item.mata_kuliah.nama_mata_kuliah}}
               <br/>
@@ -30,7 +30,7 @@
             </h3>
             <v-spacer></v-spacer>
             <v-row justify="center">
-              <v-col class="pb-0 mb-0 ml-4 mt-6 mr-4">
+              <v-col class="pb-0 ml-4 mr-4">
                 <p
                   class="float-left"
                   :style="item.active? 'color: #272343' : 'color: white'">
@@ -47,7 +47,7 @@
                   :color="item.hadir? 'success' : 'error'"
                   :value="item.progress"
                   height="5"
-                  class="mt-0 pt-0 ml-8 mr-8 justify-center"
+                  class="ml-8 mr-8 justify-center"
                 ></v-progress-linear>
             </v-row>
               <v-card-actions class="justify-center">
@@ -66,7 +66,7 @@
                   :to="{ name: 'Perkuliahan', params: { item } }"
                   elevation="2"
                   rounded
-                  class="pt-0 ml-8 mr-8 justify-center"
+                  class="mb-2 ml-8 mr-8 justify-center"
                   width="150"
                   color="#FB8C00"
                 > Perkuliahan</v-btn>

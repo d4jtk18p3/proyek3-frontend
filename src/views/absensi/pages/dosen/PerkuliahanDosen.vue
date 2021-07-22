@@ -50,19 +50,13 @@ export default {
     return {
       breadcrumbItems: [
         {
+          text: "Halaman Dosen",
+          disabled: false,
+          href: "absensi"
+        },
+        {
           text: "Perkuliahan",
-          disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 1",
-          disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 2",
-          disabled: true,
-          href: ""
+          disabled: true
         }
       ]
     }

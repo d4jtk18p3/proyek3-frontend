@@ -6,11 +6,6 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12">
-        <breadcumbs :breadcrumb-items="breadcrumbItems" />
-      </v-col>
-    </v-row>
-    <v-row>
       <v-col cols="2">
         <p class="text-h4 font-weight-bold">Dashboard</p>
       </v-col>
@@ -41,7 +36,6 @@
 
 <script>
 import { mapGetters } from "vuex"
-import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import AbsenCardDosen from "@/views/absensi/component/dosen/AbsenCardDosen"
 import LogAktivitas from "@/views/absensi/component/dosen/LogAktivitasDosen"
 import PersentaseMengajar from "@/views/absensi/component/dosen/PersentaseMengajar"
@@ -53,7 +47,6 @@ const schedule = require("node-schedule")
 export default {
   name: "AbsensiDosen",
   components: {
-    Breadcumbs,
     AbsenCardDosen,
     LogAktivitas,
     PersentaseMengajar
@@ -71,23 +64,6 @@ export default {
   },
   data () {
     return {
-      breadcrumbItems: [
-        {
-          text: "Dashboard",
-          disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 1",
-          disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 2",
-          disabled: true,
-          href: ""
-        }
-      ],
       date: new Date().toISOString().substr(0, 10),
       menu: false,
       jadwalDsn: [],
