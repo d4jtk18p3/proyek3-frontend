@@ -38,7 +38,7 @@
     <v-col cols="6">
     </v-col>
     <v-col cols="3" class="pt-0">
-      <v-btn :coloxr="currentTheme.colorPrimary" elevation="2" outlined depressed @click="resetTable()">Reset Tabel</v-btn>
+      <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="resetTable()">Reset Tabel</v-btn>
     </v-col>
     <v-col cols="10">
       <p class="text-h4 font-weight-bold">ETS</p>
@@ -729,7 +729,7 @@ export default {
       console.log(dataNilaiMahasiswa) // submit nilai mhs
 
       http
-        .post("http://localhost:5001/nilai/import-nilai/perkuliahan/" + this.$route.params.id, dataNilaiMahasiswa)
+        .post("http://localhost:5001/penilaian/import-nilai/perkuliahan/" + this.$route.params.id, dataNilaiMahasiswa)
         .then((res) => {
           console.log(res.data)
         })
@@ -804,14 +804,15 @@ export default {
         }
 
         http
-          .put("http://localhost:5001/nilai-akhir/update-nilai-akhir/" + this.$route.params.id, { dataNilaiAkhir: listNilaiFinal })
+          .put("http://localhost:5001/penilaian/update-nilai-akhir/perkuliahan/" + this.$route.params.id, { dataNilaiAkhir: listNilaiFinal })
           .then((res) => {
             console.log(res.data)
           })
         console.log(listNilaiFinal) // total nilai level ets/eas
       }
     },
-    submitEAS (finalize) { // --------------------------masih perlu diperbaiki
+    submitEAS (finalize) {
+      this.submitETS(finalize)
       var dataNilaiMahasiswa = {}
 
       // Input Mata Kuliah
@@ -879,7 +880,7 @@ export default {
       console.log(dataNilaiMahasiswa)
 
       http
-        .post("http://localhost:5001/nilai/import-nilai/perkuliahan/" + this.$route.params.id, dataNilaiMahasiswa)
+        .post("http://localhost:5001/penilaian/import-nilai/perkuliahan/" + this.$route.params.id, dataNilaiMahasiswa)
         .then((res) => {
           console.log(res.data)
         })
@@ -954,7 +955,7 @@ export default {
         }
 
         http
-          .put("http://localhost:5001/nilai-akhir/update-nilai-akhir/" + this.$route.params.id, { dataNilaiAkhir: listNilaiFinal })
+          .put("http://localhost:5001/penilaian/update-nilai-akhir/perkuliahan/" + this.$route.params.id, { dataNilaiAkhir: listNilaiFinal })
           .then((res) => {
             console.log(res.data)
           })
@@ -971,7 +972,7 @@ export default {
       window.location.reload()
     },
     downloadTemplate () {
-      window.open("https://drive.google.com/u/4/uc?id=1sfZ4sP-17ng8FKYUQbV8JzkfpNPCH1aQ&export=download")
+      window.open("https://drive.google.com/u/1/uc?id=1rr4m8CVjXLBj8CjogpB4LEt_wAMEp5_y&export=download")
     }
   },
   mounted () {

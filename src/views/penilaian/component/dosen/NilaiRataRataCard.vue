@@ -95,7 +95,7 @@ export default {
                 colors: this.currentTheme.onSurface
               }
             },
-            categories: ["A-AB", "B-BC", "C-CD", "D", "E"]
+            categories: ["> 79", "60-79", "40-59", "30-39", "< 30"]
           },
           title: {
             text: "Range Nilai",

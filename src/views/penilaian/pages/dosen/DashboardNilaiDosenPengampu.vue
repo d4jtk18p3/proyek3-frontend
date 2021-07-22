@@ -25,13 +25,13 @@
       </v-card>
     </v-col>
     <v-col cols="8">
-      <nilai-rata-rata-card :nilai-list="getNilaiList()"/>
+      <nilai-rata-rata-card :nilai-list="nilaiList"/>
     </v-col>
     <v-col cols="6">
       <v-card>
        <v-card-title class="mt-5">Mahasiswa dengan nilai total dibawah 60</v-card-title>
        <template v-for="(mhs, index) in Mahasiswa.Nilai">
-        <v-card-text v-if="mhs.nilaiAkhir < 60"  :key="index" class="pt-0">
+        <v-card-text v-if="mhs.nilai_akhir < 60"  :key="index" class="pt-0">
           <p class="text-h7 font-weight-bold">{{ mhs.nama }} ({{ mhs.nim }})</p>
         </v-card-text>
        </template>
@@ -41,7 +41,7 @@
       <v-card>
        <v-card-title class="mt-5">Mahasiswa dengan nilai ETS dibawah 60</v-card-title>
        <template v-for="(mhs, index) in Mahasiswa.Nilai">
-        <v-card-text v-if="mhs.ets < 60"  :key="index">
+        <v-card-text v-if="mhs.nilai_ets < 60"  :key="index">
           <p class="text-h7 font-weight-bold">{{ mhs.nama }} ({{ mhs.nim }})</p>
         </v-card-text>
        </template>
@@ -78,9 +78,9 @@
             >
             <td>{{ nilai.nim }}</td>
             <td>{{ nilai.nama }}</td>
-            <td>{{ nilai.ets }}</td>
-            <td>{{ nilai.eas }}</td>
-            <td>{{ nilai.nilaiAkhir }}</td>
+            <td>{{ (Math.round(nilai.nilai_ets * 100) / 100).toFixed(2) }}</td>
+            <td>{{ (Math.round(nilai.nilai_eas * 100) / 100).toFixed(2) }}</td>
+            <td>{{ (Math.round(nilai.nilai_akhir * 100) / 100).toFixed(2)}}</td>
             </tr>
         </tbody>
     </v-simple-table>
@@ -89,7 +89,7 @@
 </template>
 
 <script>
-// import http from "axios"
+import http from "axios"
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import NilaiRataRataCard from "@/views/penilaian/component/dosen/NilaiRataRataCard"
@@ -116,43 +116,7 @@ export default {
         }
       ],
       Mahasiswa: {
-        Nilai: [
-          {
-            nim: "181524001",
-            nama: "Andri",
-            ets: 87.5,
-            eas: 82.5,
-            nilaiAkhir: 65
-          },
-          {
-            nim: "181524002",
-            nama: "Bandri",
-            ets: 87.5,
-            eas: 82.5,
-            nilaiAkhir: 90
-          },
-          {
-            nim: "181524003",
-            nama: "Candri",
-            ets: 86,
-            eas: 84,
-            nilaiAkhir: 50
-          },
-          {
-            nim: "181524004",
-            nama: "Dandri",
-            ets: 90,
-            eas: 70,
-            nilaiAkhir: 70
-          },
-          {
-            nim: "181524005",
-            nama: "Endri",
-            ets: 50,
-            eas: 50,
-            nilaiAkhir: 50
-          }
-        ]
+        Nilai: []
       },
       nilaiList: [0, 0, 0, 0, 0]
     }
@@ -173,33 +137,45 @@ export default {
     //     this.listKelas = res.data.data.uniqueClass
     //   })
     // console.log(this.$route.matkul)
+
+    http.get("http://localhost:5001/penilaian/get-nilai-akhir/perkuliahan/" + this.$route.params.id)
+      .then((res) => {
+        this.Mahasiswa.Nilai = res.data.data.listNilaiAkhir
+        for (var i = 0; i < this.Mahasiswa.Nilai.length; i++) {
+          this.Mahasiswa.Nilai[i].nilai_akhir = (this.Mahasiswa.Nilai[i].nilai_ets + this.Mahasiswa.Nilai[i].nilai_eas) / 2
+        }
+      })
+      .then(() => {
+        this.nilaiList = this.getNilaiList()
+      })
   },
   methods: {
     tertinggi () {
-      return Math.max.apply(Math, this.Mahasiswa.Nilai.map(function (o) { return o.nilaiAkhir })).toFixed(2)
+      return Math.max.apply(Math, this.Mahasiswa.Nilai.map(function (o) { return o.nilai_akhir })).toFixed(2)
     },
     terendah () {
-      return Math.min.apply(Math, this.Mahasiswa.Nilai.map(function (o) { return o.nilaiAkhir })).toFixed(2)
+      return Math.min.apply(Math, this.Mahasiswa.Nilai.map(function (o) { return o.nilai_akhir })).toFixed(2)
     },
     getNilaiList () {
+      var listNilai = [0, 0, 0, 0, 0]
       for (var i = 0; i < this.Mahasiswa.Nilai.length; i++) {
-        if (this.Mahasiswa.Nilai[i].nilaiAkhir >= 80) {
-          this.nilaiList[0]++
+        if (this.Mahasiswa.Nilai[i].nilai_akhir >= 80) {
+          listNilai[0]++
         }
-        if (this.Mahasiswa.Nilai[i].nilaiAkhir < 80 && this.Mahasiswa.Nilai[i].nilaiAkhir >= 60) {
-          this.nilaiList[1]++
+        if (this.Mahasiswa.Nilai[i].nilai_akhir < 80 && this.Mahasiswa.Nilai[i].nilai_akhir >= 60) {
+          listNilai[1]++
         }
-        if (this.Mahasiswa.Nilai[i].nilaiAkhir < 60 && this.Mahasiswa.Nilai[i].nilaiAkhir >= 40) {
-          this.nilaiList[2]++
+        if (this.Mahasiswa.Nilai[i].nilai_akhir < 60 && this.Mahasiswa.Nilai[i].nilai_akhir >= 40) {
+          listNilai[2]++
         }
-        if (this.Mahasiswa.Nilai[i].nilaiAkhir < 40 && this.Mahasiswa.Nilai[i].nilaiAkhir >= 30) {
-          this.nilaiList[3]++
+        if (this.Mahasiswa.Nilai[i].nilai_akhir < 40 && this.Mahasiswa.Nilai[i].nilai_akhir >= 30) {
+          listNilai[3]++
         }
-        if (this.Mahasiswa.Nilai[i].nilaiAkhir < 30) {
-          this.nilaiList[4]++
+        if (this.Mahasiswa.Nilai[i].nilai_akhir < 30) {
+          listNilai[4]++
         }
       }
-      return this.nilaiList
+      return listNilai
     }
   }
 }
