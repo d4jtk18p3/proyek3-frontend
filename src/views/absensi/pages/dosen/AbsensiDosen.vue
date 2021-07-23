@@ -132,7 +132,6 @@ export default {
           this.jadwalDsn[i].waktu_selesai = this.jadwalDsn[i + 1].waktu_selesai
           this.jadwalDsn[i].jenis = "TE-PR"
           this.jadwalDsn.splice((i + 1), 1)
-          // this.kehadiran.splice((i + 1), 1)
         }
         i++
       }
