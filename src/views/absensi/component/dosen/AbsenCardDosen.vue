@@ -143,7 +143,7 @@ export default {
     },
     presensiDosen (index, idStudi, idJadwal) {
       console.log(idJadwal)
-      PresensiDosen.presensiDosen(196610181995121000, idStudi, idJadwal)
+      PresensiDosen.presensiDosen(199112182019032000, idStudi, idJadwal)
         .then(response => {
           this.jadwalDsn[index].absen = true
           console.log("Dosen telah absen untuk jadwal " + idStudi + "Pada tanggal " + this.currentDate)
@@ -154,7 +154,7 @@ export default {
         })
     },
     statusKehadiranDosen (idJadwal) {
-      PresensiDosen.getStatusKehadiran(196610181995121000, idJadwal, this.currentDate)
+      PresensiDosen.getStatusKehadiran(199112182019032000, idJadwal, this.currentDate)
         .then(response => {
           this.currentKehadiran = response.data
           this.jadwalDsn[currentJadwal].hadir = this.currentKehadiran[0].isHadir
