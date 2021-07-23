@@ -7,23 +7,23 @@
             <h2>Mata Kuliah</h2>
           </v-col>
           <v-col>
-            <h2>  : {{perkuliahan[0]}} </h2>
+            <h2> : {{item.mata_kuliah.nama_mata_kuliah}} </h2>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row no-gutters :style="{ color: currentTheme.onBackground }">
           <v-col cols="4">
             <h2>Kelas</h2>
           </v-col>
           <v-col>
-            <h2>  : {{perkuliahan[1]}} </h2>
+            <h2>  : {{item.kelas.kode_kelas}} </h2>
           </v-col>
-        </v-row>
-        <v-row>
+        </v-row >
+        <v-row no-gutters :style="{ color: currentTheme.onBackground }">
           <v-col cols="4">
             <h2>Tanggal</h2>
           </v-col>
           <v-col>
-            <h2>  : {{perkuliahan[2]}} </h2>
+            <h2>  : {{date}} </h2>
           </v-col>
         </v-row>
       </v-col>
@@ -53,10 +53,19 @@
 import { mapGetters } from "vuex"
 
 export default {
+  props: ["item"],
   data () {
     return {
-      perkuliahan: ["Sistem Terdistribusi", "3A - D4 Teknik Informatika", "24 Maret 2021"],
-      jumlahMahasiswa: 32
+      jumlahMahasiswa: 32,
+      d: new Date(),
+      date: "",
+      months: [
+        "January", "February",
+        "March", "April", "May",
+        "June", "July", "August",
+        "September", "October",
+        "November", "December"
+      ]
     }
   },
   computed: {
@@ -64,6 +73,12 @@ export default {
       currentTheme: "theme/getCurrentColor",
       isDark: "theme/getIsDark"
     })
+  },
+  beforeMount () {
+    var month = "" + (this.d.getMonth() + 1)
+    var day = "" + this.d.getDate()
+    var year = this.d.getFullYear()
+    this.date = day + " " + this.months[month] + " " + year
   }
 }
 </script>
