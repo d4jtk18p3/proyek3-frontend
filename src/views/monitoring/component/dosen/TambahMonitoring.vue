@@ -1,22 +1,20 @@
 <template>
   <div class="tambah">
     <v-card
-      class="rounded-card rounded-xl"
+      class="rounded-lg mr-3 mb-3"
       color="#C4C4C4"
       @click="addMorePintasan"
     >
       <v-row :class="isMobile ? 'pa-3':'pa-5'" justify="center" align="center">
-        <v-col :cols="isMobile ? '2': '12'" class="pa-0 mt-0" >
+        <v-col cols="2" class="pa-0 mt-0" >
           <div
-            :class="isMobile ? 'text-h2': 'text-h1'"
-            class="text-center text--secondary font-weight-light"
+            class="text-h2 text-center text--secondary font-weight-light"
             :style="{color : currentTheme.colorOnSecondary}"
           >+</div>
         </v-col>
-        <v-col :cols="isMobile ? '10': '12'" class="pa-0 mt-0">
+        <v-col cols="10" class="pa-0 mt-0">
           <div
-            :class="isMobile ? 'text-h6' : 'text-h5'"
-            class="text-center font-weight-light"
+            class="text-h6 text-center font-weight-light"
             :style="{color : currentTheme.colorOnSecondary}"
           >Tambah Monitoring</div>
         </v-col>

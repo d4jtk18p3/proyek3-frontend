@@ -40,7 +40,7 @@
 <script>
 import { mapGetters } from "vuex"
 export default {
-  name: "MataKuliahItem",
+  name: "MatkulItemDashboard",
   props: {
     mataKuliah: {
       type: String,
@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     routeDaftarTugas (idMatkul, idPerkuliahan) {
-      this.$router.push("monitoring-tugas/daftar-tugas/" + idMatkul + "/" + idPerkuliahan)
+      this.$router.push("dashboard-tugas/daftar-tugas/" + idMatkul + "/" + idPerkuliahan)
     }
   }
 }

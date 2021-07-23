@@ -72,9 +72,9 @@
             :disabled="!this.namaSubtugas"
             class=" white--text"
             :color="isDark? currentTheme.colorSecondary : currentTheme.colorOnSecondary"
-            @click="addSubtugas"
+            @click="editSubtugas(idSubtugas)"
           >
-            Submit
+            Edit
           </v-btn>
           </v-col>
         </v-row>
@@ -86,17 +86,23 @@
 <script>
 import { mapGetters } from "vuex"
 import SubtugasMonitoringDosen from "../../../../datasource/network/monitoring/subtugas"
-import TugasMonitoringDosen from "../../../../datasource/network/monitoring/tugas"
 export default {
   name: "FormAddMonitoring",
-  props: ["visible"],
   data () {
     return {
       dialogSubTask: false,
       namaSubtugas: "",
       tenggat: new Date()
-      // subtugas: []
-      // date: new Date()
+    }
+  },
+  props: {
+    idSubtugas: {
+      type: Number,
+      required: false,
+      default: 0
+    },
+    visible: {
+      type: Boolean
     }
   },
   computed: {
@@ -122,19 +128,13 @@ export default {
     closeDialog () {
       this.$emit("close")
     },
-    async addSubtugas () {
-      var mhs = await TugasMonitoringDosen.getMahasiswaByTugas(this.$route.params.id_tugas)
-      var i = 0
+    async editSubtugas (idSubtugas) {
       var subtugasBaru
       var date = this.tenggat
       var d = new Date(date)
       var dateStr = d.toISOString()
-      while (i < mhs.listIdStudi.length) {
-        subtugasBaru = await SubtugasMonitoringDosen.postSubtugasBaru(this.namaSubtugas,
-          dateStr, this.$route.params.id_tugas, mhs.listIdStudi[i])
-        i++
-      }
-      console.log(this.namaSubtugas, dateStr)
+      subtugasBaru = await SubtugasMonitoringDosen.putSubtugas(idSubtugas, this.namaSubtugas,
+        dateStr)
       console.log(subtugasBaru)
       this.$emit("close")
       location.reload()

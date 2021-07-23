@@ -1,40 +1,24 @@
 <template>
   <v-card
-    class="rounded-card rounded-xl"
-    to="/monitoring/dosen/monitoring-tugas/daftar-tugas/tugas"
+    link
+    class="rounded-lg mr-3 mb-3"
+    @click="routeTugas(idTugas)"
   >
-    <v-row class="pa-4 ma-0" :style="{background : currentTheme.colorSecondary}">
-      <v-col align-self="center" class="pa-0 ma-0"
-      :cols="isMobile ? '10' : '12'">
+    <v-row class="pa-3 ma-0" :style="{background :'#2196F3' }">
+      <v-col cols="12" align-self="center" class="pa-0 ma-0">
         <div
-          class="text-h5 text-uppercase font-weight-medium"
-          :style="{color : currentTheme.colorOnSecondary}"
+          class="text-center text-uppercase font-weight-bold"
+          :style="{color: currentTheme.surface}"
         >{{ tugas }}</div>
-        <div
-        v-if="isMobile"
-          class="caption text-capitalize font-weight-thin"
-          :style="{color : currentTheme.colorOnSecondary}"
-        >{{tenggat}}</div>
       </v-col>
-      <!-- <v-col cols="2" class="pa-0 ma-0" v-if="isMobile">
-        <v-avatar color="#C4C4C4">
-          <span class="white--text headline font-weight-bold">{{jumlahSubtugas}}</span>
-        </v-avatar>
-        <p>Subtugas</p>
-      </v-col> -->
-      <!-- <v-col cols="12" class="pa-0 ma-0" v-if="!isMobile">
-        <div
-          class="text-subtitle-1 text-capitalize font-weight-medium"
-          :style="{color : currentTheme.colorOnSecondary}"
-        >{{tenggat}}</div>
-      </v-col> -->
     </v-row>
-    <div class="pa-4" :style="{background : currentTheme.surface}" v-if="!isMobile">
+    <div class="pa-2 pl-4">
       <v-row>
-        <v-col offset="9">
-          <v-avatar color="white">
-            <span class="white--text headline font-weight-bold">{{jumlahSubtugas}}</span>
-          </v-avatar>
+        <v-col cols="8" class="pt-4" v-text="'Jumlah Subtugas'">
+        </v-col>
+        <v-col cols="2" class="pt-4" v-text="':'">
+        </v-col>
+        <v-col cols="2" class="pt-4" v-text="jumlahSubtugas">
         </v-col>
       </v-row>
     </div>
@@ -43,23 +27,24 @@
 
 <script>
 import { mapGetters } from "vuex"
+import SubtugasMonitoringDosen from "../../../../datasource/network/monitoring/subtugas"
 export default {
   name: "TugasItem",
+  data () {
+    return {
+      jumlahSubtugas: 0
+    }
+  },
   props: {
+    idTugas: {
+      type: Number,
+      required: false,
+      default: 0
+    },
     tugas: {
       type: String,
       required: false,
       default: "PThread Create"
-    },
-    tenggat: {
-      type: String,
-      required: false,
-      default: "Tenggat: Kamis, 17 April 2021 17.00"
-    },
-    jumlahSubtugas: {
-      type: String,
-      required: false,
-      default: "3"
     }
   },
   computed: {
@@ -69,6 +54,20 @@ export default {
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
+  },
+  methods: {
+    routeTugas (idTugas) {
+      const currentRoute = this.$route.path
+      this.$router.push(currentRoute + "/tugas/" + idTugas).catch(error => {
+        if (error.name !== "NavigationDuplicated") {
+          throw error
+        }
+      })
+    }
+  },
+  async mounted () {
+    var sub = await SubtugasMonitoringDosen.getSubtugasByTugas(this.idTugas)
+    this.jumlahSubtugas = sub.length
   }
 }
 </script>

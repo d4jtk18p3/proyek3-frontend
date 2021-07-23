@@ -1,5 +1,5 @@
 <template>
-  <v-row class="pt-3">
+  <v-row justify="space-around">
     <v-date-picker
       v-model="picker"
       color="#272343"
@@ -7,16 +7,18 @@
       locale="id-ID"
       :event-color="date => date[9] % 2 ? 'red' : 'yellow'"
       :events="functionEvents"
+      class="rounded-lg"
       v-if="isDark"
       dark
     ></v-date-picker>
     <v-date-picker
       v-model="picker"
-      color="#272433"
+      color="#272343"
       :header-color="currentTheme.colorPrimary"
       locale="id-ID"
       :event-color="date => date[9] % 2 ? 'red' : 'yellow'"
       :events="functionEvents"
+      class="rounded-lg"
       v-if="!isDark"
       Light
     ></v-date-picker>
