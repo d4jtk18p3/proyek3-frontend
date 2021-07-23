@@ -157,7 +157,9 @@ export default {
           })
           this.jadwalMhs = response.data.jadwal
           console.log(this.currentDay + " : " + response.data.jadwal)
-          this.cekMatkulSama()
+          setTimeout(() => {
+            this.cekMatkulSama()
+          }, 3000)
         })
         .catch(e => {
           console.log(e)
