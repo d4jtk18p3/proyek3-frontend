@@ -2,6 +2,8 @@ import Vue from "vue"
 import VueRouter from "vue-router"
 import store from "@/store"
 
+Vue.use(VueRouter)
+
 const routes = [
   // {
   //   path: "/akun",
@@ -402,6 +404,61 @@ const routes = [
           import(
             /* webpackChunkName: "paragraph-template" */ "../views/componentTemplate/pages/DialogTemplate"
           )
+      }
+    ]
+  },
+  {
+    path: "/penilaian",
+    component: () => import("../views/penilaian/PenilaianMain"),
+    children: [
+      {
+        path: "/penilaian/input-nilai",
+        name: "Input Nilai Mahasiswa",
+        component: () =>
+          import(
+            /* webpackChunkName: "inputnilaisection" */ "../views/penilaian/pages/dosen/InputNilaiSection.vue"
+          )
+      },
+      {
+        path: "/penilaian/input-nilai-matkul/:id",
+        name: "Input Nilai Matkul",
+        component: () =>
+          import(
+            /* webpackChunkName: "inputnilaisection" */ "../views/penilaian/pages/dosen/InputNilaiMatkul.vue"
+          )
+      },
+      {
+        path: "/penilaian/dashboard-nilai-mahasiswa",
+        name: "Dashboard Nilai Mahasiswa",
+        component: () =>
+          import(
+            /* webpackChunkName: "inputnilaisection" */ "../views/penilaian/pages/mahasiswa/DashboardNilaiMahasiswa.vue"
+          )
+      },
+      {
+        path: "/penilaian/dashboard-nilai-dosen-pengampu",
+        name: "Dashboard Nilai Section",
+        component: () =>
+          import(
+            /* webpackChunkName: "inputnilaisection" */ "../views/penilaian/pages/dosen/DashboardNilaiSection.vue"
+          )
+      },
+      {
+        path: "/penilaian/dashboard-nilai-dosen-pengampu/:id",
+        name: "Dashboard Nilai Dosen Pengampu",
+        component: () =>
+          import(
+            /* webpackChunkName: "inputnilaisection" */ "../views/penilaian/pages/dosen/DashboardNilaiDosenPengampu.vue"
+          )
+      },
+      {
+        path: "/penilaian/transkripsi-nilai/:id",
+        name: "Transkripsi Nilai",
+        component: () =>
+          import(
+            /* webpackChunkName: "inputnilaisection" */ "../views/penilaian/pages/mahasiswa/TranskripsiNilai.vue"
+          ),
+        props: true
       }
     ]
   }

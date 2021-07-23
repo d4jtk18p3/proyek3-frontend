@@ -5,7 +5,7 @@
   >
     <v-row>
       <v-col cols="12">
-        <div class="text-h6 font-weight-bold ml-3" :style="{color: currentTheme.onSurface}">Rata-Rata Perolehan Nilai</div>
+        <div class="text-h6 font-weight-bold ml-3" :style="{color: currentTheme.onSurface}">Rata-Rata Perolehan Nilai Mahasiswa</div>
       </v-col>
       <v-col cols="12">
         <apexchart type="bar" height="300" width="100%" :options="data.chartOptions" :series="data.series"/>
@@ -37,7 +37,7 @@ export default {
     data () {
       return {
         series: [{
-          name: "Nilai",
+          name: "Jumlah",
           data: this.nilaiList
         }],
         chartOptions: {
@@ -95,7 +95,7 @@ export default {
                 colors: this.currentTheme.onSurface
               }
             },
-            categories: ["A-AB", "B-BC", "C-CD", "D", "E"]
+            categories: ["> 79", "60-79", "40-59", "30-39", "< 30"]
           },
           title: {
             text: "Range Nilai",
