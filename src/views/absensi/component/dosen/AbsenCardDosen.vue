@@ -198,7 +198,6 @@ export default {
         if (currentTime.isBetween(beforeTime, afterTime)) {
           // Pengecekan, apakah mahasiswa ybs tidak izin dan belum absen, dilakukan untuk aktivasi tombol
           if (this.currentKehadiran[0].isHadir === false) {
-            this.jadwalDsn[currentJadwal].absen = false
           } else if (this.currentKehadiran[0].isHadir === true) {
             this.jadwalDsn[currentJadwal].absen = true
             this.jadwalDsn[currentJadwal].hadir = true
