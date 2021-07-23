@@ -113,6 +113,9 @@ const routes = [
     component: () => import("../views/absensi/AbsensiMain"),
     children: [
       {
+        meta: {
+          title: "Absensi Mahasiswa"
+        },
         path: "/absensi/mahasiswa/absensi",
         name: "AbsensiMahasiswa",
         component: () =>

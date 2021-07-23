@@ -50,7 +50,7 @@ export default {
     return {
       breadcrumbItems: [
         {
-          text: "Halaman Dosen",
+          text: "Dashboard",
           disabled: false,
           href: "absensi"
         },

@@ -82,16 +82,6 @@ export default {
           text: "Dashboard",
           disabled: false,
           href: ""
-        },
-        {
-          text: "Link 1",
-          disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 2",
-          disabled: true,
-          href: ""
         }
       ],
       date: new Date().toISOString().substr(0, 10),
