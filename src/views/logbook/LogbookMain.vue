@@ -12,7 +12,7 @@
 
 <script>
 
-import * as Keycloak from "keycloak-js"
+// import * as Keycloak from "keycloak-js"
 import SideBar from "@/views/shared/navigation/SideBar"
 import NavBar from "@/views/shared/navigation/NavBar"
 import { mapGetters, mapActions } from "vuex"
@@ -22,10 +22,10 @@ import { mapGetters, mapActions } from "vuex"
   dilakukan perhitungan sebagai berikut :
   1000 (1 seconds) * 60 (1 minute) & 60 (1 hour) * 5
  */
-const TOKEN_ACCESS_INTERVAL = (1000 * 60 * 60 * 5) - (1000 * 6)
-const initOptions = {
-  url: "https://keycloak.ca9db134.nip.io/auth", realm: "polban-realm", clientId: "template", onLoad: "login-required"
-}
+// const TOKEN_ACCESS_INTERVAL = (1000 * 60 * 60 * 5) - (1000 * 6)
+// const initOptions = {
+//   url: "https://keycloak.ca9db134.nip.io/auth", realm: "polban-realm", clientId: "template", onLoad: "login-required"
+// }
 export default {
   name: "LogbookMain",
   components: {
@@ -33,10 +33,17 @@ export default {
     NavBar
   },
   created () {
-    this.sychronize("dani")
-    if (!this.$keycloak) {
-      this.initKeycloak()
+    // this.sychronize("dani")
+    // if (!this.$keycloak) {
+    //   this.initKeycloak()
+    // }
+    const tasks = []
+    if (this.$route.meta.requiresAuth) {
+      tasks.push(this.waitAuthenticated())
     }
+    Promise.all(tasks).then(result => {
+      this.isLoading = false
+    })
   },
   data () {
     return {
@@ -57,12 +64,12 @@ export default {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
     }),
-    divText () {
-      if (this.isAuthenticated) {
-        return "anda sudah masuk dan terautentikasi dengan token " + this.$keycloak.token
-      }
-      return "anda belum login , aya coba login"
-    },
+    // divText () {
+    //   if (this.isAuthenticated) {
+    //     return "anda sudah masuk dan terautentikasi dengan token " + this.$keycloak.token
+    //   }
+    //   return "anda belum login , aya coba login"
+    // },
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
@@ -71,45 +78,63 @@ export default {
     ...mapActions({
       sychronize: "theme/sychronizeCurrentTheme"
     }),
-    async login () {
-      this.isLoading = true
-      if (this.isAuthenticated) {
-        await this.$keycloak.logout()
-      } else {
-        const loginResult = await this.$keycloak.login()
-        console.log(loginResult)
-      }
-      this.isAuthenticated = this.$keycloak.authenticated
-      this.isLoading = false
-    },
-    async initKeycloak () {
-      console.log("Start initialize keyclocak")
-      const keycloak = Keycloak(initOptions)
-      this.isLoading = true
-      console.log("Starting")
-      try {
-        await keycloak.init({ onLoad: initOptions.onLoad })
-      } catch (e) {
-        console.log(e)
-      }
-      setInterval(() => {
-        keycloak.updateToken(70)
-          .then()
-          .catch((error) => {
-            console.log(error)
-          })
-      }, TOKEN_ACCESS_INTERVAL)
-      console.log("keycloak udah")
-      this.isAuthenticated = keycloak.authenticated
-      this.$keycloak = keycloak
-      console.log(this.$keycloak)
-      this.isLoading = false
+    async waitAuthenticated () {
+      return new Promise((resolve) => {
+        const unwatch = this.$store.watch(state => {
+          return this.$store.getters.identity
+        }, value => {
+          if (!value) {
+            return
+          }
+          // if (!value.isActive) {
+          //   this.$router.replace({ path: "/reset-password" })
+          // }
+          unwatch()
+          resolve()
+        }, {
+          immediate: true
+        })
+      })
     }
-  },
-  watch: {
-    $keycloak: (value) => {
-      console.log(value)
-    }
+    // async login () {
+    //   this.isLoading = true
+    //   if (this.isAuthenticated) {
+    //     await this.$keycloak.logout()
+    //   } else {
+    //     const loginResult = await this.$keycloak.login()
+    //     console.log(loginResult)
+    //   }
+    //   this.isAuthenticated = this.$keycloak.authenticated
+    //   this.isLoading = false
+    // },
+    // async initKeycloak () {
+    //   console.log("Start initialize keyclocak")
+    //   const keycloak = Keycloak(initOptions)
+    //   this.isLoading = true
+    //   console.log("Starting")
+    //   try {
+    //     await keycloak.init({ onLoad: initOptions.onLoad })
+    //   } catch (e) {
+    //     console.log(e)
+    //   }
+    //   setInterval(() => {
+    //     keycloak.updateToken(70)
+    //       .then()
+    //       .catch((error) => {
+    //         console.log(error)
+    //       })
+    //   }, TOKEN_ACCESS_INTERVAL)
+    //   console.log("keycloak udah")
+    //   this.isAuthenticated = keycloak.authenticated
+    //   this.$keycloak = keycloak
+    //   console.log(this.$keycloak)
+    //   this.isLoading = false
+    // }
   }
+  // watch: {
+  //   $keycloak: (value) => {
+  //     console.log(value)
+  //   }
+  // }
 }
 </script>
