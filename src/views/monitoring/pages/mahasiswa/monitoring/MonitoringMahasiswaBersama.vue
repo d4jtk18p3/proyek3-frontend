@@ -83,6 +83,9 @@ export default {
       currentTheme: "theme/getCurrentColor",
       isDark: "theme/getIsDark"
     }),
+    identity: function () {
+      return this.$store.getters.identity
+    },
     listMahasiswa () {
       return this.data.map((data, index) => {
         return {
