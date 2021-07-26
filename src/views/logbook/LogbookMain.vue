@@ -7,10 +7,10 @@
         <router-view/>
       </v-container>
       <v-overlay :value="isLoading">
-      <v-progress-circular
-       indeterminate size="32"
-       :color="currentTheme.colorSecondary">
-      </v-progress-circular>
+        <v-progress-circular
+          indeterminate size="32"
+          :color="currentTheme.colorSecondary">
+        </v-progress-circular>
       </v-overlay>
     </v-main>
   </v-app>
@@ -39,10 +39,6 @@ export default {
     NavBar
   },
   created () {
-    // this.sychronize("dani")
-    // if (!this.$keycloak) {
-    //   this.initKeycloak()
-    // }
     const tasks = []
     if (this.$route.meta.requiresAuth) {
       tasks.push(this.waitAuthenticated())

@@ -137,6 +137,7 @@ export default {
     }
   },
   async mounted () {
+    console.log(this.$store.getters.identity)
     this.datas = await BackEndLogbook.getAllEntriLogbooksMhsByNIM(this.identity.preferred_username)
     this.idLogbooks = await BackEndLogbook.getIdLogbooksMhsByNIM(this.identity.preferred_username)
     this.identitas = await BackEndMahasiswa.getOneMahasiswaByNim(this.identity.preferred_username)
