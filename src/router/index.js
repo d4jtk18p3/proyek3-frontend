@@ -176,11 +176,13 @@ const routes = [
   },
   {
     path: "/logbook",
+    meta: { requiresAuth: true },
     component: () => import("../views/logbook/LogbookMain"),
     children: [
       // route logbook - dosen
       {
         path: "/logbook/dashboard",
+        meta: { requiresAuth: true },
         name: "DashboardLogbook",
         component: () =>
           import(
@@ -190,6 +192,7 @@ const routes = [
       },
       {
         path: "/logbook/logbook-mahasiswa",
+        meta: { requiresAuth: true },
         name: "ListMataKuliah",
         component: () =>
           import(
@@ -199,6 +202,7 @@ const routes = [
       },
       {
         path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelasString",
+        meta: { requiresAuth: true },
         name: "ListMahasiswa",
         component: () =>
           import(
@@ -208,6 +212,7 @@ const routes = [
       },
       {
         path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelasString/:nim",
+        meta: { requiresAuth: true },
         name: "ListLogbook",
         component: () =>
           import(
@@ -218,6 +223,7 @@ const routes = [
       {
         path:
           "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelasString/:nim/viewlogbook/:idEntri",
+        meta: { requiresAuth: true },
         name: "ViewLogbook",
         component: () =>
           import(
@@ -228,6 +234,7 @@ const routes = [
       // route logbook - mahasiswa
       {
         path: "/logbook/mylogbook",
+        meta: { requiresAuth: true },
         name: "MyLogbook",
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
@@ -240,6 +247,7 @@ const routes = [
       },
       {
         path: "/logbook/addlogbook",
+        meta: { requiresAuth: true },
         name: "AddLogbook",
         component: () =>
           import(
@@ -249,6 +257,7 @@ const routes = [
       },
       {
         path: "/logbook/editlogbook/:idEntriLogbook",
+        meta: { requiresAuth: true },
         name: "EditLogbook",
         component: () =>
           import(
@@ -258,6 +267,7 @@ const routes = [
       },
       {
         path: "/logbook/viewlogbook/:idEntriLogbook",
+        meta: { requiresAuth: true },
         name: "ViewLogbookMahasiswa",
         component: () =>
           import(
