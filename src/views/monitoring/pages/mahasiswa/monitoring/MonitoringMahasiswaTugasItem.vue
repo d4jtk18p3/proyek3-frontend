@@ -153,6 +153,9 @@ export default {
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     },
+    identity: function () {
+      return this.$store.getters.identity
+    },
     hours: function () {
       const hours = Math.floor(this.totalTime / 3600)
       return this.padTime(hours)
@@ -347,7 +350,7 @@ export default {
     this.namaMatkul = this.$route.params.namaMatkul
     this.namaTugas = this.$route.params.namaTugas
     this.id = this.$route.params.id
-    var items = await MonitoringBersama.getSubTugasbyMahasiswa(this.id, "181524002")
+    var items = await MonitoringBersama.getSubTugasbyMahasiswa(this.id, this.identity.preferred_username)
     var i = 0
     while (i < items.length) {
       if (i === 0) {

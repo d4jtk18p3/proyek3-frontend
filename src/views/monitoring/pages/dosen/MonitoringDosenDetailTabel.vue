@@ -125,7 +125,13 @@ export default {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor",
       isDark: "theme/getIsDark"
-    })
+    }),
+    isMobile () {
+      return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    },
+    identity: function () {
+      return this.$store.getters.identity
+    }
   },
   methods: {
     async setMhs (a) {
