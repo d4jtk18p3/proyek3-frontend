@@ -6,6 +6,12 @@
       <v-container :class="isMobile? 'pa-5' : 'pa-12'">
         <router-view/>
       </v-container>
+      <v-overlay :value="isLoading">
+      <v-progress-circular
+       indeterminate size="32"
+       :color="currentTheme.colorSecondary">
+      </v-progress-circular>
+      </v-overlay>
     </v-main>
   </v-app>
 </template>
@@ -48,7 +54,7 @@ export default {
   data () {
     return {
       isAuthenticated: "",
-      isLoading: false,
+      isLoading: true,
       sideBarItemsMhs: [
         { text: "Logbook Saya", icon: "mdi-notebook-multiple", to: "/logbook/mylogbook" },
         { text: "Tambah Logbook", icon: "mdi-notebook-plus", to: "/logbook/addlogbook" }

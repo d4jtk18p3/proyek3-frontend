@@ -137,11 +137,10 @@ export default {
     }
   },
   async mounted () {
-    console.log(this.identity)
-    this.datas = await BackEndLogbook.getAllEntriLogbooksMhsByNIM("181524014")
-    this.idLogbooks = await BackEndLogbook.getIdLogbooksMhsByNIM("181524014")
-    this.identitas = await BackEndMahasiswa.getOneMahasiswaByNim("181524014")
-    this.matkul = await BackEndMatkul.getLastProyek("181524014")
+    this.datas = await BackEndLogbook.getAllEntriLogbooksMhsByNIM(this.identity.preferred_username)
+    this.idLogbooks = await BackEndLogbook.getIdLogbooksMhsByNIM(this.identity.preferred_username)
+    this.identitas = await BackEndMahasiswa.getOneMahasiswaByNim(this.identity.preferred_username)
+    this.matkul = await BackEndMatkul.getLastProyek(this.identity.preferred_username)
   }
 }
 </script>
