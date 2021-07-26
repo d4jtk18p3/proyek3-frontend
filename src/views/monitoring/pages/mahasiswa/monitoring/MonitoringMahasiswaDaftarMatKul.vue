@@ -103,7 +103,7 @@ export default {
     }
   },
   async mounted () {
-    var Matkul = await MatkulMonitoringMahasiswa.getMatkulMahasiswa("181524002")
+    var Matkul = await MatkulMonitoringMahasiswa.getMatkulMahasiswa(this.identity.preferred_username)
     var i = 0
     var matkulList = []
     while (i < Matkul.length) {
