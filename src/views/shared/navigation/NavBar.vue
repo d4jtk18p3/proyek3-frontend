@@ -126,7 +126,7 @@
             <v-divider></v-divider>
 
             <v-list-item class="profile d-flex justify-center mt-2">
-              <v-btn height="30px" class="error">Keluar</v-btn>
+              <v-btn @click="logout()" height="30px" class="error">Log Out</v-btn>
             </v-list-item>
           </v-list>
     </v-navigation-drawer>
@@ -166,6 +166,9 @@ export default {
     })
   },
   methods: {
+    logout: function () {
+      this.$store.dispatch("logout")
+    },
     notification_click () {
       console.log("Notif clicked")
     },
