@@ -12,6 +12,8 @@
     "axios": "~0.21.1",
     "core-js": "~3.9.1",
     "date-and-time": "^1.0.1",
+    "dom-to-image": "^2.6.0",
+    "jspdf": "^2.3.1",
     "firebase": "^8.7.0",
     "keycloak-js": "^12.0.4",
     "lodash": "^4.17.21",
@@ -24,7 +26,7 @@
     "vue2-editor": "^2.10.2",
     "vuetify": "~2.4.7",
     "vuex": "~3.6.2",
-    "xlsx": "^0.16.9"
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "@vue/cli": "~4.5.12",

@@ -22,7 +22,7 @@
               :style="item.active? 'color: #272343' : 'color: white'"
             > #{{item.id_studi}}</v-card-text>
             <h3
-              class="pt-0 pb-5 text-center"
+              class="pt-0 text-center"
               :style="item.active? 'color: #272343' : 'color: white'"
             > {{item.mata_kuliah.nama_mata_kuliah}}
               <br/>
@@ -30,7 +30,7 @@
             </h3>
             <v-spacer></v-spacer>
             <v-row justify="center">
-              <v-col class="pb-0 mb-0 ml-4 mt-6 mr-4">
+              <v-col class="pb-0 ml-4 mr-4">
                 <p
                   class="float-left"
                   :style="item.active? 'color: #272343' : 'color: white'">
@@ -47,7 +47,7 @@
                   :color="item.hadir? 'success' : 'error'"
                   :value="item.progress"
                   height="5"
-                  class="mt-0 pt-0 ml-8 mr-8 justify-center"
+                  class="ml-8 mr-8 justify-center"
                 ></v-progress-linear>
             </v-row>
               <v-card-actions class="justify-center">
@@ -58,7 +58,7 @@
                   class="mt-5 ml-5 mr-5"
                   color="#4CAF50"
                   width="120"
-                  @click="presensiDosen(index, item.id_studi, item.id_jadwal)"
+                  @click="presensi(index, item.id_studi, item.id_jadwal)"
                 > Hadir</v-btn>
               </v-card-actions>
               <v-card-actions class="justify-center">
@@ -66,7 +66,7 @@
                   :to="{ name: 'Perkuliahan', params: { item } }"
                   elevation="2"
                   rounded
-                  class="pt-0 ml-8 mr-8 justify-center"
+                  class="mb-2 ml-8 mr-8 justify-center"
                   width="150"
                   color="#FB8C00"
                 > Perkuliahan</v-btn>
@@ -133,11 +133,22 @@ export default {
     })
   },
   methods: {
+    presensi (index, idStudi, idJadwal) {
+      console.log(idJadwal)
+      if (this.jadwalDsn[currentJadwal].id_jadwal_kedua !== 0) {
+        this.presensiDosen(index, this.jadwalDsn[currentJadwal].id_studi, this.jadwalDsn[currentJadwal].id_jadwal)
+        this.presensiDosen(index, this.jadwalDsn[currentJadwal].id_studi_kedua, this.jadwalDsn[currentJadwal].id_jadwal_kedua)
+      } else {
+        this.presensiDosen(index, idStudi, idJadwal)
+        console.log("jelek")
+      }
+    },
     presensiDosen (index, idStudi, idJadwal) {
       console.log(idJadwal)
-      PresensiDosen.presensiDosen(196610181995121000, idStudi, idJadwal)
+      PresensiDosen.presensiDosen(199112182019032000, idStudi, idJadwal)
         .then(response => {
           this.jadwalDsn[index].absen = true
+          this.jadwalDsn[currentJadwal].hadir = true
           console.log("Dosen telah absen untuk jadwal " + idStudi + "Pada tanggal " + this.currentDate)
           console.log(response)
         })
@@ -146,7 +157,7 @@ export default {
         })
     },
     statusKehadiranDosen (idJadwal) {
-      PresensiDosen.getStatusKehadiran(196610181995121000, idJadwal, this.currentDate)
+      PresensiDosen.getStatusKehadiran(199112182019032000, idJadwal, this.currentDate)
         .then(response => {
           this.currentKehadiran = response.data
           this.jadwalDsn[currentJadwal].hadir = this.currentKehadiran[0].isHadir
@@ -168,53 +179,53 @@ export default {
         var currentTime = moment(this.currentTime, format)
         var beforeTime = moment(this.jadwalDsn[currentJadwal].waktu_mulai, format)
         var afterTime = moment(this.jadwalDsn[currentJadwal].waktu_selesai, format)
-        console.log(this.jadwalDsn[currentJadwal].waktu_mulai)
+
         // Perhitungan durasi, dilakukan untuk nilai progressbar
         var d = moment.duration(afterTime.diff(beforeTime, "seconds"))
-        console.log("Duration: " + d)
         this.jadwalDsn[currentJadwal].duration = d._milliseconds
+
         // Lama Matkul sudah berjalan
         var jadwalDuration = moment.duration(currentTime.diff(beforeTime, "seconds"))
         this.jadwalDsn[currentJadwal].currentDuration = jadwalDuration._milliseconds
+
         // Pengurangan waktu mulai (waktu mulai absen adalah 30 menit sebelum jam mulai mata kuliah)
         beforeTime.subtract(30, "minutes")
-        // Pengecekan tombol, apakah dosen sudah absen, tidak akan hadir, atau sudah absen
+
+        // Pengecekan tombol, apakah mahasiswa sudah absen, tidak akan hadir, atau sudah absen
         this.cekAktivasiTombol(this.jadwalDsn[currentJadwal].id_jadwal)
-        console.log("Id jadwal: " + this.jadwalDsn[currentJadwal].id_jadwal)
+
         // Pengecekan, apakah saat ini berada pada interval waktu mata kuliah yang sedang berlangsung atau tidak
         if (currentTime.isBetween(beforeTime, afterTime)) {
-          // Pengecekan, apakah dosen ybs tidak izin dan belum absen, dilakukan untuk aktivasi tombol
+          // Pengecekan, apakah mahasiswa ybs tidak izin dan belum absen, dilakukan untuk aktivasi tombol
           if (this.currentKehadiran[0].isHadir === false) {
-            console.log("Mahasiswa sudah absen di jadwal ke- " + this.jadwalDsn[currentJadwal].id_jadwal)
-            this.jadwalDsn[currentJadwal].absen = false
           } else if (this.currentKehadiran[0].isHadir === true) {
             this.jadwalDsn[currentJadwal].absen = true
+            this.jadwalDsn[currentJadwal].hadir = true
           }
+
           // Perhitungan untuk value dari progressbar dan menyatakan saat ini mata kuliah sedang berlangsung
-          console.log(this.jadwalDsn[currentJadwal].progress)
           this.jadwalDsn[currentJadwal].progress = this.jadwalDsn[currentJadwal].currentDuration / this.jadwalDsn[currentJadwal].duration * 100
-          console.log(this.jadwalDsn[currentJadwal].progress)
           this.jadwalDsn[currentJadwal].active = false
           // this.jadwalDsn[currentJadwal].currentDuration = this.jadwalDsn[currentJadwal].currentDuration + 15
-          console.log("SEKARANG INI WAKTUNYA ABSEN")
         } else {
           //  kondisi ketika saat ini bukan dalam interval waktu mata kuliah
           //  jika saat ini adalah setelah waktu mata kuliah yang telah berlangsung sebelumnya
           if (currentTime.isAfter(afterTime)) {
+            if (this.currentKehadiran[0].isHadir === true || this.currentKehadiran[0].id_keterangan === "sakit" || this.currentKehadiran[0].id_keterangan === "izin") {
+              this.jadwalDsn[currentJadwal].absen = true
+              this.jadwalDsn[currentJadwal].hadir = true
+            }
             this.jadwalDsn[currentJadwal].absen = true
             this.jadwalDsn[currentJadwal].active = true
             this.jadwalDsn[currentJadwal].progress = 100
             // if (this.currentKehadiran[0].isHadir === true && this.currentKehadiran[0].id_keterangan === null) {
             //   console.log("Mahasiswa sudah absen di jadwal ke- " + this.jadwalDsn[currentJadwal].id_jadwal)
             // }
-            console.log(currentJadwal)
             currentJadwal++
-            console.log("SEKARANG INI WAKTUNYA GANTI JADWAL")
           } else {
             //  jika sekarang bukan waktu setelah mata kuliah (keknya inisalah dan perlu diperbaiki kondisinya)
             this.jadwalDsn[currentJadwal].active = true
             this.jadwalDsn[currentJadwal].absen = true
-            console.log("SEKARANG BUKAN JADWAL MANA MANA")
           }
         }
       }

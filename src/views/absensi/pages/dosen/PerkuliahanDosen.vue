@@ -52,12 +52,11 @@ export default {
         {
           text: "Dashboard",
           disabled: false,
-          href: ""
+          href: "absensi"
         },
         {
           text: "Perkuliahan",
-          disabled: false,
-          href: ""
+          disabled: true
         }
       ]
     }
