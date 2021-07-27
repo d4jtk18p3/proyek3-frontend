@@ -38,12 +38,12 @@
 </template>
 
 <script>
-import http from "axios"
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import NilaiMataKuliah from "@/views/penilaian/component/dosen/NilaiMataKuliah"
 import KelasItem from "@/views/template/component/absensi/KelasItem"
-import { PENILAIAN_API_URL } from "../../../../config"
+import DosenAPI from "@/datasource/network/penilaian/PenilaianDosen"
+// import { PENILAIAN_API_URL } from "../../../../config"
 
 export default {
   name: "AbsensiDosenMain",
@@ -87,29 +87,36 @@ export default {
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    },
+    identity: function () {
+      return this.$store.getters.identity
     }
   },
   methods: {
-    getMatkulbyKelas (kodeKelas, index) {
-      console.log(kodeKelas)
-      http.get(new URL(`${PENILAIAN_API_URL}/dosen/matkul/`).href + this.nip + "/" + kodeKelas.kode_kelas)
-        .then((res) => {
-          console.log(res.data.data)
-          this.id_perkuliahan = res.data.data.id_perkuliahan
-          this.listMatkul = res.data.data.listMatkul
-        })
+    async getMatkulbyKelas (kodeKelas, index) {
+      // console.log(kodeKelas)
+      const matkul = await DosenAPI.getMatkul(this.nip, kodeKelas.kode_kelas)
+      this.id_perkuliahan = matkul.id_perkuliahan
+      this.listMatkul = matkul.listMatkul
     },
-    routeNilaiMatkul (id) {
-      this.$router.push("input-nilai-matkul/" + id)
+    routeNilaiMatkul (id, matkul) {
+      // this.$router.push({ path: "input-nilai-matkul/" + id, params: { namaMatkul: matkul } })
+      this.$router.push({
+        namehttps://github.com/d4jtk18p3/proyek3-frontend/pull/80/conflict?name=src%252Fviews%252Fpenilaian%252Fpages%252Fdosen%252FInputNilaiSection.vue&ancestor_oid=eff9b50bfefca86c76af89715e417a070fa85761&base_oid=deaa54cbb0ff635a4d8fbde85f866ab3a3987ca1&head_oid=dfa3a6059eaa93b546654029410f1dc724bee3f2: "Input Nilai Matkul",
+        path: "input-nilai-matkul/" + id,
+        params: {
+          id: id,
+          namaMatkul: matkul
+        }
+      })
     }
   },
-  mounted () {
+  async mounted () {
+    // const identity = this.$store.getters.identity
     this.nip = "196610181995121000"
-    http.get(new URL(`${PENILAIAN_API_URL}/dosen/kelas/`).href + this.nip)
-      .then((res) => {
-        console.log(res.data.data.uniqueClass)
-        this.listKelas = res.data.data.uniqueClass
-      })
+
+    const kelas = await DosenAPI.getKelas(this.nip)
+    this.listKelas = kelas.uniqueClass
   }
 }
 </script>

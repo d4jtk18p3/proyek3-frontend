@@ -7,8 +7,14 @@
       max-height="75"
       v-if="!$vuetify.breakpoint.mobile"
     >
-      <v-img :src="require('../../../assets/polban.png')" max-width="45" contain class="mx-4"/>
-      <v-toolbar-title :style="{ color: currentTheme.colorPrimary }">Politeknik Negeri Bandung</v-toolbar-title>
+      <v-card @click="onClickedHome()" outlined color="transparent" height="50" width="320" class="pt-3">
+        <v-row align="center">
+          <v-img :src="require('../../../assets/polban.png')" max-width="45" contain class="mx-4"/>
+          <v-col class="pa-0">
+            <v-toolbar-title :style="{ color: currentTheme.colorPrimary }">Politeknik Negeri Bandung</v-toolbar-title>
+          </v-col>
+        </v-row>
+      </v-card>
       <v-spacer></v-spacer>
       <!-- <v-text-field
         hide-details
@@ -156,7 +162,8 @@ export default {
       usernotif: 2,
       drawer: false,
       group: null,
-      darkmode: false
+      darkmode: false,
+      toHome: "/home"
     }
   },
   computed: {
@@ -177,6 +184,11 @@ export default {
     },
     search () {
       console.log("Search clicked")
+    },
+    async onClickedHome () {
+      if (this.$router.currentRoute.path !== this.toHome) {
+        await this.$router.push({ path: this.toHome })
+      }
     },
     ...mapActions({
       toogleTheme: "theme/toogleDark"

@@ -7,7 +7,7 @@
       <breadcumbs :breadcrumb-items="breadcrumbItems"/>
     </v-col>
     <v-col cols="12">
-      <p class="text-h4 font-weight-bold">PROYEK 1</p>
+      <p class="text-h4 font-weight-bold">{{ namaMatkul }}</p>
     </v-col>
     <v-col cols="2">
       <v-file-input
@@ -299,16 +299,24 @@ th:hover {
 </style>
 
 <script>
+// import http from "axios"
 import _ from "lodash"
-import http from "axios"
 import XLSX from "xlsx"
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
-import { PENILAIAN_API_URL } from "../../../../config"
+import DosenAPI from "@/datasource/network/penilaian/PenilaianDosen"
+// import { PENILAIAN_API_URL } from "../../../../config"
 
 export default {
-  name: "AbsensiDosenMain",
+  name: "InputNilaiMatkul",
   components: { Breadcumbs },
+  props: {
+    namaMatkul: {
+      type: String,
+      required: false,
+      default: "PROYEK 1"
+    }
+  },
   data () {
     return {
       idMatkul: null,
@@ -729,11 +737,13 @@ export default {
       dataNilaiMahasiswa.dataNilai = dataNilai
       console.log(dataNilaiMahasiswa) // submit nilai mhs
 
-      http
-        .post(new URL(`${PENILAIAN_API_URL}/penilaian/import-nilai/perkuliahan/`).href + this.$route.params.id, dataNilaiMahasiswa)
-        .then((res) => {
-          console.log(res.data)
-        })
+      // const result = DosenAPI.importNilai(dataNilaiMahasiswa, this.$route.params.id)
+      // console.log(result)
+      // http
+      //   .post(new URL("/penilaian/import-nilai/perkuliahan/", "http://localhost:5001").href + this.$route.params.id, dataNilaiMahasiswa)
+      //   .then((res) => {
+      //     console.log(res.data)
+      //   })
 
       if (finalize) {
         for (i = 0; i < dataNilaiMahasiswa.dataNilai.length; i++) {
@@ -804,11 +814,8 @@ export default {
           listNilaiFinal.push({ nim: listNilaiMhs[i][0].nim, nilai_ets: totalNilaiAkhir })
         }
 
-        http
-          .put(new URL(`${PENILAIAN_API_URL}/penilaian/update-nilai-akhir/perkuliahan/`).href + this.$route.params.id, { dataNilaiAkhir: listNilaiFinal })
-          .then((res) => {
-            console.log(res.data)
-          })
+        this.putNilaiAkhir(this.$route.params.id, listNilaiFinal)
+
         console.log(listNilaiFinal) // total nilai level ets/eas
       }
     },
@@ -880,11 +887,13 @@ export default {
       dataNilaiMahasiswa.dataNilai = dataNilai
       console.log(dataNilaiMahasiswa)
 
-      http
-        .post(new URL(`${PENILAIAN_API_URL}/penilaian/import-nilai/perkuliahan/`).href + this.$route.params.id, dataNilaiMahasiswa)
-        .then((res) => {
-          console.log(res.data)
-        })
+      // const result = DosenAPI.importNilai(dataNilaiMahasiswa, this.$route.params.id)
+      // console.log(result)
+      // http
+      //   .post(new URL("/penilaian/import-nilai/perkuliahan/", "http://localhost:5001").href + this.$route.params.id, dataNilaiMahasiswa)
+      //   .then((res) => {
+      //     console.log(res.data)
+      //   })
 
       if (finalize) {
         for (i = 0; i < dataNilaiMahasiswa.dataNilai.length; i++) {
@@ -955,11 +964,8 @@ export default {
           listNilaiFinal.push({ nim: listNilaiMhs[i][0].nim, nilai_eas: totalNilaiAkhir })
         }
 
-        http
-          .put(new URL(`${PENILAIAN_API_URL}/penilaian/update-nilai-akhir/perkuliahan/`).href + this.$route.params.id, { dataNilaiAkhir: listNilaiFinal })
-          .then((res) => {
-            console.log(res.data)
-          })
+        this.putNilaiAkhir(this.$route.params.id, listNilaiFinal)
+
         console.log(listNilaiFinal) // total nilai level ets/eas
       }
     },
@@ -974,6 +980,15 @@ export default {
     },
     downloadTemplate () {
       window.open("https://drive.google.com/u/1/uc?id=1rr4m8CVjXLBj8CjogpB4LEt_wAMEp5_y&export=download")
+    },
+    async putNilaiAkhir (id, data) {
+      const resultAkhir = await DosenAPI.updateNilaiAkhir(data, id)
+      console.log(resultAkhir)
+      // http
+      //   .put(new URL("/penilaian/update-nilai-akhir/perkuliahan/", "http://localhost:5001").href + this.$route.params.id, { dataNilaiAkhir: listNilaiFinal })
+      //   .then((res) => {
+      //     console.log(res.data)
+      //   })
     }
   },
   mounted () {
