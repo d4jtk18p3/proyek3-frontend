@@ -6,7 +6,7 @@ import { AKUN_API_URL } from "../../../config"
 const NETWORK_TIMEOUT = 10000
 export const createOneAccount = async (noInduk, jenisNoInduk, nama, email, role) => {
   try {
-    const result = await axios.post(new URL("/user/create", AKUN_API_URL).href, {
+    const result = await axios.post(new URL(`${AKUN_API_URL}/user/create`).href, {
       noInduk: noInduk,
       jenisNoInduk: jenisNoInduk.toLowerCase(),
       nama: nama,
