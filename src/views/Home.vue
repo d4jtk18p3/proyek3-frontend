@@ -6,6 +6,7 @@
         <v-row>
           <v-card class="pa-md-1 mx-lg-auto" outlined color="transparent" :style="{ color: currentTheme.onBackground }">
             <p class="text-h4 font-weight-bold">Selamat Datang, {{ identity.given_name }}</p>
+            <!-- <p class="text-h4 font-weight-bold">Selamat Datang,</p> -->
           </v-card>
         </v-row>
         <v-row>
