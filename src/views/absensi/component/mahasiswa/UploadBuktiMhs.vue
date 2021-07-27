@@ -255,7 +255,7 @@ export default {
   },
   methods: {
     validateUsername () {
-      if (this.f_username.length === 0) {
+      if (this.f_username === "") {
         return "Username tidak boleh kosong"
       } else if (this.f_username !== this.username) {
         return "Username belum sesuai"
