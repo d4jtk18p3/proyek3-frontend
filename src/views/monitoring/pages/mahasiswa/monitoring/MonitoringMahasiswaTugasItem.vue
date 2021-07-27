@@ -153,6 +153,9 @@ export default {
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     },
+    identity: function () {
+      return this.$store.getters.identity
+    },
     hours: function () {
       const hours = Math.floor(this.totalTime / 3600)
       return this.padTime(hours)
@@ -279,18 +282,13 @@ export default {
     }
   },
   methods: {
-    editItem (item) {
+    async editItem (item) {
       this.editedIndex = item
-      var i = this.pertama
-      var count = 0
-      while (i < this.editedIndex) {
-        count += 1
-        i++
-      }
-      this.namaSubtugas = this.items[count].nama_subtugas
-      this.editProgress = this.items[count].progress
-      this.editedSkalaPemahaman = this.items[count].skala_pemahaman
-      this.editedCatatan = this.items[count].catatan
+      var sub = await SubtugasMonitoringMahasiswa.getSubtugasById(this.editedIndex)
+      this.namaSubtugas = sub.nama_subtugas
+      this.editProgress = sub.progress
+      this.editedSkalaPemahaman = sub.skala_pemahaman
+      this.editedCatatan = sub.catatan
       this.dialog = true
     },
     selesaiItem (item) {
@@ -313,25 +311,15 @@ export default {
     async editDurasi (item) {
       clearInterval(this.timer)
       var Index = item
-      var i = this.pertama
-      var count = 0
-      while (i < Index) {
-        count += 1
-        i++
-      }
-      var durasi = Math.floor(this.totalTime / 60) + this.items[count].durasi
+      var sub = await SubtugasMonitoringMahasiswa.getSubtugasById(Index)
+      var durasi = Math.floor(this.totalTime / 60) + sub.durasi
       await SubtugasMonitoringMahasiswa.putSubTugasDurasi(Index, durasi)
     },
     async pauseItem (item) {
       clearInterval(this.timer)
       var Index = item
-      var i = this.pertama
-      var count = 0
-      while (i < Index) {
-        count += 1
-        i++
-      }
-      var durasi = Math.floor(this.totalTime / 60) + this.items[count].durasi
+      var sub = await SubtugasMonitoringMahasiswa.getSubtugasById(Index)
+      var durasi = Math.floor(this.totalTime / 60) + sub.durasi
       await SubtugasMonitoringMahasiswa.putSubTugasDurasi(Index, durasi)
       window.location.reload()
     },
@@ -347,12 +335,9 @@ export default {
     this.namaMatkul = this.$route.params.namaMatkul
     this.namaTugas = this.$route.params.namaTugas
     this.id = this.$route.params.id
-    var items = await MonitoringBersama.getSubTugasbyMahasiswa(this.id, "181524002")
+    var items = await MonitoringBersama.getSubTugasbyMahasiswa(this.id, this.identity.preferred_username)
     var i = 0
     while (i < items.length) {
-      if (i === 0) {
-        this.pertama = items[i].id
-      }
       var dateStr = items[i].tenggat
       if (items[i].tenggat !== null) {
         var date = new Date(items[i].tenggat)
@@ -366,7 +351,6 @@ export default {
       }
       this.items.push({
         id: items[i].id,
-        index: i,
         nama_subtugas: items[i].nama_subtugas,
         status_subtugas: items[i].status_subtugas,
         progress: items[i].progress,

@@ -79,11 +79,14 @@ export default {
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    },
+    identity: function () {
+      return this.$store.getters.identity
     }
   },
   methods: {
     async getIdMatkul (nama, id) {
-      var coba = await PerkuliahanMonitoringMahasiswa.getidperkuliahan("181524002", id)
+      var coba = await PerkuliahanMonitoringMahasiswa.getidperkuliahan(this.identity.preferred_username, id)
       this.nama = nama
       var Tugas = await TugasMonitoringMahasiswa.getTugasMatkulMahasiswa(id, coba)
       var i = 0
@@ -100,7 +103,7 @@ export default {
     }
   },
   async mounted () {
-    var Matkul = await MatkulMonitoringMahasiswa.getMatkulMahasiswa("181524002")
+    var Matkul = await MatkulMonitoringMahasiswa.getMatkulMahasiswa(this.identity.preferred_username)
     var i = 0
     var matkulList = []
     while (i < Matkul.length) {
