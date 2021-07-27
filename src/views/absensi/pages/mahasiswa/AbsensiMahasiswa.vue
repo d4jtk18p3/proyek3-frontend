@@ -24,7 +24,7 @@
       <v-col cols="5">
           <LogAktivitas :jadwalMhs="jadwalMhs"></LogAktivitas>
       </v-col>
-      <v-col>
+      <v-col v-if="dashboardMhs">
           <SakitIzinAlfaItem
             :sakit="dashboardMhs.jumlahJamSakit"
             :izin="dashboardMhs.jumlahJamIzin"
