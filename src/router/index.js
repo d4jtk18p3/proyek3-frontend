@@ -5,15 +5,20 @@ import store from "@/store"
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: "/home",
+    meta: { requiresAuth: true },
+    component: () => import(/* webpackChunkName: "akun" */"../views/Home")
+  },
   // {
   //   path: "/akun",
   //   meta: { requiresAuth: true },
-  //   component: () => import(/* webpackChunkName: "akun" */"../views/akun/Home"),
+  //   component: () => import(/* webpackChunkName: "akun" */"../views/akun/Main"),
   //   children: [
   //     {
-  //       path: "masuk",
+  //       path: "/akun/login",
   //       meta: { requiresAuth: false },
-  //       component: () => import(/* webpackChunkName: "akun.masuk" */"../views/akun/Masuk")
+  //       component: () => import(/* webpackChunkName: "akun.masuk" */"../views/akun/pages/Login")
   //     }
   //   ]
   // },
@@ -124,6 +129,7 @@ const routes = [
   },
   {
     path: "/absensi",
+    meta: { requiresAuth: true },
     component: () => import("../views/absensi/AbsensiMain"),
     children: [
       {
@@ -171,6 +177,7 @@ const routes = [
   },
   {
     path: "/logbook",
+    meta: { requiresAuth: true },
     component: () => import("../views/logbook/LogbookMain"),
     children: [
       // route logbook - dosen
@@ -264,6 +271,7 @@ const routes = [
   },
   {
     path: "/monitoring",
+    meta: { requiresAuth: true },
     component: () => import("../views/monitoring/monitoringmain"),
     children: [
       {
@@ -421,6 +429,7 @@ const routes = [
   },
   {
     path: "/penilaian",
+    meta: { requiresAuth: true },
     component: () => import("../views/penilaian/PenilaianMain"),
     children: [
       {
