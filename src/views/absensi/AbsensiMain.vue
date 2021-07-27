@@ -1,6 +1,6 @@
 <template>
   <v-app :style="{background : currentTheme.background}">
-    <side-bar v-if="!isMobile" :items="sideBarItems"/>
+    <side-bar v-if="!isMobile" :items="isUserDosen ? sideBarItemsDsn : sideBarItemsMhs"/>
     <nav-bar/>
     <v-main>
       <v-container :class="isMobile? 'pa-5' : 'pa-12'">
@@ -56,10 +56,13 @@ export default {
     return {
       isAuthenticated: "",
       isLoading: true,
-      sideBarItems: [
-        { text: "Absensi", icon: "mdi-email-outline", to: "/absensi/mahasiswa/absensi" }
-        // { text: "Absensi Dosen", icon: "mdi-school-outline", to: "/absensi/dosen/absensi" }
-      ]
+      sideBarItemsMhs: [
+        { text: "Absensi Mahasiswa", icon: "mdi-email-outline", to: "/absensi/mahasiswa/absensi" }
+      ],
+      sideBarItemsDsn: [
+        { text: "Absensi Dosen", icon: "mdi-email-outline", to: "/absensi/dosen/absensi" }
+      ],
+      isUserDosen: true
     }
   },
   computed: {
