@@ -111,18 +111,18 @@ export default {
       this.currentDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + current.getDate()
       // this.currentDay = 5
       this.statusKehadiranMahasiswa()
-      this.getDataDashboardMhs()
       setTimeout(() => {
-        this.getJadwalMhs()
-      }, 3000)
-      setInterval(() => {
-        this.currentDay = current.getDay()
         this.getDataDashboardMhs()
-        // this.currentDay = 5
-        this.statusKehadiranMahasiswa()
         this.getJadwalMhs()
-        // console.log(this.jadwalMhs)
-      }, INTERVAL)
+        setInterval(() => {
+          this.currentDay = current.getDay()
+          this.getDataDashboardMhs()
+          // this.currentDay = 5
+          this.statusKehadiranMahasiswa()
+          this.getJadwalMhs()
+          // console.log(this.jadwalMhs)
+        }, INTERVAL)
+      }, 3000)
     })
   },
   data () {
@@ -163,7 +163,7 @@ export default {
   //   }
     getJadwalMhs () {
       this.isLoading = true
-      JadwalMahasiswa.getJadwalMahasiswa(this.currentDay, this.identity.preferred_username)
+      JadwalMahasiswa.getJadwalMahasiswa(this.currentDay, this.username)
         .then(response => {
           response.data.jadwal.forEach(function (element) {
             element.absen = true
@@ -186,10 +186,12 @@ export default {
         })
     },
     getDataDashboardMhs () {
-      Presensi.getDashboard(this.identity.preferred_username)
+      this.isLoading = true
+      Presensi.getDashboard(this.username)
         .then(response => {
           this.dashboardMhs = response.data
           this.dashboardMhs.persentaseKehadiran = Math.round(this.dashboardMhs.persentaseKehadiran)
+          this.isLoading = false
         })
         .catch(e => {
           console.log(e)
@@ -238,7 +240,7 @@ export default {
       }
     },
     statusKehadiranMahasiswa () {
-      Presensi.getKehadiran(this.identity.preferred_username, this.currentDate)
+      Presensi.getKehadiran(this.username, this.currentDate)
         .then(response => {
           this.kehadiran = response.data
         })

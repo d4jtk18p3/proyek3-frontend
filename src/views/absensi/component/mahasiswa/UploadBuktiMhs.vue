@@ -305,6 +305,7 @@ export default {
           this.isSuccess = true
           this.isIzin = true
           this.reset()
+          console.log(response)
         })
         .catch(e => {
           this.error.message = e.message
