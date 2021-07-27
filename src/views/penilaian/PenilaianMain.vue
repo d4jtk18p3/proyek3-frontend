@@ -49,18 +49,34 @@ export default {
     }
     Promise.all(tasks).then(result => {
       this.isLoading = false
+      console.log(this.identity.realm_access.roles)
+      for (var i = 0; i < this.identity.realm_access.roles.length; i++) {
+        if (this.identity.realm_access.roles[i] === "default-roles-production") {
+          this.sideBarItems = [
+            { text: "Dashboard Nilai Mahasiswa", icon: "mdi-school-outline", to: "/penilaian/dashboard-nilai-mahasiswa" },
+            { text: "Dashboard Nilai Dosen Pengampu", icon: "mdi-school-outline", to: "/penilaian/dashboard-nilai-dosen-pengampu" },
+            { text: "Input Nilai Mahasiswa", icon: "mdi-file-document-outline", to: "/penilaian/input-nilai" }
+          ]
+        }
+        if (this.identity.realm_access.roles[i] === "mahasiswa") {
+          this.sideBarItems = [
+            { text: "Dashboard Nilai Mahasiswa", icon: "mdi-school-outline", to: "/penilaian/dashboard-nilai-mahasiswa" }
+          ]
+        }
+        if (this.identity.realm_access.roles[i] === "dosen") {
+          this.sideBarItems = [
+            { text: "Dashboard Nilai Dosen Pengampu", icon: "mdi-school-outline", to: "/penilaian/dashboard-nilai-dosen-pengampu" },
+            { text: "Input Nilai Mahasiswa", icon: "mdi-file-document-outline", to: "/penilaian/input-nilai" }
+          ]
+        }
+      }
     })
-    console.log(this.identity)
   },
   data () {
     return {
       isAuthenticated: "",
       isLoading: true,
-      sideBarItems: [
-        { text: "Dashboard Nilai Mahasiswa", icon: "mdi-school-outline", to: "/penilaian/dashboard-nilai-mahasiswa" },
-        { text: "Dashboard Nilai Dosen Pengampu", icon: "mdi-school-outline", to: "/penilaian/dashboard-nilai-dosen-pengampu" },
-        { text: "Input Nilai Mahasiswa", icon: "mdi-file-document-outline", to: "/penilaian/input-nilai" }
-      ]
+      sideBarItems: []
     }
   },
   computed: {

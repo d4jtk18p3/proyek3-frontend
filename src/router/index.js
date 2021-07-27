@@ -466,7 +466,8 @@ const routes = [
         component: () =>
           import(
             /* webpackChunkName: "inputnilaisection" */ "../views/penilaian/pages/dosen/InputNilaiMatkul.vue"
-          )
+          ),
+        props: true
       },
       {
         path: "/penilaian/dashboard-nilai-mahasiswa",

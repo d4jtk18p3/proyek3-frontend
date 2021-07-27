@@ -1,7 +1,9 @@
-const BASE_URL = "http://localhost:5001"
+import { PENILAIAN_API_URL } from "../../../config"
 
-const PENILAIAN_URL = BASE_URL + "/penilaian"
-const PENILAIANDOSEN_URL = BASE_URL + "/dosen"
+const BASE_URL = PENILAIAN_API_URL
+
+const PENILAIAN_URL = new URL("/penilaian", BASE_URL).href
+const PENILAIANDOSEN_URL = new URL("/dosen", BASE_URL).href
 
 export {
   BASE_URL,
