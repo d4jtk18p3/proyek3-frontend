@@ -22,11 +22,11 @@
     </v-col>
     <v-col :cols="isMobile ? 0 : 2">
     </v-col>
-    <v-col :cols="isMobile ? 6 : 2" class="mt-2">
+    <v-col :cols="isMobile ? 6 : 2" class="mt-2" v-if="NilaiSemesterSelected">
     <v-card
         class="mx-auto"
         height="130"
-        v-if="NilaiSemesterSelected"
+        v-if="NilaiSemesterSelected.JumlahSKS != 0"
     >
         <v-card-title class="text-h6 font-weight-bold" :style="{color: currentTheme.onBackground, background: currentTheme.colorSecondary, 'line-height': '10px'}">IP Semester</v-card-title>
         <v-card-text>
@@ -34,11 +34,11 @@
         </v-card-text>
     </v-card>
     </v-col>
-    <v-col :cols="isMobile ? 6 : 2" class="mt-2">
+    <v-col :cols="isMobile ? 6 : 2" class="mt-2" v-if="NilaiSemesterSelected">
         <v-card
             class="mx-auto"
             height="130"
-            v-if="NilaiSemesterSelected"
+            v-if="NilaiSemesterSelected.JumlahSKS != 0"
         >
             <v-card-title class="text-h6 font-weight-bold" :style="{color: currentTheme.onBackground, background: currentTheme.colorSecondaryVariant, 'line-height': '10px'}">Jumlah SKS</v-card-title>
             <v-card-text>
@@ -49,7 +49,7 @@
     <v-col :cols="isMobile ? 0 : 10">
     </v-col>
     <v-col :cols="isMobile ? 12 : 12" v-if="NilaiSemesterSelected">
-        <v-simple-table>
+        <v-simple-table v-if="NilaiSemesterSelected.JumlahSKS != 0">
             <thead>
                 <tr>
                   <th class="text-left" :style="{background: currentTheme.onBackground, color: currentTheme.background, 'border': '1px solid' + currentTheme.background}">
@@ -88,12 +88,12 @@
 </template>
 
 <script>
-import http from "axios"
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import DataMahasiswa from "@/views/penilaian/component/mahasiswa/DataMahasiswa"
 import DataIPMahasiswa from "@/views/penilaian/component/mahasiswa/DataIPMahasiswa"
 import GraphSection from "@/views/template/pages/nilai/mahasiswa/GraphSection"
+import NilaiAkhir from "@/datasource/network/penilaian/PenilaianMahasiswa"
 
 export default {
   name: "DashboardMain",
@@ -305,24 +305,26 @@ export default {
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    },
+    identity: function () {
+      return this.$store.getters.identity
     }
   },
-  mounted () {
-    this.Mahasiswa.Nim = "181524032"
-    http.get("http://localhost:5001/penilaian/get-all-nilai-akhir/mahasiswa/" + this.Mahasiswa.Nim)
-      .then((res) => {
-        this.Mahasiswa.Nama = res.data.data.Mahasiswa.nama
-        this.Mahasiswa.Kelas = res.data.data.Mahasiswa.kode_kelas
-        this.Mahasiswa.Nilai = res.data.data.Nilai
-        this.listIP = this.getIPSemester(res.data.data)
-        this.listNilai = this.getNilaiList(res.data.data)
-        this.NilaiSemesterSelected = res.data.data.Nilai[0]
-        console.log(res.data.data.Nilai)
-        for (var i = 0; i < res.data.data.Nilai.length; i++) {
-          this.Mahasiswa.IPKumulatif += res.data.data.Nilai[i].IPSemester
-        }
-        this.Mahasiswa.IPKumulatif = (Math.round((this.Mahasiswa.IPKumulatif / 8) * 100) / 100).toFixed(2)
-      })
+  async mounted () {
+    const identity = this.$store.getters.identity
+    this.Mahasiswa.Nim = identity.preferred_username
+    var dataMhs = await NilaiAkhir.getNilaiAkhirMhs(this.$store.getters.identity.preferred_username)
+    this.Mahasiswa.Nama = dataMhs.Mahasiswa.nama
+    this.Mahasiswa.Kelas = dataMhs.Mahasiswa.kode_kelas
+    this.Mahasiswa.Nilai = dataMhs.Nilai
+    this.listIP = this.getIPSemester(dataMhs)
+    this.listNilai = this.getNilaiList(dataMhs)
+    this.NilaiSemesterSelected = dataMhs.Nilai[0]
+    // console.log(dataMhs.Nilai)
+    for (var i = 0; i < dataMhs.Nilai.length; i++) {
+      this.Mahasiswa.IPKumulatif += dataMhs.Nilai[i].IPSemester
+    }
+    this.Mahasiswa.IPKumulatif = (Math.round((this.Mahasiswa.IPKumulatif / 8) * 100) / 100).toFixed(2)
   },
   methods: {
     getIPSemester (data) {
