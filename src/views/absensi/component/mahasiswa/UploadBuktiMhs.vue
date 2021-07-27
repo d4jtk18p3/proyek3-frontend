@@ -250,7 +250,7 @@ export default {
       return this.error.message
     },
     isDisable () {
-      return this.idPerkuliahan.length === 0 || this.url_gambar == null || this.password.length === 0 || this.isChecked !== true || this.invalidDate === true || this.isFilled === false
+      return this.idPerkuliahan.length === 0 || this.url_gambar == null || this.f_username.length === 0 || this.isChecked !== true || this.invalidDate === true || this.isFilled === false
     }
   },
   methods: {
