@@ -93,6 +93,12 @@ export default {
       default () {
         return {}
       }
+    },
+    username: {
+      type: String,
+      default () {
+        return {}
+      }
     }
   },
   created () {
@@ -122,8 +128,8 @@ export default {
       interval: 0,
       matkulSama: [],
       //  data test
-      jamAwal1: "13:00:00",
-      jamAkhir1: "14:40:00",
+      jamAwal1: "07:00:00",
+      jamAkhir1: "09:40:00",
       jamAwal2: "14:40:00",
       jamAkhir2: "15:30:00"
     }
@@ -143,7 +149,7 @@ export default {
       }
     },
     presensiMahasiswa (index, idStudi, idJadwal) {
-      PresensiMahasiswa.presensiMahasiswa(idStudi, idJadwal, 181524023)
+      PresensiMahasiswa.presensiMahasiswa(idStudi, idJadwal, this.username)
         .then(response => {
           console.log(response)
           this.jadwalMhs[index].absen = true
@@ -154,10 +160,9 @@ export default {
         })
     },
     statusKehadiranMahasiswa (idJadwal) {
-      PresensiMahasiswa.getStatusKehadiran(181524023, idJadwal, this.currentDate)
+      PresensiMahasiswa.getStatusKehadiran(this.username, idJadwal, this.currentDate)
         .then(response => {
           this.currentKehadiran = response.data
-          console.log(this.currentKehadiran)
         })
         .catch(e => {
           console.log(e)
@@ -185,7 +190,6 @@ export default {
 
         // Pengecekan tombol, apakah mahasiswa sudah absen, tidak akan hadir, atau sudah absen
         this.cekAktivasiTombol(this.jadwalMhs[currentJadwal].id_jadwal)
-
         // Pengecekan, apakah saat ini berada pada interval waktu mata kuliah yang sedang berlangsung atau tidak
         if (currentTime.isBetween(beforeTime, afterTime)) {
           // Pengecekan, apakah mahasiswa ybs tidak izin dan belum absen, dilakukan untuk aktivasi tombol

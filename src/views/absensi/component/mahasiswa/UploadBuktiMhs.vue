@@ -201,14 +201,16 @@ export default {
       this.isError = false
     })
   },
+  props: {
+    username: {
+      type: String,
+      default () {
+        return {}
+      }
+    }
+  },
   data () {
     return {
-      computed: {
-        ...mapGetters({
-          currentTheme: "theme/getCurrentColor",
-          isDark: "theme/getIsDark"
-        })
-      },
       dates: new Date().toISOString().substr(0, 10),
       chooseDay: new Date().getDay(),
       jadwalMhs: [],
@@ -240,6 +242,10 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      currentTheme: "theme/getCurrentColor",
+      isDark: "theme/getIsDark"
+    }),
     errorMessage () {
       return this.error.message
     },
@@ -283,7 +289,7 @@ export default {
       if (this.url_gambar) data.append("surat-izin", this.url_gambar)
       data.append("status", this.keterangan)
       data.append("idJadwals", this.idPerkuliahan)
-      data.append("nim", 181524010)
+      data.append("nim", this.username)
       data.append("tglIzin", this.dates)
       Keterangan.uploadKeterangan(data)
         .then(response => {
@@ -327,13 +333,14 @@ export default {
       return true
     },
     getJadwalMhs () {
-      JadwalMahasiswa.getJadwalMahasiswa(this.chooseDay, 181524010)
+      JadwalMahasiswa.getJadwalMahasiswa(this.chooseDay, this.username)
         .then(response => {
           response.data.jadwal.forEach(function (element) {
             element.absen = "false"
           })
           this.jadwalMhs = response.data.jadwal
           console.log(response.data.jadwal)
+          console.log(this.username)
         })
         .catch(e => {
           console.log(e)

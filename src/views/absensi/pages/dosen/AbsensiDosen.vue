@@ -31,6 +31,12 @@
     <v-row>
       <AbsenCardDosen :jadwalDsn="jadwalDsn"></AbsenCardDosen>
     </v-row>
+    <v-overlay :value="isLoading">
+    <v-progress-circular
+      indeterminate size="32"
+     :color="currentTheme.colorSecondary">
+    </v-progress-circular>
+    </v-overlay>
   </v-container>
 </template>
 
@@ -53,16 +59,21 @@ export default {
     PersentaseMengajar
   },
   created () {
+    const tasks = []
+    if (this.$route.meta.requiresAuth) {
+      tasks.push(this.waitAuthenticated())
+    }
+    Promise.all(tasks).then(result => {
+      this.isLoading = false
+    })
     var current = new Date()
     this.currentDay = current.getDay()
     this.getJadwalDsn()
     this.getPersentaseMengajar()
     setInterval(() => {
       this.currentDay = current.getDay()
-      // this.currentDay = 5
       this.currentDay = current.getDay()
       this.getJadwalDsn()
-      console.log(this.jadwalDsn)
     }, INTERVAL)
   },
   data () {
@@ -78,7 +89,8 @@ export default {
       menu: false,
       jadwalDsn: [],
       persentaseMengajar: [],
-      currentDay: null
+      currentDay: null,
+      isLoading: true
     }
   },
   computed: {
@@ -88,6 +100,9 @@ export default {
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    },
+    identity: function () {
+      return this.$store.getters.identity
     }
   },
   methods: {
@@ -135,6 +150,24 @@ export default {
         }
         i++
       }
+    },
+    async waitAuthenticated () {
+      return new Promise((resolve) => {
+        const unwatch = this.$store.watch(state => {
+          return this.$store.getters.identity
+        }, value => {
+          if (!value) {
+            return
+          }
+          // if (!value.isActive) {
+          //   this.$router.replace({ path: "/reset-password" })
+          // }
+          unwatch()
+          resolve()
+        }, {
+          immediate: true
+        })
+      })
     }
   }
 }
