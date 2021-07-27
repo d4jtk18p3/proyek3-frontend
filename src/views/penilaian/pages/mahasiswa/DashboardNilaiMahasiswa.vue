@@ -368,9 +368,6 @@ export default {
       }
       return listNilai
     },
-    test (mhsNilai) {
-      console.log(mhsNilai)
-    },
     TranskripNilai (id) {
       this.$router.push({
         name: "Transkripsi Nilai",
