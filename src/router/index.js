@@ -68,10 +68,12 @@ const routes = [
   // },
   {
     path: "/admin",
+    // meta: { requiresAuth: true },
     component: () => import("../views/admin/AdminMain"),
     children: [
       {
         path: "/admin",
+        // meta: { requiresAuth: true },
         name: "AddNewUser",
         component: () =>
           import(
@@ -80,10 +82,20 @@ const routes = [
       },
       {
         path: "/admin/add-user/form",
+        // meta: { requiresAuth: true },
         name: "AddNewUserByForm",
         component: () =>
           import(
             /* webpackChunkName: "add-new-user-by-form" */ "../views/admin/pages/AddNewUser/AddNewUserByForm"
+          )
+      },
+      {
+        path: "/admin/add-user/excel",
+        // meta: { requiresAuth: true },
+        name: "AddNewUserByExcel",
+        component: () =>
+          import(
+            /* webpackChunkName: "add-new-user-by-form" */ "../views/admin/pages/AddNewUser/AddNewUserByExcel"
           )
       }
     ]
