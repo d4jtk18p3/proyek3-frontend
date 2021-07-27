@@ -121,9 +121,9 @@
                         <p class="judul">Konfirmasi diri</p>
                         <div class="inside">
                         <v-text-field
-                            label="Password"
-                            v-model="password"
-                            :rules="[rules.password]"
+                            label="Username"
+                            v-model="f_username"
+                            :rules="[validateUsername]"
                             :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                             :type="show1 ? 'text' : 'password'"
                             name="input-10-1"
@@ -222,7 +222,7 @@ export default {
       isLoading: false,
       isSuccess: false,
       url_gambar: null,
-      password: "",
+      f_username: "",
       imgRules: [],
       rules: {
         password: (value) => !!value || "Password tidak boleh kosong",
@@ -254,6 +254,13 @@ export default {
     }
   },
   methods: {
+    validateUsername () {
+      if (this.f_username.length === 0) {
+        return "Username tidak boleh kosong"
+      } else if (this.f_username !== this.username) {
+        return "Username belum sesuai"
+      }
+    },
     checkboxValue () {
       if (!this.isChecked) {
         return "Anda harus menyetujui segala kebijakan"
