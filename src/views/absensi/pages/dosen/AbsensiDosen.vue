@@ -49,7 +49,7 @@ import JadwalDosen from "@/datasource/network/absensi/jadwalDosen"
 import DashboardDosen from "@/datasource/network/absensi/dashboardDosen"
 
 // const schedule = require("node-schedule")
-const INTERVAL = 1000 * 60 * 60 * 10
+const INTERVAL = 1000 * 60 * 60
 
 export default {
   name: "AbsensiDosen",
