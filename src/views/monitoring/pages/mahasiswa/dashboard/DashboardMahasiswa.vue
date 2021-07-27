@@ -85,10 +85,13 @@ export default {
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    },
+    identity: function () {
+      return this.$store.getters.identity
     }
   },
   async mounted () {
-    var tugas = await Dashboard.getAllTugas("181524002")
+    var tugas = await Dashboard.getAllTugas(this.identity.preferred_username)
     this.listTugas = tugas
   }
 }

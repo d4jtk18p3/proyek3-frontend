@@ -99,14 +99,17 @@ export default {
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    },
+    identity: function () {
+      return this.$store.getters.identity
     }
   },
   async mounted () {
-    var tugas = await Dashboard.getAllTugas("181524002")
+    var tugas = await Dashboard.getAllTugas(this.identity.preferred_username)
     var x = 0
     var totalProgress = 0
     while (x < tugas.length) {
-      var items = await MonitoringBersama.getSubTugasbyMahasiswa(tugas[x].id, "181524002")
+      var items = await MonitoringBersama.getSubTugasbyMahasiswa(tugas[x].id, this.identity.preferred_username)
       var i = 0
       var progress = 0
       var tenggat

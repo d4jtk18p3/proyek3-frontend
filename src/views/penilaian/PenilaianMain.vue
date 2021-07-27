@@ -6,6 +6,12 @@
       <v-container :class="isMobile? 'pa-5' : 'pa-12'">
         <router-view/>
       </v-container>
+      <v-overlay :value="isLoading">
+      <v-progress-circular
+       indeterminate size="32"
+       :color="currentTheme.colorSecondary">
+      </v-progress-circular>
+      </v-overlay>
     </v-main>
   </v-app>
 </template>
@@ -37,11 +43,19 @@ export default {
     if (!this.$keycloak) {
       this.initKeycloak()
     }
+    const tasks = []
+    if (this.$route.meta.requiresAuth) {
+      tasks.push(this.waitAuthenticated())
+    }
+    Promise.all(tasks).then(result => {
+      this.isLoading = false
+    })
+    console.log(this.identity)
   },
   data () {
     return {
       isAuthenticated: "",
-      isLoading: false,
+      isLoading: true,
       sideBarItems: [
         { text: "Dashboard Nilai Mahasiswa", icon: "mdi-school-outline", to: "/penilaian/dashboard-nilai-mahasiswa" },
         { text: "Dashboard Nilai Dosen Pengampu", icon: "mdi-school-outline", to: "/penilaian/dashboard-nilai-dosen-pengampu" },
@@ -61,6 +75,9 @@ export default {
     },
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    },
+    identity: function () {
+      return this.$store.getters.identity
     }
   },
   methods: {
@@ -100,6 +117,24 @@ export default {
       this.$keycloak = keycloak
       console.log(this.$keycloak)
       this.isLoading = false
+    },
+    async waitAuthenticated () {
+      return new Promise((resolve) => {
+        const unwatch = this.$store.watch(state => {
+          return this.$store.getters.identity
+        }, value => {
+          if (!value) {
+            return
+          }
+          // if (!value.isActive) {
+          //   this.$router.replace({ path: "/reset-password" })
+          // }
+          unwatch()
+          resolve()
+        }, {
+          immediate: true
+        })
+      })
     }
   },
   watch: {
