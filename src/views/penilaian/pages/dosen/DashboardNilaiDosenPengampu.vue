@@ -92,6 +92,8 @@ import http from "axios"
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import NilaiRataRataCard from "@/views/penilaian/component/dosen/NilaiRataRataCard"
+import { PENILAIAN_API_URL } from "../../../../config"
+
 export default {
   name: "DashboardMain",
   components: { Breadcumbs, NilaiRataRataCard },
@@ -137,7 +139,7 @@ export default {
     //   })
     // console.log(this.$route.matkul)
 
-    http.get("http://localhost:5001/penilaian/get-nilai-akhir/perkuliahan/" + this.$route.params.id)
+    http.get(new URL("/penilaian/get-nilai-akhir/perkuliahan/", PENILAIAN_API_URL).href + this.$route.params.id)
       .then((res) => {
         this.Mahasiswa.Nilai = res.data.data.listNilaiAkhir
         for (var i = 0; i < this.Mahasiswa.Nilai.length; i++) {

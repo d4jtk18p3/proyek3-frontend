@@ -43,6 +43,7 @@ import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import NilaiMataKuliah from "@/views/penilaian/component/dosen/NilaiMataKuliah"
 import KelasItem from "@/views/template/component/absensi/KelasItem"
+import { PENILAIAN_API_URL } from "../../../../config"
 
 export default {
   name: "AbsensiDosenMain",
@@ -86,7 +87,7 @@ export default {
   methods: {
     getMatkulbyKelas (kodeKelas, index) {
       console.log(kodeKelas)
-      http.get("http://localhost:5001/dosen/matkul/" + this.nip + "/" + kodeKelas.kode_kelas)
+      http.get(new URL("/dosen/matkul/", PENILAIAN_API_URL).href + this.nip + "/" + kodeKelas.kode_kelas)
         .then((res) => {
           console.log(res.data.data)
           this.id_perkuliahan = res.data.data.id_perkuliahan
@@ -100,7 +101,7 @@ export default {
   },
   mounted () {
     this.nip = "196610181995121000"
-    http.get("http://localhost:5001/dosen/kelas/" + this.nip)
+    http.get(new URL("/dosen/kelas/", PENILAIAN_API_URL).href + this.nip)
       .then((res) => {
         console.log(res.data.data.uniqueClass)
         this.listKelas = res.data.data.uniqueClass

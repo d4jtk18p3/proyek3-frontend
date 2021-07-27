@@ -1,12 +1,12 @@
 import axios from "axios"
 import errorHandler
   from "@/datasource/network/errorHandler"
+import { AKUN_API_URL } from "../../../config"
 
 const NETWORK_TIMEOUT = 10000
-const BASE_URL = "http://localhost:5001"
 export const createOneAccount = async (noInduk, jenisNoInduk, nama, email, role) => {
   try {
-    const result = await axios.post(BASE_URL + "/user/create", {
+    const result = await axios.post(new URL("/user/create", AKUN_API_URL).href, {
       noInduk: noInduk,
       jenisNoInduk: jenisNoInduk.toLowerCase(),
       nama: nama,

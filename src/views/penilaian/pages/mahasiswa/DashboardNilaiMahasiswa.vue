@@ -94,6 +94,7 @@ import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import DataMahasiswa from "@/views/penilaian/component/mahasiswa/DataMahasiswa"
 import DataIPMahasiswa from "@/views/penilaian/component/mahasiswa/DataIPMahasiswa"
 import GraphSection from "@/views/template/pages/nilai/mahasiswa/GraphSection"
+import { PENILAIAN_API_URL } from "../../../../config"
 
 export default {
   name: "DashboardMain",
@@ -309,7 +310,7 @@ export default {
   },
   mounted () {
     this.Mahasiswa.Nim = "181524032"
-    http.get("http://localhost:5001/penilaian/get-all-nilai-akhir/mahasiswa/" + this.Mahasiswa.Nim)
+    http.get(new URL("/penilaian/get-all-nilai-akhir/mahasiswa/", PENILAIAN_API_URL).href + this.Mahasiswa.Nim)
       .then((res) => {
         this.Mahasiswa.Nama = res.data.data.Mahasiswa.nama
         this.Mahasiswa.Kelas = res.data.data.Mahasiswa.kode_kelas

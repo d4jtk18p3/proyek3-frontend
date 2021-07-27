@@ -80,6 +80,18 @@
 
       </div>
     </v-list>
+
+    <template v-slot:append>
+      <v-divider style="border: .3px solid rgba(255, 255, 255, .3)"></v-divider>
+      <v-btn
+        large
+        text
+        block id="logout-button"
+        class="font-weight-bold text-uppercase text-button text-left"
+        @click="logout()">
+        Log out
+      </v-btn>
+    </template>
   </v-navigation-drawer>
 </template>
 <style>
@@ -96,6 +108,10 @@
 }
 .v-list-item:hover{
   background-color: #4E4B63;
+}
+
+#logout-button {
+  color: #59DCDC;
 }
 
 </style>
@@ -162,6 +178,9 @@ export default {
     }
   },
   methods: {
+    logout: function () {
+      this.$store.dispatch("logout")
+    },
     collapseSubItems () {
       this.isActive = false
     },

@@ -10,7 +10,7 @@
       <v-img :src="require('../../../assets/polban.png')" max-width="45" contain class="mx-4"/>
       <v-toolbar-title :style="{ color: currentTheme.colorPrimary }">Politeknik Negeri Bandung</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-text-field
+      <!-- <v-text-field
         hide-details
         label="Cari disini"
         append-icon="mdi-magnify"
@@ -20,8 +20,8 @@
         outlined
         dense
         @click:append="notification_click"
-      ></v-text-field>
-      <v-btn class="ml-2" icon @click="notification_click()">
+      ></v-text-field> -->
+      <!-- <v-btn class="ml-2" icon @click="notification_click()">
         <v-badge
           :content="usernotif"
           :value="usernotif"
@@ -30,7 +30,7 @@
         >
           <v-icon :style="{color: currentTheme.colorPrimary}">mdi-bell-outline</v-icon>
         </v-badge>
-      </v-btn>
+      </v-btn> -->
       <v-btn depressed :style="{background : currentTheme}" right class="ml-1" height="50px">
         <div :style="{background: currentTheme.colorPrimary, 'border-radius': '100%', padding: '2px'}">
           <v-avatar size="27">
@@ -55,7 +55,7 @@
     <v-img :src="require('../../../assets/polban.png')" max-width="30" contain class="mr-2"/>
     <v-toolbar-title style="font-size: 14px">Politeknik Negeri Bandung</v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn icon @click="notification_click()">
+    <!-- <v-btn icon @click="notification_click()">
       <v-badge
         :content="usernotif"
         :value="usernotif"
@@ -64,7 +64,7 @@
       >
         <v-icon :style="{color: currentTheme.colorPrimary}">mdi-bell-outline</v-icon>
       </v-badge>
-    </v-btn>
+    </v-btn> -->
     </v-app-bar>
     <v-navigation-drawer
       v-model="drawer"
@@ -73,7 +73,7 @@
       style="margin-top: 48px"
       v-if="$vuetify.breakpoint.mobile"
     >
-          <v-text-field
+          <!-- <v-text-field
             hide-details
             label="Cari disini"
             append-icon="mdi-magnify"
@@ -82,7 +82,7 @@
             outlined
             dense
             @click:append="search()"
-          ></v-text-field>
+          ></v-text-field> -->
           <v-list
           >
             <v-list-item class="profile mx-3" two-line>
@@ -126,7 +126,7 @@
             <v-divider></v-divider>
 
             <v-list-item class="profile d-flex justify-center mt-2">
-              <v-btn height="30px" class="error">Keluar</v-btn>
+              <v-btn @click="logout()" height="30px" class="error">Log Out</v-btn>
             </v-list-item>
           </v-list>
     </v-navigation-drawer>
@@ -166,6 +166,9 @@ export default {
     })
   },
   methods: {
+    logout: function () {
+      this.$store.dispatch("logout")
+    },
     notification_click () {
       console.log("Notif clicked")
     },
