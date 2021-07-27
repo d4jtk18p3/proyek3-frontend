@@ -312,7 +312,7 @@ export default {
   },
   async mounted () {
     const identity = this.$store.getters.identity
-    this.Mahasiswa.Nim = identity.preferred_username
+    this.Mahasiswa.Nim = identity.nomorInduk
     var dataMhs = await NilaiAkhir.getNilaiAkhirMhs(this.$store.getters.identity.preferred_username)
     this.Mahasiswa.Nama = dataMhs.Mahasiswa.nama
     this.Mahasiswa.Kelas = dataMhs.Mahasiswa.kode_kelas
@@ -367,9 +367,6 @@ export default {
         }
       }
       return listNilai
-    },
-    test (mhsNilai) {
-      console.log(mhsNilai)
     },
     TranskripNilai (id) {
       this.$router.push({
