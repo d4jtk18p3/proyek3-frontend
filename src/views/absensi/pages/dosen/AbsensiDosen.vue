@@ -29,7 +29,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <AbsenCardDosen :jadwalDsn="jadwalDsn"></AbsenCardDosen>
+      <AbsenCardDosen :jadwalDsn="jadwalDsn" :username="username"></AbsenCardDosen>
     </v-row>
     <v-overlay :value="isLoading">
     <v-progress-circular
@@ -64,17 +64,22 @@ export default {
       tasks.push(this.waitAuthenticated())
     }
     Promise.all(tasks).then(result => {
+      console.log(this.identity)
+      this.username = this.identity.preferred_username
       this.isLoading = false
+      var current = new Date()
+      this.currentDay = current.getDay()
+      this.currentDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + current.getDate()
+      setTimeout(() => {
+        this.getJadwalMhs()
+      }, 3000)
+      this.getPersentaseMengajar()
+      setInterval(() => {
+        this.currentDay = current.getDay()
+        this.getJadwalDsn()
+        this.getPersentaseMengajar()
+      }, INTERVAL)
     })
-    var current = new Date()
-    this.currentDay = current.getDay()
-    this.getJadwalDsn()
-    this.getPersentaseMengajar()
-    setInterval(() => {
-      this.currentDay = current.getDay()
-      this.currentDay = current.getDay()
-      this.getJadwalDsn()
-    }, INTERVAL)
   },
   data () {
     return {
@@ -90,7 +95,8 @@ export default {
       jadwalDsn: [],
       persentaseMengajar: [],
       currentDay: null,
-      isLoading: true
+      isLoading: true,
+      username: ""
     }
   },
   computed: {
@@ -107,7 +113,7 @@ export default {
   },
   methods: {
     getJadwalDsn () {
-      JadwalDosen.getJadwalDosen(this.currentDay, 199112182019032000)
+      JadwalDosen.getJadwalDosen(this.currentDay, this.identity.preferred_username)
         .then(response => {
           response.data.jadwal.forEach(function (element) {
             element.absen = false
@@ -121,14 +127,17 @@ export default {
           })
           this.jadwalDsn = response.data.jadwal
           console.log(response.data.jadwal)
-          this.cekMatkulSama()
+          setTimeout(() => {
+            this.cekMatkulSama()
+          }, 3000)
+          this.isLoading = false
         })
         .catch(e => {
           console.log(e)
         })
     },
     getPersentaseMengajar () {
-      DashboardDosen.persentaseMengajar(199112182019032000)
+      DashboardDosen.persentaseMengajar(this.identity.preferred_username)
         .then(response => {
           this.persentaseMengajar = response.data
           console.log(response)

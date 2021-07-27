@@ -94,6 +94,12 @@ export default {
       default () {
         return {}
       }
+    },
+    username: {
+      type: String,
+      default () {
+        return {}
+      }
     }
   },
   created () {
@@ -145,7 +151,7 @@ export default {
     },
     presensiDosen (index, idStudi, idJadwal) {
       console.log(idJadwal)
-      PresensiDosen.presensiDosen(199112182019032000, idStudi, idJadwal)
+      PresensiDosen.presensiDosen(this.username, idStudi, idJadwal)
         .then(response => {
           this.jadwalDsn[index].absen = true
           this.jadwalDsn[currentJadwal].hadir = true
@@ -157,7 +163,7 @@ export default {
         })
     },
     statusKehadiranDosen (idJadwal) {
-      PresensiDosen.getStatusKehadiran(199112182019032000, idJadwal, this.currentDate)
+      PresensiDosen.getStatusKehadiran(this.username, idJadwal, this.currentDate)
         .then(response => {
           this.currentKehadiran = response.data
           this.jadwalDsn[currentJadwal].hadir = this.currentKehadiran[0].isHadir
