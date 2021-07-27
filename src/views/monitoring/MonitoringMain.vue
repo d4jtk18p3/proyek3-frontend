@@ -45,6 +45,7 @@ export default {
     }
     Promise.all(tasks).then(result => {
       this.isLoading = false
+      this.cekUserRoles()
     })
   },
   data () {
@@ -74,6 +75,9 @@ export default {
     },
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    },
+    identity: function () {
+      return this.$store.getters.identity
     }
   },
   methods: {
@@ -131,6 +135,15 @@ export default {
           immediate: true
         })
       })
+    },
+    cekUserRoles () {
+      var roles = this.identity.realm_access.roles
+      for (var i in roles) {
+        if (roles[i] === "dosen") {
+          this.isUserDosen = true
+        }
+      }
+      console.log("roles " + this.isUserDosen)
     }
   },
   watch: {
