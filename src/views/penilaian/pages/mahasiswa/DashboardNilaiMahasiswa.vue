@@ -88,7 +88,6 @@
 </template>
 
 <script>
-import http from "axios"
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import DataMahasiswa from "@/views/penilaian/component/mahasiswa/DataMahasiswa"
