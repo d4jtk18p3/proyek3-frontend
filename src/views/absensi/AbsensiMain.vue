@@ -50,6 +50,7 @@ export default {
     }
     Promise.all(tasks).then(result => {
       this.isLoading = false
+      this.cekUserRoles()
     })
   },
   data () {
@@ -60,9 +61,10 @@ export default {
         { text: "Absensi Mahasiswa", icon: "mdi-email-outline", to: "/absensi/mahasiswa/absensi" }
       ],
       sideBarItemsDsn: [
-        { text: "Absensi Dosen", icon: "mdi-email-outline", to: "/absensi/dosen/absensi" }
+        { text: "Absensi Dosen Pengampu", icon: "mdi-email-outline", to: "/absensi/dosen/absensi" },
+        { text: "Absensi Dosen Wali", icon: "mdi-email-outline", to: "/absensi/dosen/dosenwali" }
       ],
-      isUserDosen: true
+      isUserDosen: false
     }
   },
   computed: {
@@ -134,6 +136,14 @@ export default {
           immediate: true
         })
       })
+    },
+    cekUserRoles () {
+      var roles = this.identity.realm_access.roles
+      for (var i in roles) {
+        if (roles[i] === "dosen") {
+          this.isUserDosen = true
+        }
+      }
     }
   },
   watch: {
