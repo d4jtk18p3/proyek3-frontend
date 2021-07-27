@@ -151,7 +151,6 @@ export default {
     presensiMahasiswa (index, idStudi, idJadwal) {
       PresensiMahasiswa.presensiMahasiswa(idStudi, idJadwal, this.username)
         .then(response => {
-          console.log(response)
           this.jadwalMhs[index].absen = true
           this.jadwalMhs[currentJadwal].hadir = true
         })

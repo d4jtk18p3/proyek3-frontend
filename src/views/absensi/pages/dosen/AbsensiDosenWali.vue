@@ -60,7 +60,7 @@ import JadwalDosen from "@/datasource/network/absensi/jadwalDosen"
 import DashboardDosen from "@/datasource/network/absensi/dashboardDosen"
 import DaftarHadir from "@/views/absensi/component/ketidakhadiran/DaftarHadir"
 // const schedule = require("node-schedule")
-const INTERVAL = 1000 * 60 * 60 * 10
+const INTERVAL = 1000 * 60 * 60
 
 export default {
   name: "AbsensiDosen",
@@ -133,7 +133,6 @@ export default {
             element.progress = 0
           })
           this.jadwalDsn = response.data.jadwal
-          console.log(response.data.jadwal)
         })
         .catch(e => {
           console.log(e)
@@ -143,7 +142,6 @@ export default {
       DashboardDosen.persentaseMengajar(196610181995121000)
         .then(response => {
           this.persentaseMengajar = response.data
-          console.log(response)
         })
         .catch(e => {
           console.log(e)

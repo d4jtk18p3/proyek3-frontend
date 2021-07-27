@@ -300,7 +300,6 @@ export default {
       data.append("tglIzin", this.dates)
       Keterangan.uploadKeterangan(data)
         .then(response => {
-          console.log(response)
           this.error.message = "Upload bukti berhasil ! Data akan segera divalidasi oleh dosen wali"
           this.isLoading = false
           this.isSuccess = true
@@ -346,8 +345,6 @@ export default {
             element.absen = "false"
           })
           this.jadwalMhs = response.data.jadwal
-          console.log(response.data.jadwal)
-          console.log(this.username)
         })
         .catch(e => {
           console.log(e)

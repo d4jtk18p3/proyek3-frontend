@@ -66,7 +66,6 @@ export default ({
       this.dialogs.dialog = true
     },
     onClickChild (value) {
-      console.log(value) // someValue
       this.getKeterangan()
     },
     getKeterangan () {
@@ -84,13 +83,9 @@ export default ({
       for (var i = 0; i < this.ketidakhadiran.mhs_izin.length; i++) {
         if (this.ketidakhadiran.mhs_izin[i].keterangans[0].isAccepted === -1) {
           this.mahasiswa.push(this.ketidakhadiran.mhs_izin[i])
-          console.log(this.mahasiswa[i])
         }
       }
       this.length = this.mahasiswa.length
-    },
-    nextPage () {
-      console.log("HELLO")
     }
   },
   beforeMount () {

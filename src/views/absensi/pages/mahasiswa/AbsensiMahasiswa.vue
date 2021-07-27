@@ -56,7 +56,6 @@
       </v-col>
       <v-col cols="4">
       <v-flex>
-      <Uploadbukti2></Uploadbukti2>
       <Uploadbukti :username="username"></Uploadbukti>
         </v-flex>
       </v-col>
@@ -82,18 +81,16 @@ import SakitIzinAlfaItem from "@/views/absensi/component/mahasiswa/SakitIzinAlfa
 import PersentaseKehadiran from "@/views/absensi/component/mahasiswa/PersentaseKehadiran"
 import TotalJamSP from "@/views/absensi/component/mahasiswa/TotalJamSP"
 import Uploadbukti from "@/views/absensi/component/mahasiswa/UploadBuktiMhs"
-import Uploadbukti2 from "@/views/absensi/component/mahasiswa/UploadBuktiMhs2"
 import JadwalMahasiswa from "@/datasource/network/absensi/jadwal"
 import Presensi from "@/datasource/network/absensi/PresensiMahasiswa"
 
 // const schedule = require("node-schedule")
-const INTERVAL = 1000 * 60 * 60 * 10
+const INTERVAL = 1000 * 60 * 60
 
 export default {
   name: "AbsensiMahasiswa",
   components: {
     Uploadbukti,
-    Uploadbukti2,
     Breadcumbs,
     AbsenCard,
     LogAktivitas,
@@ -107,7 +104,6 @@ export default {
       tasks.push(this.waitAuthenticated())
     }
     Promise.all(tasks).then(result => {
-      console.log(this.identity)
       this.username = this.identity.preferred_username
       this.isLoading = false
       var current = new Date()
@@ -125,7 +121,7 @@ export default {
         // this.currentDay = 5
         this.statusKehadiranMahasiswa()
         this.getJadwalMhs()
-        console.log(this.jadwalMhs)
+        // console.log(this.jadwalMhs)
       }, INTERVAL)
     })
   },
@@ -180,11 +176,9 @@ export default {
             element.id_studi_kedua = 0
           })
           this.jadwalMhs = response.data.jadwal
-          console.log(this.currentDay + " : " + response.data.jadwal)
           setTimeout(() => {
             this.cekMatkulSama()
           }, 3000)
-          console.log(this.identity.preferred_username)
           this.isLoading = false
         })
         .catch(e => {
@@ -222,11 +216,9 @@ export default {
               var index = this.jadwalMhs[max].dosens.map(function (e) {
                 return e.nip
               }).indexOf(this.jadwalMhs[min].dosens[j].nip)
-              console.log(index)
               if (index !== -1) {
                 equal = true
               }
-              console.log(this.jadwalMhs[i + 1].dosens[j])
               j++
             }
             if (equal) {
@@ -237,7 +229,6 @@ export default {
               this.jadwalMhs[i].dosens = this.jadwalMhs[max].dosens
               this.jadwalMhs.splice((i + 1), 1)
               this.kehadiran.splice((i + 1), 1)
-              console.log(this.jadwalMhs)
             }
             equal = false
             j = 0
@@ -250,7 +241,6 @@ export default {
       Presensi.getKehadiran(this.identity.preferred_username, this.currentDate)
         .then(response => {
           this.kehadiran = response.data
-          console.log(this.kehadiran)
         })
         .catch(e => {
           console.log(e)
