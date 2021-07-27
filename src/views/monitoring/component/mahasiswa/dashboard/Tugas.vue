@@ -67,10 +67,13 @@ export default {
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    },
+    identity: function () {
+      return this.$store.getters.identity
     }
   },
   async mounted () {
-    var items = await MonitoringBersama.getSubTugasbyMahasiswa(this.id, "181524002")
+    var items = await MonitoringBersama.getSubTugasbyMahasiswa(this.id, this.identity.preferred_username)
     var i = 0
     var progress = 0
     var tenggat

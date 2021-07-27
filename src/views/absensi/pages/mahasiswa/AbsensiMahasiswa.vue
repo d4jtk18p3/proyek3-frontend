@@ -57,13 +57,19 @@
       <v-col cols="4">
       <v-flex>
       <Uploadbukti2></Uploadbukti2>
-      <Uploadbukti></Uploadbukti>
+      <Uploadbukti :username="username"></Uploadbukti>
         </v-flex>
       </v-col>
     </v-row>
     <v-row>
-      <AbsenCard :jadwalMhs="jadwalMhs"></AbsenCard>
+      <AbsenCard :jadwalMhs="jadwalMhs" :username="username"></AbsenCard>
     </v-row>
+    <v-overlay :value="isLoading">
+    <v-progress-circular
+      indeterminate size="32"
+     :color="currentTheme.colorSecondary">
+    </v-progress-circular>
+    </v-overlay>
   </v-container>
 </template>
 
@@ -96,20 +102,32 @@ export default {
     TotalJamSP
   },
   created () {
-    var current = new Date()
-    this.currentDay = current.getDay()
-    this.currentDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + current.getDate()
-    // this.currentDay = 5
-    this.statusKehadiranMahasiswa()
-    this.getJadwalMhs()
-    this.getDataDashboardMhs()
-    setInterval(() => {
+    const tasks = []
+    if (this.$route.meta.requiresAuth) {
+      tasks.push(this.waitAuthenticated())
+    }
+    Promise.all(tasks).then(result => {
+      console.log(this.identity)
+      this.username = this.identity.preferred_username
+      this.isLoading = false
+      var current = new Date()
       this.currentDay = current.getDay()
+      this.currentDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + current.getDate()
       // this.currentDay = 5
       this.statusKehadiranMahasiswa()
-      this.getJadwalMhs()
-      console.log(this.jadwalMhs)
-    }, INTERVAL)
+      this.getDataDashboardMhs()
+      setTimeout(() => {
+        this.getJadwalMhs()
+      }, 3000)
+      setInterval(() => {
+        this.currentDay = current.getDay()
+        this.getDataDashboardMhs()
+        // this.currentDay = 5
+        this.statusKehadiranMahasiswa()
+        this.getJadwalMhs()
+        console.log(this.jadwalMhs)
+      }, INTERVAL)
+    })
   },
   data () {
     return {
@@ -126,7 +144,9 @@ export default {
       isIzinDialogShown: true,
       currentDay: null,
       dashboardMhs: null,
-      kehadiran: []
+      kehadiran: [],
+      isLoading: true,
+      username: ""
     }
   },
   computed: {
@@ -136,6 +156,9 @@ export default {
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    },
+    identity: function () {
+      return this.$store.getters.identity
     }
   },
   methods: {
@@ -143,7 +166,8 @@ export default {
   //     return isDark ? "white" : "black"
   //   }
     getJadwalMhs () {
-      JadwalMahasiswa.getJadwalMahasiswa(this.currentDay, 181524023)
+      this.isLoading = true
+      JadwalMahasiswa.getJadwalMahasiswa(this.currentDay, this.identity.preferred_username)
         .then(response => {
           response.data.jadwal.forEach(function (element) {
             element.absen = true
@@ -157,14 +181,18 @@ export default {
           })
           this.jadwalMhs = response.data.jadwal
           console.log(this.currentDay + " : " + response.data.jadwal)
-          this.cekMatkulSama()
+          setTimeout(() => {
+            this.cekMatkulSama()
+          }, 3000)
+          console.log(this.identity.preferred_username)
+          this.isLoading = false
         })
         .catch(e => {
           console.log(e)
         })
     },
     getDataDashboardMhs () {
-      Presensi.getDashboard(181524010)
+      Presensi.getDashboard(this.identity.preferred_username)
         .then(response => {
           this.dashboardMhs = response.data
           this.dashboardMhs.persentaseKehadiran = Math.round(this.dashboardMhs.persentaseKehadiran)
@@ -219,7 +247,7 @@ export default {
       }
     },
     statusKehadiranMahasiswa () {
-      Presensi.getKehadiran(181524023, this.currentDate)
+      Presensi.getKehadiran(this.identity.preferred_username, this.currentDate)
         .then(response => {
           this.kehadiran = response.data
           console.log(this.kehadiran)
@@ -227,6 +255,24 @@ export default {
         .catch(e => {
           console.log(e)
         })
+    },
+    async waitAuthenticated () {
+      return new Promise((resolve) => {
+        const unwatch = this.$store.watch(state => {
+          return this.$store.getters.identity
+        }, value => {
+          if (!value) {
+            return
+          }
+          // if (!value.isActive) {
+          //   this.$router.replace({ path: "/reset-password" })
+          // }
+          unwatch()
+          resolve()
+        }, {
+          immediate: true
+        })
+      })
     }
   }
 }
