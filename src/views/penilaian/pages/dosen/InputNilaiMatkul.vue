@@ -304,6 +304,7 @@ import http from "axios"
 import XLSX from "xlsx"
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
+import { PENILAIAN_API_URL } from "../../../../config"
 
 export default {
   name: "AbsensiDosenMain",
@@ -729,7 +730,7 @@ export default {
       console.log(dataNilaiMahasiswa) // submit nilai mhs
 
       http
-        .post("http://localhost:5001/penilaian/import-nilai/perkuliahan/" + this.$route.params.id, dataNilaiMahasiswa)
+        .post(new URL("/penilaian/import-nilai/perkuliahan/", PENILAIAN_API_URL).href + this.$route.params.id, dataNilaiMahasiswa)
         .then((res) => {
           console.log(res.data)
         })
@@ -804,7 +805,7 @@ export default {
         }
 
         http
-          .put("http://localhost:5001/penilaian/update-nilai-akhir/perkuliahan/" + this.$route.params.id, { dataNilaiAkhir: listNilaiFinal })
+          .put(new URL("/penilaian/update-nilai-akhir/perkuliahan/", PENILAIAN_API_URL).href + this.$route.params.id, { dataNilaiAkhir: listNilaiFinal })
           .then((res) => {
             console.log(res.data)
           })
@@ -880,7 +881,7 @@ export default {
       console.log(dataNilaiMahasiswa)
 
       http
-        .post("http://localhost:5001/penilaian/import-nilai/perkuliahan/" + this.$route.params.id, dataNilaiMahasiswa)
+        .post(new URL("/penilaian/import-nilai/perkuliahan/", PENILAIAN_API_URL).href + this.$route.params.id, dataNilaiMahasiswa)
         .then((res) => {
           console.log(res.data)
         })
@@ -955,7 +956,7 @@ export default {
         }
 
         http
-          .put("http://localhost:5001/penilaian/update-nilai-akhir/perkuliahan/" + this.$route.params.id, { dataNilaiAkhir: listNilaiFinal })
+          .put(new URL("/penilaian/update-nilai-akhir/perkuliahan/", PENILAIAN_API_URL).href + this.$route.params.id, { dataNilaiAkhir: listNilaiFinal })
           .then((res) => {
             console.log(res.data)
           })

@@ -1,8 +1,12 @@
-const JADWAL_URL = "jadwal-perkuliahan"
-const JADWAL_DOSEN_URL = "jadwal-perkuliahan"
-const KETERANGAN_URL = "keterangan"
-const PRESENSI_MHS_URL = "daftar-hadir-mahasiswa"
-const PRESENSI_DSN_URL = "daftar-hadir-dosen"
+import { ABSENSI_API_URL } from "../../../config"
+
+const BASE_URL = ABSENSI_API_URL
+
+const JADWAL_URL = new URL("/api/jadwal-perkuliahan", ABSENSI_API_URL).href
+const JADWAL_DOSEN_URL = new URL("/api/jadwal-perkuliahan", ABSENSI_API_URL).href
+const KETERANGAN_URL = new URL("/api/keterangan", ABSENSI_API_URL).href
+const PRESENSI_MHS_URL = new URL("/api/daftar-hadir-mahasiswa", ABSENSI_API_URL).href
+const PRESENSI_DSN_URL = new URL("/api/daftar-hadir-dosen", ABSENSI_API_URL).href
 
 export {
   JADWAL_URL,
