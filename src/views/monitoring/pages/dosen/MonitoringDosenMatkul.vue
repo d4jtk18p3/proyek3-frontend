@@ -89,7 +89,7 @@ export default {
         this.kelas = item
         var temp = item.substr(0, 4)
       }
-      var matkul = await MatkulMonitoringDosen.getMatkulKelas("196610181995121000", temp)
+      var matkul = await MatkulMonitoringDosen.getMatkulKelas(this.identity.preferred_username, temp)
       var matkulList = []
       var j = 0
       while (j < matkul.listMatkul.length) {
@@ -105,7 +105,7 @@ export default {
     }
   },
   async mounted () {
-    var kelas = await KelasMonitoringDosen.getListKelas("196610181995121000")
+    var kelas = await KelasMonitoringDosen.getListKelas(this.identity.preferred_username)
     var i = 0
     var kelasList = []
     while (i < kelas.length) {
