@@ -89,7 +89,7 @@ export default {
   methods: {
     async getMatkulbyKelas (kodeKelas, index) {
       // console.log(kodeKelas)
-      var matkul = await DosenAPI.getMatkul(this.nip, kodeKelas.kode_kelas)
+      const matkul = await DosenAPI.getMatkul(this.nip, kodeKelas.kode_kelas)
       this.id_perkuliahan = matkul.id_perkuliahan
       this.listMatkul = matkul.listMatkul
     },
@@ -101,7 +101,7 @@ export default {
   async mounted () {
     // const identity = this.$store.getters.identity
     this.nip = "196610181995121000"
-    var kelas = await DosenAPI.getKelas(this.nip)
+    const kelas = await DosenAPI.getKelas(this.nip)
     this.listKelas = kelas.uniqueClass
   }
 }
