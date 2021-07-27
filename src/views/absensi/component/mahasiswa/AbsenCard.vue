@@ -107,15 +107,17 @@ export default {
     this.currentHour = current.getHours()
     this.currentMinute = current.getMinutes()
     this.currentDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + current.getDate()
-    this.presensiSchedule()
-    // this.cekMatkulSama()
-    setInterval(() => {
-      current = new Date()
-      this.currentHour = current.getHours()
-      this.currentMinute = current.getMinutes()
-      this.currentTime = this.currentHour + ":" + this.currentMinute + ":" + current.getSeconds()
+    setTimeout(() => {
       this.presensiSchedule()
-    }, INTERVAL)
+      setInterval(() => {
+        current = new Date()
+        this.currentHour = current.getHours()
+        this.currentMinute = current.getMinutes()
+        this.currentTime = this.currentHour + ":" + this.currentMinute + ":" + current.getSeconds()
+        this.presensiSchedule()
+      }, INTERVAL)
+    }, 3000)
+    // this.cekMatkulSama()
   },
   data () {
     return {
@@ -151,7 +153,6 @@ export default {
     presensiMahasiswa (index, idStudi, idJadwal) {
       PresensiMahasiswa.presensiMahasiswa(idStudi, idJadwal, this.username)
         .then(response => {
-          console.log(response)
           this.jadwalMhs[index].absen = true
           this.jadwalMhs[currentJadwal].hadir = true
         })

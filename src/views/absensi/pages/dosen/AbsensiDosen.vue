@@ -49,7 +49,7 @@ import JadwalDosen from "@/datasource/network/absensi/jadwalDosen"
 import DashboardDosen from "@/datasource/network/absensi/dashboardDosen"
 
 // const schedule = require("node-schedule")
-const INTERVAL = 1000 * 60 * 60 * 10
+const INTERVAL = 1000 * 60 * 60
 
 export default {
   name: "AbsensiDosen",
@@ -64,7 +64,6 @@ export default {
       tasks.push(this.waitAuthenticated())
     }
     Promise.all(tasks).then(result => {
-      console.log(this.identity)
       this.username = this.identity.preferred_username
       this.isLoading = false
       var current = new Date()
@@ -126,7 +125,6 @@ export default {
             element.id_studi_kedua = 0
           })
           this.jadwalDsn = response.data.jadwal
-          console.log(response.data.jadwal)
           setTimeout(() => {
             this.cekMatkulSama()
           }, 3000)
@@ -140,7 +138,6 @@ export default {
       DashboardDosen.persentaseMengajar(this.identity.preferred_username)
         .then(response => {
           this.persentaseMengajar = response.data
-          console.log(response)
         })
         .catch(e => {
           console.log(e)

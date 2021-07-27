@@ -74,13 +74,11 @@ export default {
   },
   methods: {
     zoom (url) {
-      console.log("Zoom", url)
       this.selectedImage = url
     },
     updateKeterangan (status) {
       Keterangan.updateKeterangan(this.dataMhs.keterangans[0].id_keterangan, status)
         .then(response => {
-          console.log(response)
           this.onClickButton()
           this.dialogs.dialog = false
         })
@@ -90,7 +88,6 @@ export default {
     },
     splitUrl () {
       this.url = this.dataMhs.keterangans[0].url
-      console.log(this.url)
       // var url = this.url.split("\\")
       // this.url = url[url.length - 1]
       // console.log(this.url)
