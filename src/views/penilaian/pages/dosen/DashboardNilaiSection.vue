@@ -38,12 +38,11 @@
 </template>
 
 <script>
-import http from "axios"
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import NilaiMataKuliah from "@/views/penilaian/component/dosen/NilaiMataKuliah"
 import KelasItem from "@/views/template/component/absensi/KelasItem"
-import { PENILAIAN_API_URL } from "../../../../config"
+import DosenAPI from "@/datasource/network/penilaian/PenilaianDosen"
 
 export default {
   name: "AbsensiDosenMain",
@@ -82,30 +81,28 @@ export default {
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    },
+    identity: function () {
+      return this.$store.getters.identity
     }
   },
   methods: {
-    getMatkulbyKelas (kodeKelas, index) {
-      console.log(kodeKelas)
-      http.get(new URL("/dosen/matkul/", PENILAIAN_API_URL).href + this.nip + "/" + kodeKelas.kode_kelas)
-        .then((res) => {
-          console.log(res.data.data)
-          this.id_perkuliahan = res.data.data.id_perkuliahan
-          this.listMatkul = res.data.data.listMatkul
-        })
+    async getMatkulbyKelas (kodeKelas, index) {
+      // console.log(kodeKelas)
+      var matkul = await DosenAPI.getMatkul(this.nip, kodeKelas.kode_kelas)
+      this.id_perkuliahan = matkul.id_perkuliahan
+      this.listMatkul = matkul.listMatkul
     },
     routeDashboardNilai (id) {
       // this.$router.push({ URL: "dashboard-nilai-dosen-pengampu/" + this.id_perkuliahan, params: { id: this.id_perkuliahan } })
       this.$router.push("dashboard-nilai-dosen-pengampu/" + id)
     }
   },
-  mounted () {
+  async mounted () {
+    // const identity = this.$store.getters.identity
     this.nip = "196610181995121000"
-    http.get(new URL("/dosen/kelas/", PENILAIAN_API_URL).href + this.nip)
-      .then((res) => {
-        console.log(res.data.data.uniqueClass)
-        this.listKelas = res.data.data.uniqueClass
-      })
+    var kelas = await DosenAPI.getKelas(this.nip)
+    this.listKelas = kelas.uniqueClass
   }
 }
 </script>

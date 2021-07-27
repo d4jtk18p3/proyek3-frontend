@@ -88,12 +88,10 @@
 </template>
 
 <script>
-import http from "axios"
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import NilaiRataRataCard from "@/views/penilaian/component/dosen/NilaiRataRataCard"
-import { PENILAIAN_API_URL } from "../../../../config"
-
+import DosenAPI from "@/datasource/network/penilaian/PenilaianDosen"
 export default {
   name: "DashboardMain",
   components: { Breadcumbs, NilaiRataRataCard },
@@ -130,7 +128,7 @@ export default {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
   },
-  mounted () {
+  async mounted () {
     // this.nip = "196610181995121000"
     // http.get("http://localhost:5001/dosen/kelas/" + this.nip)
     //   .then((res) => {
@@ -139,16 +137,24 @@ export default {
     //   })
     // console.log(this.$route.matkul)
 
-    http.get(new URL("/penilaian/get-nilai-akhir/perkuliahan/", PENILAIAN_API_URL).href + this.$route.params.id)
-      .then((res) => {
-        this.Mahasiswa.Nilai = res.data.data.listNilaiAkhir
-        for (var i = 0; i < this.Mahasiswa.Nilai.length; i++) {
-          this.Mahasiswa.Nilai[i].nilai_akhir = (this.Mahasiswa.Nilai[i].nilai_ets + this.Mahasiswa.Nilai[i].nilai_eas) / 2
-        }
-      })
-      .then(() => {
-        this.nilaiList = this.getNilaiList()
-      })
+    var nilai = await DosenAPI.getNilaiAkhir(this.$route.params.id)
+    console.log(nilai)
+    this.Mahasiswa.Nilai = nilai.listNilaiAkhir
+    for (var i = 0; i < this.Mahasiswa.Nilai.length; i++) {
+      this.Mahasiswa.Nilai[i].nilai_akhir = (this.Mahasiswa.Nilai[i].nilai_ets + this.Mahasiswa.Nilai[i].nilai_eas) / 2
+    }
+    this.nilaiList = this.getNilaiList()
+
+    // http.get("http://localhost:5001/penilaian/get-nilai-akhir/perkuliahan/" + this.$route.params.id)
+    //   .then((res) => {
+    //     this.Mahasiswa.Nilai = res.data.data.listNilaiAkhir
+    //     for (var i = 0; i < this.Mahasiswa.Nilai.length; i++) {
+    //       this.Mahasiswa.Nilai[i].nilai_akhir = (this.Mahasiswa.Nilai[i].nilai_ets + this.Mahasiswa.Nilai[i].nilai_eas) / 2
+    //     }
+    //   })
+    //   .then(() => {
+    //     this.nilaiList = this.getNilaiList()
+    //   })
   },
   methods: {
     tertinggi () {
