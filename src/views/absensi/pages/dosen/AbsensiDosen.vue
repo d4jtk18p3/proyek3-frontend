@@ -29,8 +29,14 @@
       </v-col>
     </v-row>
     <v-row>
-      <AbsenCardDosen :jadwalDsn="jadwalDsn"></AbsenCardDosen>
+      <AbsenCardDosen :jadwalDsn="jadwalDsn" :username="username"></AbsenCardDosen>
     </v-row>
+    <v-overlay :value="isLoading">
+    <v-progress-circular
+      indeterminate size="32"
+     :color="currentTheme.colorSecondary">
+    </v-progress-circular>
+    </v-overlay>
   </v-container>
 </template>
 
@@ -53,17 +59,27 @@ export default {
     PersentaseMengajar
   },
   created () {
-    var current = new Date()
-    this.currentDay = current.getDay()
-    this.getJadwalDsn()
-    this.getPersentaseMengajar()
-    setInterval(() => {
+    const tasks = []
+    if (this.$route.meta.requiresAuth) {
+      tasks.push(this.waitAuthenticated())
+    }
+    Promise.all(tasks).then(result => {
+      console.log(this.identity)
+      this.username = this.identity.preferred_username
+      this.isLoading = false
+      var current = new Date()
       this.currentDay = current.getDay()
-      // this.currentDay = 5
-      this.currentDay = current.getDay()
-      this.getJadwalDsn()
-      console.log(this.jadwalDsn)
-    }, INTERVAL)
+      this.currentDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + current.getDate()
+      setTimeout(() => {
+        this.getJadwalMhs()
+      }, 3000)
+      this.getPersentaseMengajar()
+      setInterval(() => {
+        this.currentDay = current.getDay()
+        this.getJadwalDsn()
+        this.getPersentaseMengajar()
+      }, INTERVAL)
+    })
   },
   data () {
     return {
@@ -78,7 +94,9 @@ export default {
       menu: false,
       jadwalDsn: [],
       persentaseMengajar: [],
-      currentDay: null
+      currentDay: null,
+      isLoading: true,
+      username: ""
     }
   },
   computed: {
@@ -88,11 +106,14 @@ export default {
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    },
+    identity: function () {
+      return this.$store.getters.identity
     }
   },
   methods: {
     getJadwalDsn () {
-      JadwalDosen.getJadwalDosen(this.currentDay, 199112182019032000)
+      JadwalDosen.getJadwalDosen(this.currentDay, this.identity.preferred_username)
         .then(response => {
           response.data.jadwal.forEach(function (element) {
             element.absen = false
@@ -106,14 +127,17 @@ export default {
           })
           this.jadwalDsn = response.data.jadwal
           console.log(response.data.jadwal)
-          this.cekMatkulSama()
+          setTimeout(() => {
+            this.cekMatkulSama()
+          }, 3000)
+          this.isLoading = false
         })
         .catch(e => {
           console.log(e)
         })
     },
     getPersentaseMengajar () {
-      DashboardDosen.persentaseMengajar(199112182019032000)
+      DashboardDosen.persentaseMengajar(this.identity.preferred_username)
         .then(response => {
           this.persentaseMengajar = response.data
           console.log(response)
@@ -135,6 +159,24 @@ export default {
         }
         i++
       }
+    },
+    async waitAuthenticated () {
+      return new Promise((resolve) => {
+        const unwatch = this.$store.watch(state => {
+          return this.$store.getters.identity
+        }, value => {
+          if (!value) {
+            return
+          }
+          // if (!value.isActive) {
+          //   this.$router.replace({ path: "/reset-password" })
+          // }
+          unwatch()
+          resolve()
+        }, {
+          immediate: true
+        })
+      })
     }
   }
 }

@@ -41,6 +41,12 @@
     <v-row>
       <AbsenCardDosen :jadwalDsn="jadwalDsn"></AbsenCardDosen>
     </v-row>
+    <v-overlay :value="isLoading">
+    <v-progress-circular
+      indeterminate size="32"
+     :color="currentTheme.colorSecondary">
+    </v-progress-circular>
+    </v-overlay>
   </v-container>
 </template>
 
@@ -53,7 +59,8 @@ import PersentaseMengajar from "@/views/absensi/component/dosen/PersentaseMengaj
 import JadwalDosen from "@/datasource/network/absensi/jadwalDosen"
 import DashboardDosen from "@/datasource/network/absensi/dashboardDosen"
 import DaftarHadir from "@/views/absensi/component/ketidakhadiran/DaftarHadir"
-const schedule = require("node-schedule")
+// const schedule = require("node-schedule")
+const INTERVAL = 1000 * 60 * 60 * 10
 
 export default {
   name: "AbsensiDosen",
@@ -65,15 +72,23 @@ export default {
     DaftarHadir
   },
   created () {
+    const tasks = []
+    if (this.$route.meta.requiresAuth) {
+      tasks.push(this.waitAuthenticated())
+    }
+    Promise.all(tasks).then(result => {
+      this.isLoading = false
+    })
     var current = new Date()
     this.currentDay = current.getDay()
     this.getJadwalDsn()
     this.getPersentaseMengajar()
-    schedule.scheduleJob("0 0 0 * * *", function () {
+    setInterval(() => {
+      this.currentDay = current.getDay()
+      // this.currentDay = 5
       this.currentDay = current.getDay()
       this.getJadwalDsn()
-      console.log(this.jadwalDsn)
-    })
+    }, INTERVAL)
   },
   data () {
     return {
@@ -89,7 +104,8 @@ export default {
       jadwalDsn: [],
       persentaseMengajar: [],
       currentDay: null,
-      kelas: 1803
+      kelas: 1803,
+      isLoading: true
     }
   },
   computed: {
@@ -99,6 +115,9 @@ export default {
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    },
+    identity: function () {
+      return this.$store.getters.identity
     }
   },
   methods: {
@@ -129,6 +148,24 @@ export default {
         .catch(e => {
           console.log(e)
         })
+    },
+    async waitAuthenticated () {
+      return new Promise((resolve) => {
+        const unwatch = this.$store.watch(state => {
+          return this.$store.getters.identity
+        }, value => {
+          if (!value) {
+            return
+          }
+          // if (!value.isActive) {
+          //   this.$router.replace({ path: "/reset-password" })
+          // }
+          unwatch()
+          resolve()
+        }, {
+          immediate: true
+        })
+      })
     }
   }
 }

@@ -121,9 +121,9 @@
                         <p class="judul">Konfirmasi diri</p>
                         <div class="inside">
                         <v-text-field
-                            label="Password"
-                            v-model="password"
-                            :rules="[rules.password]"
+                            label="Username"
+                            v-model="f_username"
+                            :rules="[validateUsername]"
                             :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                             :type="show1 ? 'text' : 'password'"
                             name="input-10-1"
@@ -201,14 +201,16 @@ export default {
       this.isError = false
     })
   },
+  props: {
+    username: {
+      type: String,
+      default () {
+        return {}
+      }
+    }
+  },
   data () {
     return {
-      computed: {
-        ...mapGetters({
-          currentTheme: "theme/getCurrentColor",
-          isDark: "theme/getIsDark"
-        })
-      },
       dates: new Date().toISOString().substr(0, 10),
       chooseDay: new Date().getDay(),
       jadwalMhs: [],
@@ -220,7 +222,7 @@ export default {
       isLoading: false,
       isSuccess: false,
       url_gambar: null,
-      password: "",
+      f_username: "",
       imgRules: [],
       rules: {
         password: (value) => !!value || "Password tidak boleh kosong",
@@ -240,6 +242,10 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      currentTheme: "theme/getCurrentColor",
+      isDark: "theme/getIsDark"
+    }),
     errorMessage () {
       return this.error.message
     },
@@ -248,6 +254,13 @@ export default {
     }
   },
   methods: {
+    validateUsername () {
+      if (this.f_username.length === 0) {
+        return "Username tidak boleh kosong"
+      } else if (this.f_username !== this.username) {
+        return "Username belum sesuai"
+      }
+    },
     checkboxValue () {
       if (!this.isChecked) {
         return "Anda harus menyetujui segala kebijakan"
@@ -283,7 +296,7 @@ export default {
       if (this.url_gambar) data.append("surat-izin", this.url_gambar)
       data.append("status", this.keterangan)
       data.append("idJadwals", this.idPerkuliahan)
-      data.append("nim", 181524010)
+      data.append("nim", this.username)
       data.append("tglIzin", this.dates)
       Keterangan.uploadKeterangan(data)
         .then(response => {
@@ -327,13 +340,14 @@ export default {
       return true
     },
     getJadwalMhs () {
-      JadwalMahasiswa.getJadwalMahasiswa(this.chooseDay, 181524010)
+      JadwalMahasiswa.getJadwalMahasiswa(this.chooseDay, this.username)
         .then(response => {
           response.data.jadwal.forEach(function (element) {
             element.absen = "false"
           })
           this.jadwalMhs = response.data.jadwal
           console.log(response.data.jadwal)
+          console.log(this.username)
         })
         .catch(e => {
           console.log(e)
