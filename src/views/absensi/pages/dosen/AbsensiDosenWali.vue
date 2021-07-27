@@ -133,7 +133,6 @@ export default {
             element.progress = 0
           })
           this.jadwalDsn = response.data.jadwal
-          console.log(response.data.jadwal)
         })
         .catch(e => {
           console.log(e)
@@ -143,7 +142,6 @@ export default {
       DashboardDosen.persentaseMengajar(196610181995121000)
         .then(response => {
           this.persentaseMengajar = response.data
-          console.log(response)
         })
         .catch(e => {
           console.log(e)
