@@ -137,6 +137,7 @@ export default {
     //   })
     // console.log(this.$route.matkul)
 
+<<<<<<< HEAD
     var nilai = await DosenAPI.getNilaiAkhir(this.$route.params.id)
     console.log(nilai)
     this.Mahasiswa.Nilai = nilai.listNilaiAkhir
@@ -155,6 +156,18 @@ export default {
     //   .then(() => {
     //     this.nilaiList = this.getNilaiList()
     //   })
+=======
+    http.get(new URL(`${PENILAIAN_API_URL}/penilaian/get-nilai-akhir/perkuliahan/`).href + this.$route.params.id)
+      .then((res) => {
+        this.Mahasiswa.Nilai = res.data.data.listNilaiAkhir
+        for (var i = 0; i < this.Mahasiswa.Nilai.length; i++) {
+          this.Mahasiswa.Nilai[i].nilai_akhir = (this.Mahasiswa.Nilai[i].nilai_ets + this.Mahasiswa.Nilai[i].nilai_eas) / 2
+        }
+      })
+      .then(() => {
+        this.nilaiList = this.getNilaiList()
+      })
+>>>>>>> 544d9e6... Fix hardcode 2
   },
   methods: {
     tertinggi () {

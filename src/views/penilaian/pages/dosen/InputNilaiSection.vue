@@ -92,7 +92,7 @@ export default {
   methods: {
     getMatkulbyKelas (kodeKelas, index) {
       console.log(kodeKelas)
-      http.get(new URL("/dosen/matkul/", PENILAIAN_API_URL).href + this.nip + "/" + kodeKelas.kode_kelas)
+      http.get(new URL(`${PENILAIAN_API_URL}/dosen/matkul/`).href + this.nip + "/" + kodeKelas.kode_kelas)
         .then((res) => {
           console.log(res.data.data)
           this.id_perkuliahan = res.data.data.id_perkuliahan
@@ -105,7 +105,7 @@ export default {
   },
   mounted () {
     this.nip = "196610181995121000"
-    http.get(new URL("/dosen/kelas/", PENILAIAN_API_URL).href + this.nip)
+    http.get(new URL(`${PENILAIAN_API_URL}/dosen/kelas/`).href + this.nip)
       .then((res) => {
         console.log(res.data.data.uniqueClass)
         this.listKelas = res.data.data.uniqueClass

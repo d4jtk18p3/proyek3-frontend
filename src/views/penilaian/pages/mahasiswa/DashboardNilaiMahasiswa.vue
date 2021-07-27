@@ -310,6 +310,7 @@ export default {
       return this.$store.getters.identity
     }
   },
+<<<<<<< HEAD
   async mounted () {
     const identity = this.$store.getters.identity
     this.Mahasiswa.Nim = identity.preferred_username
@@ -325,6 +326,24 @@ export default {
       this.Mahasiswa.IPKumulatif += dataMhs.Nilai[i].IPSemester
     }
     this.Mahasiswa.IPKumulatif = (Math.round((this.Mahasiswa.IPKumulatif / 8) * 100) / 100).toFixed(2)
+=======
+  mounted () {
+    this.Mahasiswa.Nim = "181524032"
+    http.get(new URL(`${PENILAIAN_API_URL}/penilaian/get-all-nilai-akhir/mahasiswa/`).href + this.Mahasiswa.Nim)
+      .then((res) => {
+        this.Mahasiswa.Nama = res.data.data.Mahasiswa.nama
+        this.Mahasiswa.Kelas = res.data.data.Mahasiswa.kode_kelas
+        this.Mahasiswa.Nilai = res.data.data.Nilai
+        this.listIP = this.getIPSemester(res.data.data)
+        this.listNilai = this.getNilaiList(res.data.data)
+        this.NilaiSemesterSelected = res.data.data.Nilai[0]
+        console.log(res.data.data.Nilai)
+        for (var i = 0; i < res.data.data.Nilai.length; i++) {
+          this.Mahasiswa.IPKumulatif += res.data.data.Nilai[i].IPSemester
+        }
+        this.Mahasiswa.IPKumulatif = (Math.round((this.Mahasiswa.IPKumulatif / 8) * 100) / 100).toFixed(2)
+      })
+>>>>>>> 544d9e6... Fix hardcode 2
   },
   methods: {
     getIPSemester (data) {

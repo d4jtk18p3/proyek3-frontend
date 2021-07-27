@@ -87,11 +87,22 @@ export default {
     }
   },
   methods: {
+<<<<<<< HEAD
     async getMatkulbyKelas (kodeKelas, index) {
       // console.log(kodeKelas)
       var matkul = await DosenAPI.getMatkul(this.nip, kodeKelas.kode_kelas)
       this.id_perkuliahan = matkul.id_perkuliahan
       this.listMatkul = matkul.listMatkul
+=======
+    getMatkulbyKelas (kodeKelas, index) {
+      console.log(kodeKelas)
+      http.get(new URL(`${PENILAIAN_API_URL}/dosen/matkul/`).href + this.nip + "/" + kodeKelas.kode_kelas)
+        .then((res) => {
+          console.log(res.data.data)
+          this.id_perkuliahan = res.data.data.id_perkuliahan
+          this.listMatkul = res.data.data.listMatkul
+        })
+>>>>>>> 544d9e6... Fix hardcode 2
     },
     routeDashboardNilai (id) {
       // this.$router.push({ URL: "dashboard-nilai-dosen-pengampu/" + this.id_perkuliahan, params: { id: this.id_perkuliahan } })
@@ -101,8 +112,16 @@ export default {
   async mounted () {
     // const identity = this.$store.getters.identity
     this.nip = "196610181995121000"
+<<<<<<< HEAD
     var kelas = await DosenAPI.getKelas(this.nip)
     this.listKelas = kelas.uniqueClass
+=======
+    http.get(new URL(`${PENILAIAN_API_URL}/dosen/kelas/`).href + this.nip)
+      .then((res) => {
+        console.log(res.data.data.uniqueClass)
+        this.listKelas = res.data.data.uniqueClass
+      })
+>>>>>>> 544d9e6... Fix hardcode 2
   }
 }
 </script>
