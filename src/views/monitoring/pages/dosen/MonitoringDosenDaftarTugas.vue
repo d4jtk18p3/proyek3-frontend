@@ -37,15 +37,20 @@ export default {
         {
           text: "Monitoring",
           disabled: false,
-          href: ""
+          href: "/monitoring/dosen/monitoring-tugas"
         },
         {
-          text: "Link 1",
+          text: "Daftar Tugas",
           disabled: false,
           href: ""
         },
         {
-          text: "Link 2",
+          text: "Monitoring Subtugas",
+          disabled: true,
+          href: ""
+        },
+        {
+          text: "Detail Subtugas",
           disabled: true,
           href: ""
         }

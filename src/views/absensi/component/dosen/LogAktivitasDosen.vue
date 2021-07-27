@@ -1,6 +1,6 @@
 <template>
   <v-card height="530" width="350" class="rounded-lg">
-    <p class="text-h4 font-weight-bold mr-10 text-right pt-2">{{ getDay }}</p>
+    <p class="text-h4 font-weight-bold mr-10 text-right pt-3">{{ getDay }}</p>
     <p class="text-h5 font-weight-bold mr-10 text-right">{{ currentHour }}:{{ currentMinute }}</p>
     <v-timeline dense>
       <v-timeline-item

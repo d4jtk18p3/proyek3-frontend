@@ -11,7 +11,7 @@
         class="text-left font-weight-bold text-h5 mt-5"
         :style="{color: currentTheme.onBackground}"
         >Kelas</p>
-        <v-card link class="mb-3" v-for="item in listKelas" :key="item">
+        <v-card link class="mb-3" v-for="item in listKelas" :key="item" @click="getIdKelas(item)">
           <KelasItem :kelas="item"/>
         </v-card>
     </v-col>
@@ -23,10 +23,10 @@
       >Mata Kuliah</p>
       <v-row>
         <v-col
-          no-gutters v-for="item in listMatkul" :key="item"
+          no-gutters v-for="item in listMatkul" :key="item.id"
           :cols="isMobile? 12 : 6"
         >
-          <MatkulItem :mataKuliah="item"></MatkulItem>
+          <MatkulItem :mataKuliah="item.nama" :idMatkul="item.id" :idPerkuliahan="item.id_perkuliahan" :semester="item.semester" :kelas="kelas"></MatkulItem>
         </v-col>
       </v-row>
     </v-col>
@@ -36,9 +36,10 @@
 <script>
 import { mapGetters } from "vuex"
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
-import MatkulItem from "@/views/monitoring/component/dosen/MatkulItem"
+import MatkulItem from "@/views/monitoring/component/dosen/MataKuliahItem"
 import KelasItem from "@/views/monitoring/component/dosen/KelasItem"
-// import MonitoringDosen from "../../../../datasource/network/monitoring/monitoringdosen"
+import KelasMonitoringDosen from "../../../../datasource/network/monitoring/kelas"
+import MatkulMonitoringDosen from "../../../../datasource/network/monitoring/matakuliah"
 export default {
   name: "AbsensiDosenMain",
   components: { KelasItem, MatkulItem, Breadcumbs },
@@ -48,28 +49,27 @@ export default {
         {
           text: "Monitoring",
           disabled: false,
+          href: "/monitoring/dosen/monitoring-tugas"
+        },
+        {
+          text: "Daftar Tugas",
+          disabled: true,
           href: ""
         },
         {
-          text: "Link 1",
-          disabled: false,
+          text: "Monitoring Subtugas",
+          disabled: true,
           href: ""
         },
         {
-          text: "Link 2",
+          text: "Detail Subtugas",
           disabled: true,
           href: ""
         }
       ],
-      listKelas: [
-        "3A D4-Teknik Informatika",
-        "1A D4-Teknik Informatika",
-        "2A D4-Teknik Informatika"
-      ],
-      listMatkul: [
-        "Proyek 3",
-        "PLOO"
-      ]
+      listKelas: [],
+      listMatkul: [],
+      kelas: ""
     }
   },
   computed: {
@@ -79,21 +79,37 @@ export default {
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     }
+  },
+  methods: {
+    async getIdKelas (item) {
+      if (item != null) {
+        this.kelas = item
+        var temp = item.substr(0, 4)
+      }
+      var matkul = await MatkulMonitoringDosen.getMatkulKelas("196610181995121000", temp)
+      var matkulList = []
+      var j = 0
+      while (j < matkul.listMatkul.length) {
+        matkulList.push({
+          id: matkul.listMatkul[j].id,
+          nama: matkul.listMatkul[j].nama_mata_kuliah,
+          semester: matkul.listMatkul[j].semester,
+          id_perkuliahan: matkul.id_perkuliahan[j]
+        })
+        j++
+      }
+      this.listMatkul = matkulList
+    }
+  },
+  async mounted () {
+    var kelas = await KelasMonitoringDosen.getListKelas("196610181995121000")
+    var i = 0
+    var kelasList = []
+    while (i < kelas.length) {
+      kelasList[i] = kelas[i].kode_kelas + " - " + kelas[i].kode_program_studi
+      i++
+    }
+    this.listKelas = kelasList
   }
-  // methods: {
-  //   async getIdKelas (item) {
-  //     var temp = item.substr(0, 3)
-  //     this.listMatkul = await MonitoringDosen.getMatkulKelas("196610181995121001", temp)
-  //     console.log(temp)
-  //     console.log(this.listMatkul)
-  //   }
-  // },
-  // beforeMount () {
-  //   this.getIdKelas()
-  // },
-  // async mounted () {
-  //   this.listKelas = await MonitoringDosen.getListKelas("196610181995121001")
-  //   this.listMatkul = await MonitoringDosen.getMatkulKelas("196610181995121001", "301")
-  // }
 }
 </script>

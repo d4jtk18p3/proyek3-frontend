@@ -69,10 +69,10 @@
                         <v-checkbox
                           small color="#59DCDC"
                           class="ma-0 pa-0"
-                          :label="`${jadwal.nama_mata_kuliah}`"
+                          :label="`${jadwal.nama_mata_kuliah}` + ` (${jadwal.jenis})`"
                           :v-model="jadwal.checked"
                           @change='selectedPerkuliahan(jadwal.id_jadwal, jadwal.nama_mata_kuliah)'
-                          :disabled="isSelected(jadwal.id_jadwal) && isIzin"
+                          :disabled="!isSelected(jadwal.id_jadwal) && isIzin"
                         ></v-checkbox>
                       </div>
                     </v-col>
@@ -95,6 +95,28 @@
                         </div>
                     </v-col>
                     <v-col cols="12">
+                        <p class="judul">Keterangan yang diajukan:</p>
+                        <div class="inside">
+                            <v-radio-group
+                              v-model="keterangan"
+                              row
+                            >
+                              <v-radio
+                                label="Sakit"
+                                value="sakit"
+                                color="#59DCDC"
+                                @change="onChangeRadio()"
+                              ></v-radio>
+                              <v-radio
+                                label="Izin"
+                                value="izin"
+                                color="#59DCDC"
+                                @change="onChangeRadio()"
+                              ></v-radio>
+                            </v-radio-group>
+                        </div>
+                    </v-col>
+                    <v-col cols="12">
                       <img width="25px" height="25px" src="@/assets/3.png"/>
                         <p class="judul">Konfirmasi diri</p>
                         <div class="inside">
@@ -106,6 +128,7 @@
                             :type="show1 ? 'text' : 'password'"
                             name="input-10-1"
                             width="100px"
+                            @click:append="show1 = !show1"
                         ></v-text-field>
                         <v-row
                           align="center"
@@ -211,7 +234,9 @@ export default {
       },
       show1: false,
       isIzin: false,
-      invalidDate: false
+      invalidDate: false,
+      keterangan: "",
+      isFilled: false
     }
   },
   computed: {
@@ -219,7 +244,7 @@ export default {
       return this.error.message
     },
     isDisable () {
-      return this.idPerkuliahan.length === 0 || this.url_gambar == null || this.password.length === 0 || this.isChecked !== true || this.invalidDate === true
+      return this.idPerkuliahan.length === 0 || this.url_gambar == null || this.password.length === 0 || this.isChecked !== true || this.invalidDate === true || this.isFilled === false
     }
   },
   methods: {
@@ -256,7 +281,7 @@ export default {
       this.error.isError = false
       var data = new FormData()
       if (this.url_gambar) data.append("surat-izin", this.url_gambar)
-      data.append("status", "izin")
+      data.append("status", this.keterangan)
       data.append("idJadwals", this.idPerkuliahan)
       data.append("nim", 181524010)
       data.append("tglIzin", this.dates)
@@ -313,6 +338,9 @@ export default {
         .catch(e => {
           console.log(e)
         })
+    },
+    onChangeRadio () {
+      this.isFilled = true
     }
   }
 }

@@ -6,11 +6,6 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12">
-        <breadcumbs :breadcrumb-items="breadcrumbItems" />
-      </v-col>
-    </v-row>
-    <v-row>
       <v-col cols="2">
         <p class="text-h4 font-weight-bold">Dashboard</p>
       </v-col>
@@ -25,7 +20,7 @@
           <LogAktivitas :jadwalDsn="jadwalDsn"></LogAktivitas>
       </v-col>
       <v-col cols="5">
-        <PersentaseMengajar></PersentaseMengajar>
+        <PersentaseMengajar :persentaseMengajar="persentaseMengajar"></PersentaseMengajar>
       </v-col>
     </v-row>
     <v-row>
@@ -41,18 +36,18 @@
 
 <script>
 import { mapGetters } from "vuex"
-import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import AbsenCardDosen from "@/views/absensi/component/dosen/AbsenCardDosen"
 import LogAktivitas from "@/views/absensi/component/dosen/LogAktivitasDosen"
 import PersentaseMengajar from "@/views/absensi/component/dosen/PersentaseMengajar"
 import JadwalDosen from "@/datasource/network/absensi/jadwalDosen"
+import DashboardDosen from "@/datasource/network/absensi/dashboardDosen"
 
-const schedule = require("node-schedule")
+// const schedule = require("node-schedule")
+const INTERVAL = 1000 * 60 * 60 * 10
 
 export default {
   name: "AbsensiDosen",
   components: {
-    Breadcumbs,
     AbsenCardDosen,
     LogAktivitas,
     PersentaseMengajar
@@ -61,27 +56,20 @@ export default {
     var current = new Date()
     this.currentDay = current.getDay()
     this.getJadwalDsn()
-    schedule.scheduleJob("0 0 0 * * *", function () {
+    this.getPersentaseMengajar()
+    setInterval(() => {
+      this.currentDay = current.getDay()
+      // this.currentDay = 5
       this.currentDay = current.getDay()
       this.getJadwalDsn()
       console.log(this.jadwalDsn)
-    })
+    }, INTERVAL)
   },
   data () {
     return {
       breadcrumbItems: [
         {
           text: "Dashboard",
-          disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 1",
-          disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 2",
           disabled: true,
           href: ""
         }
@@ -89,6 +77,7 @@ export default {
       date: new Date().toISOString().substr(0, 10),
       menu: false,
       jadwalDsn: [],
+      persentaseMengajar: [],
       currentDay: null
     }
   },
@@ -103,17 +92,49 @@ export default {
   },
   methods: {
     getJadwalDsn () {
-      JadwalDosen.getJadwalDosen(this.currentDay, 11113)
+      JadwalDosen.getJadwalDosen(this.currentDay, 199112182019032000)
         .then(response => {
-          // response.data.jadwal.forEach(function (element) {
-          //   element.absen = "false"
-          // })
-          this.jadwalDsn = response.result
-          console.log(response.result)
+          response.data.jadwal.forEach(function (element) {
+            element.absen = false
+            element.active = true
+            element.hadir = false
+            element.duration = 0
+            element.currentDuration = 0
+            element.progress = 0
+            element.id_jadwal_kedua = 0
+            element.id_studi_kedua = 0
+          })
+          this.jadwalDsn = response.data.jadwal
+          console.log(response.data.jadwal)
+          this.cekMatkulSama()
         })
         .catch(e => {
           console.log(e)
         })
+    },
+    getPersentaseMengajar () {
+      DashboardDosen.persentaseMengajar(199112182019032000)
+        .then(response => {
+          this.persentaseMengajar = response.data
+          console.log(response)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    cekMatkulSama () {
+      var i = 0
+
+      while (i < this.jadwalDsn.length - 1) {
+        if (this.jadwalDsn[i].mata_kuliah.nama_mata_kuliah === this.jadwalDsn[i + 1].mata_kuliah.nama_mata_kuliah) {
+          this.jadwalDsn[i].id_jadwal_kedua = this.jadwalDsn[i + 1].id_jadwal
+          this.jadwalDsn[i].id_studi_kedua = this.jadwalDsn[i + 1].id_studi
+          this.jadwalDsn[i].waktu_selesai = this.jadwalDsn[i + 1].waktu_selesai
+          this.jadwalDsn[i].jenis = "TE-PR"
+          this.jadwalDsn.splice((i + 1), 1)
+        }
+        i++
+      }
     }
   }
 }

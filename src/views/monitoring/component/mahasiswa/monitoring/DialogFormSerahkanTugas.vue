@@ -1,6 +1,6 @@
 <template>
   <v-dialog
-    v-model="dialog"
+    v-model="show"
     width="420"
   >
     <v-card
@@ -20,22 +20,27 @@
             outlined
             class="mt-3 mb-0"
             :color="currentTheme.colorSecondary"
+            :style="{backgroundColor: currentTheme.surface}"
           ></v-text-field>
           <v-row justify="center">
             <v-col sm="5" class="mt-1">
-              <v-btn color="currentTheme.colorPrimary" elevation="2" width="100" outlined>
-                <span style="font-size: 12px" class="font-weight-bold">Batal</span>
+              <v-btn
+                :color="currentTheme.onError"
+                elevation="2"
+                width="100"
+                @click="closeDialog()"
+              >
+                <span :style="{color: currentTheme.onSurface}" style="font-size: 12px" class="font-weight-bold">Batal</span>
               </v-btn>
             </v-col>
             <v-col sm="5" class="mt-1">
               <v-btn
                 :color="currentTheme.colorPrimary"
                 dark
-                v-bind="attrs"
-                v-on="on"
                 width="100"
+                @click="serahkan"
               >
-                <span style="font-size: 12px" class="font-weight-light">Simpan</span>
+                <span style="font-size: 12px" class="font-weight-bold">Simpan</span>
               </v-btn>
             </v-col>
           </v-row>
@@ -47,24 +52,41 @@
 
 <script>
 import { mapGetters } from "vuex"
-
+import SubtugasMonitoringMahasiswa from "../../../../../datasource/network/monitoring/subtugas"
 export default {
   name: "subTask",
-  props: {
-    subTask: {
-      type: String,
-      required: false,
-      default: "Another Type of Employee"
+  props: ["visible", "index", "subTask"],
+  data () {
+    return {
+      lampiran: ""
     }
   },
   computed: {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
     }),
-    data () {
-      return {
-        dialog: false
+    show: {
+      get () {
+        return this.visible
+      },
+      set (value) {
+        if (!value) {
+          this.$emit("close")
+        }
       }
+    }
+  },
+  methods: {
+    closeDialog () {
+      this.$emit("close")
+    },
+    async serahkan () {
+      var updateSubTugas
+      console.log(this.lampiran)
+      updateSubTugas = await SubtugasMonitoringMahasiswa.putSubTugasSerahkan(this.index, this.lampiran)
+      console.log(updateSubTugas)
+      this.$emit("close")
+      window.location.reload()
     }
   }
 }

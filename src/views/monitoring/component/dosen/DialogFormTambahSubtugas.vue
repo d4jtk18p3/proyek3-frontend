@@ -10,41 +10,40 @@
 
         <v-row  :style="{color: currentTheme.onBackground}">
           <v-col cols="12">
-            <div class="text-h6 font-weight-bold">Subtugas</div>
+            <div class="text-h6 font-weight-bold">Nama Subtugas</div>
           </v-col>
         </v-row>
 
-        <div v-for="(sub, i) in subtugas" :key="i">
-          <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
-            <v-col cols="12">
-              <div class="text-h7 font-weight-bold">Subtugas {{i+1}}</div>
-            </v-col>
-          </v-row>
-          <v-row class="mt-n4 mb-0 pt-0 pb-0" :style="{color: currentTheme.onBackground}">
-            <v-col cols="12">
-              <v-text-field
-                v-model="sub.value1"
-                :label="sub.label1"
-                outlined
-                clearable
-                :dark="isDark"
-                :color="currentTheme.colorSecondary"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row class="mt-n10 mb-n6 pt-0 pb-0" :style="{color: currentTheme.onBackground}">
-            <v-col cols="12">
-              <vc-date-picker
-                v-model="sub.date"
+        <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
+          <v-col cols="12">
+            <v-text-field
+              v-model="namaSubtugas"
+              label="Nama Subtugas"
+              outlined
+              clearable
+              :dark="isDark"
+              :color="currentTheme.colorSecondary"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+
+        <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
+          <v-col cols="12">
+            <div class="text-h6 font-weight-bold">Tenggat</div>
+          </v-col>
+        </v-row>
+        <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
+          <v-col cols="12">
+            <vc-date-picker
+                v-model="tenggat"
                 mode="dateTime"
                 is24hr
-                :timezone="timezone"
                 :is-dark="isDark"
                 color="teal">
                 <template v-slot="{ inputValue, inputEvents }">
                   <v-text-field
-                    v-model="sub.date"
-                    :label="sub.label2"
+                    v-model="tenggat"
+                    label="Tenggat Pengumpulan"
                     outlined
                     clearable
                     :dark="isDark"
@@ -55,18 +54,6 @@
                   </v-text-field>
                 </template>
               </vc-date-picker>
-            </v-col>
-          </v-row>
-        </div>
-        <v-row class="mt-0 mb-0" :style="{color: currentTheme.onBackground}">
-          <v-col cols="12" align="right">
-            <v-btn
-            outlined
-            :color="currentTheme.colorSecondary"
-            @click="add"
-            >
-              Tambah
-            </v-btn>
           </v-col>
         </v-row>
 
@@ -82,9 +69,10 @@
           </v-col>
           <v-col cols="6" align="left">
             <v-btn
+            :disabled="!this.namaSubtugas"
             class=" white--text"
             :color="isDark? currentTheme.colorSecondary : currentTheme.colorOnSecondary"
-            @click="addTugas"
+            @click="addSubtugas"
           >
             Submit
           </v-btn>
@@ -97,15 +85,17 @@
 
 <script>
 import { mapGetters } from "vuex"
-// import MonitoringDosen from "../../../datasource/api/monitoring/MonitoringDosen"
+import SubtugasMonitoringDosen from "../../../../datasource/network/monitoring/subtugas"
+import TugasMonitoringDosen from "../../../../datasource/network/monitoring/tugas"
 export default {
   name: "FormAddMonitoring",
   props: ["visible"],
   data () {
     return {
       dialogSubTask: false,
-      namaTugas: "",
-      subtugas: []
+      namaSubtugas: "",
+      tenggat: new Date()
+      // subtugas: []
       // date: new Date()
     }
   },
@@ -129,18 +119,25 @@ export default {
     }
   },
   methods: {
-    add () {
-      this.subtugas.push({
-        label1: "Nama Subtugas",
-        value1: "",
-        label2: "Tenggat",
-        date: new Date()
-        // date: ("0" + new Date().getDate()).slice(-2) + "-" + ("0" + (new Date().getMonth() + 1)).slice(-2) + "-" +
-        //             new Date().getFullYear() + " " + ("0" + new Date().getHours()).slice(-2) + ":" + ("0" + new Date().getMinutes()).slice(-2)
-      })
-    },
     closeDialog () {
       this.$emit("close")
+    },
+    async addSubtugas () {
+      var mhs = await TugasMonitoringDosen.getMahasiswaByTugas(this.$route.params.id_tugas)
+      var i = 0
+      var subtugasBaru
+      var date = this.tenggat
+      var d = new Date(date)
+      var dateStr = d.toISOString()
+      while (i < mhs.listIdStudi.length) {
+        subtugasBaru = await SubtugasMonitoringDosen.postSubtugasBaru(this.namaSubtugas,
+          dateStr, this.$route.params.id_tugas, mhs.listIdStudi[i])
+        i++
+      }
+      console.log(this.namaSubtugas, dateStr)
+      console.log(subtugasBaru)
+      this.$emit("close")
+      location.reload()
     }
   }
 

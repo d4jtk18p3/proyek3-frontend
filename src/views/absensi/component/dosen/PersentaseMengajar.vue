@@ -9,7 +9,7 @@
           :rotate="-90"
           :size="150"
           :width="20"
-          :value= 75
+          :value= persentaseMengajar.persentaseJamMengajarDosen
           color="#59DCDC"
           background-color="#4CAF50">
         </v-progress-circular>
@@ -27,7 +27,7 @@
           <v-card-text class="mt-1 ml-3 text-left">Mengajar</v-card-text>
         </v-col>
         <v-col>
-          <v-card-text class="mt-1 mr-2 text-right">23200</v-card-text>
+          <v-card-text class="mt-1 mr-2 text-right">{{persentaseMengajar.totalJamMengajar}}</v-card-text>
         </v-col>
       </v-row>
       <v-row
@@ -43,7 +43,7 @@
           <v-card-text class="mt-1 ml-3 mr-0 text-left">Tidak Mengajar</v-card-text>
         </v-col>
         <v-col cols="4">
-          <v-card-text class="mt-1 mr-2 ml-0 text-right">15899</v-card-text>
+          <v-card-text class="mt-1 mr-2 ml-0 text-right">{{persentaseMengajar.totalJamTidakMengajar}}</v-card-text>
         </v-col>
       </v-row>
     </v-card>
@@ -55,6 +55,20 @@ import { mapGetters } from "vuex"
 
 export default {
   name: "PersentaseMengajar",
+
+  data () {
+    return {
+      persenTidakMengajar: 0
+    }
+  },
+  props: {
+    persentaseMengajar: {
+      type: Object,
+      default () {
+        return {}
+      }
+    }
+  },
 
   computed: {
     ...mapGetters({

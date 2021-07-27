@@ -57,6 +57,13 @@ export default {
           disabled: true,
           href: ""
         }
+      ],
+      mahasiswa: [
+        {
+          nama: "Alvira",
+          nim: "181524002",
+          kelas: "D4-A"
+        }
       ]
     }
   },

@@ -9,12 +9,12 @@
   </v-col>
  </v-row>
  <v-row>
-    <HeaderPerkuliahan></HeaderPerkuliahan>
+    <HeaderPerkuliahan :item="item"></HeaderPerkuliahan>
  </v-row>
   <v-divider>
     </v-divider>
   <br>
-  <v-row>
+  <v-row :style="{ color: currentTheme.onBackground }">
     <v-col>
       <p class="text-h4 font-weight-bold">Daftar Kehadiran Mahasiswa</p>
     </v-col>
@@ -23,7 +23,7 @@
       <UploadBAP></UploadBAP>
     </v-col>
   </v-row>
-    <TabelAbsensi>
+    <TabelAbsensi :perkuliahan="item">
     </TabelAbsensi>
 </v-container>
 </template>
@@ -31,30 +31,32 @@
 <script>
 import Breadcumbs from "@/views/shared/navigation/Breadcumbs"
 import { mapGetters } from "vuex"
-import HeaderPerkuliahan from "@/views/template/component/perkuliahan/HeaderPerkuliahan"
-import UploadBAP from "@/views/template/component/perkuliahan/UploadBAP"
-import TabelAbsensi from "@/views/template/component/perkuliahan/TabelAbsensi"
+import HeaderPerkuliahan from "@/views/absensi/component/perkuliahan/HeaderPerkuliahan"
+import UploadBAP from "@/views/absensi/component/perkuliahan/UploadBAP"
+import TabelAbsensi from "@/views/absensi/component/perkuliahan/TabelAbsensi"
 
 export default {
   name: "PerkuliahanDosen",
+  props: {
+    item: {
+      type: Array,
+      default () {
+        return {}
+      }
+    }
+  },
   components: { Breadcumbs, HeaderPerkuliahan, UploadBAP, TabelAbsensi },
   data () {
     return {
       breadcrumbItems: [
         {
+          text: "Dashboard",
+          disabled: false,
+          href: "absensi"
+        },
+        {
           text: "Perkuliahan",
-          disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 1",
-          disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 2",
-          disabled: true,
-          href: ""
+          disabled: true
         }
       ]
     }
@@ -63,6 +65,14 @@ export default {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor"
     })
+  },
+  methods: {
+    getData () {
+      console.log(this.item)
+    }
+  },
+  mounted () {
+    this.getData()
   }
 }
 </script>

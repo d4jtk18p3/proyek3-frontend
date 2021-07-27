@@ -19,8 +19,28 @@ const getStatusKehadiran = async (nim, idJadwal, tanggal) => {
     console.error(err)
   }
 }
+const getDashboard = async (nim) => {
+  try {
+    const dashboardUrl = PRESENSI_MHS_URL + `/dashboard?nim=${nim}`
+    const result = await axios.get(dashboardUrl)
+    return result.data
+  } catch (err) {
+    console.error(err)
+  }
+}
+const getKehadiran = async (nim, tanggal) => {
+  try {
+    const statusKehadiranUrl = PRESENSI_MHS_URL + `/nim-tgl?nim=${nim}&tanggal=${tanggal}`
+    const result = await axios.get(statusKehadiranUrl)
+    return result.data
+  } catch (err) {
+    console.error(err)
+  }
+}
 
 export default {
   presensiMahasiswa,
-  getStatusKehadiran
+  getStatusKehadiran,
+  getDashboard,
+  getKehadiran
 }

@@ -74,18 +74,15 @@ export default {
   props: {
     sakit: {
       type: Number,
-      required: false,
-      default: 5
+      required: false
     },
     izin: {
       type: Number,
-      required: false,
-      default: 2
+      required: false
     },
     alfa: {
       type: Number,
-      required: false,
-      default: 30
+      required: false
     }
   },
   computed: {
