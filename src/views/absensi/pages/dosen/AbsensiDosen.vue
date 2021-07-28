@@ -70,7 +70,7 @@ export default {
       this.currentDay = current.getDay()
       this.currentDate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + current.getDate()
       setTimeout(() => {
-        this.getJadwalMhs()
+        this.getJadwalDsn()
       }, 3000)
       this.getPersentaseMengajar()
       setInterval(() => {
