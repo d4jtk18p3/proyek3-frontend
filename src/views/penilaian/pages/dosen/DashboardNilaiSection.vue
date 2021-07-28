@@ -53,12 +53,12 @@ export default {
         {
           text: "Penilaian",
           disabled: false,
-          href: ""
+          href: "/penilaian"
         },
         {
           text: "Dashboard Nilai Dosen Pengampu",
           disabled: false,
-          href: ""
+          href: "/penilaian/dashboard-nilai-dosen-pengampu"
         }
       ],
       nip: null,
@@ -99,8 +99,8 @@ export default {
     }
   },
   async mounted () {
-    // const identity = this.$store.getters.identity
-    this.nip = "196610181995121000"
+    const identity = this.$store.getters.identity
+    this.nip = identity.preferred_username // "196610181995121000"
     const kelas = await DosenAPI.getKelas(this.nip)
     this.listKelas = kelas.uniqueClass
   }

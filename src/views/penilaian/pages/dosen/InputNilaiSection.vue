@@ -54,17 +54,12 @@ export default {
         {
           text: "Penilaian",
           disabled: false,
-          href: ""
+          href: "/penilaian"
         },
         {
-          text: "Link 1",
+          text: "Input Nilai Mahasiswa",
           disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 2",
-          disabled: true,
-          href: ""
+          href: "/penilaian/input-nilai"
         }
       ],
       nip: null,
@@ -112,8 +107,8 @@ export default {
     }
   },
   async mounted () {
-    // const identity = this.$store.getters.identity
-    this.nip = "196610181995121000"
+    const identity = this.$store.getters.identity
+    this.nip = identity.preferred_username // "196610181995121000"
     const kelas = await DosenAPI.getKelas(this.nip)
     this.listKelas = kelas.uniqueClass
   }

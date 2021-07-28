@@ -40,7 +40,7 @@
       <v-card>
        <v-card-title class="mt-5">Mahasiswa dengan nilai ETS dibawah 60</v-card-title>
        <template v-for="(mhs, index) in Mahasiswa.Nilai">
-        <v-card-text v-if="mhs.nilai_ets < 60"  :key="index">
+        <v-card-text v-if="mhs.nilai_ets < 60"  :key="index" class="pt-0">
           <p class="text-h7 font-weight-bold">{{ mhs.nama }} ({{ mhs.nim }})</p>
         </v-card-text>
        </template>
@@ -101,12 +101,12 @@ export default {
         {
           text: "Penilaian",
           disabled: false,
-          href: ""
+          href: "/penilaian"
         },
         {
-          text: "Dashboard Dosen Pengampu",
+          text: "Dashboard Nilai Dosen Pengampu",
           disabled: false,
-          href: ""
+          href: "/penilaian/dashboard-nilai-dosen-pengampu"
         },
         {
           text: "",

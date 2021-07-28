@@ -104,17 +104,12 @@ export default {
         {
           text: "Penilaian",
           disabled: false,
-          href: ""
+          href: "/penilaian"
         },
         {
           text: "Dashboard Mahasiswa",
           disabled: false,
-          href: ""
-        },
-        {
-          text: "Link 2",
-          disabled: true,
-          href: ""
+          href: "/penilaian/dashboard-nilai-mahasiswa"
         }
       ],
       NilaiSemesterSelected: null,
@@ -312,7 +307,7 @@ export default {
   },
   async mounted () {
     const identity = this.$store.getters.identity
-    this.Mahasiswa.Nim = identity.nomorInduk
+    this.Mahasiswa.Nim = identity.preferred_username
     var dataMhs = await NilaiAkhir.getNilaiAkhirMhs(this.$store.getters.identity.preferred_username)
     this.Mahasiswa.Nama = dataMhs.Mahasiswa.nama
     this.Mahasiswa.Kelas = dataMhs.Mahasiswa.kode_kelas
