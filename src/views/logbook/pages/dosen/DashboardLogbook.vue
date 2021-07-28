@@ -40,6 +40,17 @@ export default {
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    },
+    identity: function () {
+      return this.$store.getters.identity
+    }
+  },
+  watch: {
+    identity: {
+      immediate: true,
+      handler: function (value) {
+        console.log(value)
+      }
     }
   }
 }

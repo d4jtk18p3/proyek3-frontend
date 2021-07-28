@@ -73,13 +73,7 @@ export default {
   props: {
     dosen: {
       type: Object,
-      required: false,
-      default: () => {
-        return {
-          nip: "198903252019032000",
-          nama_dosen: "Sri Ratna Wulan"
-        }
-      }
+      required: false
     }
   },
   data () {
@@ -108,6 +102,17 @@ export default {
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    },
+    identity: function () {
+      return this.$store.getters.identity
+    }
+  },
+  watch: {
+    identity: {
+      immediate: true,
+      handler: function (value) {
+        console.log(value)
+      }
     }
   },
   methods: {
@@ -153,17 +158,18 @@ export default {
     }
   },
   async mounted () {
+    console.log(this.identity.preferred_username)
     this.setNip({
-      nip: this.dosen.nip
+      nip: this.identity.preferred_username
     })
-    var matakuliah = await BackEndMatakuliah.getAllMataKuliahProyekyangDiampuDosen(this.dosen.nip)
-    var perkuliahan = await BackEndPerkuliahan.getAllPerkuliahanyangDiampuDosen(this.dosen.nip)
+    var matakuliah = await BackEndMatakuliah.getAllMataKuliahProyekyangDiampuDosen(this.identity.preferred_username)
+    var perkuliahan = await BackEndPerkuliahan.getAllPerkuliahanyangDiampuDosen(this.identity.preferred_username)
     var i = 0
     while (i < perkuliahan.length) {
       var mataKuliahItem = matakuliah.filter(function (item) {
         return item.id === perkuliahan[i].id_mata_kuliah
       })
-      var kelas = await BackEndKelas.getAllKelasByMatkul(this.dosen.nip, mataKuliahItem[0].id)
+      var kelas = await BackEndKelas.getAllKelasByMatkul(this.identity.preferred_username, mataKuliahItem[0].id)
       var j = 0
       var kelasString = []
       while (j < kelas.length) {
