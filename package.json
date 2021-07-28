@@ -23,7 +23,7 @@
     "vue": "~2.6.12",
     "vue-apexcharts": "^1.6.1",
     "vue-router": "~3.5.1",
-    "vue2-editor": "^1.0.1",
+    "vue2-editor": "^2.10.2",
     "vuetify": "~2.4.7",
     "vuex": "~3.6.2",
     "xlsx": "^0.17.0"
