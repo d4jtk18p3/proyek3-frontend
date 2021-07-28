@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     logout: function () {
-      this.$store.dispatch("logout")
+      this.$store.dispatch("logout", this.$router)
     },
     async onClickedAbsensi () {
       await this.$router.push({ path: this.toAbsensi })
