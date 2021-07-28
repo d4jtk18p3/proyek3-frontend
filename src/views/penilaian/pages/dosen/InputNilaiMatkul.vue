@@ -40,7 +40,7 @@
     <v-col cols="3" class="pt-0">
       <v-btn :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="resetTable()">Reset Tabel</v-btn>
     </v-col>
-    <v-col cols="10">
+    <v-col cols="10" v-if="headerParentNilaiETS">
       <p class="text-h4 font-weight-bold">ETS</p>
     </v-col>
     <v-col cols="2" class="pt-10">
@@ -104,7 +104,7 @@
       </v-simple-table>
       <v-btn class="mt-2" v-if="dataNilaiMahasiswaETS" :color="currentTheme.colorPrimary" elevation="2" outlined depressed @click="submitETS(nilaiakhir=true)">Submit Nilai ETS</v-btn>
     </v-col>
-    <v-col cols="10">
+    <v-col cols="10" v-if="headerParentNilaiEAS">
       <p class="text-h4 font-weight-bold">EAS</p>
     </v-col>
     <v-col cols="2" class="pt-10">
@@ -340,17 +340,17 @@ export default {
         {
           text: "Penilaian",
           disabled: false,
-          href: ""
+          href: "/penilaian"
         },
         {
           text: "Input Nilai Mahasiswa",
           disabled: false,
-          href: ""
+          href: "/penilaian/input-nilai"
         },
         {
-          text: "Link 2",
-          disabled: true,
-          href: ""
+          text: this.namaMatkul,
+          disabled: false,
+          href: "/penilaian/input-nilai-matkul/" + this.$route.params.id
         }
       ],
       parentKategori: null,

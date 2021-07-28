@@ -33,7 +33,7 @@ const initOptions = {
   url: "https://keycloak.ca9db134.nip.io/auth", realm: "polban-realm", clientId: "template", onLoad: "login-required"
 }
 export default {
-  name: "TemplateMain",
+  name: "PenilaianMain",
   components: {
     SideBar,
     NavBar
@@ -51,13 +51,6 @@ export default {
       this.isLoading = false
       console.log(this.identity.realm_access.roles)
       for (var i = 0; i < this.identity.realm_access.roles.length; i++) {
-        if (this.identity.realm_access.roles[i] === "default-roles-production") {
-          this.sideBarItems = [
-            { text: "Dashboard Nilai Mahasiswa", icon: "mdi-school-outline", to: "/penilaian/dashboard-nilai-mahasiswa" },
-            { text: "Dashboard Nilai Dosen Pengampu", icon: "mdi-school-outline", to: "/penilaian/dashboard-nilai-dosen-pengampu" },
-            { text: "Input Nilai Mahasiswa", icon: "mdi-file-document-outline", to: "/penilaian/input-nilai" }
-          ]
-        }
         if (this.identity.realm_access.roles[i] === "mahasiswa") {
           this.sideBarItems = [
             { text: "Dashboard Nilai Mahasiswa", icon: "mdi-school-outline", to: "/penilaian/dashboard-nilai-mahasiswa" }
