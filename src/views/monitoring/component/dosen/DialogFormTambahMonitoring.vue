@@ -133,6 +133,9 @@ export default {
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
     },
+    identity: function () {
+      return this.$store.getters.identity
+    },
     show: {
       get () {
         return this.visible
