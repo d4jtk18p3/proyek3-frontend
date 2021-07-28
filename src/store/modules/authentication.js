@@ -44,7 +44,8 @@ const authentication = {
       }
     },
 
-    logout ({ state }) {
+    async logout ({ state }, router) {
+      await router.push("/home")
       keycloak.logout()
     }
   }

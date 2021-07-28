@@ -179,7 +179,7 @@ export default {
   },
   methods: {
     logout: function () {
-      this.$store.dispatch("logout")
+      this.$store.dispatch("logout", this.$router)
     },
     collapseSubItems () {
       this.isActive = false

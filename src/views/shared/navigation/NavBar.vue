@@ -45,7 +45,14 @@
             >
           </v-avatar>
         </div>
-        <v-toolbar-title class="mx-4 d-inline-block text-truncate" style="max-width: 150px;">{{ user.nama }}</v-toolbar-title>
+        <v-toolbar-title class="mx-4 d-inline-block text-truncate" style="max-width: 150px;" v-text="user.nama">
+          <v-overlay :value="isLoading">
+          <v-progress-circular
+          indeterminate size="32"
+          :color="currentTheme.colorSecondary">
+          </v-progress-circular>
+          </v-overlay>
+        </v-toolbar-title>
         <v-icon :style="{color: currentTheme.colorPrimary}">mdi-menu-down</v-icon>
       </v-btn>
     </v-app-bar>
@@ -102,7 +109,7 @@
 
               <v-list-item-content @click="profil_click()">
                 <v-list-item-title>{{ user.nama }}</v-list-item-title>
-                <v-list-item-subtitle>{{ user.nim }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ user.nomorInduk }}</v-list-item-subtitle>
               </v-list-item-content>
 
               <v-list-item-content dense class="pl-3">
@@ -155,26 +162,40 @@ export default {
   data () {
     return {
       user: {
-        nama: "Kokoro Yuuki",
-        nim: "1815240005",
-        image: "https://media.discordapp.net/attachments/767745029166202935/819180197961793536/d59480-51-254735-3.png"
+        nama: "User",
+        nomorInduk: "0000",
+        image: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
       },
       usernotif: 2,
       drawer: false,
       group: null,
       darkmode: false,
-      toHome: "/home"
+      toHome: "/home",
+      isLoading: true
     }
   },
   computed: {
     ...mapGetters({
       currentTheme: "theme/getCurrentColor",
       isDark: "theme/getIsDark"
+    }),
+    identity: function () {
+      return this.$store.getters.identity
+    }
+  },
+  created () {
+    const tasks = []
+    if (this.$route.meta.requiresAuth) {
+      tasks.push(this.waitAuthenticated())
+    }
+    Promise.all(tasks).then(result => {
+      this.isLoading = false
+      this.user.nama = this.identity.given_name
     })
   },
   methods: {
     logout: function () {
-      this.$store.dispatch("logout")
+      this.$store.dispatch("logout", this.$router)
     },
     notification_click () {
       console.log("Notif clicked")
@@ -192,7 +213,25 @@ export default {
     },
     ...mapActions({
       toogleTheme: "theme/toogleDark"
-    })
+    }),
+    async waitAuthenticated () {
+      return new Promise((resolve) => {
+        const unwatch = this.$store.watch(state => {
+          return this.$store.getters.identity
+        }, value => {
+          if (!value) {
+            return
+          }
+          // if (!value.isActive) {
+          //   this.$router.replace({ path: "/reset-password" })
+          // }
+          unwatch()
+          resolve()
+        }, {
+          immediate: true
+        })
+      })
+    }
   },
   watch: {
     darkmode (value) {
