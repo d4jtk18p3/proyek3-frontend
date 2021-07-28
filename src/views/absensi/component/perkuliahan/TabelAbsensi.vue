@@ -96,7 +96,6 @@ export default {
         .then(response => {
           this.data = response.data
           this.mahasiswa = this.data.mahasiswa
-          console.log(this.data.mahasiswa)
         })
         .catch(e => {
           console.log(e)
@@ -126,7 +125,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.perkuliahan)
     this.getKehadiran()
   }
 }

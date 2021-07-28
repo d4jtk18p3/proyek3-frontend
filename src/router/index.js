@@ -5,15 +5,20 @@ import store from "@/store"
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: "/home",
+    meta: { requiresAuth: true },
+    component: () => import(/* webpackChunkName: "akun" */"../views/Home")
+  },
   // {
   //   path: "/akun",
   //   meta: { requiresAuth: true },
-  //   component: () => import(/* webpackChunkName: "akun" */"../views/akun/Home"),
+  //   component: () => import(/* webpackChunkName: "akun" */"../views/akun/Main"),
   //   children: [
   //     {
-  //       path: "masuk",
+  //       path: "/akun/login",
   //       meta: { requiresAuth: false },
-  //       component: () => import(/* webpackChunkName: "akun.masuk" */"../views/akun/Masuk")
+  //       component: () => import(/* webpackChunkName: "akun.masuk" */"../views/akun/pages/Login")
   //     }
   //   ]
   // },
@@ -124,6 +129,7 @@ const routes = [
   },
   {
     path: "/absensi",
+    meta: { requiresAuth: true },
     component: () => import("../views/absensi/AbsensiMain"),
     children: [
       {
@@ -176,11 +182,13 @@ const routes = [
   },
   {
     path: "/logbook",
+    meta: { requiresAuth: true },
     component: () => import("../views/logbook/LogbookMain"),
     children: [
       // route logbook - dosen
       {
         path: "/logbook/dashboard",
+        meta: { requiresAuth: true },
         name: "DashboardLogbook",
         component: () =>
           import(
@@ -190,6 +198,7 @@ const routes = [
       },
       {
         path: "/logbook/logbook-mahasiswa",
+        meta: { requiresAuth: true },
         name: "ListMataKuliah",
         component: () =>
           import(
@@ -199,6 +208,7 @@ const routes = [
       },
       {
         path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelasString",
+        meta: { requiresAuth: true },
         name: "ListMahasiswa",
         component: () =>
           import(
@@ -208,6 +218,7 @@ const routes = [
       },
       {
         path: "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelasString/:nim",
+        meta: { requiresAuth: true },
         name: "ListLogbook",
         component: () =>
           import(
@@ -218,6 +229,7 @@ const routes = [
       {
         path:
           "/logbook/logbook-mahasiswa/:prodi/:namaMataKuliah/:kelasString/:nim/viewlogbook/:idEntri",
+        meta: { requiresAuth: true },
         name: "ViewLogbook",
         component: () =>
           import(
@@ -228,6 +240,7 @@ const routes = [
       // route logbook - mahasiswa
       {
         path: "/logbook/mylogbook",
+        meta: { requiresAuth: true },
         name: "MyLogbook",
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
@@ -240,6 +253,7 @@ const routes = [
       },
       {
         path: "/logbook/addlogbook",
+        meta: { requiresAuth: true },
         name: "AddLogbook",
         component: () =>
           import(
@@ -249,6 +263,7 @@ const routes = [
       },
       {
         path: "/logbook/editlogbook/:idEntriLogbook",
+        meta: { requiresAuth: true },
         name: "EditLogbook",
         component: () =>
           import(
@@ -258,6 +273,7 @@ const routes = [
       },
       {
         path: "/logbook/viewlogbook/:idEntriLogbook",
+        meta: { requiresAuth: true },
         name: "ViewLogbookMahasiswa",
         component: () =>
           import(

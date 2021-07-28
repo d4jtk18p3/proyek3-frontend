@@ -186,7 +186,6 @@ export default {
   },
   methods: {
     onViewClick (id, tanggal) {
-      alert(tanggal)
       this.$router.push({
         name: "ViewLogbook",
         path: "/logbook/logbook-mahasiswa/" + this.prodi + "/" + this.namaMataKuliah + "/" + this.kelasString + "/" + this.nim + "/viewlogbook/" + id,

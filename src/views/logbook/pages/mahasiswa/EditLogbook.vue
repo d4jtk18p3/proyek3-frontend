@@ -155,6 +155,9 @@ export default {
     }),
     isMobile () {
       return this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs
+    },
+    identity: function () {
+      return this.$store.getters.identity
     }
   },
   methods: {
@@ -184,9 +187,17 @@ export default {
       }
     }
   },
+  watch: {
+    identity: {
+      immediate: true,
+      handler: function (value) {
+        console.log(value)
+      }
+    }
+  },
   async mounted () {
-    this.identitas = await BackEndMahasiswa.getOneMahasiswaByNim("181524014")
-    this.matkul = await BackEndMatkul.getLastProyek("181524014")
+    this.identitas = await BackEndMahasiswa.getOneMahasiswaByNim(this.identity.preferred_username)
+    this.matkul = await BackEndMatkul.getLastProyek(this.identity.preferred_username)
     var data = await BackEndEntri.getOneEntryLogbookMhsByid(this.idEntriLogbook)
     this.logbookdate = data.tanggal
     var parts = data.tanggal.split("-")
